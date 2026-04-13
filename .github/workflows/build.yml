@@ -1,3 +1,13 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ "main", "master" ]
+
 jobs:
   build:
     name: ${{ matrix.os }}
@@ -11,35 +21,16 @@ jobs:
             sfml_dir: SFML-3.0.2
             cmake_generator: "Visual Studio 17 2022"
             artifact_name: JRFirstGame-Windows
-            artifact_path: build/Release/
-            package_ext: .zip
-            
-            package_cmd: |
-              Compress-Archive -Path build/Release/* -DestinationPath ${{ matrix.artifact_name }}.zip -Force
-
           - os: ubuntu-latest
             sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Linux.GCC.tar.gz
             sfml_dir: SFML-3.0.2
             cmake_generator: "Unix Makefiles"
             artifact_name: JRFirstGame-Linux
-            artifact_path: build/JRFirstGame
-            package_ext: .tar.gz
-            
-            package_cmd: |
-              mkdir -p package
-              cp build/JRFirstGame package/
-              cp $SFML_LIB_DIR/libsfml-*.so* package/ || true
-              tar -czf ${{ matrix.artifact_name }}.tar.gz -C package .
-
           - os: macos-latest
             sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-macOS.arm64.tar.gz
             sfml_dir: SFML-3.0.2
             cmake_generator: "Unix Makefiles"
             artifact_name: JRFirstGame-macOS-arm64
-            artifact_path: build/JRFirstGame.app
-            package_ext: .zip
-            package_cmd: |
-              ditto -c -k --sequesterRsrc --keepParent build/JRFirstGame.app ${{ matrix.artifact_name }}.zip
 
     steps:
     - uses: actions/checkout@v4
@@ -96,22 +87,43 @@ jobs:
 
     - name: Package (Windows)
       if: runner.os == 'Windows'
-      run: ${{ matrix.package_cmd }}
       shell: pwsh
+      run: |
+        Compress-Archive -Path build/Release/* -DestinationPath ${{ matrix.artifact_name }}.zip -Force
 
     - name: Package (Linux)
       if: runner.os == 'Linux'
-      run: ${{ matrix.package_cmd }}
+      run: |
+        mkdir -p package
+        cp build/JRFirstGame package/
+        cp $SFML_LIB_DIR/libsfml-*.so* package/ || true
+        tar -czf ${{ matrix.artifact_name }}.tar.gz -C package .
 
     - name: Package (macOS)
       if: runner.os == 'macOS'
-      run: ${{ matrix.package_cmd }}
+      run: |
+        ditto -c -k --sequesterRsrc --keepParent build/JRFirstGame.app ${{ matrix.artifact_name }}.zip
 
-    - name: Upload Artifact
+    - name: Upload Artifact (Windows)
+      if: runner.os == 'Windows'
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact_name }}
-        path: ${{ matrix.artifact_name }}${{ matrix.package_ext }}
+        path: ${{ matrix.artifact_name }}.zip
+
+    - name: Upload Artifact (Linux)
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.artifact_name }}
+        path: ${{ matrix.artifact_name }}.tar.gz
+
+    - name: Upload Artifact (macOS)
+      if: runner.os == 'macOS'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.artifact_name }}
+        path: ${{ matrix.artifact_name }}.zip
 
   release:
     needs: build
@@ -121,10 +133,11 @@ jobs:
       contents: write
     steps:
       - uses: actions/download-artifact@v4
-      - name: Package and Release
+      - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            */JRFirstGame-*.zip
-            */JRFirstGame-*.tar.gz
+            JRFirstGame-Windows/JRFirstGame-Windows.zip
+            JRFirstGame-Linux/JRFirstGame-Linux.tar.gz
+            JRFirstGame-macOS-arm64/JRFirstGame-macOS-arm64.zip
           generate_release_notes: true

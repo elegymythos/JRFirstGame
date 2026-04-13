@@ -13,76 +13,81 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Linux.GCC.tar.gz
+            sfml_dir: SFML-3.0.2
+            cmake_generator: "Unix Makefiles"
+            artifact_name: JRFirstGame-Linux
+            artifact_path: build/JRFirstGame
+
+          - os: windows-latest
+            sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Windows.VS2022.x64.zip
+            sfml_dir: SFML-3.0.2
+            cmake_generator: "Visual Studio 17 2022"
+            artifact_name: JRFirstGame-Windows
+            artifact_path: build/Release/JRFirstGame.exe
+
+          - os: macos-latest
+            sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-macOS.arm64.tar.gz
+            sfml_dir: SFML-3.0.2
+            cmake_generator: "Unix Makefiles"
+            artifact_name: JRFirstGame-macOS
+            artifact_path: build/JRFirstGame.app
+
+          - os: macos-13
+            sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-macOS.x64.tar.gz
+            sfml_dir: SFML-3.0.2
+            cmake_generator: "Unix Makefiles"
+            artifact_name: JRFirstGame-macOS-x64
+            artifact_path: build/JRFirstGame.app
 
     steps:
     - uses: actions/checkout@v4
 
-    # ---------- Linux 系统依赖（X11、OpenGL 等）----------
-    - name: Install Linux System Dependencies
+    # ---------- 安装系统依赖 ----------
+    - name: Install Linux Dependencies
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
         sudo apt-get install -y libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev
 
-    # ---------- macOS 依赖（Homebrew 提供 SFML 3.0）----------
     - name: Install macOS Dependencies
       if: runner.os == 'macOS'
-      run: brew install sfml
+      run: |
+        brew install freetype
 
-    # ---------- Windows 依赖（vcpkg）----------
-    - name: Setup vcpkg (Windows)
+    # ---------- 下载并解压 SFML 预编译包 ----------
+    - name: Download SFML (Windows)
       if: runner.os == 'Windows'
-      uses: lukka/run-vcpkg@v11
-      with:
-        vcpkgJsonGlob: 'vcpkg.json'
+      shell: pwsh
+      run: |
+        Invoke-WebRequest -Uri "${{ matrix.sfml_url }}" -OutFile sfml.zip
+        Expand-Archive -Path sfml.zip -DestinationPath .
+        echo "SFML_DIR=$pwd\${{ matrix.sfml_dir }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-    # ---------- Linux 依赖（vcpkg 安装 SFML 3.0）----------
-    - name: Setup vcpkg (Linux)
-      if: runner.os == 'Linux'
-      uses: lukka/run-vcpkg@v11
-      with:
-        vcpkgJsonGlob: 'vcpkg.json'
+    - name: Download SFML (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: |
+        curl -L "${{ matrix.sfml_url }}" -o sfml.tar.gz
+        tar -xzf sfml.tar.gz
+        echo "SFML_DIR=$(pwd)/${{ matrix.sfml_dir }}" >> $GITHUB_ENV
 
     # ---------- 配置 CMake ----------
-    - name: Configure CMake (macOS)
-      if: runner.os == 'macOS'
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON
-
-    - name: Configure CMake (Windows)
-      if: runner.os == 'Windows'
+    - name: Configure CMake
       run: |
-        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON `
-              -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-
-    - name: Configure CMake (Linux)
-      if: runner.os == 'Linux'
-      run: |
-        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON \
-              -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        cmake -B build -G "${{ matrix.cmake_generator }}" \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DEMBED_RESOURCES=ON \
+              -DSFML_DIR="${{ env.SFML_DIR }}/lib/cmake/SFML"
 
     # ---------- 构建 ----------
     - name: Build
       run: cmake --build build --config Release
 
     # ---------- 上传 Artifacts ----------
-    - name: Upload Linux Artifact
-      if: runner.os == 'Linux'
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: JRFirstGame-Linux
-        path: build/JRFirstGame
-
-    - name: Upload Windows Artifact
-      if: runner.os == 'Windows'
-      uses: actions/upload-artifact@v4
-      with:
-        name: JRFirstGame-Windows
-        path: build/Release/JRFirstGame.exe
-
-    - name: Upload macOS Artifact
-      if: runner.os == 'macOS'
-      uses: actions/upload-artifact@v4
-      with:
-        name: JRFirstGame-macOS
-        path: build/JRFirstGame.app
+        name: ${{ matrix.artifact_name }}
+        path: ${{ matrix.artifact_path }}

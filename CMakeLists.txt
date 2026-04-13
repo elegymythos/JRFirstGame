@@ -150,11 +150,7 @@ set(HEADERS
 # =============================================================================
 # 创建可执行文件
 # =============================================================================
-if(WIN32)
-    add_executable(JRFirstGame WIN32 ${SOURCES} ${HEADERS})
-else()
-    add_executable(JRFirstGame ${SOURCES} ${HEADERS})
-endif()
+add_executable(JRFirstGame ${SOURCES} ${HEADERS})
 
 target_include_directories(JRFirstGame PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -176,12 +172,25 @@ else()
     target_link_libraries(JRFirstGame PRIVATE ${SFML_LIBRARIES})
 endif()
 
-# Linux 静态链接额外系统库
-if(UNIX AND NOT APPLE AND SFML_STATIC_LIBRARIES)
+# ---------- 平台特定的系统库 ----------
+if(UNIX AND NOT APPLE)
     find_package(OpenGL REQUIRED)
     target_link_libraries(JRFirstGame PRIVATE
         ${OPENGL_LIBRARIES}
         X11 Xrandr Xcursor Xi pthread dl
+    )
+endif()
+
+if(WIN32)
+    target_link_libraries(JRFirstGame PRIVATE
+        winmm ws2_32 opengl32
+    )
+endif()
+
+if(APPLE)
+    target_link_libraries(JRFirstGame PRIVATE
+        "-framework CoreFoundation"
+        "-framework OpenGL"
     )
 endif()
 
@@ -218,8 +227,8 @@ if(APPLE)
         MACOSX_BUNDLE TRUE
         MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
     )
+    target_link_libraries(JRFirstGame PRIVATE "-framework CoreFoundation")
 endif()
-
 # =============================================================================
 # 配置摘要
 # =============================================================================

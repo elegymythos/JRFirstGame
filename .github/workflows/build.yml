@@ -1,0 +1,79 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install Linux Dependencies
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libsfml-dev libxrandr-dev libxcursor-dev libxi-dev
+
+    - name: Install macOS Dependencies
+      if: runner.os == 'macOS'
+      run: |
+        brew install sfml
+
+    - name: Install Windows Dependencies (vcpkg)
+      if: runner.os == 'Windows'
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgGitCommitId: 'a5d2c3e5f2a7b0f8c7e1a5b6d8c9f1a2b3c4d5e6'
+        vcpkgDirectory: ${{ github.workspace }}/vcpkg
+        vcpkgJsonGlob: 'vcpkg.json'
+
+    - name: Create vcpkg.json for Windows
+      if: runner.os == 'Windows'
+      run: |
+        echo '{"name":"jrfirstgame","version":"1.0.0","dependencies":["sfml"]}' > vcpkg.json
+
+    - name: Configure CMake (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON
+
+    - name: Configure CMake (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+
+    - name: Build
+      run: cmake --build build --config Release
+
+    - name: Upload Linux Artifact
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: JRFirstGame-Linux
+        path: build/JRFirstGame
+
+    - name: Upload Windows Artifact
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v4
+      with:
+        name: JRFirstGame-Windows
+        path: build/Release/JRFirstGame.exe
+
+    - name: Upload macOS Artifact
+      if: runner.os == 'macOS'
+      uses: actions/upload-artifact@v4
+      with:
+        name: JRFirstGame-macOS
+        path: build/JRFirstGame.app

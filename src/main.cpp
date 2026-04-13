@@ -9,6 +9,22 @@
 #ifdef EMBEDDED_FONT
     #include "embedded_font.hpp"
 #endif
+
+#ifdef __APPLE__
+    #include <CoreFoundation/CoreFoundation.h>
+    std::string getResourcePath(const std::string& relativePath) {
+        CFURLRef appUrl = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+        char path[PATH_MAX];
+        CFURLGetFileSystemRepresentation(appUrl, TRUE, (UInt8*)path, PATH_MAX);
+        CFRelease(appUrl);
+        return std::string(path) + "/" + relativePath;
+    }
+#else
+    std::string getResourcePath(const std::string& relativePath) {
+        return relativePath;
+    }
+#endif
+
 int main() {
     sf::RenderWindow window(sf::VideoMode({800,600}), "SFML 3.0 RPG Game System");
     window.setFramerateLimit(60);
@@ -20,8 +36,9 @@ int main() {
             return -1;
         }
     #else
-        if (!font.openFromFile("assets/SmileySans-Oblique-2.ttf")) {
-            std::cerr << "Failed to load font file!" << std::endl;
+        std::string fontPath = getResourcePath("assets/SmileySans-Oblique-2.ttf");
+        if (!font.openFromFile(fontPath)) {
+            std::cerr << "Failed to load font file! Path: " << fontPath << std::endl;
             return -1;
         }
     #endif

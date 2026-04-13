@@ -2,25 +2,25 @@ cmake_minimum_required(VERSION 3.15)
 project(JRFirstGame VERSION 1.0.0 LANGUAGES CXX C)
 
 # 构建选项
-option(BUILD_STATIC "静态链接生成独立可执行文件" ON)
-option(EMBED_RESOURCES "将字体嵌入到可执行文件中" ON)   # 你已经有了 embedded_font.hpp，设为 ON
+option(EMBED_RESOURCES "将字体嵌入到可执行文件中" ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# 静态链接配置
-if(BUILD_STATIC)
-    message(STATUS "静态链接模式已启用")
-    if(MSVC)
-        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    elseif(MINGW)
+# =============================================================================
+# 平台相关的静态链接配置
+# =============================================================================
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    if(MINGW)
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+        message(STATUS "MinGW: 使用静态 libgcc 和 libstdc++")
     endif()
 endif()
 
-# 查找 SFML
-set(SFML_STATIC_LIBRARIES ${BUILD_STATIC})
+# =============================================================================
+# 查找 SFML（默认优先动态库，通过 SFML_STATIC_LIBRARIES 可控制）
+# =============================================================================
 find_package(SFML 3 QUIET COMPONENTS Graphics Window System Network)
 if(NOT SFML_FOUND)
     find_package(SFML 2 QUIET COMPONENTS Graphics Window System Network)
@@ -40,7 +40,6 @@ if(NOT SFML_FOUND AND UNIX AND NOT APPLE)
 endif()
 
 if(NOT SFML_FOUND)
-    # 手动查找
     foreach(comp graphics window system network)
         find_library(SFML_${comp}_LIB NAMES sfml-${comp} sfml-${comp}-s)
         if(NOT SFML_${comp}_LIB)
@@ -55,29 +54,74 @@ endif()
 
 message(STATUS "SFML 库: ${SFML_LIBRARIES}")
 
-# SQLite3 源文件
+# =============================================================================
+# SQLite3 源文件（编译为静态库）
+# =============================================================================
 set(SQLITE_SOURCES external/sqlite3.c)
 set(SQLITE_HEADERS external/sqlite3.h)
 
-# 资源嵌入（使用你已经生成的 embedded_font.hpp）
+add_library(sqlite3 STATIC ${SQLITE_SOURCES})
+target_include_directories(sqlite3 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external)
+target_compile_definitions(sqlite3 PRIVATE
+    SQLITE_THREADSAFE=1
+    SQLITE_ENABLE_FTS5
+    SQLITE_DEFAULT_MEMSTATUS=0
+)
+
+# =============================================================================
+# 资源嵌入（可选）
+# =============================================================================
 if(EMBED_RESOURCES)
-    # 如果还没有 embedded_font.hpp，则调用脚本生成
-    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/embedded_font.hpp")
-        message(STATUS "生成字体嵌入头文件...")
-        execute_process(
-            COMMAND python3 ${CMAKE_CURRENT_SOURCE_DIR}/embed_font.py
-                ${CMAKE_CURRENT_SOURCE_DIR}/assets/SmileySans-Oblique-2.ttf
-                ${CMAKE_CURRENT_SOURCE_DIR}/src/embedded_font.hpp
-                embedded_font_data
-                embedded_font_size
-        )
-    else()
-        message(STATUS "字体嵌入头文件已存在: src/embedded_font.hpp")
+    set(FONT_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/assets/SmileySans-Oblique-2.ttf")
+    set(FONT_OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/src/embedded_font.hpp")
+
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tools/embed_resource.py")
+        file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/tools")
+        file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/tools/embed_resource.py"
+"#!/usr/bin/env python3
+import sys
+def embed(infile, outfile, array_name, size_name):
+    with open(infile, 'rb') as f:
+        data = f.read()
+    with open(outfile, 'w') as f:
+        f.write('#pragma once\\n#include <cstddef>\\n\\n')
+        f.write(f'const unsigned char {array_name}[] = {{')
+        for i, b in enumerate(data):
+            if i % 16 == 0: f.write('\\n    ')
+            f.write(f'0x{b:02x}, ')
+        f.write(f'\\n}};\\n')
+        f.write(f'const size_t {size_name} = {len(data)};\\n')
+if __name__ == '__main__':
+    if len(sys.argv) != 5:
+        print('Usage: embed.py <infile> <outfile> <array_name> <size_name>')
+        sys.exit(1)
+    embed(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+")
     endif()
-    set(EMBED_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/src/embedded_font.hpp)
+
+    if(EXISTS "${FONT_INPUT}")
+        add_custom_command(
+            OUTPUT ${FONT_OUTPUT}
+            COMMAND python3 "${CMAKE_CURRENT_SOURCE_DIR}/tools/embed_resource.py"
+                "${FONT_INPUT}"
+                "${FONT_OUTPUT}"
+                "embedded_font_data"
+                "embedded_font_size"
+            DEPENDS ${FONT_INPUT}
+            COMMENT "将字体嵌入到头文件 ${FONT_OUTPUT}"
+        )
+        add_custom_target(embedded_resources DEPENDS ${FONT_OUTPUT})
+        message(STATUS "资源嵌入已启用，字体将内嵌到可执行文件中")
+        set(EMBED_HEADER ${FONT_OUTPUT})
+    else()
+        message(WARNING "字体文件不存在: ${FONT_INPUT}")
+        set(EMBED_RESOURCES OFF)
+    endif()
 endif()
 
+# =============================================================================
 # 源文件列表
+# =============================================================================
 set(SOURCES
     src/Utils.cpp
     src/Database.cpp
@@ -85,7 +129,6 @@ set(SOURCES
     src/GameLogic.cpp
     src/UI.cpp
     src/main.cpp
-    ${SQLITE_SOURCES}
 )
 
 set(HEADERS
@@ -94,12 +137,17 @@ set(HEADERS
     src/Network.hpp
     src/GameLogic.hpp
     src/UI.hpp
-    ${SQLITE_HEADERS}
     ${EMBED_HEADER}
 )
 
-# 可执行文件
-add_executable(JRFirstGame ${SOURCES} ${HEADERS})
+# =============================================================================
+# 创建可执行文件
+# =============================================================================
+if(WIN32)
+    add_executable(JRFirstGame WIN32 ${SOURCES} ${HEADERS})
+else()
+    add_executable(JRFirstGame ${SOURCES} ${HEADERS})
+endif()
 
 target_include_directories(JRFirstGame PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -107,7 +155,9 @@ target_include_directories(JRFirstGame PRIVATE
     ${SFML_INCLUDE_DIRS}
 )
 
-# 链接 SFML
+# 链接库
+target_link_libraries(JRFirstGame PRIVATE sqlite3)
+
 if(TARGET SFML::Graphics)
     target_link_libraries(JRFirstGame PRIVATE
         SFML::Graphics
@@ -120,7 +170,7 @@ else()
 endif()
 
 # Linux 静态链接额外系统库
-if(UNIX AND NOT APPLE AND BUILD_STATIC)
+if(UNIX AND NOT APPLE AND SFML_STATIC_LIBRARIES)
     find_package(OpenGL REQUIRED)
     target_link_libraries(JRFirstGame PRIVATE
         ${OPENGL_LIBRARIES}
@@ -128,19 +178,52 @@ if(UNIX AND NOT APPLE AND BUILD_STATIC)
     )
 endif()
 
-# SQLite 编译选项
-set_source_files_properties(${SQLITE_SOURCES} PROPERTIES COMPILE_DEFINITIONS 
-    "SQLITE_THREADSAFE=1;SQLITE_ENABLE_FTS5;SQLITE_DEFAULT_MEMSTATUS=0")
-
 # 启用嵌入字体宏
 if(EMBED_RESOURCES)
     target_compile_definitions(JRFirstGame PRIVATE EMBEDDED_FONT)
 endif()
 
-# 安装
-install(TARGETS JRFirstGame RUNTIME DESTINATION bin)
-if(NOT EMBED_RESOURCES)
-    install(DIRECTORY assets/ DESTINATION bin/assets)
+# 嵌入资源依赖
+if(EMBED_RESOURCES AND TARGET embedded_resources)
+    add_dependencies(JRFirstGame embedded_resources)
 endif()
 
-message(STATUS "构建配置完成。")
+# =============================================================================
+# 复制资源文件到输出目录
+# =============================================================================
+if(NOT EMBED_RESOURCES AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets/SmileySans-Oblique-2.ttf")
+    add_custom_command(TARGET JRFirstGame POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:JRFirstGame>/assets"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/assets/SmileySans-Oblique-2.ttf"
+            "$<TARGET_FILE_DIR:JRFirstGame>/assets/"
+        COMMENT "复制字体文件到输出目录"
+    )
+endif()
+
+# 数据库文件不需要复制，程序会自动创建
+
+# =============================================================================
+# macOS 特定配置（创建 .app 包）
+# =============================================================================
+if(APPLE)
+    set_target_properties(JRFirstGame PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+    )
+endif()
+
+# =============================================================================
+# 配置摘要
+# =============================================================================
+message(STATUS "")
+message(STATUS "======================================")
+message(STATUS " JRFirstGame 构建配置")
+message(STATUS "======================================")
+message(STATUS "构建类型: ${CMAKE_BUILD_TYPE}")
+message(STATUS "目标系统: ${CMAKE_SYSTEM_NAME}")
+message(STATUS "嵌入资源: ${EMBED_RESOURCES}")
+message(STATUS "SFML 库: ${SFML_LIBRARIES}")
+message(STATUS "编译器: ${CMAKE_CXX_COMPILER_ID}")
+message(STATUS "======================================")
+message(STATUS "")

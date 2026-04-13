@@ -1,0 +1,31 @@
+# 构建目录和生成文件
+build/
+*.o
+*.obj
+*.exe
+*.app
+
+# CMake 生成文件
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# IDE 配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 数据库文件（本地数据不应提交）
+*.db
+*.db-journal
+
+# 资源嵌入生成的临时头文件（可选，也可以提交）
+src/embedded_font.hpp
+
+# 系统文件
+.DS_Store
+Thumbs.db

@@ -76,14 +76,15 @@ jobs:
     # ---------- 配置 CMake ----------
     - name: Configure CMake (Windows)
       if: runner.os == 'Windows'
-      run: cmake -B build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON -DSFML_DIR="${{ env.SFML_DIR }}/lib/cmake/SFML"
-    - name: Configure CMake
+      run: cmake -B build -G "${{ matrix.cmake_generator }}" -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON -DSFML_DIR="${{ env.SFML_DIR }}/lib/cmake/SFML"
+
+    - name: Configure CMake (Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
         cmake -B build -G "${{ matrix.cmake_generator }}" \
               -DCMAKE_BUILD_TYPE=Release \
               -DEMBED_RESOURCES=ON \
               -DSFML_DIR="${{ env.SFML_DIR }}/lib/cmake/SFML"
-
     # ---------- 构建 ----------
     - name: Build
       run: cmake --build build --config Release

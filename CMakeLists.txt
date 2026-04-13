@@ -255,18 +255,25 @@ message(STATUS "")
 # 复制 SFML 动态库到输出目录（实现独立运行）
 # =============================================================================
 
-# Windows：复制 DLL
+# Windows：复制 Release 版 SFML DLL
 if(WIN32 AND DEFINED SFML_BIN_DIR)
-    file(GLOB SFML_DLLS "${SFML_BIN_DIR}/*.dll")
+    # 仅复制不带 -d 的 DLL（Release 版本）
+    file(GLOB SFML_DLLS "${SFML_BIN_DIR}/sfml-*-3.dll")
     add_custom_command(TARGET JRFirstGame POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${SFML_DLLS}
             "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${SFML_BIN_DIR}/openal32.dll"
-            "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMENT "复制 SFML 及 OpenAL DLL 文件到输出目录"
+        COMMENT "复制 SFML Release DLL 文件到输出目录"
     )
+    # 检查 openal32.dll 是否存在，存在则复制
+    if(EXISTS "${SFML_BIN_DIR}/openal32.dll")
+        add_custom_command(TARGET JRFirstGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${SFML_BIN_DIR}/openal32.dll"
+                "$<TARGET_FILE_DIR:JRFirstGame>"
+            COMMENT "复制 OpenAL32 DLL"
+        )
+    endif()
 endif()
 # Linux：复制 SO 文件并设置 RPATH
 if(UNIX AND NOT APPLE AND DEFINED SFML_LIB_DIR)

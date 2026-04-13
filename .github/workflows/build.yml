@@ -90,7 +90,7 @@ jobs:
         echo "SFML_LIB_DIR=$sfmlPath/lib" >> $GITHUB_ENV
 
     # ---------- 配置 CMake ----------
-        - name: Configure CMake (Windows)
+    - name: Configure CMake (Windows)
       if: runner.os == 'Windows'
       run: |
         cmake -B build -G "${{ matrix.cmake_generator }}" `

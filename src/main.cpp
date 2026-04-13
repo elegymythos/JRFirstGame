@@ -31,16 +31,32 @@ int main() {
 
     sf::Font font;
     #ifdef EMBEDDED_FONT
+        // 嵌入字体模式：直接从内存加载，无需任何文件路径
+        #include "embedded_font.hpp"
         if (!font.openFromMemory(embedded_font_data, embedded_font_size)) {
             std::cerr << "Failed to load embedded font!" << std::endl;
             return -1;
         }
     #else
-        std::string fontPath = getResourcePath("assets/SmileySans-Oblique-2.ttf");
-        if (!font.openFromFile(fontPath)) {
+     #ifdef __APPLE__
+        #include <CoreFoundation/CoreFoundation.h>
+        std::string getResourcePath(const std::string& relativePath) {
+            CFURLRef appUrl = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+            char path[PATH_MAX];
+            CFURLGetFileSystemRepresentation(appUrl, TRUE, (UInt8*)path, PATH_MAX);
+            CFRelease(appUrl);
+            return std::string(path) + "/" + relativePath;
+        }
+    #else
+        std::string getResourcePath(const std::string& relativePath) {
+            return relativePath;
+        }
+    #endif
+    std::string fontPath = getResourcePath("assets/SmileySans-Oblique-2.ttf");
+    if (!font.openFromFile(fontPath)) {
             std::cerr << "Failed to load font file! Path: " << fontPath << std::endl;
             return -1;
-        }
+    }
     #endif
 
     Database db;

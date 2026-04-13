@@ -17,33 +17,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        submodules: recursive
 
+    # ---------- Linux 依赖 ----------
     - name: Install Linux Dependencies
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
         sudo apt-get install -y libsfml-dev libxrandr-dev libxcursor-dev libxi-dev
 
+    # ---------- macOS 依赖 ----------
     - name: Install macOS Dependencies
       if: runner.os == 'macOS'
       run: |
         brew install sfml
 
-    - name: Install Windows Dependencies (vcpkg)
-      if: runner.os == 'Windows'
-      uses: lukka/run-vcpkg@v11
-      with:
-        vcpkgGitCommitId: 'a5d2c3e5f2a7b0f8c7e1a5b6d8c9f1a2b3c4d5e6'
-        vcpkgDirectory: ${{ github.workspace }}/vcpkg
-        vcpkgJsonGlob: 'vcpkg.json'
-
-    - name: Create vcpkg.json for Windows
+    # ---------- Windows 依赖 ----------
+    - name: Download SFML for Windows (MinGW)
       if: runner.os == 'Windows'
       run: |
-        echo '{"name":"jrfirstgame","version":"1.0.0","dependencies":["sfml"]}' > vcpkg.json
+        curl -L -o sfml.zip https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Windows.MinGW.x64.zip
+        echo "SFML_DIR=C:\sfml\SFML-3.0.0" >> $env:GITHUB_ENV
 
+    # ---------- 配置 CMake ----------
     - name: Configure CMake (Linux/macOS)
       if: runner.os != 'Windows'
       run: |
@@ -52,11 +47,13 @@ jobs:
     - name: Configure CMake (Windows)
       if: runner.os == 'Windows'
       run: |
-        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON -DSFML_DIR="$env:SFML_DIR\lib\cmake\SFML"
 
+    # ---------- 构建 ----------
     - name: Build
       run: cmake --build build --config Release
 
+    # ---------- 上传 Artifacts ----------
     - name: Upload Linux Artifact
       if: runner.os == 'Linux'
       uses: actions/upload-artifact@v4

@@ -17,7 +17,14 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
         message(STATUS "MinGW: 使用静态 libgcc 和 libstdc++")
     endif()
 endif()
-
+if(APPLE)
+    # 支持 Apple Silicon (arm64) 和 Intel (x86_64)
+    if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "arm64")
+        list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew")
+    else()
+        list(APPEND CMAKE_PREFIX_PATH "/usr/local")
+    endif()
+endif()
 # =============================================================================
 # 查找 SFML（默认优先动态库，通过 SFML_STATIC_LIBRARIES 可控制）
 # =============================================================================

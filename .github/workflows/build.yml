@@ -1,8 +1,10 @@
-name: Build
+name: Build and Release
 
 on:
   push:
     branches: [ "main", "master" ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ "main", "master" ]
 
@@ -26,13 +28,13 @@ jobs:
             sfml_dir: SFML-3.0.2
             cmake_generator: "Visual Studio 17 2022"
             artifact_name: JRFirstGame-Windows
-            artifact_path: build/Release/JRFirstGame.exe
+            artifact_path: build/Release/         # 整个目录，包含 exe 和 dll
 
           - os: macos-latest
             sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-macOS.arm64.tar.gz
             sfml_dir: SFML-3.0.2
             cmake_generator: "Unix Makefiles"
-            artifact_name: JRFirstGame-macOS
+            artifact_name: JRFirstGame-macOS-arm64
             artifact_path: build/JRFirstGame.app
 
           # - os: macos-13
@@ -45,7 +47,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # ---------- 安装系统依赖 ----------
     - name: Install Linux Dependencies
       if: runner.os == 'Linux'
       run: |
@@ -54,11 +55,8 @@ jobs:
 
     - name: Install macOS Dependencies
       if: runner.os == 'macOS'
-      run: |
-        brew install freetype
+      run: brew install freetype
 
-    # ---------- 下载并解压 SFML 预编译包 ----------
-    # ---------- Windows ----------
     - name: Download SFML (Windows)
       if: runner.os == 'Windows'
       shell: pwsh
@@ -69,9 +67,8 @@ jobs:
         echo "SFML_DIR=$sfmlPath/lib/cmake/SFML" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         echo "SFML_BIN_DIR=$sfmlPath/bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-    # ---------- Linux ----------
-    - name: Download SFML (Linux)
-      if: runner.os == 'Linux'
+    - name: Download SFML (Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
         curl -L "${{ matrix.sfml_url }}" -o sfml.tar.gz
         tar -xzf sfml.tar.gz
@@ -79,25 +76,14 @@ jobs:
         echo "SFML_DIR=$sfmlPath/lib/cmake/SFML" >> $GITHUB_ENV
         echo "SFML_LIB_DIR=$sfmlPath/lib" >> $GITHUB_ENV
 
-    # ---------- macOS ----------
-    - name: Download SFML (macOS)
-      if: runner.os == 'macOS'
-      run: |
-        curl -L "${{ matrix.sfml_url }}" -o sfml.tar.gz
-        tar -xzf sfml.tar.gz
-        sfmlPath="$(pwd)/${{ matrix.sfml_dir }}"
-        echo "SFML_DIR=$sfmlPath/lib/cmake/SFML" >> $GITHUB_ENV
-        echo "SFML_LIB_DIR=$sfmlPath/lib" >> $GITHUB_ENV
-
-    # ---------- 配置 CMake ----------
     - name: Configure CMake (Windows)
       if: runner.os == 'Windows'
       run: |
         cmake -B build -G "${{ matrix.cmake_generator }}" `
               -DCMAKE_BUILD_TYPE=Release `
               -DEMBED_RESOURCES=ON `
-              -DSFML_DIR="${{ env.SFML_DIR }}" `
-              -DSFML_BIN_DIR="${{ env.SFML_BIN_DIR }}"
+              -DSFML_DIR="$env:SFML_DIR" `
+              -DSFML_BIN_DIR="$env:SFML_BIN_DIR"
 
     - name: Configure CMake (Linux/macOS)
       if: runner.os != 'Windows'
@@ -105,19 +91,11 @@ jobs:
         cmake -B build -G "${{ matrix.cmake_generator }}" \
               -DCMAKE_BUILD_TYPE=Release \
               -DEMBED_RESOURCES=ON \
-              -DSFML_DIR="${{ env.SFML_DIR }}" \
-              -DSFML_LIB_DIR="${{ env.SFML_LIB_DIR }}"
-    # ---------- 构建 ----------
+              -DSFML_DIR="$SFML_DIR" \
+              -DSFML_LIB_DIR="$SFML_LIB_DIR"
+
     - name: Build
       run: cmake --build build --config Release
-
-    # ---------- 上传 Artifacts ----------
-    - name: Upload Windows Artifact
-      if: runner.os == 'Windows'
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ matrix.artifact_name }}
-        path: build/Release/     
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -126,43 +104,18 @@ jobs:
         path: ${{ matrix.artifact_path }}
 
   release:
-    name: 创建 GitHub Release
-    runs-on: ubuntu-latest
     needs: build
-    if: startsWith(github.ref, 'refs/tags/v')   # 仅当推送 v 开头的标签时触发
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     permissions:
       contents: write
-
     steps:
-      - name: 下载所有构建产物
-        uses: actions/download-artifact@v4
-
-      - name: 打包 Windows 为 zip
-        run: |
-          cd JRFirstGame-Windows
-          zip -r ../JRFirstGame-Windows.zip .
-
-      - name: 打包 Linux 为 tar.gz
-        run: |
-          cd JRFirstGame-Linux
-          tar -czf ../JRFirstGame-Linux.tar.gz JRFirstGame
-
-      - name: 打包 macOS (arm64)
-        run: |
-          cd JRFirstGame-macOS-arm64
-          zip -r ../JRFirstGame-macOS-arm64.app.zip JRFirstGame.app
-
-      - name: 打包 macOS (x64)
-        run: |
-          cd JRFirstGame-macOS-x64
-          zip -r ../JRFirstGame-macOS-x64.app.zip JRFirstGame.app
-
-      - name: 创建 Release 并上传资产
+      - uses: actions/download-artifact@v4
+      - name: Package and Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            JRFirstGame-Windows.zip
-            JRFirstGame-Linux.tar.gz
-            JRFirstGame-macOS-arm64.app.zip
-            JRFirstGame-macOS-x64.app.zip
+            JRFirstGame-Windows/*.{exe,dll}
+            JRFirstGame-Linux/JRFirstGame
+            JRFirstGame-macOS-arm64/JRFirstGame.app/**
           generate_release_notes: true

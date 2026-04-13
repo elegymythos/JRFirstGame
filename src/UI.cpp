@@ -14,6 +14,8 @@
 #include <sstream>
 #include <cmath>
 #include <algorithm>
+#include <limits>
+#include <map>
 
 // ======================== Button 实现 ========================
 
@@ -525,7 +527,15 @@ void RankingsView::draw(sf::RenderWindow& window) {
 OnlineLobbyView::OnlineLobbyView(const sf::Font& font, std::function<void(std::string)> cv, NetworkManager& net)
     : View(font), ipInput(font, {300,150}, {200,40}, false, 15, false),
       portInput(font, {300,220}, {200,40}, false, 5, false),
-      createBtn(font, "Host Game", {300,290}, {200,50}, [this,cv](){ cv("ONLINE_GAME_HOST"); }),
+      createBtn(font, "Host Game", {300,290}, {200,50}, [this,cv](){
+            std::string portStr = portInput.getString();
+            if (portStr.empty()) { statusText.setString("Fill Port"); return; }
+            int port;
+            try { port = std::stoi(portStr); if (port<1||port>65535) throw std::out_of_range(""); }
+            catch(...) { statusText.setString("Invalid port"); return; }
+            network.setPendingPort(port);
+            cv("ONLINE_GAME_HOST");
+      }),
       joinBtn(font, "Join Game", {300,360}, {200,50}, [this,cv](){
             std::string ip = ipInput.getString();
             std::string portStr = portInput.getString();
@@ -535,6 +545,7 @@ OnlineLobbyView::OnlineLobbyView(const sf::Font& font, std::function<void(std::s
             catch(...) { statusText.setString("Invalid port"); return; }
             auto resolved = sf::IpAddress::resolve(ip);
             if (!resolved) { statusText.setString("Invalid IP"); return; }
+            network.setPendingPort(port);
             statusText.setString("Connecting...");
             if (network.connectToServer(*resolved, port)) {
                 statusText.setString("Connected!");
@@ -580,35 +591,36 @@ void OnlineLobbyView::draw(sf::RenderWindow& window) {
 OnlineGameView::OnlineGameView(const sf::Font& font, std::function<void(std::string)> cv,
                                NetworkManager& net, bool host, const std::string& username)
     : View(font), myUsername(username), changeView(cv), network(net), isHost(host),
-      statusText(font, "", 18),               
-      myNameText(font, "", 20),               
-      opponentNameText(font, "", 20),         
-      myHealthText(font, "", 18),             
-      opponentHealthText(font, "", 18),         
-      gameResultText(font, "", 30)     
+      statusText(font, "", 18),
+      myNameText(font, "", 20),
+      gameResultText(font, "", 30)
 {
     backBtn = std::make_unique<Button>(font, "Back to Menu", sf::Vector2f{650,20}, sf::Vector2f{120,40},
                                        [cv](){ cv("SELECT_LEVEL"); });
     statusText.setPosition({10,550}); statusText.setFillColor(sf::Color::Red);
     myNameText.setPosition({50, 50}); myNameText.setFillColor(sf::Color::Green);
-    opponentNameText.setPosition({50, 100}); opponentNameText.setFillColor(sf::Color::Red);
-    myHealthText.setPosition({50, 80}); myHealthText.setFillColor(sf::Color::Black);
-    opponentHealthText.setPosition({50, 130}); opponentHealthText.setFillColor(sf::Color::Black);
     gameResultText.setPosition({300, 300}); gameResultText.setFillColor(sf::Color::Blue);
     gameResultText.setCharacterSize(40);
 
     if (isHost) {
-        if (!network.startServer(54000)) statusText.setString("Failed to start server!");
+        unsigned short port = network.getPendingPort();
+        if (!network.startServer(port)) {
+            statusText.setString("Failed to start server on port " + std::to_string(port));
+        }
+        else {
+            statusText.setString("Server started on port " + std::to_string(port));
+            connected = true;
+        }
         world.addPlayer(0, {400,300});
         myId = 0;
-        opponentId = 1;
-        opponentUsername = "Waiting for opponent...";
-        myNameText.setString(myUsername + " (Host)");
+        playerNames[0] = myUsername + " (Host)";
+        myNameText.setString(playerNames[0]);
     } else {
         myId = -1;
         myNameText.setString(myUsername + " (Client)");
+        statusText.setString("Connecting to server...");
     }
-    myPos = opponentPos = {400,300};
+    playerPositions[0] = {400, 300};
 }
 
 void OnlineGameView::updateLocalInput() {
@@ -621,20 +633,51 @@ void OnlineGameView::updateLocalInput() {
 void OnlineGameView::sendInputToServer() {
     if (inputSendClock.getElapsedTime().asSeconds() < 0.05f) return;
     inputSendClock.restart();
-    if (!network.getServerAddr().has_value()) return;
-    sf::Packet p;
-    p << static_cast<uint8_t>(NetMsgType::PlayerInput) << myId
-      << currentInput.up << currentInput.down << currentInput.left << currentInput.right;
-    network.send(p, *network.getServerAddr(), network.getServerPort());
+
+    if (isHost) {
+        // 主机直接设置自己的输入
+        world.setPlayerInput(myId, currentInput);
+    } else {
+        // 客户端发送输入到服务器
+        if (!network.getServerAddr().has_value()) return;
+        sf::Packet p;
+        p << static_cast<uint8_t>(NetMsgType::PlayerInput) << myId
+          << currentInput.up << currentInput.down << currentInput.left << currentInput.right;
+        network.send(p, *network.getServerAddr(), network.getServerPort());
+    }
 }
 
 void OnlineGameView::sendAttack() {
     if (attackSendClock.getElapsedTime().asSeconds() < 0.5f) return;
     attackSendClock.restart();
-    if (!network.getServerAddr().has_value()) return;
-    sf::Packet p;
-    p << static_cast<uint8_t>(NetMsgType::PlayerAttack) << myId;
-    network.send(p, *network.getServerAddr(), network.getServerPort());
+
+    if (isHost) {
+        // 主机直接执行攻击（攻击最近的敌人）
+        auto state = world.getState();
+        if (state.players.size() > 1) {
+            // 找到最近的玩家
+            int targetId = -1;
+            float minDist = std::numeric_limits<float>::max();
+            auto myPos = playerPositions[myId];
+            for (const auto& [id, pos] : playerPositions) {
+                if (id == myId) continue;
+                float dist = std::hypot(pos.x - myPos.x, pos.y - myPos.y);
+                if (dist < minDist) {
+                    minDist = dist;
+                    targetId = id;
+                }
+            }
+            if (targetId != -1) {
+                world.attack(myId, targetId);
+            }
+        }
+    } else {
+        // 客户端发送攻击请求到服务器
+        if (!network.getServerAddr().has_value()) return;
+        sf::Packet p;
+        p << static_cast<uint8_t>(NetMsgType::PlayerAttack) << myId;
+        network.send(p, *network.getServerAddr(), network.getServerPort());
+    }
 }
 
 void OnlineGameView::broadcastState() {
@@ -657,14 +700,38 @@ void OnlineGameView::processNetwork() {
 
     if (isHost) {
         if (type == NetMsgType::Connect) {
-            int newId = static_cast<int>(network.getClientCount()) + 1;
-            network.addClient(ip, port);
-            world.addPlayer(newId, sf::Vector2f(400, 300));
-            sf::Packet accept;
-            accept << static_cast<uint8_t>(NetMsgType::ConnectAccept) << newId << myUsername;
-            network.send(accept, ip, port);
-            opponentId = newId;
-            opponentUsername = "Player " + std::to_string(newId);
+            // 新玩家连接
+            if (!network.hasClient(ip, port)) {
+                int newId = static_cast<int>(network.getClientCount()) + 1;
+                network.addClient(ip, port);
+                world.addPlayer(newId, sf::Vector2f(400, 300));
+                playerNames[newId] = "Player " + std::to_string(newId);
+                playerPositions[newId] = {400, 300};
+
+                // 发送连接确认
+                sf::Packet accept;
+                accept << static_cast<uint8_t>(NetMsgType::ConnectAccept) << newId;
+                // 发送所有现有玩家的名字
+                accept << static_cast<uint32_t>(playerNames.size());
+                for (const auto& [id, name] : playerNames) {
+                    accept << id << name;
+                }
+                network.send(accept, ip, port);
+
+                statusText.setString("Player " + std::to_string(newId) + " connected! Total: " +
+                                    std::to_string(network.getClientCount() + 1));
+            }
+        }
+        else if (type == NetMsgType::Disconnect) {
+            // 玩家断开连接
+            int id;
+            packet >> id;
+            network.removeClient(ip, port);
+            world.removePlayer(id);
+            playerNames.erase(id);
+            playerPositions.erase(id);
+            statusText.setString("Player " + std::to_string(id) + " disconnected. Total: " +
+                                std::to_string(network.getClientCount() + 1));
         }
         else if (type == NetMsgType::PlayerInput) {
             int id; bool u,d,l,r;
@@ -674,24 +741,43 @@ void OnlineGameView::processNetwork() {
         else if (type == NetMsgType::PlayerAttack) {
             int attackerId;
             packet >> attackerId;
-            int targetId = (attackerId == 0) ? 1 : 0;
-            world.attack(attackerId, targetId);
+            // 找到最近的玩家进行攻击
             auto state = world.getState();
-            if (state.players.size() >= 2) {
-                if (state.players[0].health <= 0 && !gameOver) {
-                    gameOver = true; victory = false;
-                    gameResultText.setString("You Lost!");
-                } else if (state.players[1].health <= 0 && !gameOver) {
-                    gameOver = true; victory = true;
-                    gameResultText.setString("You Won!");
+            if (state.players.size() > 1) {
+                int targetId = -1;
+                float minDist = std::numeric_limits<float>::max();
+                auto attackerPos = playerPositions[attackerId];
+                for (const auto& [id, pos] : playerPositions) {
+                    if (id == attackerId) continue;
+                    float dist = std::hypot(pos.x - attackerPos.x, pos.y - attackerPos.y);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        targetId = id;
+                    }
+                }
+                if (targetId != -1) {
+                    world.attack(attackerId, targetId);
                 }
             }
         }
     } else {
+        // 客户端处理
         if (type == NetMsgType::ConnectAccept) {
-            packet >> myId >> opponentUsername;
+            packet >> myId;
+            connected = true;
             statusText.setString("Connected! Your ID = " + std::to_string(myId));
-            opponentId = (myId == 0) ? 1 : 0;
+
+            // 接收所有玩家名字
+            uint32_t count;
+            packet >> count;
+            for (uint32_t i = 0; i < count; ++i) {
+                int id;
+                std::string name;
+                packet >> id >> name;
+                playerNames[id] = name;
+            }
+            playerNames[myId] = myUsername + " (You)";
+            myNameText.setString(playerNames[myId]);
         }
         else if (type == NetMsgType::GameState) {
             uint32_t cnt; packet >> cnt;
@@ -702,23 +788,29 @@ void OnlineGameView::processNetwork() {
                 state.players.push_back({pos, hp, maxHp});
             }
             lastReceivedState = std::move(state);
-            if (lastReceivedState.players.size() >= 2) {
-                int localIndex = (myId == 0) ? 0 : 1;
-                int opponentIndex = (myId == 0) ? 1 : 0;
-                myPos = lastReceivedState.players[localIndex].position;
-                opponentPos = lastReceivedState.players[opponentIndex].position;
-                int myHp = lastReceivedState.players[localIndex].health;
-                int oppHp = lastReceivedState.players[opponentIndex].health;
-                myHealthText.setString("Your HP: " + std::to_string(myHp));
-                opponentHealthText.setString(opponentUsername + " HP: " + std::to_string(oppHp));
+
+            // 更新所有玩家位置
+            int idx = 0;
+            for (const auto& ps : lastReceivedState.players) {
+                playerPositions[idx] = ps.position;
+                ++idx;
+            }
+
+            // 检查自己是否死亡
+            if (lastReceivedState.players.size() > static_cast<uint32_t>(myId)) {
+                int myHp = lastReceivedState.players[myId].health;
                 if (myHp <= 0 && !gameOver) {
                     gameOver = true; victory = false;
                     gameResultText.setString("You Lost!");
-                } else if (oppHp <= 0 && !gameOver) {
-                    gameOver = true; victory = true;
-                    gameResultText.setString("You Won!");
                 }
             }
+        }
+        else if (type == NetMsgType::Disconnect) {
+            int id;
+            packet >> id;
+            playerNames.erase(id);
+            playerPositions.erase(id);
+            statusText.setString("Player " + std::to_string(id) + " disconnected.");
         }
     }
 }
@@ -731,15 +823,10 @@ void OnlineGameView::handleEvent(const sf::Event& event, sf::RenderWindow& windo
     }
     if (!gameOver) {
         updateLocalInput();
-        if (!isHost) sendInputToServer();
+        sendInputToServer();  // 主机和客户端都需要发送输入
         if (const auto* kp = event.getIf<sf::Event::KeyPressed>()) {
             if (kp->code == sf::Keyboard::Key::Space) {
-                if (isHost) {
-                    int targetId = (myId == 0) ? 1 : 0;
-                    world.attack(myId, targetId);
-                } else {
-                    sendAttack();
-                }
+                sendAttack();  // 统一使用 sendAttack
             }
         }
     }
@@ -755,41 +842,73 @@ void OnlineGameView::update(sf::Vector2f mousePos, sf::Vector2u windowSize) {
     if (isHost) {
         world.update(dt);
         broadcastState();
+
+        // 更新所有玩家位置
         auto state = world.getState();
-        if (state.players.size() > 0) {
-            myPos = state.players[0].position;
-            myHealthText.setString("Your HP: " + std::to_string(state.players[0].health));
+        int idx = 0;
+        for (const auto& ps : state.players) {
+            playerPositions[idx] = ps.position;
+            ++idx;
         }
-        if (state.players.size() > 1) {
-            opponentPos = state.players[1].position;
-            opponentHealthText.setString(opponentUsername + " HP: " + std::to_string(state.players[1].health));
-            if (state.players[1].health <= 0 && !gameOver) {
-                gameOver = true; victory = true;
-                gameResultText.setString("You Won!");
-            }
-        }
+
+        // 检查主机是否死亡
         if (state.players.size() > 0 && state.players[0].health <= 0 && !gameOver) {
             gameOver = true; victory = false;
             gameResultText.setString("You Lost!");
         }
     }
-    opponentNameText.setString(opponentUsername);
+
+    // 更新其他玩家显示文本
+    otherPlayerTexts.clear();
+    int yOffset = 100;
+    for (const auto& [id, name] : playerNames) {
+        if (id == myId) continue;
+
+        sf::Text text(globalFont, "", 18);
+        text.setPosition({50, static_cast<float>(yOffset)});
+        text.setFillColor(sf::Color::Black);
+
+        std::string info = name;
+        if (lastReceivedState.players.size() > static_cast<uint32_t>(id)) {
+            info += " HP: " + std::to_string(lastReceivedState.players[id].health);
+        }
+        text.setString(info);
+        otherPlayerTexts.push_back(text);
+        yOffset += 30;
+    }
 }
 
 void OnlineGameView::draw(sf::RenderWindow& window) {
+    // 绘制所有玩家
     sf::CircleShape shape(20.f);
-    shape.setFillColor(sf::Color::Green);
-    shape.setPosition(myPos - sf::Vector2f(20,20));
-    window.draw(shape);
-    shape.setFillColor(sf::Color::Red);
-    shape.setPosition(opponentPos - sf::Vector2f(20,20));
-    window.draw(shape);
+
+    // 绘制自己（绿色）
+    if (playerPositions.count(myId)) {
+        shape.setFillColor(sf::Color::Green);
+        shape.setPosition(playerPositions[myId] - sf::Vector2f(20,20));
+        window.draw(shape);
+    }
+
+    // 绘制其他玩家（不同颜色）
+    std::vector<sf::Color> colors = {sf::Color::Red, sf::Color::Blue, sf::Color::Magenta,
+                                     sf::Color::Cyan, sf::Color::Yellow, sf::Color(255, 165, 0)};
+    int colorIdx = 0;
+    for (const auto& [id, pos] : playerPositions) {
+        if (id == myId) continue;
+        shape.setFillColor(colors[colorIdx % colors.size()]);
+        shape.setPosition(pos - sf::Vector2f(20,20));
+        window.draw(shape);
+        ++colorIdx;
+    }
 
     if (backBtn) backBtn->draw(window);
     window.draw(statusText);
     window.draw(myNameText);
-    window.draw(opponentNameText);
-    window.draw(myHealthText);
-    window.draw(opponentHealthText);
+
+    // 绘制其他玩家信息
+    for (const auto& text : otherPlayerTexts) {
+        window.draw(text);
+    }
+
     if (gameOver) window.draw(gameResultText);
 }

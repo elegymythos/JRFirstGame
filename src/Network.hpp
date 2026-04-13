@@ -52,21 +52,27 @@ public:
 
     bool startServer(unsigned short port);
     bool connectToServer(const sf::IpAddress& ip, unsigned short port);
+    void disconnect();  // 断开连接，重置状态
+    void setPendingPort(unsigned short port) { pendingPort = port; }  // 设置待使用的端口
+    unsigned short getPendingPort() const { return pendingPort; }  // 获取待使用的端口
     void send(sf::Packet& packet, const sf::IpAddress& addr, unsigned short port);
     void broadcast(sf::Packet& packet);
     std::optional<std::pair<NetMsgType, std::pair<sf::IpAddress, unsigned short>>> receive(sf::Packet& outPacket);
-    
+
     void addClient(const sf::IpAddress& ip, unsigned short port);
     void removeClient(const sf::IpAddress& ip, unsigned short port);
+    bool hasClient(const sf::IpAddress& ip, unsigned short port) const;
     Role getRole() const { return role; }
     const std::optional<sf::IpAddress>& getServerAddr() const { return serverAddr; }
     unsigned short getServerPort() const { return serverPort; }
     size_t getClientCount() const { return clients.size(); }
+    const std::set<std::pair<sf::IpAddress, unsigned short>>& getAllClients() const { return clients; }
 
 private:
     sf::UdpSocket socket;
     Role role = None;
     std::optional<sf::IpAddress> serverAddr;
     unsigned short serverPort = 0;
+    unsigned short pendingPort = 54000;  // 待使用的端口，默认54000
     std::set<std::pair<sf::IpAddress, unsigned short>> clients;
 };

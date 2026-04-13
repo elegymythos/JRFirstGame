@@ -153,7 +153,14 @@ void GameWorld::update(float dt) {
 
 GameState GameWorld::getState() const {
     GameState state;
+    // 按 ID 顺序添加玩家状态
+    std::vector<int> ids;
     for (const auto& [id, p] : players) {
+        ids.push_back(id);
+    }
+    std::sort(ids.begin(), ids.end());
+    for (int id : ids) {
+        const auto& p = players.at(id);
         GameState::PlayerState ps;
         ps.position = p.position;
         ps.health = p.health;

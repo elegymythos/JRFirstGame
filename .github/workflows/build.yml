@@ -89,8 +89,12 @@ jobs:
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
+        # 删除可能存在的数据库文件
+        Get-ChildItem -Path build/Release -Filter *.db -Recurse | Remove-Item -Force
+        Get-ChildItem -Path build/Release -Filter *.db-journal -Recurse | Remove-Item -Force
+        # 压缩剩余文件
         Compress-Archive -Path build/Release/* -DestinationPath ${{ matrix.artifact_name }}.zip -Force
-
+    
     - name: Package (Linux)
       if: runner.os == 'Linux'
       run: |

@@ -4,6 +4,8 @@
 NetworkManager::NetworkManager() : role(None) {}
 
 bool NetworkManager::startServer(unsigned short port) {
+    // 先断开现有连接
+    disconnect();
     role = Server;
     if (socket.bind(port) != sf::Socket::Status::Done) return false;
     socket.setBlocking(false);
@@ -11,14 +13,27 @@ bool NetworkManager::startServer(unsigned short port) {
 }
 
 bool NetworkManager::connectToServer(const sf::IpAddress& ip, unsigned short port) {
+    // 先断开现有连接
+    disconnect();
     role = Client;
     serverAddr = ip;
     serverPort = port;
+    // 客户端需要绑定一个随机端口来接收数据
+    if (socket.bind(sf::UdpSocket::AnyPort) != sf::Socket::Status::Done) return false;
+    socket.setBlocking(false);
+    // 发送连接请求
     sf::Packet p;
     p << static_cast<uint8_t>(NetMsgType::Connect);
     (void)socket.send(p, *serverAddr, serverPort);
-    socket.setBlocking(false);
     return true;
+}
+
+void NetworkManager::disconnect() {
+    socket.unbind();
+    role = None;
+    serverAddr = std::nullopt;
+    serverPort = 0;
+    clients.clear();
 }
 
 void NetworkManager::send(sf::Packet& packet, const sf::IpAddress& addr, unsigned short port) {
@@ -49,4 +64,8 @@ void NetworkManager::addClient(const sf::IpAddress& ip, unsigned short port) {
 
 void NetworkManager::removeClient(const sf::IpAddress& ip, unsigned short port) {
     clients.erase({ip, port});
+}
+
+bool NetworkManager::hasClient(const sf::IpAddress& ip, unsigned short port) const {
+    return clients.count({ip, port}) > 0;
 }

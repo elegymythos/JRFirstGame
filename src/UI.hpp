@@ -12,6 +12,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <map>
 
 // 包含游戏逻辑和网络模块（因为在类中使用了值类型成员）
 #include "GameLogic.hpp"
@@ -274,24 +275,25 @@ private:
     void processNetwork();
 
     std::string myUsername;
-    std::string opponentUsername;
+    std::map<int, std::string> playerNames;  // 玩家ID到名字的映射
     std::function<void(std::string)> changeView;
     NetworkManager& network;
     bool isHost;
     int myId;
-    int opponentId;
     GameWorld world;
     GameState lastReceivedState;
     std::unique_ptr<Button> backBtn;
     sf::Text statusText;
-    sf::Text myNameText, opponentNameText;
-    sf::Text myHealthText, opponentHealthText;
+    sf::Text myNameText;
+    std::vector<sf::Text> otherPlayerTexts;  // 其他玩家的名字和血量显示
     sf::Text gameResultText;
     sf::Clock deltaClock;
     sf::Clock inputSendClock;
     sf::Clock attackSendClock;
-    sf::Vector2f myPos, opponentPos;
+    sf::Clock disconnectCheckClock;  // 检测断开连接的时钟
+    std::map<int, sf::Vector2f> playerPositions;  // 所有玩家的位置
     PlayerInput currentInput;
     bool gameOver = false;
     bool victory = false;
+    bool connected = false;  // 是否已连接
 };

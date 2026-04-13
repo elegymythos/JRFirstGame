@@ -16,19 +16,30 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - os: windows-latest
+            sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Windows.VS2022.x64.zip
+            sfml_dir: SFML-3.0.2
+            cmake_generator: "Visual Studio 17 2022"
+            artifact_name: JRFirstGame-Windows
+            artifact_path: build/Release/
+            package_ext: .zip
+            package_cmd: |
+              cd build/Release
+              7z a ../../${{ matrix.artifact_name }}.zip *
+              cd ../..
+
           - os: ubuntu-latest
             sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Linux.GCC.tar.gz
             sfml_dir: SFML-3.0.2
             cmake_generator: "Unix Makefiles"
             artifact_name: JRFirstGame-Linux
             artifact_path: build/JRFirstGame
-
-          - os: windows-latest
-            sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Windows.VS2022.x64.zip
-            sfml_dir: SFML-3.0.2
-            cmake_generator: "Visual Studio 17 2022"
-            artifact_name: JRFirstGame-Windows
-            artifact_path: build/Release/         # 整个目录，包含 exe 和 dll
+            package_ext: .tar.gz
+            package_cmd: |
+              mkdir -p package
+              cp build/JRFirstGame package/
+              cp ${{ env.SFML_LIB_DIR }}/libsfml-*.so* package/ || true
+              tar -czf ${{ matrix.artifact_name }}.tar.gz -C package .
 
           - os: macos-latest
             sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-macOS.arm64.tar.gz
@@ -36,13 +47,9 @@ jobs:
             cmake_generator: "Unix Makefiles"
             artifact_name: JRFirstGame-macOS-arm64
             artifact_path: build/JRFirstGame.app
-
-          # - os: macos-13
-          #   sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-macOS.x64.tar.gz
-          #   sfml_dir: SFML-3.0.2
-          #   cmake_generator: "Unix Makefiles"
-          #   artifact_name: JRFirstGame-macOS-x64
-          #   artifact_path: build/JRFirstGame.app
+            package_ext: .zip
+            package_cmd: |
+              ditto -c -k --sequesterRsrc --keepParent build/JRFirstGame.app ${{ matrix.artifact_name }}.zip
 
     steps:
     - uses: actions/checkout@v4
@@ -97,11 +104,24 @@ jobs:
     - name: Build
       run: cmake --build build --config Release
 
+    - name: Package (Windows)
+      if: runner.os == 'Windows'
+      run: ${{ matrix.package_cmd }}
+      shell: pwsh
+
+    - name: Package (Linux)
+      if: runner.os == 'Linux'
+      run: ${{ matrix.package_cmd }}
+
+    - name: Package (macOS)
+      if: runner.os == 'macOS'
+      run: ${{ matrix.package_cmd }}
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact_name }}
-        path: ${{ matrix.artifact_path }}
+        path: ${{ matrix.artifact_name }}${{ matrix.package_ext }}
 
   release:
     needs: build
@@ -115,7 +135,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            JRFirstGame-Windows/*.{exe,dll}
-            JRFirstGame-Linux/JRFirstGame
-            JRFirstGame-macOS-arm64/JRFirstGame.app/**
+            */JRFirstGame-*.zip
+            */JRFirstGame-*.tar.gz
           generate_release_notes: true

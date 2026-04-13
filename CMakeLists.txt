@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
 project(JRFirstGame VERSION 1.0.0 LANGUAGES CXX C)
 
-# =============================================================================
-# MSVC 静态链接运行时库（避免依赖 vcruntime140.dll）
-# =============================================================================
-if(MSVC)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-endif()
+# # =============================================================================
+# # MSVC 静态链接运行时库（避免依赖 vcruntime140.dll）
+# # =============================================================================
+# if(MSVC)
+#     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+# endif()
 
 # 构建选项
 option(EMBED_RESOURCES "将字体嵌入到可执行文件中" ON)
@@ -304,5 +304,14 @@ if(APPLE AND DEFINED SFML_LIB_DIR)
     set_target_properties(JRFirstGame PROPERTIES
         INSTALL_RPATH "@executable_path/../Frameworks"
         BUILD_WITH_INSTALL_RPATH TRUE
+    )
+endif()
+# 复制字体许可证文件到输出目录
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/OFL.txt")
+    add_custom_command(TARGET JRFirstGame POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/OFL.txt"
+            "$<TARGET_FILE_DIR:JRFirstGame>"
+        COMMENT "复制 OFL.txt 许可证文件"
     )
 endif()

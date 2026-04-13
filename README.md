@@ -13,7 +13,10 @@
 
 ## 🙏 字体致谢
 
-本游戏使用的免费商用字体为 **[Smiley Sans 得意黑](https://github.com/atelier-anchor/smiley-sans)**，由 **Atelier Anchor** 设计并发布。  
+本游戏使用的免费商用字体为 **[Smiley Sans 得意黑](https://github.com/atelier-anchor/smiley-sans)**，由 **Atelier Anchor** 发布。 
+版权 © 2022–2024 atelierAnchor，保留字体名称 “Smiley” 和 “得意黑”。
+该字体采用 SIL Open Font License 1.1 授权，许可证全文见项目根目录下的
+[OFL.txt](./OFL.txt) 或访问 https://scripts.sil.org/OFL。
 感谢设计师的慷慨分享，让这个简陋的项目在视觉上能稍微友好一点。
 
 ## 🚀 直接下载游玩

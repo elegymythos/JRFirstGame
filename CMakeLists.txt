@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.15)
 project(JRFirstGame VERSION 1.0.0 LANGUAGES CXX C)
 
+# =============================================================================
+# MSVC 静态链接运行时库（避免依赖 vcruntime140.dll）
+# =============================================================================
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
 # 构建选项
 option(EMBED_RESOURCES "将字体嵌入到可执行文件中" ON)
 
@@ -245,78 +252,50 @@ message(STATUS "======================================")
 message(STATUS "")
 
 # =============================================================================
-# 打包依赖库，实现独立运行
+# 复制 SFML 动态库到输出目录（实现独立运行）
 # =============================================================================
 
-# ----- Windows：复制 DLL 到输出目录 -----
-if(WIN32 AND TARGET SFML::Graphics)
+# Windows：复制 DLL
+if(WIN32 AND DEFINED SFML_BIN_DIR)
+    file(GLOB SFML_DLLS "${SFML_BIN_DIR}/*.dll")
     add_custom_command(TARGET JRFirstGame POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Graphics>"
+            ${SFML_DLLS}
             "$<TARGET_FILE_DIR:JRFirstGame>"
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Window>"
+            "${SFML_BIN_DIR}/openal32.dll"
             "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::System>"
-            "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Network>"
-            "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMENT "复制 SFML DLL 文件到输出目录"
+        COMMENT "复制 SFML 及 OpenAL DLL 文件到输出目录"
     )
 endif()
-
-# ----- Linux：复制 SO 并设置 RPATH -----
-if(UNIX AND NOT APPLE AND TARGET SFML::Graphics)
-    # 复制 SFML 动态库到可执行文件同目录
+# Linux：复制 SO 文件并设置 RPATH
+if(UNIX AND NOT APPLE AND DEFINED SFML_LIB_DIR)
+    file(GLOB SFML_SOS "${SFML_LIB_DIR}/libsfml-*.so*")
     add_custom_command(TARGET JRFirstGame POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Graphics>"
-            "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Window>"
-            "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::System>"
-            "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Network>"
+            ${SFML_SOS}
             "$<TARGET_FILE_DIR:JRFirstGame>"
         COMMENT "复制 SFML SO 文件到输出目录"
     )
-    # 设置 RPATH 为 $ORIGIN，使程序优先从自身所在目录加载动态库
     set_target_properties(JRFirstGame PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH TRUE
     )
 endif()
 
-# ----- macOS：复制 dylib 到 .app 包内并修改路径 -----
-if(APPLE AND TARGET SFML::Graphics)
-    # 确保 .app 包内有 Frameworks 目录
+# macOS：复制 dylib 到 .app 包内
+if(APPLE AND DEFINED SFML_LIB_DIR)
     set(APP_FRAMEWORKS_DIR "$<TARGET_BUNDLE_CONTENT_DIR:JRFirstGame>/Frameworks")
+    file(GLOB SFML_DYLIBS "${SFML_LIB_DIR}/libsfml-*.dylib")
     add_custom_command(TARGET JRFirstGame POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory "${APP_FRAMEWORKS_DIR}"
-        # 复制 SFML 动态库
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Graphics>"
-            "${APP_FRAMEWORKS_DIR}"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Window>"
-            "${APP_FRAMEWORKS_DIR}"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::System>"
-            "${APP_FRAMEWORKS_DIR}"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:SFML::Network>"
+            ${SFML_DYLIBS}
             "${APP_FRAMEWORKS_DIR}"
         COMMENT "复制 SFML dylib 文件到 .app 包内"
     )
-    # 修改可执行文件的 rpath，使其能在包内找到库
     set_target_properties(JRFirstGame PROPERTIES
         INSTALL_RPATH "@executable_path/../Frameworks"
         BUILD_WITH_INSTALL_RPATH TRUE
     )
-    # 可选：修改库的 install_name 为相对路径（通常 SFML 库的 install_name 已经是 @rpath/libxxx.dylib，无需额外处理）
 endif()

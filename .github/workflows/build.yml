@@ -58,25 +58,46 @@ jobs:
         brew install freetype
 
     # ---------- 下载并解压 SFML 预编译包 ----------
+    # ---------- Windows ----------
     - name: Download SFML (Windows)
       if: runner.os == 'Windows'
       shell: pwsh
       run: |
         Invoke-WebRequest -Uri "${{ matrix.sfml_url }}" -OutFile sfml.zip
         Expand-Archive -Path sfml.zip -DestinationPath .
-        echo "SFML_DIR=$pwd\${{ matrix.sfml_dir }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        $sfmlPath = "$pwd\${{ matrix.sfml_dir }}"
+        echo "SFML_DIR=$sfmlPath/lib/cmake/SFML" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        echo "SFML_BIN_DIR=$sfmlPath/bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-    - name: Download SFML (Linux/macOS)
-      if: runner.os != 'Windows'
+    # ---------- Linux ----------
+    - name: Download SFML (Linux)
+      if: runner.os == 'Linux'
       run: |
         curl -L "${{ matrix.sfml_url }}" -o sfml.tar.gz
         tar -xzf sfml.tar.gz
-        echo "SFML_DIR=$(pwd)/${{ matrix.sfml_dir }}" >> $GITHUB_ENV
+        sfmlPath="$(pwd)/${{ matrix.sfml_dir }}"
+        echo "SFML_DIR=$sfmlPath/lib/cmake/SFML" >> $GITHUB_ENV
+        echo "SFML_LIB_DIR=$sfmlPath/lib" >> $GITHUB_ENV
+
+    # ---------- macOS ----------
+    - name: Download SFML (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        curl -L "${{ matrix.sfml_url }}" -o sfml.tar.gz
+        tar -xzf sfml.tar.gz
+        sfmlPath="$(pwd)/${{ matrix.sfml_dir }}"
+        echo "SFML_DIR=$sfmlPath/lib/cmake/SFML" >> $GITHUB_ENV
+        echo "SFML_LIB_DIR=$sfmlPath/lib" >> $GITHUB_ENV
 
     # ---------- 配置 CMake ----------
-    - name: Configure CMake (Windows)
+        - name: Configure CMake (Windows)
       if: runner.os == 'Windows'
-      run: cmake -B build -G "${{ matrix.cmake_generator }}" -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON -DSFML_DIR="${{ env.SFML_DIR }}/lib/cmake/SFML"
+      run: |
+        cmake -B build -G "${{ matrix.cmake_generator }}" `
+              -DCMAKE_BUILD_TYPE=Release `
+              -DEMBED_RESOURCES=ON `
+              -DSFML_DIR="${{ env.SFML_DIR }}" `
+              -DSFML_BIN_DIR="${{ env.SFML_BIN_DIR }}"
 
     - name: Configure CMake (Linux/macOS)
       if: runner.os != 'Windows'
@@ -84,7 +105,8 @@ jobs:
         cmake -B build -G "${{ matrix.cmake_generator }}" \
               -DCMAKE_BUILD_TYPE=Release \
               -DEMBED_RESOURCES=ON \
-              -DSFML_DIR="${{ env.SFML_DIR }}/lib/cmake/SFML"
+              -DSFML_DIR="${{ env.SFML_DIR }}" \
+              -DSFML_LIB_DIR="${{ env.SFML_LIB_DIR }}"
     # ---------- 构建 ----------
     - name: Build
       run: cmake --build build --config Release

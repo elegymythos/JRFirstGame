@@ -18,36 +18,48 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # ---------- Linux 依赖 ----------
-    - name: Install Linux Dependencies
+    # ---------- Linux 系统依赖（X11、OpenGL 等）----------
+    - name: Install Linux System Dependencies
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libsfml-dev libxrandr-dev libxcursor-dev libxi-dev
+        sudo apt-get install -y libxrandr-dev libxcursor-dev libxi-dev libgl1-mesa-dev
 
-    # ---------- macOS 依赖 ----------
+    # ---------- macOS 依赖（Homebrew 提供 SFML 3.0）----------
     - name: Install macOS Dependencies
       if: runner.os == 'macOS'
-      run: |
-        brew install sfml
+      run: brew install sfml
 
-    # ---------- Windows 依赖 ----------
-    - name: Download SFML for Windows (MinGW)
+    # ---------- Windows 依赖（vcpkg）----------
+    - name: Setup vcpkg (Windows)
       if: runner.os == 'Windows'
-      run: |
-        curl -L -o sfml.zip https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Windows.MinGW.x64.zip
-        echo "SFML_DIR=C:\sfml\SFML-3.0.0" >> $env:GITHUB_ENV
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgJsonGlob: 'vcpkg.json'
+
+    # ---------- Linux 依赖（vcpkg 安装 SFML 3.0）----------
+    - name: Setup vcpkg (Linux)
+      if: runner.os == 'Linux'
+      uses: lukka/run-vcpkg@v11
+      with:
+        vcpkgJsonGlob: 'vcpkg.json'
 
     # ---------- 配置 CMake ----------
-    - name: Configure CMake (Linux/macOS)
-      if: runner.os != 'Windows'
-      run: |
-        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON
+    - name: Configure CMake (macOS)
+      if: runner.os == 'macOS'
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON
 
     - name: Configure CMake (Windows)
       if: runner.os == 'Windows'
       run: |
-        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON -DSFML_DIR="$env:SFML_DIR\lib\cmake\SFML"
+        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON `
+              -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+
+    - name: Configure CMake (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Release -DEMBED_RESOURCES=ON \
+              -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
     # ---------- 构建 ----------
     - name: Build

@@ -1,3 +1,4 @@
+#include <cstdint>
 #include "Network.hpp"
 
 NetworkManager::NetworkManager() : role(None) {}

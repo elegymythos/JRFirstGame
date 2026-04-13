@@ -4,7 +4,7 @@
 #include <set>
 #include <optional>
 #include <utility>
-
+#include <cstdint>
 /**
  * @enum NetMsgType
  * @brief 网络消息类型枚举

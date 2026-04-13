@@ -1,13 +1,3 @@
-name: Build and Release
-
-on:
-  push:
-    branches: [ "main", "master" ]
-    tags:
-      - 'v*'
-  pull_request:
-    branches: [ "main", "master" ]
-
 jobs:
   build:
     name: ${{ matrix.os }}
@@ -23,10 +13,9 @@ jobs:
             artifact_name: JRFirstGame-Windows
             artifact_path: build/Release/
             package_ext: .zip
+            
             package_cmd: |
-              cd build/Release
-              7z a ../../${{ matrix.artifact_name }}.zip *
-              cd ../..
+              Compress-Archive -Path build/Release/* -DestinationPath ${{ matrix.artifact_name }}.zip -Force
 
           - os: ubuntu-latest
             sfml_url: https://github.com/SFML/SFML/releases/download/3.0.2/SFML-3.0.2-Linux.GCC.tar.gz
@@ -35,10 +24,11 @@ jobs:
             artifact_name: JRFirstGame-Linux
             artifact_path: build/JRFirstGame
             package_ext: .tar.gz
+            
             package_cmd: |
               mkdir -p package
               cp build/JRFirstGame package/
-              cp ${{ env.SFML_LIB_DIR }}/libsfml-*.so* package/ || true
+              cp $SFML_LIB_DIR/libsfml-*.so* package/ || true
               tar -czf ${{ matrix.artifact_name }}.tar.gz -C package .
 
           - os: macos-latest

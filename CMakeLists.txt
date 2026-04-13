@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
 project(JRFirstGame VERSION 1.0.0 LANGUAGES CXX C)
 
-# # =============================================================================
-# # MSVC 静态链接运行时库（避免依赖 vcruntime140.dll）
-# # =============================================================================
-# if(MSVC)
-#     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-# endif()
+# =============================================================================
+# MSVC 静态链接运行时库（避免依赖 vcruntime140.dll）
+# =============================================================================
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 # 构建选项
 option(EMBED_RESOURCES "将字体嵌入到可执行文件中" ON)

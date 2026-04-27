@@ -127,10 +127,11 @@ void MapSystem::drawBackground(sf::RenderWindow& window) const {
     int endCol = static_cast<int>(std::ceil(right / REGION_W));
     for (int c = startCol; c <= endCol; ++c) {
         float x = c * REGION_W;
-        sf::Vertex line[] = {
-            sf::Vertex{.position = sf::Vector2f(x, top), .color = gridColor},
-            sf::Vertex{.position = sf::Vector2f(x, bottom), .color = gridColor}
-        };
+        sf::Vertex line[2];
+        line[0].position = sf::Vector2f(x, top);
+        line[0].color = gridColor;
+        line[1].position = sf::Vector2f(x, bottom);
+        line[1].color = gridColor;
         window.draw(line, 2, sf::PrimitiveType::Lines);
     }
 
@@ -139,10 +140,11 @@ void MapSystem::drawBackground(sf::RenderWindow& window) const {
     int endRow = static_cast<int>(std::ceil(bottom / REGION_H));
     for (int r = startRow; r <= endRow; ++r) {
         float y = r * REGION_H;
-        sf::Vertex line[] = {
-            sf::Vertex{.position = sf::Vector2f(left, y), .color = gridColor},
-            sf::Vertex{.position = sf::Vector2f(right, y), .color = gridColor}
-        };
+        sf::Vertex line[2];
+        line[0].position = sf::Vector2f(left, y);
+        line[0].color = gridColor;
+        line[1].position = sf::Vector2f(right, y);
+        line[1].color = gridColor;
         window.draw(line, 2, sf::PrimitiveType::Lines);
     }
 }

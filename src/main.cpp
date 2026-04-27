@@ -12,6 +12,7 @@
 #include "Database.hpp"
 #include "Network.hpp"
 #include "UI.hpp"
+#include "I18n.hpp"
 
 #ifdef EMBEDDED_FONT
     #include "embedded_font.hpp"
@@ -19,7 +20,7 @@
 
 int main() {
     // 创建窗口
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "JRFirstGame");
+    sf::RenderWindow window(sf::VideoMode({1280, 720}), "JRFirstGame");
     window.setFramerateLimit(60);
 
     // 加载字体
@@ -62,6 +63,7 @@ int main() {
     Database db;
     NetworkManager network;
     std::string currentUsername;
+    int selectedCharacterSlot = 0;  // 选中的角色槽位
     std::unique_ptr<View> currentView;
     std::string pendingView = "";
     bool welcomeShown = false;
@@ -74,18 +76,42 @@ int main() {
     // 初始视图：主菜单
     changeView("MENU");
 
+    // 记录当前视图名称，用于语言切换时刷新
+    std::string currentViewName = "MENU";
+    bool needRefresh = false;
+
     // 主循环
     while (window.isOpen()) {
         // 处理事件
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
                 window.close();
-            if (currentView)
+            if (currentView) {
                 currentView->handleEvent(*event, window);
+                // 检查语言是否切换（通过按键L或按钮点击）
+                if (const auto* kp = event->getIf<sf::Event::KeyPressed>()) {
+                    if (kp->code == sf::Keyboard::Key::L) {
+                        I18n::instance().toggleLanguage();
+                        needRefresh = true;
+                    }
+                }
+                // 检查视图是否标记需要刷新
+                if (currentView->needsRefresh()) {
+                    needRefresh = true;
+                    currentView->clearRefreshFlag();
+                }
+            }
+        }
+
+        // 语言切换后刷新当前视图
+        if (needRefresh && !currentViewName.empty()) {
+            changeView(currentViewName);
+            needRefresh = false;
         }
 
         // 切换视图
         if (!pendingView.empty()) {
+            currentViewName = pendingView;  // 记录当前视图名称
             if (pendingView == "MENU")
                 currentView = std::make_unique<MainMenuView>(font, changeView);
             else if (pendingView == "LOGIN")
@@ -93,7 +119,11 @@ int main() {
             else if (pendingView == "SIGNUP")
                 currentView = std::make_unique<SignUpView>(font, changeView, db);
             else if (pendingView == "SELECT_LEVEL")
-                currentView = std::make_unique<LevelSelectView>(font, changeView, !welcomeShown);
+                currentView = std::make_unique<LevelSelectView>(font, changeView, !welcomeShown, db.hasCharacter(currentUsername));
+            else if (pendingView == "CHAR_CREATE")
+                currentView = std::make_unique<CharacterCreateView>(font, changeView, currentUsername, db);
+            else if (pendingView == "CHAR_SELECT")
+                currentView = std::make_unique<CharacterSelectView>(font, changeView, currentUsername, db);
             else if (pendingView == "LEVEL_GAME")
                 currentView = std::make_unique<ActualGameView>(font, changeView, currentUsername, db);
             else if (pendingView == "RANKINGS")

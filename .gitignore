@@ -4,6 +4,7 @@ build/
 *.obj
 *.exe
 *.app
+*.plist
 
 # CMake 生成文件
 CMakeCache.txt

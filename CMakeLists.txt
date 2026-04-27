@@ -15,6 +15,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# UTF-8 support for string literals
+if(MSVC)
+    add_compile_options(/utf-8)
+else()
+    add_compile_options(-finput-charset=UTF-8 -fexec-charset=UTF-8)
+endif()
+
 # =============================================================================
 # 平台相关的静态链接配置
 # =============================================================================
@@ -141,6 +148,9 @@ set(SOURCES
     src/Database.cpp
     src/Network.cpp
     src/GameLogic.cpp
+    src/WeaponList.cpp
+    src/MapSystem.cpp
+    src/I18n.cpp
     src/UI.cpp
     src/main.cpp
 )
@@ -150,6 +160,9 @@ set(HEADERS
     src/Database.hpp
     src/Network.hpp
     src/GameLogic.hpp
+    src/WeaponList.hpp
+    src/MapSystem.hpp
+    src/I18n.hpp
     src/UI.hpp
     ${EMBED_HEADER}
 )

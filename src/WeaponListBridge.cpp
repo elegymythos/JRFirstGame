@@ -129,14 +129,14 @@ int WeaponListBridge::getCount() const {
 /* ======================== 默认武器初始化 ======================== */
 
 void WeaponListBridge::initDefaultWeapons() {
-    /* 铁剑 - 近战/中等伤害/中等范围/中等速度 */
-    addWeapon(WeaponData{"Iron Sword", WEAPON_SWORD, 15, 80.0f, 1.5f, false});
+    /* 铁剑 - 近战/中等伤害/中等范围/快速度 */
+    addWeapon(WeaponData{"Iron Sword", WEAPON_SWORD, 15, 80.0f, 2.5f, false});
 
     /* 火焰法器 - 远程/魔法伤害/远范围/慢速度 */
     addWeapon(WeaponData{"Flame Artifact", WEAPON_ARTIFACT, 20, 300.0f, 0.8f, true});
 
-    /* 暗影刺刀 - 近战/低伤害/短范围/快速度 */
-    addWeapon(WeaponData{"Shadow Dagger", WEAPON_DAGGER, 8, 50.0f, 3.0f, false});
+    /* 暗影刺刀 - 近战/低伤害/短范围/极快速度 */
+    addWeapon(WeaponData{"Shadow Dagger", WEAPON_DAGGER, 8, 50.0f, 4.0f, false});
 }
 
 /* ======================== 辅助函数 ======================== */

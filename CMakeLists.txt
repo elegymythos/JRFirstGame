@@ -148,10 +148,18 @@ set(SOURCES
     src/Database.cpp
     src/Network.cpp
     src/GameLogic.cpp
-    src/WeaponList.cpp
+    src/WeaponList.c
+    src/WeaponListBridge.cpp
     src/MapSystem.cpp
     src/I18n.cpp
-    src/UI.cpp
+    src/UIWidgets.cpp
+    src/ViewBase.cpp
+    src/AuthView.cpp
+    src/MenuView.cpp
+    src/CharacterView.cpp
+    src/GameView.cpp
+    src/RankingsView.cpp
+    src/OnlineView.cpp
     src/main.cpp
 )
 
@@ -160,10 +168,18 @@ set(HEADERS
     src/Database.hpp
     src/Network.hpp
     src/GameLogic.hpp
-    src/WeaponList.hpp
+    src/WeaponList.h
+    src/WeaponListBridge.hpp
     src/MapSystem.hpp
     src/I18n.hpp
-    src/UI.hpp
+    src/UIWidgets.hpp
+    src/ViewBase.hpp
+    src/AuthView.hpp
+    src/MenuView.hpp
+    src/CharacterView.hpp
+    src/GameView.hpp
+    src/RankingsView.hpp
+    src/OnlineView.hpp
     ${EMBED_HEADER}
 )
 

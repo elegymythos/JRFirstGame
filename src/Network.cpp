@@ -53,6 +53,7 @@ NetworkManager::receive(sf::Packet& outPacket) {
     if (socket.receive(outPacket, fromIp, fromPort) == sf::Socket::Status::Done && fromIp.has_value()) {
         uint8_t type;
         outPacket >> type;
+        if (type > static_cast<uint8_t>(NetMsgType::Disconnect)) return std::nullopt;
         return std::make_pair(static_cast<NetMsgType>(type), std::make_pair(*fromIp, fromPort));
     }
     return std::nullopt;

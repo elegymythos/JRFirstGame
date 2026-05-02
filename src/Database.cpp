@@ -111,8 +111,11 @@ std::optional<std::pair<std::string, std::string>> Database::getCredentials(cons
         return std::nullopt;
     sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_STATIC);
     if (sqlite3_step(stmt) == SQLITE_ROW) {
-        std::string salt = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-        std::string hash = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        const unsigned char* saltText = sqlite3_column_text(stmt, 0);
+        const unsigned char* hashText = sqlite3_column_text(stmt, 1);
+        if (!saltText || !hashText) { sqlite3_finalize(stmt); return std::nullopt; }
+        std::string salt = reinterpret_cast<const char*>(saltText);
+        std::string hash = reinterpret_cast<const char*>(hashText);
         sqlite3_finalize(stmt);
         return std::make_pair(salt, hash);
     }
@@ -170,7 +173,7 @@ void Database::saveCharacter(const CharacterData& data) {
     sqlite3_bind_int(stmt, 5, data.experience);
     sqlite3_bind_int(stmt, 6, data.score);
     sqlite3_bind_double(stmt, 7, data.gameTime);
-    sqlite3_bind_int(stmt, 8, data.victoryShown ? 1 : 0);
+    sqlite3_bind_int(stmt, 8, data.victoryStage);
     sqlite3_bind_int(stmt, 9, data.attributes.strength);
     sqlite3_bind_int(stmt, 10, data.attributes.agility);
     sqlite3_bind_int(stmt, 11, data.attributes.magic);
@@ -201,7 +204,7 @@ std::optional<CharacterData> Database::loadCharacter(const std::string& username
         data.experience = sqlite3_column_int(stmt, 2);
         data.score = sqlite3_column_int(stmt, 3);
         data.gameTime = static_cast<float>(sqlite3_column_double(stmt, 4));
-        data.victoryShown = sqlite3_column_int(stmt, 5) != 0;
+        data.victoryStage = sqlite3_column_int(stmt, 5);
         data.attributes.strength = sqlite3_column_int(stmt, 6);
         data.attributes.agility = sqlite3_column_int(stmt, 7);
         data.attributes.magic = sqlite3_column_int(stmt, 8);
@@ -235,7 +238,7 @@ std::vector<CharacterData> Database::loadAllCharacters(const std::string& userna
         data.experience = sqlite3_column_int(stmt, 3);
         data.score = sqlite3_column_int(stmt, 4);
         data.gameTime = static_cast<float>(sqlite3_column_double(stmt, 5));
-        data.victoryShown = sqlite3_column_int(stmt, 6) != 0;
+        data.victoryStage = sqlite3_column_int(stmt, 6);
         data.attributes.strength = sqlite3_column_int(stmt, 7);
         data.attributes.agility = sqlite3_column_int(stmt, 8);
         data.attributes.magic = sqlite3_column_int(stmt, 9);
@@ -269,9 +272,7 @@ void Database::saveRanking(const std::string& username, int level, int score) {
         INSERT INTO rankings (username, level, score) VALUES (?, ?, ?)
         ON CONFLICT(username) DO UPDATE SET
             level = MAX(level, excluded.level),
-            score = CASE WHEN excluded.level > level THEN excluded.score
-                         WHEN excluded.level = level THEN MAX(score, excluded.score)
-                         ELSE score END;
+            score = MAX(score, excluded.score);
     )";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK)
         return;
@@ -291,7 +292,9 @@ std::vector<RankRecord> Database::loadRankings() {
         return records;
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         RankRecord r;
-        r.username = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        const unsigned char* nameText = sqlite3_column_text(stmt, 0);
+        if (!nameText) continue;
+        r.username = reinterpret_cast<const char*>(nameText);
         r.level = sqlite3_column_int(stmt, 1);
         r.score = sqlite3_column_int(stmt, 2);
         records.push_back(r);

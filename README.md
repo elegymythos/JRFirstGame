@@ -1,61 +1,102 @@
-# JRFirstGame - 一个不成熟的 小游戏
+# JRFirstGame
 
-![Build Status](https://github.com/elegymythos/JRFirstGame/actions/workflows/build.yml/badge.svg)
+基于 C++17 + SFML 3.x + SQLite3 的 RPG 闯关游戏，支持单机闯关与双人联机合作。
 
-## 🎮 关于本项目
+## 功能
 
-这是一个**大一下学期**学生出于好奇和练习目的制作的 RPG 游戏启动器 Demo。项目实现了基础的登录/注册、单机闯关、联机对战和排行榜功能，但各方面都非常粗糙。
+- 用户系统：注册/登录，加盐哈希密码存储
+- 多角色：每用户最多3个角色槽位，支持创建/选择/删除
+- 三种职业：战士（力量加成/铁剑）、法师（魔法加成/火焰法器）、刺客（敏捷加成/暗影刺刀）
+- 六大属性：力量/敏捷/魔法/智力/生命/幸运，正态分布随机生成
+- 等级系统：经验值升级，每级全属性+2
+- 无限地图：基于区域网格，越远敌人越强
+- 四种敌人：史莱姆、骷髅刀斧手、骷髅弓箭手、巨人，各有不同AI
+- 武器系统：C语言单链表 + C++桥接层，三种武器
+- 战斗系统：扇形近战/远程投射物，刀光动画，暴击机制
+- 翻滚系统：Shift键翻滚，翻滚期间无敌
+- 掉落物：击杀敌人概率掉落血瓶和属性提升道具
+- 分数加成：每50分增加10%全属性加成，上限200%
+- 阶段胜利：分数达到阈值时强化角色，回满血
+- 暂停/存档：Esc暂停，P键中途存档
+- 双人闯关：UDP联机合作，主机-客户端架构
+- 排行榜：按等级和分数排名
+- 国际化：中/英双语切换（L键或右上角按钮）
 
-**特别声明**：
-- 本项目**大量使用了 AI 工具辅助编程**（代码生成、调试、构建脚本撰写等），因此**代码质量、架构设计均不具有参考价值**。
-- 仅作为个人学习 Git、CMake、GitHub Actions 跨平台构建的一次实验记录。
-- 如果您是同学或开发者，**请勿将此仓库视为标准实践范例**。
+## 技术栈
 
-## 🙏 字体致谢
+| 技术 | 用途 |
+|------|------|
+| C++17 | 核心语言 |
+| SFML 3.x | 图形/窗口/网络 |
+| SQLite3 | 数据存储（源码编译） |
+| CMake 3.15+ | 构建系统 |
+| GitHub Actions | 跨平台CI/CD |
 
-本游戏使用的免费商用字体为 **[Smiley Sans 得意黑](https://github.com/atelier-anchor/smiley-sans)**，由 **Atelier Anchor** 发布。 
-版权 © 2022–2024 atelierAnchor，保留字体名称 “Smiley” 和 “得意黑”。
-该字体采用 SIL Open Font License 1.1 授权，许可证全文见项目根目录下的
-[OFL.txt](./OFL.txt) 或访问 https://scripts.sil.org/OFL。
-感谢设计师的慷慨分享，让这个简陋的项目在视觉上能稍微友好一点。
+## 项目结构
 
-## 🚀 直接下载游玩
+```
+src/
+├── main.cpp              程序入口与主循环
+├── ViewBase.hpp/cpp      视图基类（语言切换按钮）
+├── UIWidgets.hpp/cpp     UI控件（Button/InputField/AttributePanel）
+├── AuthView.hpp/cpp      登录/注册视图
+├── MenuView.hpp/cpp      主菜单/模式选择视图
+├── CharacterView.hpp/cpp 角色创建/选择视图
+├── GameView.hpp/cpp      单机闯关游戏视图
+├── OnlineView.hpp/cpp    联机大厅/联机游戏视图
+├── RankingsView.hpp/cpp  排行榜视图
+├── GameLogic.hpp/cpp     游戏逻辑（属性/职业/等级/敌人/实体）
+├── MapSystem.hpp/cpp     无限地图区域与摄像机系统
+├── Network.hpp/cpp       UDP网络通信
+├── Database.hpp/cpp      SQLite数据库操作
+├── WeaponList.h/c        C语言武器链表（纯C实现）
+├── WeaponListBridge.hpp/cpp C++桥接层（RAII封装C链表）
+├── I18n.hpp/cpp          国际化系统（中/英翻译表）
+├── Utils.hpp/cpp         工具函数（盐值/哈希）
+└── embedded_font.hpp     嵌入字体数据（自动生成）
+```
 
-项目通过 GitHub Actions 自动构建了 Windows / Linux / macOS 的独立版本，无需安装 SFML 或 SQLite，下载解压即可运行。
+## 下载
 
-[**👉 点击前往 Releases 下载最新版本**](https://github.com/elegymythos/JRFirstGame/releases)
+[Releases 页面](https://github.com/elegymythos/JRFirstGame/releases)
 
 | 平台 | 说明 |
 |------|------|
-| Windows | 解压后双击 `JRFirstGame.exe`（同目录下需保留 `.dll` 文件） |
-| Linux | 解压后运行 `./JRFirstGame` |
-| macOS | 解压后双击 `JRFirstGame.app`（若提示损坏，请在终端执行 `xattr -cr JRFirstGame.app`） |
+| Windows | 解压后双击 JRFirstGame.exe（保留同目录 .dll 文件） |
+| Linux | 解压后运行 ./JRFirstGame |
+| macOS | 解压后双击 JRFirstGame.app（若提示损坏：xattr -cr JRFirstGame.app） |
 
-## 🛠️ 技术栈
+## 从源码构建
 
-- **语言**：C++17
-- **图形/网络**：[SFML 3.0.2](https://www.sfml-dev.org/)
-- **数据存储**：[SQLite3](https://www.sqlite.org/)
-- **构建系统**：CMake 3.15+
-- **自动化**：GitHub Actions（全平台静态打包）
+```bash
+# 安装 SFML 3.x
+# Linux:  sudo apt install libsfml-all-dev
+# macOS:  brew install sfml
+# Windows: 从 https://www.sfml-dev.org/ 下载
 
-## 📁 项目结构
+cmake -B build
+cmake --build build -j4
+./build/JRFirstGame
+```
 
-项目刻意保持了较少的文件数量以便于手动修改：
+## 操作
 
-## ⚠️ 已知问题与免责声明
+| 按键 | 功能 |
+|------|------|
+| WASD | 移动 |
+| Space / 鼠标左键 | 攻击 |
+| Shift | 翻滚（无敌） |
+| Tab | 属性面板 |
+| Esc | 暂停 |
+| P | 存档 |
+| L | 切换语言 |
 
-- **网络联机**：仅实现了最基础的 UDP 双人对战，无断线重连、无延迟补偿，仅限局域网测试。
-- **安全性**：密码哈希使用了简单的 djb2 算法，**绝不可用于生产环境**。
-- **代码质量**：存在大量硬编码、紧耦合、全局状态以及不规范的 C++ 写法。
-- **跨平台**：macOS 版本未经过深度测试，可能存在路径或权限问题。
+## 字体
 
-## 📝 致未来的自己
+使用 [Smiley Sans 得意黑](https://github.com/atelier-anchor/smiley-sans) 字体，SIL Open Font License 1.1 授权。
 
-这是我大一结束时的作业级项目，它见证了我从“只会写单文件 `main.cpp`”到“能用 CMake 和 CI 把程序分发给朋友玩”的过程。虽然绝大部分代码都由 AI 完成，但过程中的折磨与摸索却是真实的。
+## 已知限制
 
-如果这个仓库不小心被搜索引擎收录，请记住：**它是一个反面教材**。
-
----
-
-*Made with ❤️ by a confused freshman, with massive help from AI.*
+- 联机模式仅支持局域网UDP，无!断线重连和延迟补偿
+- 密码哈希使用SHA-256算法，不可用于生产环境
+- macOS版本未经深度测试

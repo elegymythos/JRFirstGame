@@ -1,11 +1,12 @@
 #include "GameLogic.hpp"
 #include "I18n.hpp"
+#include <limits>
 
 /* ======================== 辅助函数 ======================== */
 
 sf::Vector2f normalize(const sf::Vector2f& v) {
     float len = std::sqrt(v.x*v.x + v.y*v.y);
-    if (len == 0) return sf::Vector2f(0,0);
+    if (len < 1e-6f) return sf::Vector2f(0,0);
     return v / len;
 }
 
@@ -71,17 +72,17 @@ ClassConfig getClassConfig(CharacterClass cls) {
         case CharacterClass::Warrior:
             return {CharacterClass::Warrior,
                     Attributes{5, 0, 0, 0, 0, 0},  // 力量+5
-                    WeaponType::Sword, "Warrior"};
+                    WEAPON_SWORD, "Warrior"};
         case CharacterClass::Mage:
             return {CharacterClass::Mage,
                     Attributes{0, 0, 5, 0, 0, 0},  // 魔法+5
-                    WeaponType::Artifact, "Mage"};
+                    WEAPON_ARTIFACT, "Mage"};
         case CharacterClass::Assassin:
             return {CharacterClass::Assassin,
                     Attributes{0, 5, 0, 0, 0, 0},  // 敏捷+5
-                    WeaponType::Dagger, "Assassin"};
+                    WEAPON_DAGGER, "Assassin"};
     }
-    return {CharacterClass::Warrior, {}, WeaponType::Sword, "Warrior"};
+    return {CharacterClass::Warrior, {}, WEAPON_SWORD, "Warrior"};
 }
 
 Attributes getTotalAttributes(const Attributes& base, const ClassConfig& cls, const Attributes& levelBonus) {
@@ -96,10 +97,11 @@ void LevelData::gainExp(int amount) {
 }
 
 bool LevelData::checkLevelUp() {
-    if (experience >= expToNextLevel) {
+    if (experience >= expToNextLevel && expToNextLevel > 0 && level < 999) {
         experience -= expToNextLevel;
         level++;
-        expToNextLevel = 100 * level;  // 线性增长
+        int nextExp = 100 * level;
+        expToNextLevel = (nextExp > 0) ? nextExp : std::numeric_limits<int>::max();
         return true;
     }
     return false;
@@ -115,15 +117,15 @@ Attributes LevelData::getLevelBonus() const {
 EnemyConfig getEnemyConfig(EnemyType type) {
     switch (type) {
         case EnemyType::Slime:
-            return {EnemyType::Slime, "Slime", 30, 5, 40.f, 30.f, 1.0f, false, 10};
+            return {EnemyType::Slime, "Slime", 40, 8, 50.f, 30.f, 0.8f, false, 15};
         case EnemyType::SkeletonWarrior:
-            return {EnemyType::SkeletonWarrior, "Sk.Warrior", 80, 15, 80.f, 50.f, 0.8f, false, 30};
+            return {EnemyType::SkeletonWarrior, "Sk.Warrior", 80, 15, 80.f, 50.f, 1.0f, false, 30};
         case EnemyType::SkeletonArcher:
-            return {EnemyType::SkeletonArcher, "Sk.Archer", 50, 12, 70.f, 250.f, 1.2f, true, 25};
+            return {EnemyType::SkeletonArcher, "Sk.Archer", 50, 12, 70.f, 250.f, 1.5f, true, 25};
         case EnemyType::Giant:
-            return {EnemyType::Giant, "Giant", 300, 40, 25.f, 60.f, 2.0f, false, 80};
+            return {EnemyType::Giant, "Giant", 200, 30, 25.f, 60.f, 2.5f, false, 60};
     }
-    return {EnemyType::Slime, "Slime", 30, 5, 40.f, 30.f, 1.0f, false, 10};
+    return {EnemyType::Slime, "Slime", 40, 8, 50.f, 30.f, 0.8f, false, 15};
 }
 
 /* ======================== 投射物系统 ======================== */
@@ -141,8 +143,61 @@ bool Projectile::isExpired() const {
 void Projectile::draw(sf::RenderWindow& window) const {
     sf::CircleShape shape(4.f);
     shape.setPosition(position - sf::Vector2f(4.f, 4.f));
-    shape.setFillColor(fromPlayer ? sf::Color::Yellow : sf::Color::Magenta);
+    shape.setFillColor(color);
     window.draw(shape);
+}
+
+/* ======================== 掉落物系统 ======================== */
+
+void DropItem::update(float dt) {
+    lifetime -= dt;
+    bobTimer += dt;
+}
+
+void DropItem::draw(sf::RenderWindow& window) const {
+    float bobOffset = std::sin(bobTimer * 3.f) * 3.f;  // 上下浮动
+    sf::Vector2f drawPos = position + sf::Vector2f(0, bobOffset);
+
+    sf::Color col = getColor();
+    // 外圈光晕
+    sf::CircleShape glow(12.f);
+    glow.setPosition(drawPos - sf::Vector2f(12.f, 12.f));
+    glow.setFillColor(sf::Color(col.r, col.g, col.b, 60));
+    window.draw(glow);
+    // 内圈
+    sf::CircleShape inner(8.f);
+    inner.setPosition(drawPos - sf::Vector2f(8.f, 8.f));
+    inner.setFillColor(col);
+    window.draw(inner);
+    // 中心高亮
+    sf::CircleShape center(3.f);
+    center.setPosition(drawPos - sf::Vector2f(3.f, 3.f));
+    center.setFillColor(sf::Color(255, 255, 255, 200));
+    window.draw(center);
+}
+
+sf::Color DropItem::getColor() const {
+    switch (type) {
+        case DropType::HealthPotion: return sf::Color(255, 50, 50);    // 红色
+        case DropType::StrBoost:     return sf::Color(255, 165, 0);    // 橙色
+        case DropType::AgiBoost:     return sf::Color(0, 200, 255);    // 青色
+        case DropType::MagBoost:     return sf::Color(180, 0, 255);    // 紫色
+        case DropType::VitBoost:     return sf::Color(0, 255, 100);    // 绿色
+        case DropType::RangeBoost:   return sf::Color(255, 255, 0);    // 黄色
+    }
+    return sf::Color::White;
+}
+
+const char* DropItem::getLabel() const {
+    switch (type) {
+        case DropType::HealthPotion: return "HP+";
+        case DropType::StrBoost:     return "STR+";
+        case DropType::AgiBoost:     return "AGI+";
+        case DropType::MagBoost:     return "MAG+";
+        case DropType::VitBoost:     return "VIT+";
+        case DropType::RangeBoost:   return "RNG+";
+    }
+    return "?";
 }
 
 /* ======================== RPGEntity ======================== */
@@ -174,32 +229,89 @@ Player::Player(sf::Vector2f pos) : RPGEntity(pos) {
     color = sf::Color::Cyan;
     radius = 18.f;
     classConfig = getClassConfig(CharacterClass::Warrior);
-    weaponManager.getList().initDefaults();
 }
 
 void Player::update(float dt) {
     if (attackCooldown > 0) attackCooldown -= dt;
+    if (rollCooldown > 0) rollCooldown -= dt;
+    updateRoll(dt);
+    updateSlash(dt);
     RPGEntity::update(dt);
 }
 
 bool Player::canAttack() const {
-    return attackCooldown <= 0;
+    return attackCooldown <= 0 && !isRolling;
 }
 
 void Player::resetAttackCooldown() {
     attackCooldown = attackCooldownMax;
 }
 
+bool Player::canRoll() const {
+    return rollCooldown <= 0 && !isRolling && !slashActive;
+}
+
+void Player::startRoll(const sf::Vector2f& dir) {
+    if (!canRoll()) return;
+    rollDirection = (dir != sf::Vector2f(0,0)) ? normalize(dir) : sf::Vector2f(1, 0);
+    isRolling = true;
+    isInvincible = true;
+    rollTimer = rollDuration;
+    rollCooldown = rollCooldownMax;
+}
+
+void Player::updateRoll(float dt) {
+    if (!isRolling) {
+        isInvincible = false;
+        return;
+    }
+    rollTimer -= dt;
+    velocity = rollDirection * rollSpeed;
+    if (rollTimer <= 0) {
+        isRolling = false;
+        isInvincible = false;
+        velocity = {0, 0};
+    }
+}
+
+void Player::startSlash(float angle) {
+    slashActive = true;
+    slashTimer = slashDuration;
+    slashAngle = angle;
+}
+
+void Player::updateSlash(float dt) {
+    if (!slashActive) return;
+    slashTimer -= dt;
+    if (slashTimer <= 0) {
+        slashActive = false;
+    }
+}
+
 bool Player::equipWeapon(const std::string& name) {
-    auto found = weaponManager.getList().find(name);
+    auto found = weaponList.findWeapon(name);
     if (!found) return false;
 
     // 校验职业匹配
     if (found->type != classConfig.allowedWeapon) return false;
 
-    weaponManager.equip(name);
-    equippedWeapon = weaponManager.getEquipped();
+    weaponList.equipWeapon(name);
+    equippedWeapon = weaponList.getEquipped();
     recalcCombatStats();
+
+    // 设置刀光颜色：统一橙色
+    switch (charClass) {
+        case CharacterClass::Warrior:
+            slashColor = sf::Color(255, 140, 0);    // 战士：橙色
+            break;
+        case CharacterClass::Mage:
+            slashColor = sf::Color(255, 100, 0);    // 法师：亮橙色
+            break;
+        case CharacterClass::Assassin:
+            slashColor = sf::Color(255, 160, 0);    // 刺客：金橙色
+            break;
+    }
+
     return true;
 }
 
@@ -208,46 +320,138 @@ void Player::recalcCombatStats() {
 
     if (equippedWeapon) {
         attackDamage = equippedWeapon->damage;
-        attackRange = equippedWeapon->range;
-        attackCooldownMax = 1.0f / equippedWeapon->attackSpeed;
+        attackRange = equippedWeapon->range + attackRangeBonus;
+        attackCooldownMax = (equippedWeapon->attackSpeed > 0.01f) ? (1.0f / equippedWeapon->attackSpeed) : 0.8f;
     } else {
         attackDamage = 5;       // 基础攻击
-        attackRange = 40.f;
+        attackRange = 40.f + attackRangeBonus;
         attackCooldownMax = 0.8f;
     }
 
-    // maxHealth 由 vitality 决定
-    maxHealth = 100 + finalAttr.vitality * 5;
+    // 阶段强化：攻速加成减少冷却时间
+    if (attackSpeedBonus > 0.f) {
+        attackCooldownMax = std::max(0.05f, attackCooldownMax / (1.0f + attackSpeedBonus));
+    }
+
+    // 阶段强化：战士攻击范围增大
+    if (charClass == CharacterClass::Warrior && victoryStageLevel > 0) {
+        attackRange += victoryStageLevel * 10.f;
+    }
+
+    // maxHealth 由 vitality 决定，分数加成也增加生命
+    maxHealth = 120 + finalAttr.vitality * 8;
+    // 阶段强化：生命值提升
+    if (victoryStageLevel > 0) {
+        maxHealth += victoryStageLevel * 30;
+    }
     if (health > maxHealth) health = maxHealth;
+
+    // 分数加成：速度随分数提升
+    float scoreMult = getScoreMultiplier();
+    speed = 150.f * scoreMult;
+    rollSpeed = 400.f * scoreMult;
+}
+
+void Player::applyStageBoost(int stageLevel) {
+    if (stageLevel <= victoryStageLevel) return;  // 不重复应用低等级
+    victoryStageLevel = stageLevel;
+
+    switch (charClass) {
+        case CharacterClass::Warrior:
+            // 战士：伤害大幅提升，攻击范围增大（在recalcCombatStats中处理）
+            damageBonus = stageLevel * 5.f;       // 每阶段+5伤害
+            attackSpeedBonus = stageLevel * 0.15f; // 每阶段+15%攻速
+            break;
+        case CharacterClass::Mage:
+            // 法师：投射物爆炸范围杀伤，伤害提升
+            damageBonus = stageLevel * 4.f;
+            projectileExplosionRadius = stageLevel * 30.f;  // 每阶段+30爆炸半径
+            attackSpeedBonus = stageLevel * 0.1f;            // 每阶段+10%攻速
+            break;
+        case CharacterClass::Assassin:
+            // 刺客：暴击概率和伤害提升，攻速大幅提升
+            damageBonus = stageLevel * 3.f;
+            critChance = std::min(0.8f, stageLevel * 0.12f);  // 每阶段+12%暴击率，上限80%
+            critMultiplier = 1.5f + stageLevel * 0.2f;         // 暴击倍率递增
+            attackSpeedBonus = stageLevel * 0.25f;              // 每阶段+25%攻速
+            break;
+    }
+
+    recalcCombatStats();
+    // 阶段强化后回满血
+    health = maxHealth;
+}
+
+float Player::getScoreMultiplier() const {
+    // 每50分增加10%加成，上限200%（使用浮点除法避免精度丢失）
+    return 1.0f + std::min(static_cast<float>(totalScore) / 50.f * 0.1f, 1.0f);
 }
 
 int Player::calculateDamage() const {
     int baseDmg = attackDamage;
     Attributes finalAttr = getFinalAttributes();
 
-    // 属性加成：剑→力量×0.5, 法器→魔法×0.5, 刺刀→敏捷×0.5
+    // 属性加成：剑→力量×0.8, 法器→魔法×0.8, 刺刀→敏捷×0.8
     float attrBonus = 0.f;
     if (equippedWeapon) {
         switch (equippedWeapon->type) {
-            case WeaponType::Sword:    attrBonus = finalAttr.strength * 0.5f; break;
-            case WeaponType::Artifact: attrBonus = finalAttr.magic * 0.5f; break;
-            case WeaponType::Dagger:   attrBonus = finalAttr.agility * 0.5f; break;
+            case WEAPON_SWORD:    attrBonus = finalAttr.strength * 0.8f; break;
+            case WEAPON_ARTIFACT: attrBonus = finalAttr.magic * 0.8f; break;
+            case WEAPON_DAGGER:   attrBonus = finalAttr.agility * 0.8f; break;
         }
     }
 
-    return baseDmg + static_cast<int>(attrBonus);
+    // 分数加成
+    float scoreMult = getScoreMultiplier();
+
+    // 阶段强化伤害加成
+    float totalDmg = (baseDmg + attrBonus + damageBonus) * scoreMult;
+
+    // 暴击判定（所有职业都有基础暴击率，刺客更高）
+    lastAttackWasCrit = false;
+    float effectiveCritChance = critChance;
+    if (effectiveCritChance <= 0.f) effectiveCritChance = 0.05f;  // 基础5%暴击率
+    {
+        static thread_local std::mt19937 critGen(std::random_device{}());
+        std::uniform_real_distribution<float> critDist(0.f, 1.f);
+        if (critDist(critGen) < effectiveCritChance) {
+            totalDmg *= critMultiplier;
+            lastAttackWasCrit = true;
+        }
+    }
+
+    return static_cast<int>(totalDmg);
 }
 
 Attributes Player::getFinalAttributes() const {
-    return getTotalAttributes(baseAttributes, classConfig, levelData.getLevelBonus());
+    Attributes base = getTotalAttributes(baseAttributes, classConfig, levelData.getLevelBonus());
+    // 分数加成：每50分给所有属性+1
+    int scoreBonus = std::min(totalScore / 50, 20);
+    Attributes scoreAttr{scoreBonus, scoreBonus, scoreBonus, scoreBonus, scoreBonus, scoreBonus};
+    return base + scoreAttr;
 }
 
 void Player::draw(sf::RenderWindow& window) const {
+    // 翻滚时半透明
+    sf::Color drawColor = color;
+    if (isRolling) drawColor.a = 128;
+
     // 圆形主体
     sf::CircleShape shape(radius);
     shape.setPosition(position - sf::Vector2f(radius, radius));
-    shape.setFillColor(color);
+    shape.setFillColor(drawColor);
     window.draw(shape);
+
+    // 翻滚时显示方向指示
+    if (isRolling) {
+        sf::RectangleShape arrow(sf::Vector2f(12.f, 4.f));
+        arrow.setFillColor(sf::Color::White);
+        arrow.setPosition(position);
+        float angle = std::atan2(rollDirection.y, rollDirection.x);
+        arrow.setRotation(sf::radians(angle));
+        arrow.setOrigin({0, 2});
+        window.draw(arrow);
+    }
 
     // 血条（上方）
     float barWidth = 50.f;
@@ -258,11 +462,83 @@ void Player::draw(sf::RenderWindow& window) const {
     bg.setFillColor(sf::Color::Red);
     bg.setPosition(sf::Vector2f(barX, barY));
     window.draw(bg);
-    float healthPercent = static_cast<float>(health) / maxHealth;
+    float healthPercent = (maxHealth > 0) ? static_cast<float>(health) / maxHealth : 0.f;
     sf::RectangleShape bar(sf::Vector2f(barWidth * healthPercent, barHeight));
     bar.setFillColor(sf::Color::Green);
     bar.setPosition(sf::Vector2f(barX, barY));
     window.draw(bar);
+}
+
+void Player::drawSlash(sf::RenderWindow& window) const {
+    if (!slashActive) return;
+
+    float progress = 1.0f - (slashTimer / slashDuration);  // 0→1 挥砍进度
+    float halfArc = 1.57f;  // 半弧（π/2 ≈ 90度，总弧180度）
+    float arcStart = slashAngle - halfArc;   // 起始角度
+    float arcEnd = slashAngle + halfArc;     // 结束角度
+
+    // 剑气拖尾特效：弧形扫过，拖尾渐隐
+    int segments = 24;
+    float arcLength = arcEnd - arcStart;
+    float segAngle = arcLength / segments;
+
+    // 当前剑尖角度（随进度扫过弧线）
+    float currentSwordAngle = arcStart + arcLength * progress;
+
+    for (int i = 0; i < segments; ++i) {
+        float segCenterAngle = arcStart + (i + 0.5f) * segAngle;
+
+        // 只绘制已经扫过的部分（拖尾）
+        if (segCenterAngle > currentSwordAngle) continue;
+
+        // 拖尾衰减：越远离剑尖越淡
+        float distFromTip = (currentSwordAngle - segCenterAngle) / arcLength;
+        float trailAlpha = std::max(0.f, 1.0f - distFromTip * 2.5f);  // 拖尾快速衰减
+        if (trailAlpha <= 0.f) continue;
+
+        // 剑尖处最亮，拖尾渐暗
+        float brightness = trailAlpha;
+
+        // 内外半径：剑气从角色边缘延伸到攻击范围
+        float innerR = radius + 3.f;
+        float outerR = radius + attackRange * (0.4f + 0.6f * brightness);
+
+        // 绘制梯形四边形（剑气宽度）
+        float halfWidth = segAngle * 0.5f;
+        sf::Vector2f p1 = position + sf::Vector2f(std::cos(segCenterAngle - halfWidth) * innerR,
+                                                    std::sin(segCenterAngle - halfWidth) * innerR);
+        sf::Vector2f p2 = position + sf::Vector2f(std::cos(segCenterAngle + halfWidth) * innerR,
+                                                    std::sin(segCenterAngle + halfWidth) * innerR);
+        sf::Vector2f p3 = position + sf::Vector2f(std::cos(segCenterAngle + halfWidth) * outerR,
+                                                    std::sin(segCenterAngle + halfWidth) * outerR);
+        sf::Vector2f p4 = position + sf::Vector2f(std::cos(segCenterAngle - halfWidth) * outerR,
+                                                    std::sin(segCenterAngle - halfWidth) * outerR);
+
+        std::uint8_t alphaOuter = static_cast<std::uint8_t>(brightness * 200);
+        std::uint8_t alphaInner = static_cast<std::uint8_t>(brightness * 255);
+        sf::Color colOuter(slashColor.r, slashColor.g, slashColor.b, alphaOuter);
+        sf::Color colInner(slashColor.r, slashColor.g, slashColor.b, alphaInner);
+
+        sf::Vertex quad[4] = {
+            {p1, colInner},
+            {p2, colInner},
+            {p3, colOuter},
+            {p4, colOuter}
+        };
+        window.draw(quad, 4, sf::PrimitiveType::TriangleStrip);
+    }
+
+    // 剑尖高亮光点
+    float tipR = radius + attackRange * 0.9f;
+    sf::Vector2f tipPos = position + sf::Vector2f(std::cos(currentSwordAngle) * tipR,
+                                                    std::sin(currentSwordAngle) * tipR);
+    float tipAlpha = std::min(1.0f, progress * 5.f) * std::min(1.0f, (1.0f - progress) * 5.f);
+    if (tipAlpha > 0.f) {
+        sf::CircleShape tip(4.f);
+        tip.setPosition(tipPos - sf::Vector2f(4.f, 4.f));
+        tip.setFillColor(sf::Color(255, 255, 255, static_cast<std::uint8_t>(tipAlpha * 220)));
+        window.draw(tip);
+    }
 }
 
 void Player::drawWithName(sf::RenderWindow& window, const sf::Font* font) const {
@@ -273,19 +549,19 @@ void Player::drawWithName(sf::RenderWindow& window, const sf::Font* font) const 
         sf::Color weaponColor;
         float weaponSize = 6.f;
         switch (equippedWeapon->type) {
-            case WeaponType::Sword:    weaponColor = sf::Color(200, 200, 200); break;  // 银白色-剑
-            case WeaponType::Artifact: weaponColor = sf::Color(255, 100, 0); break;     // 橙色-法器
-            case WeaponType::Dagger:   weaponColor = sf::Color(150, 0, 200); break;     // 紫色-刺刀
+            case WEAPON_SWORD:    weaponColor = sf::Color(200, 200, 200); break;  // 银白色-剑
+            case WEAPON_ARTIFACT: weaponColor = sf::Color(255, 100, 0); break;     // 橙色-法器
+            case WEAPON_DAGGER:   weaponColor = sf::Color(150, 0, 200); break;     // 紫色-刺刀
         }
         // 剑=长条, 法器=圆, 刺刀=短条
-        if (equippedWeapon->type == WeaponType::Artifact) {
+        if (equippedWeapon->type == WEAPON_ARTIFACT) {
             sf::CircleShape wIcon(weaponSize);
             wIcon.setFillColor(weaponColor);
             wIcon.setPosition(sf::Vector2f(position.x + radius + 2, position.y - weaponSize));
             window.draw(wIcon);
         } else {
-            float w = (equippedWeapon->type == WeaponType::Sword) ? 4.f : 3.f;
-            float h = (equippedWeapon->type == WeaponType::Sword) ? 14.f : 10.f;
+            float w = (equippedWeapon->type == WEAPON_SWORD) ? 4.f : 3.f;
+            float h = (equippedWeapon->type == WEAPON_SWORD) ? 14.f : 10.f;
             sf::RectangleShape wIcon(sf::Vector2f(w, h));
             wIcon.setFillColor(weaponColor);
             wIcon.setPosition(sf::Vector2f(position.x + radius + 2, position.y - h / 2));
@@ -339,11 +615,11 @@ Enemy::Enemy(EnemyType type, sf::Vector2f pos) : RPGEntity(pos), enemyType(type)
 }
 
 void Enemy::scaleStats(float scale) {
-    health = static_cast<int>(health * scale);
-    maxHealth = static_cast<int>(maxHealth * scale);
-    attackDamage = static_cast<int>(attackDamage * scale);
-    score = static_cast<int>(score * scale);
-    // Speed scales slightly (sqrt)
+    if (scale < 0.01f) scale = 0.01f;  // 防止零值/负值导致属性异常
+    health = std::max(1, static_cast<int>(health * scale));
+    maxHealth = std::max(1, static_cast<int>(maxHealth * scale));
+    attackDamage = std::max(1, static_cast<int>(attackDamage * scale));
+    score = std::max(1, static_cast<int>(score * scale));
     speed *= std::sqrt(scale);
 }
 
@@ -361,11 +637,13 @@ void Enemy::update(float dt) {
         case EnemyType::Slime:
             // 缓慢追踪
             if (dist > 0) velocity = normalize(dir) * speed;
+            else velocity = {0, 0};
             break;
 
         case EnemyType::SkeletonWarrior:
             // 追踪玩家
             if (dist > 0) velocity = normalize(dir) * speed;
+            else velocity = {0, 0};
             break;
 
         case EnemyType::SkeletonArcher:
@@ -382,6 +660,7 @@ void Enemy::update(float dt) {
         case EnemyType::Giant:
             // 缓慢追踪
             if (dist > 0) velocity = normalize(dir) * speed;
+            else velocity = {0, 0};
             break;
     }
 
@@ -415,7 +694,7 @@ void Enemy::draw(sf::RenderWindow& window) const {
     bg.setFillColor(sf::Color::Red);
     bg.setPosition(sf::Vector2f(barX, barY));
     window.draw(bg);
-    float healthPercent = static_cast<float>(health) / maxHealth;
+    float healthPercent = (maxHealth > 0) ? static_cast<float>(health) / maxHealth : 0.f;
     sf::RectangleShape bar(sf::Vector2f(barWidth * healthPercent, barHeight));
     bar.setFillColor(sf::Color::Green);
     bar.setPosition(sf::Vector2f(barX, barY));
@@ -432,16 +711,19 @@ void Enemy::drawWithName(sf::RenderWindow& window, const sf::Font* font) const {
         else if (name == "Sk.Archer") translatedName = I18n::instance().t("sk_archer");
         else if (name == "Giant") translatedName = I18n::instance().t("giant");
 
-        sf::Text nameText(*font, sf::String::fromUtf8(translatedName.begin(), translatedName.end()), 10);
-        // Use enemy's distinct color for the name (brighter version)
-        sf::Color nameColor = color;
-        nameText.setFillColor(sf::Color(
-            std::min(255, nameColor.r + 50),
-            std::min(255, nameColor.g + 50),
-            std::min(255, nameColor.b + 50)
-        ));
-        nameText.setPosition(sf::Vector2f(position.x - nameText.getLocalBounds().size.x / 2,
-                                          position.y + radius + 2));
+        sf::Text nameText(*font, sf::String::fromUtf8(translatedName.begin(), translatedName.end()), 13);
+        float textX = position.x - nameText.getLocalBounds().size.x / 2;
+        float textY = position.y + radius + 2;
+
+        // 黑色描边（4方向偏移）让名字更显眼
+        nameText.setFillColor(sf::Color::Black);
+        for (auto [dx, dy] : {std::pair{-1,0},{1,0},{0,-1},{0,1}}) {
+            nameText.setPosition(sf::Vector2f(textX + dx, textY + dy));
+            window.draw(nameText);
+        }
+        // 白色主体
+        nameText.setFillColor(sf::Color::White);
+        nameText.setPosition(sf::Vector2f(textX, textY));
         window.draw(nameText);
     }
 }
@@ -468,7 +750,7 @@ void GameWorld::attack(int attackerId, int targetId) {
     float dist = std::hypot(attacker.position.x - target.position.x,
                             attacker.position.y - target.position.y);
     if (dist <= attacker.attackRange) {
-        target.health -= attacker.attackDamage;
+        target.health = std::max(0, target.health - attacker.attackDamage);
         attacker.attackCooldown = NetPlayer::attackCooldownMax;
     }
 }
@@ -489,8 +771,6 @@ void GameWorld::update(float dt) {
             move = move / len;
             p.position += move * speed * dt;
         }
-        p.position.x = std::clamp(p.position.x, 0.f, 800.f);
-        p.position.y = std::clamp(p.position.y, 0.f, 600.f);
     }
 }
 

@@ -75,6 +75,7 @@ void I18n::initTranslations() {
     translations_["create_char_title"] = {"Create Character", "创建角色"};
     translations_["select_char_title"] = {"Select Character", "选择角色"};
     translations_["select_class_first"] = {"Please select a class first!", "请先选择职业！"};
+    translations_["slots_full"] = {"All character slots are full!", "角色槽位已满！"};
     translations_["class_label"] = {"Class:", "职业："};
     translations_["bonus"] = {"Bonus:", "加成："};
 
@@ -85,7 +86,6 @@ void I18n::initTranslations() {
     translations_["int"] = {"INT", "智力"};
     translations_["vit"] = {"VIT", "生命"};
     translations_["luk"] = {"LUK", "幸运"};
-    translations_["total"] = {"Total", "总计"};
     translations_["attr_random"] = {"Attributes (random):", "属性（随机）:"};
 
     // 属性面板
@@ -101,12 +101,13 @@ void I18n::initTranslations() {
     translations_["back_menu"] = {"Back to Menu", "返回菜单"};
     translations_["hp"] = {"HP:", "血量："};
     translations_["lv"] = {"Lv:", "等级："};
-    translations_["controls"] = {"[WASD]Move [Space/Click]Attack [Tab]Stats [L]Lang [Esc]Pause", "[WASD]移动 [空格/点击]攻击 [Tab]属性 [L]语言 [Esc]暂停"};
+    translations_["controls"] = {"[WASD]Move [Shift]Roll [Space/Click]Attack [Tab]Stats [L]Lang [Esc]Pause", "[WASD]移动 [Shift]翻滚 [空格/点击]攻击 [Tab]属性 [L]语言 [Esc]暂停"};
     translations_["time"] = {"Time:", "时间："};
     translations_["range"] = {"Range:", "范围："};
     translations_["paused"] = {"PAUSED", "游戏暂停"};
     translations_["resume"] = {"Resume", "继续游戏"};
     translations_["stage_victory"] = {"STAGE VICTORY!", "阶段胜利！"};
+    translations_["stage_victory_final"] = {"FINAL VICTORY!", "最终胜利！"};
     translations_["continue"] = {"Continue", "继续游戏"};
 
     // 排行榜

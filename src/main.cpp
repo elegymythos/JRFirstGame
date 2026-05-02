@@ -9,13 +9,43 @@
 #include <functional>
 #include <iostream>
 
+#ifdef __APPLE__
+    #include <CoreFoundation/CoreFoundation.h>
+    #include <sys/param.h>
+#endif
+
 #include "Database.hpp"
 #include "Network.hpp"
-#include "UI.hpp"
 #include "I18n.hpp"
+#include "ViewBase.hpp"
+#include "AuthView.hpp"
+#include "MenuView.hpp"
+#include "CharacterView.hpp"
+#include "GameView.hpp"
+#include "RankingsView.hpp"
+#include "OnlineView.hpp"
 
 #ifdef EMBEDDED_FONT
     #include "embedded_font.hpp"
+#endif
+
+#ifndef EMBEDDED_FONT
+    #ifdef __APPLE__
+        std::string getResourcePath(const std::string& relativePath) {
+            CFURLRef appUrl = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+            char path[PATH_MAX];
+            if (CFURLGetFileSystemRepresentation(appUrl, TRUE, (UInt8*)path, PATH_MAX)) {
+                CFRelease(appUrl);
+                return std::string(path) + "/" + relativePath;
+            }
+            CFRelease(appUrl);
+            return relativePath;
+        }
+    #else
+        std::string getResourcePath(const std::string& relativePath) {
+            return relativePath;
+        }
+    #endif
 #endif
 
 int main() {
@@ -26,32 +56,11 @@ int main() {
     // 加载字体
     sf::Font font;
 #ifdef EMBEDDED_FONT
-    // 嵌入字体模式：直接从内存加载，无需任何文件系统 API
     if (!font.openFromMemory(embedded_font_data, embedded_font_size)) {
         std::cerr << "Failed to load embedded font!" << std::endl;
         return -1;
     }
 #else
-    // 外部字体文件模式：需要处理跨平台路径（仅在未嵌入字体时编译）
-    #ifdef __APPLE__
-        #include <CoreFoundation/CoreFoundation.h>
-        #include <sys/param.h>   // for PATH_MAX
-        std::string getResourcePath(const std::string& relativePath) {
-            CFURLRef appUrl = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
-            char path[PATH_MAX];
-            if (CFURLGetFileSystemRepresentation(appUrl, TRUE, (UInt8*)path, PATH_MAX)) {
-                CFRelease(appUrl);
-                return std::string(path) + "/" + relativePath;
-            }
-            CFRelease(appUrl);
-            return relativePath; // fallback
-        }
-    #else
-        std::string getResourcePath(const std::string& relativePath) {
-            return relativePath;
-        }
-    #endif
-
     std::string fontPath = getResourcePath("assets/SmileySans-Oblique-2.ttf");
     if (!font.openFromFile(fontPath)) {
         std::cerr << "Failed to load font file! Path: " << fontPath << std::endl;
@@ -63,7 +72,6 @@ int main() {
     Database db;
     NetworkManager network;
     std::string currentUsername;
-    int selectedCharacterSlot = 0;  // 选中的角色槽位
     std::unique_ptr<View> currentView;
     std::string pendingView = "";
     bool welcomeShown = false;
@@ -88,14 +96,12 @@ int main() {
                 window.close();
             if (currentView) {
                 currentView->handleEvent(*event, window);
-                // 检查语言是否切换（通过按键L或按钮点击）
                 if (const auto* kp = event->getIf<sf::Event::KeyPressed>()) {
                     if (kp->code == sf::Keyboard::Key::L) {
                         I18n::instance().toggleLanguage();
                         needRefresh = true;
                     }
                 }
-                // 检查视图是否标记需要刷新
                 if (currentView->needsRefresh()) {
                     needRefresh = true;
                     currentView->clearRefreshFlag();
@@ -111,7 +117,12 @@ int main() {
 
         // 切换视图
         if (!pendingView.empty()) {
-            currentViewName = pendingView;  // 记录当前视图名称
+            currentViewName = pendingView;
+            if (pendingView == "EXIT") {
+                window.close();
+                pendingView = "";
+                break;
+            }
             if (pendingView == "MENU")
                 currentView = std::make_unique<MainMenuView>(font, changeView);
             else if (pendingView == "LOGIN")
@@ -131,9 +142,9 @@ int main() {
             else if (pendingView == "ONLINE_LOBBY")
                 currentView = std::make_unique<OnlineLobbyView>(font, changeView, network);
             else if (pendingView == "ONLINE_GAME_HOST")
-                currentView = std::make_unique<OnlineGameView>(font, changeView, network, true, currentUsername);
+                currentView = std::make_unique<OnlineGameView>(font, changeView, network, true, currentUsername, db);
             else if (pendingView == "ONLINE_GAME_CLIENT")
-                currentView = std::make_unique<OnlineGameView>(font, changeView, network, false, currentUsername);
+                currentView = std::make_unique<OnlineGameView>(font, changeView, network, false, currentUsername, db);
 
             pendingView = "";
             welcomeShown = true;

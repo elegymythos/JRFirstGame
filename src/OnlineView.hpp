@@ -29,6 +29,7 @@
 #include "MapSystem.hpp"
 #include "Network.hpp"
 #include "Database.hpp"
+#include "AudioManager.hpp"
 
 /**
  * @class OnlineLobbyView
@@ -92,6 +93,9 @@ struct SyncPlayer {
     int totalScore;         ///< 累计分数
     int level;              ///< 等级
     std::string name;       ///< 玩家名字
+    float radius;           ///< 碰撞半径
+    bool isRolling;         ///< 翻滚状态
+    bool isInvincible;      ///< 无敌状态
 };
 
 /**

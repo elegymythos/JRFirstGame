@@ -17,6 +17,7 @@
 
 #include "GameLogic.hpp"  // Player, Attributes
 #include "I18n.hpp"       // 国际化翻译
+#include "AudioManager.hpp"
 
 // ======================== Button ========================
 

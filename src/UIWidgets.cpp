@@ -24,7 +24,10 @@ Button::Button(const sf::Font& font, const std::string& label, sf::Vector2f pos,
 void Button::handleEvent(sf::Vector2f mousePos, bool isClicked) {
     bool hovered = shape.getGlobalBounds().contains(mousePos);
     shape.setFillColor(hovered ? sf::Color(200, 200, 255) : sf::Color::White);
-    if (hovered && isClicked && callback) callback();
+    if (hovered && isClicked && callback) {
+        AudioManager::instance().playSFX("button_click");
+        callback();
+    }
 }
 
 void Button::draw(sf::RenderWindow& window) const {

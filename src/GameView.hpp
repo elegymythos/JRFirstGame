@@ -25,6 +25,7 @@
 #include "GameLogic.hpp"
 #include "MapSystem.hpp"
 #include "Database.hpp"
+#include "AudioManager.hpp"
 
 /**
  * @class ActualGameView

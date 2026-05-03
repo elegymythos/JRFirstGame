@@ -24,6 +24,7 @@
 #include "GameView.hpp"
 #include "RankingsView.hpp"
 #include "OnlineView.hpp"
+#include "AudioManager.hpp"
 
 #ifdef EMBEDDED_FONT
     #include "embedded_font.hpp"
@@ -71,6 +72,8 @@ int main() {
     // 初始化数据库和网络
     Database db;
     NetworkManager network;
+    AudioManager::instance().loadAll();
+    AudioManager::instance().playBGM("main_menu");
     std::string currentUsername;
     std::unique_ptr<View> currentView;
     std::string pendingView = "";
@@ -123,8 +126,10 @@ int main() {
                 pendingView = "";
                 break;
             }
-            if (pendingView == "MENU")
+            if (pendingView == "MENU") {
                 currentView = std::make_unique<MainMenuView>(font, changeView);
+                AudioManager::instance().playBGM("main_menu");
+            }
             else if (pendingView == "LOGIN")
                 currentView = std::make_unique<LoginView>(font, changeView, currentUsername, db);
             else if (pendingView == "SIGNUP")
@@ -135,16 +140,22 @@ int main() {
                 currentView = std::make_unique<CharacterCreateView>(font, changeView, currentUsername, db);
             else if (pendingView == "CHAR_SELECT")
                 currentView = std::make_unique<CharacterSelectView>(font, changeView, currentUsername, db);
-            else if (pendingView == "LEVEL_GAME")
+            else if (pendingView == "LEVEL_GAME") {
                 currentView = std::make_unique<ActualGameView>(font, changeView, currentUsername, db);
+                AudioManager::instance().playBGM("game");
+            }
             else if (pendingView == "RANKINGS")
                 currentView = std::make_unique<RankingsView>(font, changeView, db);
             else if (pendingView == "ONLINE_LOBBY")
                 currentView = std::make_unique<OnlineLobbyView>(font, changeView, network);
-            else if (pendingView == "ONLINE_GAME_HOST")
+            else if (pendingView == "ONLINE_GAME_HOST") {
                 currentView = std::make_unique<OnlineGameView>(font, changeView, network, true, currentUsername, db);
-            else if (pendingView == "ONLINE_GAME_CLIENT")
+                AudioManager::instance().playBGM("game");
+            }
+            else if (pendingView == "ONLINE_GAME_CLIENT") {
                 currentView = std::make_unique<OnlineGameView>(font, changeView, network, false, currentUsername, db);
+                AudioManager::instance().playBGM("game");
+            }
 
             pendingView = "";
             welcomeShown = true;

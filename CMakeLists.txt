@@ -42,9 +42,9 @@ endif()
 # =============================================================================
 # 查找 SFML（默认优先动态库，通过 SFML_STATIC_LIBRARIES 可控制）
 # =============================================================================
-find_package(SFML 3 QUIET COMPONENTS Graphics Window System Network)
+find_package(SFML 3 QUIET COMPONENTS Graphics Window System Network Audio)
 if(NOT SFML_FOUND)
-    find_package(SFML 2 QUIET COMPONENTS Graphics Window System Network)
+    find_package(SFML 2 QUIET COMPONENTS Graphics Window System Network Audio)
 endif()
 
 if(NOT SFML_FOUND AND UNIX AND NOT APPLE)
@@ -61,7 +61,7 @@ if(NOT SFML_FOUND AND UNIX AND NOT APPLE)
 endif()
 
 if(NOT SFML_FOUND)
-    foreach(comp graphics window system network)
+    foreach(comp graphics window system network audio)
         find_library(SFML_${comp}_LIB NAMES sfml-${comp} sfml-${comp}-s)
         if(NOT SFML_${comp}_LIB)
             message(FATAL_ERROR "找不到 SFML ${comp} 库")
@@ -160,6 +160,7 @@ set(SOURCES
     src/GameView.cpp
     src/RankingsView.cpp
     src/OnlineView.cpp
+    src/AudioManager.cpp
     src/main.cpp
 )
 
@@ -180,6 +181,7 @@ set(HEADERS
     src/GameView.hpp
     src/RankingsView.hpp
     src/OnlineView.hpp
+    src/AudioManager.hpp
     ${EMBED_HEADER}
 )
 
@@ -203,6 +205,7 @@ if(TARGET SFML::Graphics)
         SFML::Window
         SFML::System
         SFML::Network
+        SFML::Audio
     )
 else()
     target_link_libraries(JRFirstGame PRIVATE ${SFML_LIBRARIES})
@@ -211,10 +214,14 @@ endif()
 # ---------- 平台特定的系统库 ----------
 if(UNIX AND NOT APPLE)
     find_package(OpenGL REQUIRED)
+    find_package(OpenAL QUIET)
     target_link_libraries(JRFirstGame PRIVATE
         ${OPENGL_LIBRARIES}
         X11 Xrandr Xcursor Xi pthread dl
     )
+    if(OpenAL_FOUND)
+        target_link_libraries(JRFirstGame PRIVATE ${OPENAL_LIBRARIES})
+    endif()
 endif()
 
 if(WIN32)
@@ -251,6 +258,25 @@ if(NOT EMBED_RESOURCES AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets/SmileySans
             "$<TARGET_FILE_DIR:JRFirstGame>/assets/"
         COMMENT "复制字体文件到输出目录"
     )
+endif()
+
+# 复制音频文件到输出目录
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets/sounds")
+    file(GLOB AUDIO_FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/sounds/*.wav")
+    if(AUDIO_FILES)
+        add_custom_command(TARGET JRFirstGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:JRFirstGame>/assets/sounds"
+            COMMENT "创建音频输出目录"
+        )
+        foreach(AUDIO_FILE ${AUDIO_FILES})
+            add_custom_command(TARGET JRFirstGame POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    "${AUDIO_FILE}"
+                    "$<TARGET_FILE_DIR:JRFirstGame>/assets/sounds/"
+                COMMENT "复制音频文件: ${AUDIO_FILE}"
+            )
+        endforeach()
+    endif()
 endif()
 
 # 数据库文件不需要复制，程序会自动创建

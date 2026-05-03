@@ -92,6 +92,7 @@ ActualGameView::ActualGameView(const sf::Font& font, std::function<void(std::str
 
 void ActualGameView::attack() {
     if (!player.canAttack()) return;
+    AudioManager::instance().playSFX("player_attack");
 
     if (player.equippedWeapon && player.equippedWeapon->isRanged) {
         sf::Vector2f dir(1, 0);
@@ -136,6 +137,8 @@ void ActualGameView::attack() {
                 if (angleDiff <= halfArc) {
                     int dmg = player.calculateDamage();
                     e.health = std::max(0, e.health - dmg);
+                    AudioManager::instance().playSFX("enemy_hurt");
+                    if (player.lastAttackWasCrit) AudioManager::instance().playSFX("player_crit");
                     // 生成伤害数字
                     DamageNumber dn;
                     dn.position = e.position;
@@ -169,6 +172,7 @@ void ActualGameView::handleEnemyAttacks(float dt) {
                     proj.fromPlayer = false;
                     proj.color = sf::Color::Magenta;  // 敌人投射物品红色
                     projectiles.push_back(proj);
+                    AudioManager::instance().playSFX("enemy_shoot");
                     e.resetAttackCooldown();
                 }
             }
@@ -177,12 +181,14 @@ void ActualGameView::handleEnemyAttacks(float dt) {
             if (dist < player.radius + e.radius) {
                 if (e.canAttack() && !player.isInvincible) {
                     player.health = std::max(0, player.health - e.attackDamage);
+                    AudioManager::instance().playSFX("player_hurt");
                     e.resetAttackCooldown();
                     sf::Vector2f dir = player.position - e.position;
                     if (dir != sf::Vector2f(0,0)) dir = normalize(dir);
                     player.position += dir * 20.f;
                     if (player.health <= 0) {
                         gameOver = true;
+                        AudioManager::instance().playSFX("player_death");
                         db.saveCharacter(buildCharacterData());
                         db.saveRanking(username, player.levelData.level, player.totalScore);
                     }
@@ -203,6 +209,8 @@ void ActualGameView::updateProjectiles(float dt) {
                 if (dist < e.radius + 4.f) {
                     e.health -= proj.damage;
                     e.health = std::max(0, e.health);
+                    AudioManager::instance().playSFX("enemy_hurt");
+                    if (proj.isCrit) AudioManager::instance().playSFX("player_crit");
                     // 生成伤害数字
                     DamageNumber dn;
                     dn.position = e.position;
@@ -213,6 +221,7 @@ void ActualGameView::updateProjectiles(float dt) {
                     damageNumbers.push_back(dn);
                     // 法师爆炸范围杀伤
                     if (proj.explosionRadius > 0.f) {
+                        AudioManager::instance().playSFX("explosion");
                         for (auto& e2 : enemies) {
                             if (&e2 == &e || !e2.isAlive()) continue;
                             float dist2 = distance(proj.position, e2.position);
@@ -222,7 +231,7 @@ void ActualGameView::updateProjectiles(float dt) {
                                 int aoeDmg = static_cast<int>(proj.damage * falloff);
                                 e2.health -= aoeDmg;
                                 e2.health = std::max(0, e2.health);
-                                // 爆炸范围伤害数字
+                                AudioManager::instance().playSFX("enemy_hurt");
                                 DamageNumber dn2;
                                 dn2.position = e2.position;
                                 dn2.damage = aoeDmg;
@@ -242,9 +251,11 @@ void ActualGameView::updateProjectiles(float dt) {
             if (dist < player.radius + 4.f) {
                 if (!player.isInvincible) {
                     player.health = std::max(0, player.health - proj.damage);
+                    AudioManager::instance().playSFX("player_hurt");
                     proj.traveled = proj.maxDistance;
                     if (player.health <= 0) {
                         gameOver = true;
+                        AudioManager::instance().playSFX("player_death");
                         db.saveCharacter(buildCharacterData());
                         db.saveRanking(username, player.levelData.level, player.totalScore);
                     }
@@ -364,6 +375,7 @@ void ActualGameView::checkPickups() {
         float dist = distance(player.position, it->position);
         if (dist < pickupRange + player.radius) {
             // 拾取！
+            AudioManager::instance().playSFX("pickup");
             PickupEffect effect;
             effect.position = it->position;
             effect.color = it->getColor();
@@ -515,6 +527,7 @@ void ActualGameView::update(sf::Vector2f mousePos, sf::Vector2u windowSize) {
     for (int i = STAGE_COUNT - 1; i >= 0; --i) {
         if (player.totalScore >= STAGE_THRESHOLDS[i] && currentVictoryStage < i + 1) {
             currentVictoryStage = i + 1;
+            AudioManager::instance().playSFX("level_up");
             stageVictory = true;
             lastPauseTime = gameClock.getElapsedTime().asSeconds();
             // 应用阶段性胜利强化
@@ -567,6 +580,7 @@ void ActualGameView::update(sf::Vector2f mousePos, sf::Vector2u windowSize) {
 
     for (auto& e : enemies) {
         if (!e.isAlive() && !e.scoreProcessed) {
+            AudioManager::instance().playSFX("enemy_death");
             e.scoreProcessed = true;
             spawnDrops(e);
             player.totalScore += e.score;

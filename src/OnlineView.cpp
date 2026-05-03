@@ -62,8 +62,8 @@ OnlineLobbyView::OnlineLobbyView(const sf::Font& font, std::function<void(std::s
             std::string conn = I18n::instance().t("connecting");
             statusText.setString(sf::String::fromUtf8(conn.begin(), conn.end()));
             if (network.connectToServer(*resolved, port)) {
+                AudioManager::instance().playSFX("connect");
                 std::string succ = I18n::instance().t("connected");
-                statusText.setString(sf::String::fromUtf8(succ.begin(), succ.end()));
                 cv("ONLINE_GAME_CLIENT");
             } else {
                 std::string fail = I18n::instance().t("conn_failed");
@@ -122,7 +122,13 @@ OnlineGameView::OnlineGameView(const sf::Font& font, std::function<void(std::str
       gameResultText(font, "", 30),
       victoryText(font, "", 40) {
     backBtn = std::make_unique<Button>(font, I18n::instance().t("back_menu"), sf::Vector2f{1150,20}, sf::Vector2f{120,40},
-                                       [cv](){ cv("SELECT_LEVEL"); });
+                                       [this, cv](){
+                                           sf::Packet dp;
+                                           dp << static_cast<uint8_t>(NetMsgType::Disconnect) << myId;
+                                           network.broadcast(dp);
+                                           network.disconnect();
+                                           cv("SELECT_LEVEL");
+                                       });
     startBtn = std::make_unique<Button>(font, I18n::instance().t("start_game"), sf::Vector2f{540,350}, sf::Vector2f{200,50},
                                         [this](){
                                             gameStarted = true;
@@ -141,6 +147,10 @@ OnlineGameView::OnlineGameView(const sf::Font& font, std::function<void(std::str
                                                   if (isHost && coopPlayers.count(myId)) {
                                                       db.saveRanking(myUsername, coopPlayers[myId].levelData.level, coopPlayers[myId].totalScore);
                                                   }
+                                                  sf::Packet dp;
+                                                  dp << static_cast<uint8_t>(NetMsgType::Disconnect) << myId;
+                                                  network.broadcast(dp);
+                                                  network.disconnect();
                                                   cv("SELECT_LEVEL");
                                               });
     statusText.setPosition({10,550}); statusText.setFillColor(sf::Color::Red);
@@ -251,7 +261,8 @@ void OnlineGameView::broadcastFullState() {
     for (auto& [id, pl] : coopPlayers) {
         std::string name = playerNames.count(id) ? playerNames[id] : pl.username;
         p << id << pl.position.x << pl.position.y << pl.health << pl.maxHealth
-          << pl.totalScore << pl.levelData.level << name;
+          << pl.totalScore << pl.levelData.level << name
+          << pl.radius << pl.isRolling << pl.isInvincible;
     }
 
     // 敌人数据
@@ -278,6 +289,9 @@ void OnlineGameView::broadcastFullState() {
           << d.lifetime << d.bobTimer;
     }
 
+    // 阶段胜利状态
+    p << stageVictory << currentVictoryStage;
+
     network.broadcast(p);
 }
 
@@ -298,6 +312,7 @@ void OnlineGameView::processNetwork() {
                     // 从Connect包中读取客户端角色数据
                     int classType; std::string clientName;
                     packet >> classType >> clientName;
+                    if (!packet) { classType = 0; clientName = "Player"; }
 
                     playerNames[newId] = clientName;
 
@@ -323,7 +338,7 @@ void OnlineGameView::processNetwork() {
             }
             else if (type == NetMsgType::Disconnect) {
                 int id; packet >> id;
-                if (!packet) break;
+                if (!packet) continue;
                 network.removeClient(ip, port);
                 coopPlayers.erase(id);
                 playerNames.erase(id);
@@ -331,7 +346,7 @@ void OnlineGameView::processNetwork() {
             else if (type == NetMsgType::PlayerInput) {
                 int id; bool u,d,l,r;
                 packet >> id >> u >> d >> l >> r;
-                if (!packet) break;
+                if (!packet) continue;
                 if (coopPlayers.count(id)) {
                     auto& pl = coopPlayers[id];
                     sf::Vector2f move(0,0);
@@ -347,20 +362,20 @@ void OnlineGameView::processNetwork() {
             }
             else if (type == NetMsgType::PlayerAttack) {
                 int attackerId; packet >> attackerId;
-                if (!packet) break;
+                if (!packet) continue;
                 performAttack(attackerId);
             }
             else if (type == NetMsgType::PlayerRoll) {
                 int rollerId; float dirX, dirY;
                 packet >> rollerId >> dirX >> dirY;
-                if (!packet) break;
+                if (!packet) continue;
                 if (coopPlayers.count(rollerId)) {
                     coopPlayers[rollerId].startRoll(sf::Vector2f(dirX, dirY));
                 }
             }
             else if (type == NetMsgType::PauseSync) {
                 bool p; packet >> p;
-                if (!packet) break;
+                if (!packet) continue;
                 paused = p;
                 if (p) lastPauseTime = gameClock.getElapsedTime().asSeconds();
                 else pausedTime += (gameClock.getElapsedTime().asSeconds() - lastPauseTime);
@@ -372,7 +387,7 @@ void OnlineGameView::processNetwork() {
             // 客户端
             if (type == NetMsgType::ConnectAccept) {
                 packet >> myId;
-                if (!packet) break;
+                if (!packet) continue;
                 connected = true;
                 std::string msg = I18n::instance().t("connected") + " ID=" + std::to_string(myId);
                 statusText.setString(sf::String::fromUtf8(msg.begin(), msg.end()));
@@ -394,7 +409,7 @@ void OnlineGameView::processNetwork() {
             }
             else if (type == NetMsgType::PauseSync) {
                 bool p; packet >> p;
-                if (!packet) break;
+                if (!packet) continue;
                 paused = p;
                 if (p) lastPauseTime = gameClock.getElapsedTime().asSeconds();
                 else pausedTime += (gameClock.getElapsedTime().asSeconds() - lastPauseTime);
@@ -408,12 +423,13 @@ void OnlineGameView::processNetwork() {
                     SyncPlayer sp;
                     int id;
                     packet >> id >> sp.posX >> sp.posY >> sp.health >> sp.maxHealth
-                           >> sp.totalScore >> sp.level >> sp.name;
+                           >> sp.totalScore >> sp.level >> sp.name
+                           >> sp.radius >> sp.isRolling >> sp.isInvincible;
                     if (!packet) { syncPlayers.clear(); break; }
                     syncPlayers[id] = sp;
                     playerNames[id] = sp.name;
                 }
-                if (!packet) break;
+                if (!packet) continue;
 
                 // 解析敌人数据
                 syncEnemies.clear();
@@ -426,7 +442,7 @@ void OnlineGameView::processNetwork() {
                     if (!packet) { syncEnemies.clear(); break; }
                     syncEnemies.push_back(se);
                 }
-                if (!packet) break;
+                if (!packet) continue;
 
                 // 解析投射物数据（含颜色）
                 syncProjectiles.clear();
@@ -440,7 +456,7 @@ void OnlineGameView::processNetwork() {
                     if (!packet) { syncProjectiles.clear(); break; }
                     syncProjectiles.push_back(sp);
                 }
-                if (!packet) break;
+                if (!packet) continue;
 
                 // 解析掉落物数据
                 syncDrops.clear();
@@ -453,10 +469,22 @@ void OnlineGameView::processNetwork() {
                     syncDrops.push_back(sd);
                 }
 
+                // 解析阶段胜利状态
+                bool sv; int cvs;
+                packet >> sv >> cvs;
+                if (packet) {
+                    if (sv && !stageVictory) {
+                        AudioManager::instance().playSFX("level_up");
+                    }
+                    stageVictory = sv;
+                    currentVictoryStage = cvs;
+                }
+
                 // 检查自己是否死亡
                 if (syncPlayers.count(myId)) {
                     if (syncPlayers[myId].health <= 0 && !gameOver) {
                         gameOver = true;
+                        AudioManager::instance().playSFX("player_death");
                         std::string lost = I18n::instance().t("you_lost");
                         gameResultText.setString(sf::String::fromUtf8(lost.begin(), lost.end()));
                     }
@@ -527,18 +555,21 @@ void OnlineGameView::hostHandleEnemyAttacks(float dt) {
                     proj.fromPlayer = false;
                     proj.color = sf::Color::Magenta;
                     projectiles.push_back(proj);
+                    AudioManager::instance().playSFX("enemy_shoot");
                     e.resetAttackCooldown();
                 }
             } else {
                 if (distance(pl.position, e.position) < pl.radius + e.radius && e.canAttack()) {
                     if (!pl.isInvincible) {
                         pl.health = std::max(0, pl.health - e.attackDamage);
+                        AudioManager::instance().playSFX("player_hurt");
                         e.resetAttackCooldown();
                         sf::Vector2f dir = pl.position - e.position;
                         if (dir != sf::Vector2f(0,0)) dir = normalize(dir);
                         pl.position += dir * 20.f;
                         if (pl.health <= 0 && id == myId) {
                             gameOver = true;
+                            AudioManager::instance().playSFX("player_death");
                             std::string lost = I18n::instance().t("you_lost");
                             gameResultText.setString(sf::String::fromUtf8(lost.begin(), lost.end()));
                         }
@@ -558,6 +589,7 @@ void OnlineGameView::hostUpdateProjectiles(float dt) {
                 if (!e.isAlive()) continue;
                 if (distance(proj.position, e.position) < e.radius + 4.f) {
                     e.health = std::max(0, e.health - proj.damage);
+                    AudioManager::instance().playSFX("enemy_hurt");
                     // 生成伤害数字
                     DamageNumber dn;
                     dn.position = e.position;
@@ -568,6 +600,7 @@ void OnlineGameView::hostUpdateProjectiles(float dt) {
                     damageNumbers.push_back(dn);
                     // 法师爆炸范围杀伤
                     if (proj.explosionRadius > 0.f) {
+                        AudioManager::instance().playSFX("explosion");
                         for (auto& e2 : enemies) {
                             if (&e2 == &e || !e2.isAlive()) continue;
                             float dist2 = distance(proj.position, e2.position);
@@ -596,9 +629,11 @@ void OnlineGameView::hostUpdateProjectiles(float dt) {
                 if (distance(proj.position, pl.position) < pl.radius + 4.f) {
                     if (!pl.isInvincible) {
                         pl.health = std::max(0, pl.health - proj.damage);
+                        AudioManager::instance().playSFX("player_hurt");
                         proj.traveled = proj.maxDistance;
                         if (pl.health <= 0 && id == myId) {
                             gameOver = true;
+                            AudioManager::instance().playSFX("player_death");
                             std::string lost = I18n::instance().t("you_lost");
                             gameResultText.setString(sf::String::fromUtf8(lost.begin(), lost.end()));
                         }
@@ -619,6 +654,7 @@ void OnlineGameView::hostProcessKill() {
     for (auto& e : enemies) {
         if (!e.isAlive() && !e.scoreProcessed) {
             e.scoreProcessed = true;
+            AudioManager::instance().playSFX("enemy_death");
             spawnDrops(e);
             // 合作模式：所有玩家共享击杀分数和经验
             for (auto& [id, pl] : coopPlayers) {
@@ -671,6 +707,7 @@ void OnlineGameView::checkPickups() {
         for (auto it = drops.begin(); it != drops.end(); ) {
             float dist = distance(pl.position, it->position);
             if (dist < pickupRange + pl.radius) {
+                AudioManager::instance().playSFX("pickup");
                 PickupEffect effect;
                 effect.position = it->position;
                 effect.color = it->getColor();
@@ -720,6 +757,7 @@ void OnlineGameView::performAttack(int playerId) {
     if (!coopPlayers.count(playerId)) return;
     auto& pl = coopPlayers[playerId];
     if (!pl.canAttack()) return;
+    AudioManager::instance().playSFX("player_attack");
 
     if (pl.equippedWeapon && pl.equippedWeapon->isRanged) {
         sf::Vector2f dir(1, 0);
@@ -763,6 +801,7 @@ void OnlineGameView::performAttack(int playerId) {
                 if (angleDiff <= halfArc) {
                     int dmg = pl.calculateDamage();
                     e.health = std::max(0, e.health - dmg);
+                    AudioManager::instance().playSFX("enemy_hurt");
                     // 生成伤害数字
                     DamageNumber dn;
                     dn.position = e.position;
@@ -898,9 +937,11 @@ void OnlineGameView::drawPlayers(sf::RenderWindow& window) {
             sf::Color drawColor = (id == myId) ? sf::Color::Cyan : colors[colorIdx % colors.size()];
             if (id != myId) ++colorIdx;
 
-            sf::CircleShape shape(18.f);
-            shape.setPosition(sf::Vector2f(sp.posX - 18, sp.posY - 18));
+            float radius = sp.radius > 0 ? sp.radius : 20.f;
+            sf::CircleShape shape(radius);
+            shape.setPosition(sf::Vector2f(sp.posX - radius, sp.posY - radius));
             shape.setFillColor(drawColor);
+            if (sp.isRolling || sp.isInvincible) shape.setFillColor(sf::Color(drawColor.r, drawColor.g, drawColor.b, 128));
             window.draw(shape);
 
             std::string name = sp.name.empty() ? ("Player " + std::to_string(id)) : sp.name;
@@ -1123,6 +1164,7 @@ void OnlineGameView::update(sf::Vector2f mousePos, sf::Vector2u windowSize) {
             for (int i = STAGE_COUNT - 1; i >= 0; --i) {
                 if (coopPlayers[myId].totalScore >= STAGE_THRESHOLDS[i] && currentVictoryStage < i + 1) {
                     currentVictoryStage = i + 1;
+                    AudioManager::instance().playSFX("level_up");
                     stageVictory = true;
                     lastPauseTime = gameClock.getElapsedTime().asSeconds();
                     // 所有玩家应用阶段性胜利强化

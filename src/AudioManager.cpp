@@ -7,7 +7,7 @@ namespace fs = std::filesystem;
 AudioManager::AudioManager() {
     dummyBuffer_ = std::make_unique<sf::SoundBuffer>();
     std::vector<int16_t> samples(1, 0);
-    dummyBuffer_->loadFromSamples(samples.data(), 1, 1, 44100, {sf::SoundChannel::Mono});
+    (void)dummyBuffer_->loadFromSamples(samples.data(), 1, 1, 44100, {sf::SoundChannel::Mono});
     for (int i = 0; i < MAX_SFX_CHANNELS; ++i) {
         sfxChannels_[i] = std::make_unique<sf::Sound>(*dummyBuffer_);
     }

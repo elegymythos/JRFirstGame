@@ -1,3 +1,11 @@
+/**
+ * @file Utils.cpp
+ * @brief 工具函数实现：SHA-256哈希、随机盐值生成、密码哈希
+ *
+ * 包含纯C++实现的SHA-256算法（用于学习项目），
+ * 以及generateRandomSalt()和hashPassword()两个公共接口。
+ */
+
 #include "Utils.hpp"
 #include <random>
 #include <sstream>

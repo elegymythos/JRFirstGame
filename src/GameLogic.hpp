@@ -1,3 +1,18 @@
+/**
+ * @file GameLogic.hpp
+ * @brief 游戏核心逻辑：实体、属性、职业、等级、敌人、投射物、掉落物系统
+ *
+ * 定义游戏所有核心数据结构和逻辑：
+ * - 属性系统：六大属性（力量/敏捷/魔法/智力/生命/幸运）+ 职业加成 + 等级加成
+ * - 职业系统：战士/法师/刺客，各有属性加成和允许武器类型
+ * - 等级系统：经验值升级，每级属性加成
+ * - 敌人系统：四种敌人（史莱姆/骷髅刀斧手/骷髅弓箭手/巨人），各有差异化AI
+ * - 投射物系统：法师火球、弓箭手箭矢，沿直线飞行
+ * - 掉落物系统：血瓶和属性提升道具，击杀敌人概率掉落
+ * - 游戏实体：RPGEntity基类、Player玩家、Enemy敌人
+ * - 联机世界：GameWorld简化双人模式
+ */
+
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -454,21 +469,39 @@ class GameWorld {
 public:
     /// 网络玩家数据（简化版，不含完整属性系统）
     struct NetPlayer {
-        sf::Vector2f position;
-        PlayerInput input;
-        int health = 100;
-        int maxHealth = 100;
-        float attackCooldown = 0.f;
-        static constexpr float attackCooldownMax = 0.5f;
-        int attackDamage = 20;
-        float attackRange = 40.f;
+        sf::Vector2f position;                      ///< 世界坐标位置
+        PlayerInput input;                          ///< 当前输入状态
+        int health = 100;                           ///< 当前血量
+        int maxHealth = 100;                        ///< 血量上限
+        float attackCooldown = 0.f;                 ///< 攻击冷却剩余
+        static constexpr float attackCooldownMax = 0.5f; ///< 攻击冷却时间
+        int attackDamage = 20;                      ///< 攻击伤害
+        float attackRange = 40.f;                   ///< 攻击范围
     };
 
+    /**
+     * @brief 添加玩家到联机世界
+     * @param id       玩家ID
+     * @param startPos 初始位置
+     */
     void addPlayer(int id, const sf::Vector2f& startPos);
+    /// 移除指定ID的玩家
     void removePlayer(int id);
+    /**
+     * @brief 设置玩家输入状态
+     * @param id    玩家ID
+     * @param input 输入状态（WASD方向键）
+     */
     void setPlayerInput(int id, const PlayerInput& input);
+    /**
+     * @brief 玩家攻击
+     * @param attackerId 攻击者ID
+     * @param targetId   被攻击者ID
+     */
     void attack(int attackerId, int targetId);
+    /// 每帧更新所有玩家位置
     void update(float dt);
+    /// 获取当前游戏状态快照
     GameState getState() const;
 
 private:

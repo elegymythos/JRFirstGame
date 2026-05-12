@@ -26,6 +26,7 @@
 #include "MapSystem.hpp"
 #include "Database.hpp"
 #include "AudioManager.hpp"
+#include "AIInference.hpp"
 
 /**
  * @class ActualGameView
@@ -46,7 +47,8 @@ public:
      * 构造时从数据库加载角色存档，初始化武器和战斗属性。
      */
     ActualGameView(const sf::Font& font, std::function<void(std::string)> changeView,
-                   const std::string& username, Database& database);
+                   const std::string& username, Database& database,
+                   bool aiMode = false, const std::string& aiModelPath = "");
 
     void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
     void update(sf::Vector2f mousePos, sf::Vector2u windowSize) override;
@@ -127,4 +129,15 @@ private:
     /// 阶段性胜利分值阈值：100/1000/2000/5000/10000
     static constexpr int STAGE_THRESHOLDS[] = {100, 1000, 2000, 5000, 10000};
     static constexpr int STAGE_COUNT = 5;      ///< 阶段总数
+
+    /* ---- AI 模式 ---- */
+    bool aiMode_ = false;                     ///< AI 自动游玩模式
+    AIInference aiInference_;                 ///< ONNX 推理器
+    AIGameState aiGameState_;                 ///< AI 观测用的游戏状态
+    AIAction aiCurrentAction_;                ///< 当前 AI 决策
+    float aiActionTimer_ = 0.f;              ///< AI 动作节流计时
+    static constexpr float AI_ACTION_INTERVAL = 1.f / 60.f; ///< AI 每帧决策
+    void buildAIGameState();                  ///< 从游戏状态构建 AI 观测
+    void executeAIAction();                   ///< 执行 AI 动作
+    const Enemy* selectAIAttackTarget(int strategy); ///< AI 选择攻击目标
 };

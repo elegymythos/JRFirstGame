@@ -1,3 +1,11 @@
+/**
+ * @file AudioManager.cpp
+ * @brief 音频管理器实现
+ *
+ * 实现BGM/SFX加载、播放、音量控制、淡入淡出等功能。
+ * 音频文件从assets/sounds/目录加载，支持多级路径回退。
+ */
+
 #include "AudioManager.hpp"
 #include <iostream>
 #include <filesystem>

@@ -49,7 +49,17 @@
     #endif
 #endif
 
-int main() {
+int main(int argc, char* argv[]) {
+    bool aiMode = false;
+    std::string aiModelPath = "rl/models/ppo_policy.onnx";
+    for (int i = 1; i < argc; ++i) {
+        std::string arg(argv[i]);
+        if (arg == "--ai") aiMode = true;
+        else if (arg == "--ai-model" && i + 1 < argc) aiModelPath = argv[++i];
+    }
+    if (aiMode) {
+        std::cout << "[AI] AI mode requested, model: " << aiModelPath << std::endl;
+    }
     // 创建窗口
     sf::RenderWindow window(sf::VideoMode({1280, 720}), "JRFirstGame");
     window.setFramerateLimit(60);
@@ -141,7 +151,7 @@ int main() {
             else if (pendingView == "CHAR_SELECT")
                 currentView = std::make_unique<CharacterSelectView>(font, changeView, currentUsername, db);
             else if (pendingView == "LEVEL_GAME") {
-                currentView = std::make_unique<ActualGameView>(font, changeView, currentUsername, db);
+                currentView = std::make_unique<ActualGameView>(font, changeView, currentUsername, db, aiMode, aiModelPath);
                 AudioManager::instance().playBGM("game");
             }
             else if (pendingView == "RANKINGS")

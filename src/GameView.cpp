@@ -12,11 +12,13 @@
 #include <iomanip>
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 // ======================== ActualGameView 实现 ========================
 
 ActualGameView::ActualGameView(const sf::Font& font, std::function<void(std::string)> cv,
-                               const std::string& name, Database& database)
+                               const std::string& name, Database& database,
+                               bool aiMode, const std::string& aiModelPath)
     : View(font), db(database), username(name), player({400,300}),
       attrPanel(font),
       infoText(font, "", 20),
@@ -88,6 +90,16 @@ ActualGameView::ActualGameView(const sf::Font& font, std::function<void(std::str
     victoryText.setString(sf::String::fromUtf8(victoryStr.begin(), victoryStr.end()));
     victoryText.setPosition({540,280}); victoryText.setFillColor(sf::Color::Green);
     victoryText.setCharacterSize(40);
+
+    aiMode_ = aiMode;
+    if (aiMode_ && !aiModelPath.empty()) {
+        if (aiInference_.loadModel(aiModelPath)) {
+            std::cout << "[AI] AI mode enabled, model: " << aiModelPath << std::endl;
+        } else {
+            std::cerr << "[AI] Failed to load AI model, disabling AI mode" << std::endl;
+            aiMode_ = false;
+        }
+    }
 }
 
 void ActualGameView::attack() {
@@ -321,6 +333,15 @@ void ActualGameView::restartGame() {
     player.rollCooldown = 0.f;
     player.slashActive = false;
     player.slashTimer = 0.f;
+    player.damageBonus = 0.f;
+    player.attackSpeedBonus = 0.f;
+    player.projectileExplosionRadius = 0.f;
+    player.critChance = 0.f;
+    player.victoryStageLevel = 0;
+    player.attackRangeBonus = 0.f;
+    player.baseAttributes = generateRandomAttributes();
+    player.recalcCombatStats();
+    player.health = player.maxHealth;
     enemies.clear();
     projectiles.clear();
     drops.clear();
@@ -546,13 +567,20 @@ void ActualGameView::update(sf::Vector2f mousePos, sf::Vector2u windowSize) {
     }
 
     sf::Vector2f move(0,0);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) move.y -= 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) move.y += 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) move.x -= 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) move.x += 1;
-    if (move != sf::Vector2f(0,0)) move = normalize(move);
-    if (!player.isRolling) {
-        player.velocity = move * player.speed;
+    if (aiMode_ && aiInference_.isLoaded()) {
+        buildAIGameState();
+        int action = aiInference_.predict(aiGameState_);
+        aiCurrentAction_ = AIObservation::decodeAction(action);
+        executeAIAction();
+    } else {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) move.y -= 1;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) move.y += 1;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) move.x -= 1;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) move.x += 1;
+        if (move != sf::Vector2f(0,0)) move = normalize(move);
+        if (!player.isRolling) {
+            player.velocity = move * player.speed;
+        }
     }
     player.update(dt);
 
@@ -687,4 +715,231 @@ void ActualGameView::draw(sf::RenderWindow& window) {
         resumeBtn.draw(window);
         pauseBackBtn.draw(window);
     }
+
+    if (aiMode_ && aiInference_.isLoaded()) {
+        sf::Text aiLabel(infoText.getFont(), "[AI]", 16);
+        aiLabel.setPosition({10, 690});
+        aiLabel.setFillColor(sf::Color(0, 200, 255));
+        window.draw(aiLabel);
+    }
+}
+
+void ActualGameView::buildAIGameState() {
+    auto& s = aiGameState_;
+    auto& p = s.player;
+
+    p.x = player.position.x;
+    p.y = player.position.y;
+    p.vx = player.velocity.x;
+    p.vy = player.velocity.y;
+    p.health = player.health;
+    p.maxHealth = player.maxHealth;
+    p.speed = player.speed;
+    p.radius = player.radius;
+    p.isRolling = player.isRolling;
+    p.isInvincible = player.isInvincible;
+    p.attackCooldown = player.attackCooldown;
+    p.attackCooldownMax = player.attackCooldownMax;
+    p.rollCooldown = player.rollCooldown;
+    p.rollCooldownMax = player.rollCooldownMax;
+    p.totalScore = player.totalScore;
+    p.killCount = player.killCount;
+    p.level = player.levelData.level;
+    p.victoryStage = currentVictoryStage;
+    p.attackRange = player.attackRange;
+    p.attackDamage = player.attackDamage;
+    p.damageBonus = player.damageBonus;
+    p.attackSpeedBonus = player.attackSpeedBonus;
+    p.critChance = player.critChance;
+    p.strength = player.baseAttributes.strength;
+
+    s.enemies.clear();
+    for (const auto& e : enemies) {
+        if (!e.isAlive()) continue;
+        AIEnemyState ae;
+        ae.x = e.position.x;
+        ae.y = e.position.y;
+        ae.vx = e.velocity.x;
+        ae.vy = e.velocity.y;
+        ae.health = e.health;
+        ae.maxHealth = e.maxHealth;
+        ae.radius = e.radius;
+        ae.entityType = static_cast<int>(e.enemyType);
+        ae.attackDamage = e.attackDamage;
+        ae.attackRange = e.attackRange;
+        ae.attackCooldown = e.attackCooldown;
+        ae.attackCooldownMax = e.attackCooldownMax;
+        ae.speed = e.speed;
+        ae.isRanged = e.isRanged;
+        ae.score = e.score;
+        ae.alive = true;
+        s.enemies.push_back(ae);
+    }
+
+    s.projectiles.clear();
+    for (const auto& pr : projectiles) {
+        AIProjectileState ap;
+        ap.x = pr.position.x;
+        ap.y = pr.position.y;
+        ap.dx = pr.direction.x;
+        ap.dy = pr.direction.y;
+        ap.speed = pr.speed;
+        ap.damage = pr.damage;
+        ap.fromPlayer = pr.fromPlayer;
+        ap.alive = !pr.isExpired();
+        s.projectiles.push_back(ap);
+    }
+
+    s.drops.clear();
+    for (const auto& d : drops) {
+        AIDropState ad;
+        ad.x = d.position.x;
+        ad.y = d.position.y;
+        ad.dropType = static_cast<int>(d.type);
+        ad.alive = true;
+        s.drops.push_back(ad);
+    }
+
+    s.gameTime = gameClock.getElapsedTime().asSeconds() - pausedTime;
+    float diffScale = mapSystem.getDifficultyScale();
+    float timeScale = 1.0f + s.gameTime / 600.f;
+    float scoreScale = 1.0f + static_cast<float>(player.totalScore) / 1000.f;
+    s.difficultyScale = diffScale * timeScale * scoreScale;
+    s.currentVictoryStage = currentVictoryStage;
+}
+
+void ActualGameView::executeAIAction() {
+    const auto& a = aiCurrentAction_;
+
+    sf::Vector2f moveDir(a.moveX, a.moveY);
+    if (moveDir != sf::Vector2f(0, 0)) {
+        moveDir = normalize(moveDir);
+    }
+    if (!player.isRolling) {
+        player.velocity = moveDir * player.speed;
+    }
+
+    if (a.pickup && !drops.empty()) {
+        const DropItem* nearest = nullptr;
+        float minDist = std::numeric_limits<float>::max();
+        for (const auto& d : drops) {
+            float d2 = distance(player.position, d.position);
+            if (d2 < minDist) { minDist = d2; nearest = &d; }
+        }
+        if (nearest) {
+            sf::Vector2f dir = normalize(nearest->position - player.position);
+            if (dir == sf::Vector2f(0, 0)) dir = {1, 0};
+            if (!player.isRolling) {
+                player.velocity = dir * player.speed;
+            }
+        }
+    }
+
+    if (a.roll && player.canRoll()) {
+        sf::Vector2f rollDir(a.moveX, a.moveY);
+        if (rollDir == sf::Vector2f(0, 0)) rollDir = {1, 0};
+        player.startRoll(rollDir);
+    }
+
+    if (a.attack && player.canAttack()) {
+        const Enemy* target = selectAIAttackTarget(a.attackTarget);
+        if (target) {
+            if (player.equippedWeapon && player.equippedWeapon->isRanged) {
+                sf::Vector2f dir = normalize(target->position - player.position);
+                if (dir == sf::Vector2f(0, 0)) dir = {1, 0};
+                Projectile proj;
+                proj.position = player.position;
+                proj.direction = dir;
+                proj.speed = 300.f;
+                proj.damage = player.calculateDamage();
+                proj.fromPlayer = true;
+                proj.color = sf::Color::Yellow;
+                proj.explosionRadius = player.projectileExplosionRadius;
+                proj.isCrit = player.lastAttackWasCrit;
+                proj.maxDistance = player.attackRange * 2.f;
+                projectiles.push_back(proj);
+                player.resetAttackCooldown();
+                float angle = std::atan2(dir.y, dir.x);
+                player.startSlash(angle);
+            } else {
+                sf::Vector2f dir = normalize(target->position - player.position);
+                if (dir == sf::Vector2f(0, 0)) dir = {1, 0};
+                float angle = std::atan2(dir.y, dir.x);
+                float halfArc = 0.5f;
+                int dmg = player.calculateDamage();
+                for (auto& e : enemies) {
+                    if (!e.isAlive()) continue;
+                    sf::Vector2f toEnemy = e.position - player.position;
+                    float dist = std::sqrt(toEnemy.x*toEnemy.x + toEnemy.y*toEnemy.y);
+                    if (dist > player.attackRange + e.radius) continue;
+                    sf::Vector2f eDir = normalize(toEnemy);
+                    float eAngle = std::atan2(eDir.y, eDir.x);
+                    float diff = eAngle - angle;
+                    while (diff > 3.14159f) diff -= 2.f * 3.14159f;
+                    while (diff < -3.14159f) diff += 2.f * 3.14159f;
+                    if (std::abs(diff) <= halfArc) {
+                        e.health = std::max(0, e.health - dmg);
+                        AudioManager::instance().playSFX("enemy_hurt");
+                        if (player.lastAttackWasCrit) AudioManager::instance().playSFX("player_crit");
+                        DamageNumber dn;
+                        dn.position = e.position;
+                        dn.damage = dmg;
+                        dn.isCrit = player.lastAttackWasCrit;
+                        dn.angle = eAngle;
+                        dn.radius = e.radius + 10.f;
+                        damageNumbers.push_back(dn);
+                    }
+                }
+                player.resetAttackCooldown();
+                player.startSlash(angle);
+                AudioManager::instance().playSFX("player_attack");
+            }
+        }
+    }
+}
+
+const Enemy* ActualGameView::selectAIAttackTarget(int strategy) {
+    if (enemies.empty()) return nullptr;
+
+    const Enemy* best = nullptr;
+
+    if (strategy == 1) {
+        float minDist = std::numeric_limits<float>::max();
+        for (const auto& e : enemies) {
+            if (!e.isAlive()) continue;
+            float d = distance(player.position, e.position);
+            if (d < minDist) { minDist = d; best = &e; }
+        }
+    } else if (strategy == 2) {
+        int minHP = std::numeric_limits<int>::max();
+        for (const auto& e : enemies) {
+            if (!e.isAlive()) continue;
+            if (e.health < minHP) { minHP = e.health; best = &e; }
+        }
+    } else if (strategy == 3) {
+        float minDist = std::numeric_limits<float>::max();
+        for (const auto& e : enemies) {
+            if (!e.isAlive() || !e.isRanged) continue;
+            float d = distance(player.position, e.position);
+            if (d < minDist) { minDist = d; best = &e; }
+        }
+        if (!best) {
+            for (const auto& e : enemies) {
+                if (!e.isAlive()) continue;
+                float d = distance(player.position, e.position);
+                if (d < minDist) { minDist = d; best = &e; }
+            }
+        }
+    }
+
+    if (!best) {
+        float minDist = std::numeric_limits<float>::max();
+        for (const auto& e : enemies) {
+            if (!e.isAlive()) continue;
+            float d = distance(player.position, e.position);
+            if (d < minDist) { minDist = d; best = &e; }
+        }
+    }
+
+    return best;
 }

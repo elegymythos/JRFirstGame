@@ -1,3 +1,11 @@
+/**
+ * @file GameLogic.cpp
+ * @brief 游戏核心逻辑实现
+ *
+ * 包含所有游戏实体的构造、更新、绘制、战斗计算等实现，
+ * 以及属性生成、职业配置、敌人配置、投射物/掉落物系统。
+ */
+
 #include "GameLogic.hpp"
 #include "I18n.hpp"
 #include <limits>

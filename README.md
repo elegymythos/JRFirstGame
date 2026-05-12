@@ -21,6 +21,7 @@
 - 双人闯关：UDP联机合作，主机-客户端架构
 - 排行榜：按等级和分数排名
 - 国际化：中/英双语切换（L键或右上角按钮）
+- AI自动游玩：强化学习训练PPO策略，ONNX Runtime集成，--ai命令行启动
 
 ## 技术栈
 
@@ -31,6 +32,9 @@
 | SQLite3 | 数据存储（源码编译） |
 | CMake 3.15+ | 构建系统 |
 | GitHub Actions | 跨平台CI/CD |
+| Python 3.11+ | RL训练（Gymnasium + Stable-Baselines3） |
+| PyTorch 2.5+ | PPO策略网络训练（GPU加速） |
+| ONNX Runtime 1.20+ | C++端模型推理 |
 
 ## 项目结构
 
@@ -53,7 +57,63 @@ src/
 ├── WeaponListBridge.hpp/cpp C++桥接层（RAII封装C链表）
 ├── I18n.hpp/cpp          国际化系统（中/英翻译表）
 ├── Utils.hpp/cpp         工具函数（盐值/哈希）
+├── AudioManager.hpp/cpp  音频管理器（BGM+SFX）
+├── AIController.hpp/cpp  AI观测编码与动作解码
+├── AIInference.hpp/cpp   ONNX Runtime推理器
 └── embedded_font.hpp     嵌入字体数据（自动生成）
+```
+
+## AI自动游玩
+
+游戏支持通过强化学习训练的AI自动游玩闯关模式。
+
+### 快速开始
+
+```bash
+# 1. 一键启动WebUI训练界面（Windows）
+start_training.bat
+
+# 2. 或手动训练
+cd rl_env/Scripts && activate
+python rl/train.py --algo ppo --mode train --total-timesteps 5000000 --difficulty 1
+
+# 3. 导出ONNX模型
+python rl/export_onnx.py --model rl/logs/ppo_v14/best_model/best_model.zip --output rl/models/ppo_policy.onnx
+
+# 4. 启动AI模式
+./build/JRFirstGame --ai
+./build/JRFirstGame --ai --ai-model rl/models/ppo_policy.onnx
+```
+
+### RL训练架构
+
+| 组件 | 文件 | 说明 |
+|------|------|------|
+| Gymnasium环境 | `rl/game_env.py` | 276维观测空间，12离散动作空间 |
+| PPO训练 | `rl/train.py` | PPO算法，512×512网络，线性LR衰减 |
+| ONNX导出 | `rl/export_onnx.py` | 策略网络导出为ONNX格式 |
+| WebUI | `rl/webui.py` | Gradio训练/评估/导出/监控界面 |
+| C++推理 | `src/AIInference.hpp/cpp` | ONNX Runtime C++推理 |
+| C++控制 | `src/AIController.hpp/cpp` | 观测编码+动作解码 |
+
+### 动作空间（12个离散动作）
+
+| 动作ID | 含义 | 动作ID | 含义 |
+|--------|------|--------|------|
+| 0 | 停留 | 5 | 左上移动 |
+| 1 | 上移 | 6 | 右上移动 |
+| 2 | 下移 | 7 | 左下移动 |
+| 3 | 左移 | 8 | 右下移动 |
+| 4 | 右移 | 9 | 攻击最近敌人 |
+| - | - | 10 | 翻滚 |
+| - | - | 11 | 拾取最近掉落物 |
+
+### 依赖安装
+
+```bash
+pip install -r rl/requirements.txt
+# GPU版本PyTorch:
+pip install torch --index-url https://download.pytorch.org/whl/cu124
 ```
 
 ## 下载

@@ -161,6 +161,8 @@ set(SOURCES
     src/RankingsView.cpp
     src/OnlineView.cpp
     src/AudioManager.cpp
+    src/AIController.cpp
+    src/AIInference.cpp
     src/main.cpp
 )
 
@@ -182,6 +184,8 @@ set(HEADERS
     src/RankingsView.hpp
     src/OnlineView.hpp
     src/AudioManager.hpp
+    src/AIController.hpp
+    src/AIInference.hpp
     ${EMBED_HEADER}
 )
 
@@ -195,6 +199,20 @@ target_include_directories(JRFirstGame PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/external
     ${SFML_INCLUDE_DIRS}
 )
+
+# ONNX Runtime
+set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime" CACHE PATH "ONNX Runtime root directory")
+if(EXISTS "${ONNXRUNTIME_DIR}/include/onnxruntime_cxx_api.h")
+    target_include_directories(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/include")
+    if(WIN32)
+        target_link_libraries(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/lib/onnxruntime.lib")
+    else()
+        target_link_libraries(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/lib/libonnxruntime.so")
+    endif()
+    message(STATUS "ONNX Runtime: ${ONNXRUNTIME_DIR}")
+else()
+    message(WARNING "ONNX Runtime not found at ${ONNXRUNTIME_DIR}, AI mode will not work")
+endif()
 
 # 链接库
 target_link_libraries(JRFirstGame PRIVATE sqlite3)
@@ -246,6 +264,14 @@ if(WIN32)
     target_link_libraries(JRFirstGame PRIVATE
         winmm ws2_32 opengl32
     )
+    if(EXISTS "${ONNXRUNTIME_DIR}/lib/onnxruntime.dll")
+        add_custom_command(TARGET JRFirstGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${ONNXRUNTIME_DIR}/lib/onnxruntime.dll"
+                "$<TARGET_FILE_DIR:JRFirstGame>"
+            COMMENT "复制 onnxruntime.dll"
+        )
+    endif()
 endif()
 
 if(APPLE)
@@ -386,5 +412,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/OFL.txt")
             "${CMAKE_CURRENT_SOURCE_DIR}/OFL.txt"
             "$<TARGET_FILE_DIR:JRFirstGame>"
         COMMENT "复制 OFL.txt 许可证文件"
+    )
+endif()
+
+# 复制 AI 模型文件到输出目录
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rl/models/ppo_policy.onnx")
+    add_custom_command(TARGET JRFirstGame POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:JRFirstGame>/rl/models"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/rl/models/ppo_policy.onnx"
+            "$<TARGET_FILE_DIR:JRFirstGame>/rl/models/"
+        COMMENT "复制 AI ONNX 模型文件"
     )
 endif()

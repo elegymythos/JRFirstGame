@@ -1,3 +1,11 @@
+/**
+ * @file Network.cpp
+ * @brief UDP网络通信封装实现
+ *
+ * 实现NetworkManager的服务器启动、客户端连接、
+ * 数据包收发、广播、客户端列表管理等功能。
+ */
+
 #include <cstdint>
 #include "Network.hpp"
 

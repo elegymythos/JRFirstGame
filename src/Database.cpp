@@ -1,3 +1,11 @@
+/**
+ * @file Database.cpp
+ * @brief SQLite数据库操作封装实现
+ *
+ * 实现用户增查、角色CRUD、排行榜读写、用户设置等所有数据库操作。
+ * 数据库文件为game.db，启动时自动创建表结构和执行迁移。
+ */
+
 #include "Database.hpp"
 #include <iostream>
 

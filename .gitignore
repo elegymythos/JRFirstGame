@@ -30,3 +30,59 @@ src/embedded_font.hpp
 # 系统文件
 .DS_Store
 Thumbs.db
+
+# ============================================================
+# Python / RL 训练相关
+# ============================================================
+
+# Python 虚拟环境
+rl_env/
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+*.egg
+
+# RL 训练日志和模型（体积大，不应提交）
+rl/logs/
+rl/models/
+
+# ONNX Runtime 库（体积大）
+onnxruntime/
+
+# 临时图片
+_temp_plot.png
+_temp_monitor.png
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# mypy / pytest 缓存
+.mypy_cache/
+.pytest_cache/
+
+# SFML 本地编译库（体积大）
+SFML-mingw/
+
+# CodeArts 工具缓存
+.arts/
+
+# Doxygen 生成文件
+html/
+latex/
+dot/
+
+# Doxyfile 配置（本地生成）
+Doxyfile
+
+# 临时脚本
+check.bat
+rl/run_train.bat
+
+# 课程设计文档（本地编写，不提交）
+2026-*.md
+模块调用图.md
+document.md

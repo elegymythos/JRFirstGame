@@ -1,3 +1,17 @@
+/**
+ * @file Database.hpp
+ * @brief SQLite数据库操作封装
+ *
+ * 管理四张表：
+ * - users：用户账户（用户名、盐值、密码哈希）
+ * - characters：角色数据（多角色，每用户最多3个槽位）
+ * - rankings：排行榜（按等级和分数排名）
+ * - user_settings：用户设置（选中的角色槽位）
+ *
+ * 所有查询使用参数化语句防止SQL注入。
+ * 数据库文件为同目录下的game.db，程序启动时自动创建。
+ */
+
 #pragma once
 #include <string>
 #include <vector>

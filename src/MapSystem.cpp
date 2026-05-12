@@ -1,3 +1,11 @@
+/**
+ * @file MapSystem.cpp
+ * @brief 地图区域与摄像机系统实现
+ *
+ * 实现无限地图的区域管理、敌人配置分配、
+ * 摄像机跟随、背景网格绘制和难度缩放计算。
+ */
+
 #include "MapSystem.hpp"
 #include <random>
 
@@ -105,7 +113,7 @@ std::vector<EnemySpawnInfo> MapSystem::checkAndSpawn(sf::Vector2f playerPos) {
 }
 
 float MapSystem::getDifficultyScale() const {
-    // 每探索10个区域，难度+0.5，最低1.0
+    // 每探索1个区域，难度+5%（即+0.05），最低1.0
     return 1.0f + exploredCount_ * 0.05f;
 }
 

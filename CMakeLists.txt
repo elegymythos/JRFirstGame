@@ -210,7 +210,12 @@ target_include_directories(JRFirstGame PRIVATE
 # AI 功能可选
 set(AI_ENABLED FALSE)
 if(ENABLE_AI)
-    set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime" CACHE PATH "ONNX Runtime root directory")
+    # 支持环境变量或默认路径
+    if(DEFINED ENV{ONNXRUNTIME_DIR} AND EXISTS "$ENV{ONNXRUNTIME_DIR}/include/onnxruntime_cxx_api.h")
+        set(ONNXRUNTIME_DIR "$ENV{ONNXRUNTIME_DIR}" CACHE PATH "ONNX Runtime root directory")
+    else()
+        set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime" CACHE PATH "ONNX Runtime root directory")
+    endif()
     if(EXISTS "${ONNXRUNTIME_DIR}/include/onnxruntime_cxx_api.h")
         target_sources(JRFirstGame PRIVATE ${AI_SOURCES} ${AI_HEADERS})
         target_include_directories(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/include")
@@ -231,6 +236,15 @@ endif()
 
 # 链接库
 target_link_libraries(JRFirstGame PRIVATE sqlite3)
+
+# SFML 静态链接检测
+if(SFML_LIBRARIES)
+    string(FIND "${SFML_LIBRARIES}" "-s" SFML_STATIC_POS)
+    if(SFML_STATIC_POS GREATER -1)
+        target_compile_definitions(JRFirstGame PRIVATE SFML_STATIC)
+        message(STATUS "SFML 静态链接: 已定义 SFML_STATIC")
+    endif()
+endif()
 
 if(TARGET SFML::Graphics)
     target_link_libraries(JRFirstGame PRIVATE
@@ -279,6 +293,37 @@ if(WIN32)
     target_link_libraries(JRFirstGame PRIVATE
         winmm ws2_32 opengl32
     )
+    # MinGW 静态 SFML Audio 需要额外库
+    if(MINGW AND SFML_LIBRARIES)
+        string(FIND "${SFML_LIBRARIES}" "-s" SFML_STATIC_POS)
+        if(SFML_STATIC_POS GREATER -1)
+            get_filename_component(SFML_LIB_DIR "${SFML_LIBRARIES}" DIRECTORY)
+            find_library(FREETYPE_LIB NAMES freetype libfreetype.a HINTS "${SFML_LIB_DIR}")
+            find_library(FLAC_LIB NAMES flac FLAC libFLAC.a HINTS "${SFML_LIB_DIR}")
+            find_library(VORBISFILE_LIB NAMES vorbisfile libvorbisfile.a HINTS "${SFML_LIB_DIR}")
+            find_library(VORBISENC_LIB NAMES vorbisenc libvorbisenc.a HINTS "${SFML_LIB_DIR}")
+            find_library(VORBIS_LIB NAMES vorbis libvorbis.a HINTS "${SFML_LIB_DIR}")
+            find_library(OGG_LIB NAMES ogg libogg.a HINTS "${SFML_LIB_DIR}")
+            if(FREETYPE_LIB)
+                target_link_libraries(JRFirstGame PRIVATE ${FREETYPE_LIB})
+            endif()
+            if(FLAC_LIB)
+                target_link_libraries(JRFirstGame PRIVATE ${FLAC_LIB})
+            endif()
+            if(VORBISFILE_LIB)
+                target_link_libraries(JRFirstGame PRIVATE ${VORBISFILE_LIB})
+            endif()
+            if(VORBISENC_LIB)
+                target_link_libraries(JRFirstGame PRIVATE ${VORBISENC_LIB})
+            endif()
+            if(VORBIS_LIB)
+                target_link_libraries(JRFirstGame PRIVATE ${VORBIS_LIB})
+            endif()
+            if(OGG_LIB)
+                target_link_libraries(JRFirstGame PRIVATE ${OGG_LIB})
+            endif()
+        endif()
+    endif()
     if(EXISTS "${ONNXRUNTIME_DIR}/lib/onnxruntime.dll")
         add_custom_command(TARGET JRFirstGame POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different

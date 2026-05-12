@@ -55,6 +55,16 @@ jobs:
         echo "SFML_DIR=$sfmlPath/lib/cmake/SFML" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         echo "SFML_BIN_DIR=$sfmlPath/bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
+    - name: Download ONNX Runtime (Windows)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        $onnxUrl = "https://github.com/microsoft/onnxruntime/releases/download/v1.19.2/onnxruntime-win-x64-1.19.2.zip"
+        Invoke-WebRequest -Uri $onnxUrl -OutFile onnx.zip
+        Expand-Archive -Path onnx.zip -DestinationPath .
+        Rename-Item -Path "onnxruntime-win-x64-1.19.2" -NewName "onnxruntime"
+        echo "ONNXRUNTIME_DIR=$pwd\onnxruntime" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
     - name: Download SFML (Linux/macOS)
       if: runner.os != 'Windows'
       run: |
@@ -64,23 +74,36 @@ jobs:
         echo "SFML_DIR=$sfmlPath/lib/cmake/SFML" >> $GITHUB_ENV
         echo "SFML_LIB_DIR=$sfmlPath/lib" >> $GITHUB_ENV
 
+    - name: Download ONNX Runtime (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        curl -L "https://github.com/microsoft/onnxruntime/releases/download/v1.19.2/onnxruntime-linux-x64-1.19.2.tgz" -o onnx.tgz
+        tar -xzf onnx.tgz
+        mv onnxruntime-linux-x64-1.19.2 onnxruntime
+        echo "ONNXRUNTIME_DIR=$(pwd)/onnxruntime" >> $GITHUB_ENV
+
     - name: Configure CMake (Windows)
       if: runner.os == 'Windows'
       run: |
         cmake -B build -G "${{ matrix.cmake_generator }}" `
               -DCMAKE_BUILD_TYPE=Release `
               -DEMBED_RESOURCES=ON `
-              -DENABLE_AI=OFF `
+              -DENABLE_AI=ON `
               -DSFML_DIR="$env:SFML_DIR" `
               -DSFML_BIN_DIR="$env:SFML_BIN_DIR"
 
     - name: Configure CMake (Linux/macOS)
       if: runner.os != 'Windows'
       run: |
+        if [ "${{ runner.os }}" = "Linux" ]; then
+          AI_FLAG="-DENABLE_AI=ON"
+        else
+          AI_FLAG="-DENABLE_AI=OFF"
+        fi
         cmake -B build -G "${{ matrix.cmake_generator }}" \
               -DCMAKE_BUILD_TYPE=Release \
               -DEMBED_RESOURCES=ON \
-              -DENABLE_AI=OFF \
+              $AI_FLAG \
               -DSFML_DIR="$SFML_DIR" \
               -DSFML_LIB_DIR="$SFML_LIB_DIR"
 
@@ -94,6 +117,8 @@ jobs:
         # 删除可能存在的数据库文件
         Get-ChildItem -Path build/Release -Filter *.db -Recurse | Remove-Item -Force
         Get-ChildItem -Path build/Release -Filter *.db-journal -Recurse | Remove-Item -Force
+        # 复制 ONNX Runtime DLL
+        Copy-Item -Path "$env:ONNXRUNTIME_DIR\lib\onnxruntime.dll" -Destination "build/Release" -Force
         # 压缩剩余文件
         Compress-Archive -Path build/Release/* -DestinationPath ${{ matrix.artifact_name }}.zip -Force
     
@@ -103,6 +128,7 @@ jobs:
         mkdir -p package
         cp build/JRFirstGame package/
         cp $SFML_LIB_DIR/libsfml-*.so* package/ || true
+        cp $ONNXRUNTIME_DIR/lib/libonnxruntime.so* package/ || true
         tar -czf ${{ matrix.artifact_name }}.tar.gz -C package .
 
     - name: Package (macOS)

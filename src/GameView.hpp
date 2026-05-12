@@ -26,7 +26,10 @@
 #include "MapSystem.hpp"
 #include "Database.hpp"
 #include "AudioManager.hpp"
+
+#ifdef ENABLE_AI_INFER
 #include "AIInference.hpp"
+#endif
 
 /**
  * @class ActualGameView
@@ -132,6 +135,7 @@ private:
 
     /* ---- AI 模式 ---- */
     bool aiMode_ = false;                     ///< AI 自动游玩模式
+#ifdef ENABLE_AI_INFER
     AIInference aiInference_;                 ///< ONNX 推理器
     AIGameState aiGameState_;                 ///< AI 观测用的游戏状态
     AIAction aiCurrentAction_;                ///< 当前 AI 决策
@@ -140,4 +144,5 @@ private:
     void buildAIGameState();                  ///< 从游戏状态构建 AI 观测
     void executeAIAction();                   ///< 执行 AI 动作
     const Enemy* selectAIAttackTarget(int strategy); ///< AI 选择攻击目标
+#endif
 };

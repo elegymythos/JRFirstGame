@@ -10,6 +10,7 @@ endif()
 
 # 构建选项
 option(EMBED_RESOURCES "将字体嵌入到可执行文件中" ON)
+option(ENABLE_AI "启用 AI 模式 (需要 ONNX Runtime)" ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -161,9 +162,12 @@ set(SOURCES
     src/RankingsView.cpp
     src/OnlineView.cpp
     src/AudioManager.cpp
+    src/main.cpp
+)
+
+set(AI_SOURCES
     src/AIController.cpp
     src/AIInference.cpp
-    src/main.cpp
 )
 
 set(HEADERS
@@ -184,9 +188,12 @@ set(HEADERS
     src/RankingsView.hpp
     src/OnlineView.hpp
     src/AudioManager.hpp
+    ${EMBED_HEADER}
+)
+
+set(AI_HEADERS
     src/AIController.hpp
     src/AIInference.hpp
-    ${EMBED_HEADER}
 )
 
 # =============================================================================
@@ -200,18 +207,26 @@ target_include_directories(JRFirstGame PRIVATE
     ${SFML_INCLUDE_DIRS}
 )
 
-# ONNX Runtime
-set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime" CACHE PATH "ONNX Runtime root directory")
-if(EXISTS "${ONNXRUNTIME_DIR}/include/onnxruntime_cxx_api.h")
-    target_include_directories(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/include")
-    if(WIN32)
-        target_link_libraries(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/lib/onnxruntime.lib")
+# AI 功能可选
+set(AI_ENABLED FALSE)
+if(ENABLE_AI)
+    set(ONNXRUNTIME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime" CACHE PATH "ONNX Runtime root directory")
+    if(EXISTS "${ONNXRUNTIME_DIR}/include/onnxruntime_cxx_api.h")
+        target_sources(JRFirstGame PRIVATE ${AI_SOURCES} ${AI_HEADERS})
+        target_include_directories(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/include")
+        if(WIN32)
+            target_link_libraries(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/lib/onnxruntime.lib")
+        else()
+            target_link_libraries(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/lib/libonnxruntime.so")
+        endif()
+        target_compile_definitions(JRFirstGame PRIVATE ENABLE_AI_INFER)
+        set(AI_ENABLED TRUE)
+        message(STATUS "AI mode enabled: ONNX Runtime at ${ONNXRUNTIME_DIR}")
     else()
-        target_link_libraries(JRFirstGame PRIVATE "${ONNXRUNTIME_DIR}/lib/libonnxruntime.so")
+        message(STATUS "ONNX Runtime not found at ${ONNXRUNTIME_DIR}, AI mode disabled")
     endif()
-    message(STATUS "ONNX Runtime: ${ONNXRUNTIME_DIR}")
 else()
-    message(WARNING "ONNX Runtime not found at ${ONNXRUNTIME_DIR}, AI mode will not work")
+    message(STATUS "AI mode disabled by option")
 endif()
 
 # 链接库

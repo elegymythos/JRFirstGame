@@ -964,26 +964,34 @@ class JRFirstGameEnv(gym.Env):
 
         # 预判 Archer 攻击：敌人攻击冷却快结束，提前移动
         archer_about_to_attack = 0
+        archer_nearby = 0
         for e in self.enemies:
             if e.alive and e.is_ranged:
                 d = math.sqrt((e.x - self.player.x)**2 + (e.y - self.player.y)**2)
                 if d < e.attack_range:
                     if e.attack_cooldown < 0.5:
                         archer_about_to_attack += 1
+                if d < 300:
+                    archer_nearby += 1
 
         if archer_about_to_attack > 0:
             if action_name == "roll":
-                reward += 1.5 * archer_about_to_attack
+                reward += 3.0 * archer_about_to_attack
             elif abs(self.player.vx) > 10 or abs(self.player.vy) > 10:
-                reward += 0.75 * archer_about_to_attack
+                reward += 1.5 * archer_about_to_attack
             if action_name == "stay":
-                reward -= 0.5 * archer_about_to_attack
+                reward -= 2.0 * archer_about_to_attack
             if action_name == "attack_nearest":
-                reward -= 0.15 * archer_about_to_attack
+                reward -= 1.0 * archer_about_to_attack
+
+        # 有 Archer 附近时，近战攻击惩罚（防止沉迷换血）
+        if archer_nearby > 0 and action_name == "attack_nearest":
+            if nearest_enemy is not None and not nearest_enemy.is_ranged:
+                reward -= 0.8 * archer_nearby
 
         if incoming_danger > 0:
             if self.player.is_rolling:
-                reward += 2.5 * min(incoming_danger, 3.0)
+                reward += 5.0 * min(incoming_danger, 3.0)
             elif dodge_dir_x != 0 or dodge_dir_y != 0:
                 move_dx = self.player.vx / max(abs(self.player.vx) + abs(self.player.vy), 1e-6)
                 move_dy = self.player.vy / max(abs(self.player.vx) + abs(self.player.vy), 1e-6)
@@ -991,13 +999,13 @@ class JRFirstGameEnv(gym.Env):
                 if dodge_len > 1e-6:
                     cos_angle = (move_dx * dodge_dir_x + move_dy * dodge_dir_y) / dodge_len
                     if cos_angle > 0.3:
-                        reward += 1.5 * min(incoming_danger, 2.0)
+                        reward += 3.5 * min(incoming_danger, 2.0)
 
-        if incoming_danger > 0.5 and action_name == "stay":
-            reward -= 0.75
+        if incoming_danger > 0.3 and action_name == "stay":
+            reward -= 2.0
 
-        if incoming_danger > 1.0 and action_name == "attack_nearest":
-            reward -= 0.25
+        if incoming_danger > 0.5 and action_name == "attack_nearest":
+            reward -= 2.0
 
         # === 风筝打法奖励（攻击-撤退-攻击循环）===
         if nearest_enemy is not None:

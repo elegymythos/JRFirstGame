@@ -70,6 +70,7 @@ jobs:
         cmake -B build -G "${{ matrix.cmake_generator }}" `
               -DCMAKE_BUILD_TYPE=Release `
               -DEMBED_RESOURCES=ON `
+              -DENABLE_AI=OFF `
               -DSFML_DIR="$env:SFML_DIR" `
               -DSFML_BIN_DIR="$env:SFML_BIN_DIR"
 
@@ -79,6 +80,7 @@ jobs:
         cmake -B build -G "${{ matrix.cmake_generator }}" \
               -DCMAKE_BUILD_TYPE=Release \
               -DEMBED_RESOURCES=ON \
+              -DENABLE_AI=OFF \
               -DSFML_DIR="$SFML_DIR" \
               -DSFML_LIB_DIR="$SFML_LIB_DIR"
 

@@ -50,6 +50,7 @@
 #endif
 
 int main(int argc, char* argv[]) {
+#ifdef ENABLE_AI_INFER
     bool aiMode = false;
     std::string aiModelPath = "rl/models/ppo_policy.onnx";
     for (int i = 1; i < argc; ++i) {
@@ -60,6 +61,16 @@ int main(int argc, char* argv[]) {
     if (aiMode) {
         std::cout << "[AI] AI mode requested, model: " << aiModelPath << std::endl;
     }
+#else
+    bool aiMode = false;
+    std::string aiModelPath = "";
+    for (int i = 1; i < argc; ++i) {
+        std::string arg(argv[i]);
+        if (arg == "--ai") {
+            std::cerr << "[AI] AI mode not available (built without ONNX Runtime)" << std::endl;
+        }
+    }
+#endif
     // 创建窗口
     sf::RenderWindow window(sf::VideoMode({1280, 720}), "JRFirstGame");
     window.setFramerateLimit(60);

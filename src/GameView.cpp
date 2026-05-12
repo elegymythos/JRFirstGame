@@ -92,6 +92,7 @@ ActualGameView::ActualGameView(const sf::Font& font, std::function<void(std::str
     victoryText.setCharacterSize(40);
 
     aiMode_ = aiMode;
+#ifdef ENABLE_AI_INFER
     if (aiMode_ && !aiModelPath.empty()) {
         if (aiInference_.loadModel(aiModelPath)) {
             std::cout << "[AI] AI mode enabled, model: " << aiModelPath << std::endl;
@@ -100,6 +101,7 @@ ActualGameView::ActualGameView(const sf::Font& font, std::function<void(std::str
             aiMode_ = false;
         }
     }
+#endif
 }
 
 void ActualGameView::attack() {
@@ -567,12 +569,15 @@ void ActualGameView::update(sf::Vector2f mousePos, sf::Vector2u windowSize) {
     }
 
     sf::Vector2f move(0,0);
+#ifdef ENABLE_AI_INFER
     if (aiMode_ && aiInference_.isLoaded()) {
         buildAIGameState();
         int action = aiInference_.predict(aiGameState_);
         aiCurrentAction_ = AIObservation::decodeAction(action);
         executeAIAction();
-    } else {
+    } else
+#endif
+    {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) move.y -= 1;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) move.y += 1;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) move.x -= 1;
@@ -716,14 +721,17 @@ void ActualGameView::draw(sf::RenderWindow& window) {
         pauseBackBtn.draw(window);
     }
 
+#ifdef ENABLE_AI_INFER
     if (aiMode_ && aiInference_.isLoaded()) {
         sf::Text aiLabel(infoText.getFont(), "[AI]", 16);
         aiLabel.setPosition({10, 690});
         aiLabel.setFillColor(sf::Color(0, 200, 255));
         window.draw(aiLabel);
     }
+#endif
 }
 
+#ifdef ENABLE_AI_INFER
 void ActualGameView::buildAIGameState() {
     auto& s = aiGameState_;
     auto& p = s.player;
@@ -943,3 +951,4 @@ const Enemy* ActualGameView::selectAIAttackTarget(int strategy) {
 
     return best;
 }
+#endif // ENABLE_AI_INFER

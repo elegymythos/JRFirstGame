@@ -172,6 +172,8 @@ def train_ppo(args):
         if os.path.exists(resume_path):
             print(f"Resuming from {resume_path}")
             model = PPO.load(resume_path, env=train_envs, device="cuda")
+            model.ent_coef = args.ent_coef if hasattr(args, 'ent_coef') and args.ent_coef else model.ent_coef
+            model.batch_size = args.batch_size if args.batch_size else model.batch_size
 
     eval_env = JRFirstGameEnv(max_steps=args.max_steps, seed=args.seed + 100,
                               difficulty_level=args.difficulty)
@@ -323,6 +325,7 @@ def main():
     parser.add_argument("--model-path", type=str, default=None)
     parser.add_argument("--eval-episodes", type=int, default=10)
     parser.add_argument("--resume", type=str, default=None, help="Resume from model path")
+    parser.add_argument("--ent-coef", type=float, default=None, help="Entropy coefficient")
     parser.add_argument("--difficulty", type=int, default=2, help="Difficulty level 0-3")
     parser.add_argument("--curriculum", action="store_true", help="Enable curriculum learning")
     args = parser.parse_args()

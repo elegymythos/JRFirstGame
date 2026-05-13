@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OBS_DIM = 330
 NUM_ACTIONS = 12
 
-model_path = "rl/logs/ppo_v23/best_model/best_model.zip"
+model_path = "rl/logs/ppo_v24/best_model/best_model.zip"
 output_path = "rl/models/ppo_policy.onnx"
 
 import gymnasium as gym

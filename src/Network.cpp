@@ -7,12 +7,12 @@
  */
 
 #include <cstdint>
+#include <iostream>
 #include "Network.hpp"
 
 NetworkManager::NetworkManager() : role(None) {}
 
 bool NetworkManager::startServer(unsigned short port) {
-    // 先断开现有连接
     disconnect();
     role = Server;
     if (socket.bind(port) != sf::Socket::Status::Done) return false;

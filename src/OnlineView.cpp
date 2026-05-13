@@ -203,6 +203,8 @@ OnlineGameView::OnlineGameView(const sf::Font& font, std::function<void(std::str
         hostPlayer.recalcCombatStats();
         hostPlayer.health = hostPlayer.maxHealth;
         coopPlayers[0] = std::move(hostPlayer);
+        auto w2 = coopPlayers[0].weaponList.findWeaponByType(coopPlayers[0].classConfig.allowedWeapon);
+        if (w2) coopPlayers[0].equipWeapon(w2->name);
     } else {
         myId = -1;
         std::string conn = I18n::instance().t("connecting_server");
@@ -327,6 +329,8 @@ void OnlineGameView::processNetwork() {
                     newPlayer.recalcCombatStats();
                     newPlayer.health = newPlayer.maxHealth;
                     coopPlayers[newId] = std::move(newPlayer);
+                    auto w2 = coopPlayers[newId].weaponList.findWeaponByType(coopPlayers[newId].classConfig.allowedWeapon);
+                    if (w2) coopPlayers[newId].equipWeapon(w2->name);
 
                     sf::Packet accept;
                     accept << static_cast<uint8_t>(NetMsgType::ConnectAccept) << newId;

@@ -48,7 +48,7 @@ dist/
 
 # RL 训练日志和模型（体积大，不应提交）
 rl/logs/
-rl/models/
+#rl/models/
 
 # ONNX Runtime 库（体积大）
 onnxruntime/

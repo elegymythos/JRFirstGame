@@ -1,0 +1,247 @@
+\hypertarget{WeaponList_8h}{}\doxysection{src/\+Weapon\+List.h File Reference}
+\label{WeaponList_8h}\index{src/WeaponList.h@{src/WeaponList.h}}
+
+
+C语言链表武器系统 -\/ 头文件  
+
+
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{WeaponList_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structWeapon}{Weapon}}
+\begin{DoxyCompactList}\small\item\em 武器节点结构体（单链表节点） \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structWeaponList}{Weapon\+List}}
+\begin{DoxyCompactList}\small\item\em 武器链表结构体 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structWeapon}{Weapon}} \mbox{\hyperlink{WeaponList_8h_a289267d934011ba74f3f27f807e4841b}{Weapon}}
+\begin{DoxyCompactList}\small\item\em 武器节点结构体（单链表节点） \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{Weapon\+Type}} \{ \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8a7ea36fad485cddcdd48ad3a949c18c94}{WEAPON\+\_\+\+SWORD}} = 0
+, \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8a34e4b7d4ad3769574e8bd6cc55309538}{WEAPON\+\_\+\+ARTIFACT}} = 1
+, \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8afdd382885816a8a901a00750be87498e}{WEAPON\+\_\+\+DAGGER}} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em 武器类型枚举 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$ \mbox{\hyperlink{WeaponList_8h_a35cda3cfe3a5aad55f35bbf74c71951a}{weapon\+\_\+list\+\_\+create}} (void)
+\begin{DoxyCompactList}\small\item\em 创建并初始化武器链表 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{WeaponList_8h_a398e2cf3dba2563c50bb805a56aaca29}{weapon\+\_\+list\+\_\+destroy}} (\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$list)
+\begin{DoxyCompactList}\small\item\em 销毁武器链表，释放所有节点和链表本身 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{WeaponList_8h_a537da9172ba4dca855939be15fa30ae5}{weapon\+\_\+list\+\_\+insert}} (\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$list, const \mbox{\hyperlink{structWeapon}{Weapon}} $\ast$weapon)
+\begin{DoxyCompactList}\small\item\em 向链表头部插入武器（深拷贝） \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{WeaponList_8h_a6d46d0e73f570a731692ef9ad3b91609}{weapon\+\_\+list\+\_\+remove}} (\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$list, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em 按名称从链表中删除武器 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structWeapon}{Weapon}} $\ast$ \mbox{\hyperlink{WeaponList_8h_a66f11eeec4465ec5774ae902e655d323}{weapon\+\_\+list\+\_\+find}} (\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$list, const char $\ast$name)
+\begin{DoxyCompactList}\small\item\em 按名称查找武器 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structWeapon}{Weapon}} $\ast$ \mbox{\hyperlink{WeaponList_8h_a5a59870e50e85e3330b2d94d379be455}{weapon\+\_\+list\+\_\+find\+\_\+by\+\_\+type}} (\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$list, \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{Weapon\+Type}} type)
+\begin{DoxyCompactList}\small\item\em 按类型查找首个匹配的武器 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{WeaponList_8h_aad05340288ae4757a2e1d8babed9ca7a}{weapon\+\_\+list\+\_\+foreach}} (\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$list, void($\ast$callback)(\mbox{\hyperlink{structWeapon}{Weapon}} $\ast$, void $\ast$), void $\ast$userdata)
+\begin{DoxyCompactList}\small\item\em 遍历链表，对每个节点调用回调函数 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{WeaponList_8h_aa4426cc73b568db749e37aa87eaa6fce}{weapon\+\_\+list\+\_\+count}} (\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$list)
+\begin{DoxyCompactList}\small\item\em 获取链表中的武器数量 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+C语言链表武器系统 -\/ 头文件 
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{WeaponList_8h_a289267d934011ba74f3f27f807e4841b}\label{WeaponList_8h_a289267d934011ba74f3f27f807e4841b}} 
+\index{WeaponList.h@{WeaponList.h}!Weapon@{Weapon}}
+\index{Weapon@{Weapon}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{Weapon}{Weapon}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structWeapon}{Weapon}} \mbox{\hyperlink{structWeapon}{Weapon}}}
+
+
+
+武器节点结构体（单链表节点） 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}\label{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}} 
+\index{WeaponList.h@{WeaponList.h}!WeaponType@{WeaponType}}
+\index{WeaponType@{WeaponType}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{WeaponType}{WeaponType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{Weapon\+Type}}}
+
+
+
+武器类型枚举 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WEAPON\_SWORD@{WEAPON\_SWORD}!WeaponList.h@{WeaponList.h}}\index{WeaponList.h@{WeaponList.h}!WEAPON\_SWORD@{WEAPON\_SWORD}}}\mbox{\Hypertarget{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8a7ea36fad485cddcdd48ad3a949c18c94}\label{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8a7ea36fad485cddcdd48ad3a949c18c94}} 
+WEAPON\+\_\+\+SWORD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WEAPON\_ARTIFACT@{WEAPON\_ARTIFACT}!WeaponList.h@{WeaponList.h}}\index{WeaponList.h@{WeaponList.h}!WEAPON\_ARTIFACT@{WEAPON\_ARTIFACT}}}\mbox{\Hypertarget{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8a34e4b7d4ad3769574e8bd6cc55309538}\label{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8a34e4b7d4ad3769574e8bd6cc55309538}} 
+WEAPON\+\_\+\+ARTIFACT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WEAPON\_DAGGER@{WEAPON\_DAGGER}!WeaponList.h@{WeaponList.h}}\index{WeaponList.h@{WeaponList.h}!WEAPON\_DAGGER@{WEAPON\_DAGGER}}}\mbox{\Hypertarget{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8afdd382885816a8a901a00750be87498e}\label{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8afdd382885816a8a901a00750be87498e}} 
+WEAPON\+\_\+\+DAGGER&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{WeaponList_8h_aa4426cc73b568db749e37aa87eaa6fce}\label{WeaponList_8h_aa4426cc73b568db749e37aa87eaa6fce}} 
+\index{WeaponList.h@{WeaponList.h}!weapon\_list\_count@{weapon\_list\_count}}
+\index{weapon\_list\_count@{weapon\_list\_count}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{weapon\_list\_count()}{weapon\_list\_count()}}
+{\footnotesize\ttfamily int weapon\+\_\+list\+\_\+count (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$}]{list }\end{DoxyParamCaption})}
+
+
+
+获取链表中的武器数量 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & 链表指针 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+武器数量 
+\end{DoxyReturn}
+\mbox{\Hypertarget{WeaponList_8h_a35cda3cfe3a5aad55f35bbf74c71951a}\label{WeaponList_8h_a35cda3cfe3a5aad55f35bbf74c71951a}} 
+\index{WeaponList.h@{WeaponList.h}!weapon\_list\_create@{weapon\_list\_create}}
+\index{weapon\_list\_create@{weapon\_list\_create}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{weapon\_list\_create()}{weapon\_list\_create()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$ weapon\+\_\+list\+\_\+create (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+创建并初始化武器链表 
+
+\begin{DoxyReturn}{Returns}
+新链表指针，失败返回\+NULL 
+\end{DoxyReturn}
+\mbox{\Hypertarget{WeaponList_8h_a398e2cf3dba2563c50bb805a56aaca29}\label{WeaponList_8h_a398e2cf3dba2563c50bb805a56aaca29}} 
+\index{WeaponList.h@{WeaponList.h}!weapon\_list\_destroy@{weapon\_list\_destroy}}
+\index{weapon\_list\_destroy@{weapon\_list\_destroy}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{weapon\_list\_destroy()}{weapon\_list\_destroy()}}
+{\footnotesize\ttfamily void weapon\+\_\+list\+\_\+destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$}]{list }\end{DoxyParamCaption})}
+
+
+
+销毁武器链表，释放所有节点和链表本身 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & 链表指针 \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{WeaponList_8h_a66f11eeec4465ec5774ae902e655d323}\label{WeaponList_8h_a66f11eeec4465ec5774ae902e655d323}} 
+\index{WeaponList.h@{WeaponList.h}!weapon\_list\_find@{weapon\_list\_find}}
+\index{weapon\_list\_find@{weapon\_list\_find}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{weapon\_list\_find()}{weapon\_list\_find()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structWeapon}{Weapon}} $\ast$ weapon\+\_\+list\+\_\+find (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$}]{list,  }\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+
+
+
+按名称查找武器 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & 链表指针 \\
+\hline
+{\em name} & 武器名称 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+找到的武器节点指针，未找到返回\+NULL 
+\end{DoxyReturn}
+\mbox{\Hypertarget{WeaponList_8h_a5a59870e50e85e3330b2d94d379be455}\label{WeaponList_8h_a5a59870e50e85e3330b2d94d379be455}} 
+\index{WeaponList.h@{WeaponList.h}!weapon\_list\_find\_by\_type@{weapon\_list\_find\_by\_type}}
+\index{weapon\_list\_find\_by\_type@{weapon\_list\_find\_by\_type}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{weapon\_list\_find\_by\_type()}{weapon\_list\_find\_by\_type()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structWeapon}{Weapon}} $\ast$ weapon\+\_\+list\+\_\+find\+\_\+by\+\_\+type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$}]{list,  }\item[{\mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{Weapon\+Type}}}]{type }\end{DoxyParamCaption})}
+
+
+
+按类型查找首个匹配的武器 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & 链表指针 \\
+\hline
+{\em type} & 武器类型 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+找到的武器节点指针，未找到返回\+NULL 
+\end{DoxyReturn}
+\mbox{\Hypertarget{WeaponList_8h_aad05340288ae4757a2e1d8babed9ca7a}\label{WeaponList_8h_aad05340288ae4757a2e1d8babed9ca7a}} 
+\index{WeaponList.h@{WeaponList.h}!weapon\_list\_foreach@{weapon\_list\_foreach}}
+\index{weapon\_list\_foreach@{weapon\_list\_foreach}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{weapon\_list\_foreach()}{weapon\_list\_foreach()}}
+{\footnotesize\ttfamily void weapon\+\_\+list\+\_\+foreach (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$}]{list,  }\item[{void($\ast$)(\mbox{\hyperlink{structWeapon}{Weapon}} $\ast$, void $\ast$)}]{callback,  }\item[{void $\ast$}]{userdata }\end{DoxyParamCaption})}
+
+
+
+遍历链表，对每个节点调用回调函数 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & 链表指针 \\
+\hline
+{\em callback} & 回调函数，参数为武器节点和用户数据 \\
+\hline
+{\em userdata} & 传递给回调的用户数据 \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{WeaponList_8h_a537da9172ba4dca855939be15fa30ae5}\label{WeaponList_8h_a537da9172ba4dca855939be15fa30ae5}} 
+\index{WeaponList.h@{WeaponList.h}!weapon\_list\_insert@{weapon\_list\_insert}}
+\index{weapon\_list\_insert@{weapon\_list\_insert}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{weapon\_list\_insert()}{weapon\_list\_insert()}}
+{\footnotesize\ttfamily int weapon\+\_\+list\+\_\+insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$}]{list,  }\item[{const \mbox{\hyperlink{structWeapon}{Weapon}} $\ast$}]{weapon }\end{DoxyParamCaption})}
+
+
+
+向链表头部插入武器（深拷贝） 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & 链表指针 \\
+\hline
+{\em weapon} & 要插入的武器数据（会被深拷贝） \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0=成功, -\/1=失败 
+\end{DoxyReturn}
+\mbox{\Hypertarget{WeaponList_8h_a6d46d0e73f570a731692ef9ad3b91609}\label{WeaponList_8h_a6d46d0e73f570a731692ef9ad3b91609}} 
+\index{WeaponList.h@{WeaponList.h}!weapon\_list\_remove@{weapon\_list\_remove}}
+\index{weapon\_list\_remove@{weapon\_list\_remove}!WeaponList.h@{WeaponList.h}}
+\doxysubsubsection{\texorpdfstring{weapon\_list\_remove()}{weapon\_list\_remove()}}
+{\footnotesize\ttfamily int weapon\+\_\+list\+\_\+remove (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structWeaponList}{Weapon\+List}} $\ast$}]{list,  }\item[{const char $\ast$}]{name }\end{DoxyParamCaption})}
+
+
+
+按名称从链表中删除武器 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & 链表指针 \\
+\hline
+{\em name} & 武器名称 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0=成功, -\/1=未找到 
+\end{DoxyReturn}

@@ -1,0 +1,276 @@
+基于 C++17 + SFML 3.\+x + SQLite3 的塞尔达风格 RPG 闯关游戏，支持单机闯关、双人联机合作与 AI 自动游玩。\hypertarget{md_README_autotoc_md1}{}\doxysection{功能特性}\label{md_README_autotoc_md1}
+\hypertarget{md_README_autotoc_md2}{}\doxysubsection{核心系统}\label{md_README_autotoc_md2}
+
+\begin{DoxyItemize}
+\item 用户系统：注册/登录，加盐哈希密码存储
+\item 多角色：每用户最多 3 个角色槽位，支持创建/选择/删除
+\item 五种职业：战士、法师、弓箭手、圣骑士、狂战士
+\item 六大属性：力量/敏捷/魔法/智力/生命/幸运，正态分布随机生成
+\item 等级系统：经验值升级，每级全属性 +2
+\item 武器系统：C 语言单链表 + C++ 桥接层，三种武器（铁剑/炎之法器/暗影匕首）
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md3}{}\doxysubsection{游戏玩法}\label{md_README_autotoc_md3}
+
+\begin{DoxyItemize}
+\item 无限地图：基于区域网格，越远敌人越强
+\item 五种敌人：史莱姆、骷髅刀斧手、骷髅弓箭手、巨人、\+Boss，各有不同 AI 和攻击方式
+\item 战斗系统：扇形近战/远程投射物，刀光动画，暴击机制
+\item 翻滚系统：\+Shift 键翻滚，翻滚期间无敌
+\item 掉落物：击杀敌人概率掉落血瓶和属性提升道具（6 种）
+\item 分数加成：每 50 分增加 10\% 全属性加成，上限 200\%
+\item 阶段胜利：5 个阶段（100/1000/2000/5000/10000 分），每阶段强化角色并回满血
+\item 暂停/存档：\+Esc 暂停，P 键中途存档
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md4}{}\doxysubsection{联机与社交}\label{md_README_autotoc_md4}
+
+\begin{DoxyItemize}
+\item 双人闯关：\+UDP 联机合作，主机-\/客户端架构
+\item 排行榜：按等级和分数排名（\+Top 10）
+\item 国际化：中/英双语切换（L 键）
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md5}{}\doxysubsection{AI 自动游玩}\label{md_README_autotoc_md5}
+
+\begin{DoxyItemize}
+\item 强化学习 PPO 策略，330 维观测空间，12 离散动作空间
+\item ONNX Runtime C++ 推理集成，{\ttfamily -\/-\/ai} 命令行启动
+\item 奖励塑形：得分/击杀/闪避/风筝/拾取/寻敌等多维度引导
+\item Web\+UI 训练界面（\+Gradio）
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md6}{}\doxysection{技术栈}\label{md_README_autotoc_md6}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 技术   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 用途    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 技术   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 用途    }\\\cline{1-2}
+\endhead
+C++17   &核心语言    \\\cline{1-2}
+SFML 3.\+0.\+2   &图形/窗口/网络/音频    \\\cline{1-2}
+SQLite3   &数据存储（源码编译）    \\\cline{1-2}
+CMake 3.\+15+   &构建系统    \\\cline{1-2}
+Git\+Hub Actions   &跨平台 CI/\+CD（\+Windows/\+Linux/mac\+OS）    \\\cline{1-2}
+Python 3.\+11+   &RL 训练（\+Gymnasium + Stable-\/\+Baselines3）    \\\cline{1-2}
+Py\+Torch 2.\+5+   &PPO 策略网络训练（\+CUDA 加速）    \\\cline{1-2}
+ONNX Runtime 1.\+19+   &C++ 端模型推理   \\\cline{1-2}
+\end{longtabu}
+\hypertarget{md_README_autotoc_md7}{}\doxysection{项目结构}\label{md_README_autotoc_md7}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{src/}
+\DoxyCodeLine{├── main.cpp              程序入口与主循环}
+\DoxyCodeLine{├── ViewBase.hpp/cpp      视图基类（语言切换按钮）}
+\DoxyCodeLine{├── UIWidgets.hpp/cpp     UI 控件（Button/InputField/AttributePanel）}
+\DoxyCodeLine{├── AuthView.hpp/cpp      登录/注册视图}
+\DoxyCodeLine{├── MenuView.hpp/cpp      主菜单/模式选择视图}
+\DoxyCodeLine{├── CharacterView.hpp/cpp 角色创建/选择视图}
+\DoxyCodeLine{├── GameView.hpp/cpp      单机闯关游戏视图}
+\DoxyCodeLine{├── OnlineView.hpp/cpp    联机大厅/联机游戏视图}
+\DoxyCodeLine{├── RankingsView.hpp/cpp  排行榜视图}
+\DoxyCodeLine{├── GameLogic.hpp/cpp     游戏逻辑（属性/职业/等级/敌人/实体）}
+\DoxyCodeLine{├── MapSystem.hpp/cpp     无限地图区域与摄像机系统}
+\DoxyCodeLine{├── Network.hpp/cpp       UDP 网络通信}
+\DoxyCodeLine{├── Database.hpp/cpp      SQLite 数据库操作}
+\DoxyCodeLine{├── WeaponList.h/c        C 语言武器链表（纯 C 实现）}
+\DoxyCodeLine{├── WeaponListBridge.hpp/cpp C++ 桥接层（RAII 封装 C 链表）}
+\DoxyCodeLine{├── I18n.hpp/cpp          国际化系统（中/英翻译表）}
+\DoxyCodeLine{├── Utils.hpp/cpp         工具函数（盐值/哈希）}
+\DoxyCodeLine{├── AudioManager.hpp/cpp  音频管理器（BGM + SFX）}
+\DoxyCodeLine{├── AIController.hpp/cpp  AI 观测编码与动作解码（OBS\_DIM=330）}
+\DoxyCodeLine{├── AIInference.hpp/cpp   ONNX Runtime 推理器}
+\DoxyCodeLine{└── embedded\_font.hpp     嵌入字体数据（自动生成）}
+\DoxyCodeLine{}
+\DoxyCodeLine{rl/}
+\DoxyCodeLine{├── game\_env.py           Gymnasium 环境封装（330 维观测）}
+\DoxyCodeLine{├── train.py              PPO 训练脚本（GPU + 线性 LR 衰减）}
+\DoxyCodeLine{├── play.py               pygame 可视化}
+\DoxyCodeLine{├── export\_onnx\_standalone.py ONNX 独立导出}
+\DoxyCodeLine{├── webui.py              Gradio WebUI 训练界面}
+\DoxyCodeLine{├── run\_v24.py            v24 训练启动脚本}
+\DoxyCodeLine{├── run\_v25.py            v25 训练启动脚本}
+\DoxyCodeLine{└── requirements.txt      Python 依赖}
+\DoxyCodeLine{}
+\DoxyCodeLine{docs/}
+\DoxyCodeLine{└── FEATURES.md           功能实现详细清单}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md8}{}\doxysection{AI 自动游玩}\label{md_README_autotoc_md8}
+\hypertarget{md_README_autotoc_md9}{}\doxysubsection{快速开始}\label{md_README_autotoc_md9}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\# 1. 一键启动 WebUI 训练界面（Windows）}
+\DoxyCodeLine{start\_training.bat}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# 2. 或手动训练}
+\DoxyCodeLine{rl\_env\(\backslash\)Scripts\(\backslash\)python.exe rl\(\backslash\)train.py -\/-\/algo ppo -\/-\/mode train \string^}
+\DoxyCodeLine{    -\/-\/total-\/timesteps 4000000 -\/-\/difficulty 2 -\/-\/n-\/envs 4}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# 3. 导出 ONNX 模型}
+\DoxyCodeLine{rl\_env\(\backslash\)Scripts\(\backslash\)python.exe rl\(\backslash\)export\_onnx\_standalone.py}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# 4. 启动 AI 模式}
+\DoxyCodeLine{build\(\backslash\)JRFirstGame.exe -\/-\/ai}
+\DoxyCodeLine{build\(\backslash\)JRFirstGame.exe -\/-\/ai -\/-\/ai-\/model rl\(\backslash\)models\(\backslash\)ppo\_policy.onnx}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md10}{}\doxysubsection{RL 训练架构}\label{md_README_autotoc_md10}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 组件   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 文件   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 组件   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 文件   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endhead
+Gymnasium 环境   &{\ttfamily rl/game\+\_\+env.\+py}   &330 维观测空间，12 离散动作空间    \\\cline{1-3}
+PPO 训练   &{\ttfamily rl/train.\+py}   &PPO 算法，\mbox{[}256,256\mbox{]} 网络，线性 LR 衰减，\+CUDA    \\\cline{1-3}
+ONNX 导出   &{\ttfamily rl/export\+\_\+onnx\+\_\+standalone.\+py}   &策略网络导出为 ONNX 格式    \\\cline{1-3}
+Web\+UI   &{\ttfamily rl/webui.\+py}   &Gradio 训练/评估/导出/监控界面    \\\cline{1-3}
+C++ 推理   &{\ttfamily \mbox{\hyperlink{AIInference_8hpp}{src/\+AIInference.\+hpp}}/cpp}   &ONNX Runtime C++ 推理    \\\cline{1-3}
+C++ 控制   &{\ttfamily \mbox{\hyperlink{AIController_8hpp}{src/\+AIController.\+hpp}}/cpp}   &观测编码 + 动作解码   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_README_autotoc_md11}{}\doxysubsection{观测空间（330 维）}\label{md_README_autotoc_md11}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 模块   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 维度   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 内容    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 模块   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 维度   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 内容    }\\\cline{1-3}
+\endhead
+PLAYER   &20   &位置/速度/血量/攻击范围/冷却/是否翻滚/最近敌距离/附近敌人数/...    \\\cline{1-3}
+ENEMY×20   &200   &类型/相对位置/血量/距离/是否远程/速度/攻击冷却/是否在攻击范围内    \\\cline{1-3}
+PROJECTILE×10   &60   &相对位置/方向/是否友方/到达时间估计    \\\cline{1-3}
+DROP×10   &40   &相对位置/类型    \\\cline{1-3}
+DANGER\+\_\+\+GRID   &8   &8 方向弹幕危险度    \\\cline{1-3}
+GLOBAL   &2   &游戏时间/难度缩放   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_README_autotoc_md12}{}\doxysubsection{动作空间（12 个离散动作）}\label{md_README_autotoc_md12}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 动作 ID   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 含义   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 动作 ID   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 含义    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 动作 ID   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 含义   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 动作 ID   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 含义    }\\\cline{1-4}
+\endhead
+0   &停留   &5   &左上移动    \\\cline{1-4}
+1   &上移   &6   &右上移动    \\\cline{1-4}
+2   &下移   &7   &左下移动    \\\cline{1-4}
+3   &左移   &8   &右下移动    \\\cline{1-4}
+4   &右移   &9   &攻击最近敌人（自动边打边走）    \\\cline{1-4}
+-\/   &-\/   &10   &翻滚    \\\cline{1-4}
+-\/   &-\/   &11   &拾取最近掉落物   \\\cline{1-4}
+\end{longtabu}
+\hypertarget{md_README_autotoc_md13}{}\doxysubsection{依赖安装}\label{md_README_autotoc_md13}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\# 创建虚拟环境}
+\DoxyCodeLine{python -\/m venv rl\_env}
+\DoxyCodeLine{rl\_env\(\backslash\)Scripts\(\backslash\)activate}
+\DoxyCodeLine{}
+\DoxyCodeLine{pip install -\/r rl/requirements.txt}
+\DoxyCodeLine{\# GPU 版本 PyTorch:}
+\DoxyCodeLine{pip install torch -\/-\/index-\/url https://download.pytorch.org/whl/cu124}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md14}{}\doxysection{下载}\label{md_README_autotoc_md14}
+\href{https://github.com/elegymythos/JRFirstGame/releases}{\texttt{ Releases 页面}}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 平台   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 平台   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-2}
+\endhead
+Windows   &解压后双击 JRFirst\+Game.\+exe（保留同目录 .dll 文件）    \\\cline{1-2}
+Linux   &解压后运行 {\ttfamily ./\+JRFirst\+Game}    \\\cline{1-2}
+mac\+OS   &解压后双击 JRFirst\+Game.\+app（若提示损坏：{\ttfamily xattr -\/cr JRFirst\+Game.\+app}）   \\\cline{1-2}
+\end{longtabu}
+\hypertarget{md_README_autotoc_md15}{}\doxysection{从源码构建}\label{md_README_autotoc_md15}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\# 安装 SFML 3.x}
+\DoxyCodeLine{\# Linux:  sudo apt install libsfml-\/all-\/dev}
+\DoxyCodeLine{\# macOS:  brew install sfml}
+\DoxyCodeLine{\# Windows: 从 https://www.sfml-\/dev.org/ 下载，或编译 SFML-\/mingw/}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# 配置（AI 默认启用，需要 onnxruntime/ 目录）}
+\DoxyCodeLine{cmake -\/B build -\/DCMAKE\_PREFIX\_PATH=<SFML路径>}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# 禁用 AI（不需要 ONNX Runtime）}
+\DoxyCodeLine{cmake -\/B build -\/DENABLE\_AI=OFF}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# 编译运行}
+\DoxyCodeLine{cmake -\/-\/build build -\/j4}
+\DoxyCodeLine{./build/JRFirstGame}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md16}{}\doxysubsection{构建选项}\label{md_README_autotoc_md16}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 选项   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 默认   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 选项   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 默认   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endhead
+{\ttfamily EMBED\+\_\+\+RESOURCES}   &ON   &将字体嵌入可执行文件    \\\cline{1-3}
+{\ttfamily ENABLE\+\_\+\+AI}   &ON   &启用 AI 模式（需要 ONNX Runtime）   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_README_autotoc_md17}{}\doxysection{操作}\label{md_README_autotoc_md17}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 按键   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 功能    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 按键   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 功能    }\\\cline{1-2}
+\endhead
+WASD   &移动    \\\cline{1-2}
+Space / 鼠标左键   &攻击    \\\cline{1-2}
+Shift   &翻滚（无敌）    \\\cline{1-2}
+E   &交互/拾取    \\\cline{1-2}
+Tab   &属性面板    \\\cline{1-2}
+Esc   &暂停    \\\cline{1-2}
+P   &存档    \\\cline{1-2}
+L   &切换语言   \\\cline{1-2}
+\end{longtabu}
+\hypertarget{md_README_autotoc_md18}{}\doxysection{训练版本历史}\label{md_README_autotoc_md18}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 版本   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 策略   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Best Score   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 备注    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 版本   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 策略   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Best Score   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 备注    }\\\cline{1-4}
+\endhead
+v16   &diff=2+ 自适应   &4050   &最稳定基线（\+OBS=278），\+C++ 实测不行    \\\cline{1-4}
+v22   &预判闪避+范围惩罚   &2657   &不会躲弹幕/误判范围/打完不动    \\\cline{1-4}
+v23   &OBS 扩展到 330 维   &2692   &塑形奖励过多，score 下降    \\\cline{1-4}
+v24   &降低塑形 50\%+score 5x   &{\bfseries{3164}}   &当前最佳，\+Mean 1568    \\\cline{1-4}
+v25   &ent\+\_\+coef 0.\+05+batch 1024   &2535   &过早收敛，效果退步   \\\cline{1-4}
+\end{longtabu}
+\hypertarget{md_README_autotoc_md19}{}\doxysection{字体}\label{md_README_autotoc_md19}
+使用 \href{https://github.com/atelier-anchor/smiley-sans}{\texttt{ Smiley Sans 得意黑}} 字体，\+SIL Open Font License 1.\+1 授权。\hypertarget{md_README_autotoc_md20}{}\doxysection{已知限制}\label{md_README_autotoc_md20}
+
+\begin{DoxyItemize}
+\item 联机模式仅支持局域网 UDP，无断线重连和延迟补偿
+\item 密码哈希使用 SHA-\/256 算法，不可用于生产环境
+\item mac\+OS 版本未经深度测试
+\item AI 模型训练存在 sim-\/to-\/real gap，\+Python env 与 C++ 仍有细微差异 
+\end{DoxyItemize}

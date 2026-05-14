@@ -1,0 +1,23 @@
+\hypertarget{AIController_8cpp}{}\doxysection{src/\+AIController.cpp File Reference}
+\label{AIController_8cpp}\index{src/AIController.cpp@{src/AIController.cpp}}
+
+
+AI控制器实现 -\/ 观测向量构建与动作解码  
+
+
+{\ttfamily \#include \char`\"{}AIController.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$numeric$>$}\newline
+Include dependency graph for AIController.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{AIController_8cpp__incl}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Detailed Description}
+AI控制器实现 -\/ 观测向量构建与动作解码 
+
+实现\+AIObservation\+::build()将游戏状态归一化为神经网络输入向量， 以及\+AIObservation\+::decode\+Action()将网络输出动作\+ID解码为\+AIAction。 

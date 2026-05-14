@@ -1,0 +1,130 @@
+\hypertarget{structDropItem}{}\doxysection{Drop\+Item Struct Reference}
+\label{structDropItem}\index{DropItem@{DropItem}}
+
+
+掉落物  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{structDropItem_aa26336129774986ed2c1654e5ecc3ac1}{update}} (float dt)
+\begin{DoxyCompactList}\small\item\em 每帧更新（减少存活时间，推进浮动动画） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structDropItem_a3109e6315f9a0afe9102d02cf5f4faee}{draw}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em 绘制掉落物（光晕+内圈+中心高亮） \end{DoxyCompactList}\item 
+sf\+::\+Color \mbox{\hyperlink{structDropItem_af68bd4eb4450859294b023011b93185b}{get\+Color}} () const
+\begin{DoxyCompactList}\small\item\em 获取掉落物颜色 \end{DoxyCompactList}\item 
+const char $\ast$ \mbox{\hyperlink{structDropItem_ac4c1fda182b2a1e0d0d07f134d3d9025}{get\+Label}} () const
+\begin{DoxyCompactList}\small\item\em 获取掉落物标签文字（如 \char`\"{}\+HP+\char`\"{}、\char`\"{}\+STR+\char`\"{}） \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886b}{Drop\+Type}} \mbox{\hyperlink{structDropItem_a2f901bb1b6444760ae55ca04dac3fdc8}{type}}
+\begin{DoxyCompactList}\small\item\em 掉落物类型 \end{DoxyCompactList}\item 
+sf\+::\+Vector2f \mbox{\hyperlink{structDropItem_a397bde8d9eeb48f4a9b8cd0139cd256a}{position}}
+\begin{DoxyCompactList}\small\item\em 世界坐标位置 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structDropItem_a9002ef60b7b3a443c31f60c87a8400b3}{lifetime}} = 10.f
+\begin{DoxyCompactList}\small\item\em 剩余存活时间（秒） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structDropItem_a0c425be3ca3c42b623db7db35972d968}{bob\+Timer}} = 0.f
+\begin{DoxyCompactList}\small\item\em 上下浮动动画计时器 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+掉落物 
+
+敌人被击杀后有概率掉落，10秒后自动消失。 绘制时带有上下浮动动画和光晕效果。 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structDropItem_a3109e6315f9a0afe9102d02cf5f4faee}\label{structDropItem_a3109e6315f9a0afe9102d02cf5f4faee}} 
+\index{DropItem@{DropItem}!draw@{draw}}
+\index{draw@{draw}!DropItem@{DropItem}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Drop\+Item\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const}
+
+
+
+绘制掉落物（光晕+内圈+中心高亮） 
+
+\mbox{\Hypertarget{structDropItem_af68bd4eb4450859294b023011b93185b}\label{structDropItem_af68bd4eb4450859294b023011b93185b}} 
+\index{DropItem@{DropItem}!getColor@{getColor}}
+\index{getColor@{getColor}!DropItem@{DropItem}}
+\doxysubsubsection{\texorpdfstring{getColor()}{getColor()}}
+{\footnotesize\ttfamily sf\+::\+Color Drop\+Item\+::get\+Color (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取掉落物颜色 
+
+\mbox{\Hypertarget{structDropItem_ac4c1fda182b2a1e0d0d07f134d3d9025}\label{structDropItem_ac4c1fda182b2a1e0d0d07f134d3d9025}} 
+\index{DropItem@{DropItem}!getLabel@{getLabel}}
+\index{getLabel@{getLabel}!DropItem@{DropItem}}
+\doxysubsubsection{\texorpdfstring{getLabel()}{getLabel()}}
+{\footnotesize\ttfamily const char $\ast$ Drop\+Item\+::get\+Label (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取掉落物标签文字（如 \char`\"{}\+HP+\char`\"{}、\char`\"{}\+STR+\char`\"{}） 
+
+\mbox{\Hypertarget{structDropItem_aa26336129774986ed2c1654e5ecc3ac1}\label{structDropItem_aa26336129774986ed2c1654e5ecc3ac1}} 
+\index{DropItem@{DropItem}!update@{update}}
+\index{update@{update}!DropItem@{DropItem}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Drop\+Item\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})}
+
+
+
+每帧更新（减少存活时间，推进浮动动画） 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structDropItem_a0c425be3ca3c42b623db7db35972d968}\label{structDropItem_a0c425be3ca3c42b623db7db35972d968}} 
+\index{DropItem@{DropItem}!bobTimer@{bobTimer}}
+\index{bobTimer@{bobTimer}!DropItem@{DropItem}}
+\doxysubsubsection{\texorpdfstring{bobTimer}{bobTimer}}
+{\footnotesize\ttfamily float Drop\+Item\+::bob\+Timer = 0.f}
+
+
+
+上下浮动动画计时器 
+
+\mbox{\Hypertarget{structDropItem_a9002ef60b7b3a443c31f60c87a8400b3}\label{structDropItem_a9002ef60b7b3a443c31f60c87a8400b3}} 
+\index{DropItem@{DropItem}!lifetime@{lifetime}}
+\index{lifetime@{lifetime}!DropItem@{DropItem}}
+\doxysubsubsection{\texorpdfstring{lifetime}{lifetime}}
+{\footnotesize\ttfamily float Drop\+Item\+::lifetime = 10.f}
+
+
+
+剩余存活时间（秒） 
+
+\mbox{\Hypertarget{structDropItem_a397bde8d9eeb48f4a9b8cd0139cd256a}\label{structDropItem_a397bde8d9eeb48f4a9b8cd0139cd256a}} 
+\index{DropItem@{DropItem}!position@{position}}
+\index{position@{position}!DropItem@{DropItem}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Drop\+Item\+::position}
+
+
+
+世界坐标位置 
+
+\mbox{\Hypertarget{structDropItem_a2f901bb1b6444760ae55ca04dac3fdc8}\label{structDropItem_a2f901bb1b6444760ae55ca04dac3fdc8}} 
+\index{DropItem@{DropItem}!type@{type}}
+\index{type@{type}!DropItem@{DropItem}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886b}{Drop\+Type}} Drop\+Item\+::type}
+
+
+
+掉落物类型 
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\item 
+src/\mbox{\hyperlink{GameLogic_8cpp}{Game\+Logic.\+cpp}}\end{DoxyCompactItemize}

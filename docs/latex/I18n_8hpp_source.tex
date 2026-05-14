@@ -1,0 +1,35 @@
+\hypertarget{I18n_8hpp_source}{}\doxysection{I18n.\+hpp}
+\label{I18n_8hpp_source}\index{src/I18n.hpp@{src/I18n.hpp}}
+\mbox{\hyperlink{I18n_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{21 \textcolor{keyword}{enum class} \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}} \{ \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705aaa85f1840e282d8a8304dbc2c0d7c9b2}{EN}}, \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705a2f360b70e0ecf402694429fac3a9255d}{ZH}} \};}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{30 \textcolor{keyword}{class }\mbox{\hyperlink{classI18n}{I18n}} \{}
+\DoxyCodeLine{31 \textcolor{keyword}{public}:}
+\DoxyCodeLine{33     \textcolor{keyword}{static} \mbox{\hyperlink{classI18n}{I18n}}\& \mbox{\hyperlink{classI18n_a5b0eb855f6c37ddc08bb8fe71118f314}{instance}}();}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{36     \textcolor{keywordtype}{void} \mbox{\hyperlink{classI18n_a67ac6bd2d7298a5f5e3d43afb5843a39}{setLanguage}}(\mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}} lang);}
+\DoxyCodeLine{38     \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}} \mbox{\hyperlink{classI18n_a55becd139109543f322cb17010dc02a8}{getLanguage}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{40     \textcolor{keywordtype}{void} \mbox{\hyperlink{classI18n_ab5e35767c7a42df24d59bce4c21269da}{toggleLanguage}}();}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{47     std::string \mbox{\hyperlink{classI18n_aa29fc10f296d4864f919727141400e2e}{t}}(\textcolor{keyword}{const} std::string\& key) \textcolor{keyword}{const};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{53     std::string \mbox{\hyperlink{classI18n_a60b2d9a2d762f94f6cbe6b1a53489b09}{getLanguageName}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{keyword}{private}:}
+\DoxyCodeLine{56     \mbox{\hyperlink{classI18n}{I18n}}();}
+\DoxyCodeLine{57     \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}} current\_ = \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705a2f360b70e0ecf402694429fac3a9255d}{Language::ZH}};  }
+\DoxyCodeLine{58 }
+\DoxyCodeLine{60     std::unordered\_map<std::string, std::pair<std::string, std::string>> translations\_;}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{63     \textcolor{keywordtype}{void} initTranslations();}
+\DoxyCodeLine{64 \};}
+
+\end{DoxyCode}

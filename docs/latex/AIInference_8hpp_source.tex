@@ -1,0 +1,41 @@
+\hypertarget{AIInference_8hpp_source}{}\doxysection{AIInference.\+hpp}
+\label{AIInference_8hpp_source}\index{src/AIInference.hpp@{src/AIInference.hpp}}
+\mbox{\hyperlink{AIInference_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AIController_8hpp}{AIController.hpp}}"{}}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <onnxruntime\_cxx\_api.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{keyword}{class }\mbox{\hyperlink{classAIInference}{AIInference}} \{}
+\DoxyCodeLine{10 \textcolor{keyword}{public}:}
+\DoxyCodeLine{11     \mbox{\hyperlink{classAIInference_a50ccaf629b4abeb0a16b09d864572ab9}{AIInference}}();}
+\DoxyCodeLine{12     \mbox{\hyperlink{classAIInference_a08250e786c95470a44754170fc7c47cf}{\string~AIInference}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classAIInference_ac229ddfdf9fe0683e6b0d119c9a9b61a}{loadModel}}(\textcolor{keyword}{const} std::string\& modelPath);}
+\DoxyCodeLine{15     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classAIInference_a151f9d2958f96aa9e63e9151050a3a5e}{isLoaded}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} loaded\_; \}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17     \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIInference_adc3ac47cebabc832bf04c416a2f9864d}{predict}}(\textcolor{keyword}{const} \mbox{\hyperlink{structAIGameState}{AIGameState}}\& state);}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19     \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIInference_a7d7fae8ca2341b5cd6586d3209ea68ab}{getLastAction}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} lastAction\_; \}}
+\DoxyCodeLine{20     \textcolor{keyword}{const} std::array<float, AIObservation::NUM\_ACTIONS>\& \mbox{\hyperlink{classAIInference_a4780f184b920db9185a0890a551a19a3}{getLastLogits}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} lastLogits\_; \}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{private}:}
+\DoxyCodeLine{23     \textcolor{keywordtype}{bool} loaded\_ = \textcolor{keyword}{false};}
+\DoxyCodeLine{24     \textcolor{keywordtype}{int} lastAction\_ = 0;}
+\DoxyCodeLine{25     std::array<float, AIObservation::NUM\_ACTIONS> lastLogits\_\{\};}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27     Ort::Env env\_;}
+\DoxyCodeLine{28     std::unique\_ptr<Ort::Session> session\_;}
+\DoxyCodeLine{29     Ort::SessionOptions sessionOpts\_;}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31     std::vector<const char*> inputNames\_;}
+\DoxyCodeLine{32     std::vector<const char*> outputNames\_;}
+\DoxyCodeLine{33     std::vector<std::string> inputNameStrings\_;}
+\DoxyCodeLine{34     std::vector<std::string> outputNameStrings\_;}
+\DoxyCodeLine{35 \};}
+
+\end{DoxyCode}

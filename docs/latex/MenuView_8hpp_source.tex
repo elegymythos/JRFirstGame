@@ -1,0 +1,48 @@
+\hypertarget{MenuView_8hpp_source}{}\doxysection{Menu\+View.\+hpp}
+\label{MenuView_8hpp_source}\index{src/MenuView.hpp@{src/MenuView.hpp}}
+\mbox{\hyperlink{MenuView_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{ViewBase_8hpp}{ViewBase.hpp}}"{}}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{UIWidgets_8hpp}{UIWidgets.hpp}}"{}}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Database_8hpp}{Database.hpp}}"{}}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{29 \textcolor{keyword}{class }\mbox{\hyperlink{classMainMenuView}{MainMenuView}} : \textcolor{keyword}{public} \mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{30 \textcolor{keyword}{public}:}
+\DoxyCodeLine{36     \mbox{\hyperlink{classMainMenuView_a4d29e56e0b77f18218922e5a1ebe2a5d}{MainMenuView}}(\textcolor{keyword}{const} sf::Font\& font, std::function<\textcolor{keywordtype}{void}(std::string)> changeView);}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38     \textcolor{keywordtype}{void} \mbox{\hyperlink{classMainMenuView_a379c6a4ef6cf4b3179e1cc3214e484dc}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{39     \textcolor{keywordtype}{void} \mbox{\hyperlink{classMainMenuView_a26f2061cde7a040bc43d07f8c53c3f1a}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) \textcolor{keyword}{override};}
+\DoxyCodeLine{40     \textcolor{keywordtype}{void} \mbox{\hyperlink{classMainMenuView_a42d6e2d2f7dcf654161ff44a40862e40}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{keyword}{private}:}
+\DoxyCodeLine{43     std::vector<Button> buttons;  }
+\DoxyCodeLine{44 \};}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{57 \textcolor{keyword}{class }\mbox{\hyperlink{classLevelSelectView}{LevelSelectView}} : \textcolor{keyword}{public} \mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{58 \textcolor{keyword}{public}:}
+\DoxyCodeLine{66     \mbox{\hyperlink{classLevelSelectView_af526caff65d7e2d3ddd00f25162d2035}{LevelSelectView}}(\textcolor{keyword}{const} sf::Font\& font, std::function<\textcolor{keywordtype}{void}(std::string)> changeView,}
+\DoxyCodeLine{67                     \textcolor{keywordtype}{bool} showWelcome = \textcolor{keyword}{true}, \textcolor{keywordtype}{bool} hasCharacter = \textcolor{keyword}{false});}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     \textcolor{keywordtype}{void} \mbox{\hyperlink{classLevelSelectView_a414ca7fda555a1b93f933b8bf7cda873}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{70     \textcolor{keywordtype}{void} \mbox{\hyperlink{classLevelSelectView_a0715f239c9c3340a853f4841277e0e16}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) \textcolor{keyword}{override};}
+\DoxyCodeLine{71     \textcolor{keywordtype}{void} \mbox{\hyperlink{classLevelSelectView_a95f18a3fa4763eb501b991ffb1077131}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 \textcolor{keyword}{private}:}
+\DoxyCodeLine{75     \textcolor{keyword}{enum class} State \{ Welcome, ButtonsReady \};}
+\DoxyCodeLine{76     State currentState = State::Welcome;  }
+\DoxyCodeLine{77     sf::Clock timer;                       }
+\DoxyCodeLine{78     \textcolor{keywordtype}{float} delayTime = 2.0f;                }
+\DoxyCodeLine{79     sf::Text welcomeMsg;                   }
+\DoxyCodeLine{80     std::vector<std::unique\_ptr<Button>> buttons;  }
+\DoxyCodeLine{81     std::function<void(std::string)> changeView;   }
+\DoxyCodeLine{82 \};}
+
+\end{DoxyCode}

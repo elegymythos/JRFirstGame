@@ -1,0 +1,51 @@
+\hypertarget{MapSystem_8hpp}{}\doxysection{src/\+Map\+System.hpp File Reference}
+\label{MapSystem_8hpp}\index{src/MapSystem.hpp@{src/MapSystem.hpp}}
+
+
+地图区域与摄像机系统（无限地图）  
+
+
+{\ttfamily \#include $<$SFML/\+Graphics.\+hpp$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include \char`\"{}Game\+Logic.\+hpp\char`\"{}}\newline
+Include dependency graph for Map\+System.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{MapSystem_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{MapSystem_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structMapRegion}{Map\+Region}}
+\begin{DoxyCompactList}\small\item\em 地图区域 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structEnemySpawnInfo}{Enemy\+Spawn\+Info}}
+\begin{DoxyCompactList}\small\item\em 敌人生成信息 \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classMapSystem}{Map\+System}}
+\begin{DoxyCompactList}\small\item\em 无限地图区域管理与摄像机跟随 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+地图区域与摄像机系统（无限地图） 
+
+基于区域网格实现无限地图：
+\begin{DoxyItemize}
+\item 世界被划分为 800x800 像素的区域（\+Map\+Region）
+\item 玩家进入新区域时，自动检查周围3x3范围并生成敌人
+\item 每个区域的敌人配置由其到原点的曼哈顿距离决定，越远越难
+\item 已探索区域数影响全局难度缩放因子
+\item 摄像机始终跟随玩家位置
+\item 背景绘制半透明网格线标识区域边界 
+\end{DoxyItemize}

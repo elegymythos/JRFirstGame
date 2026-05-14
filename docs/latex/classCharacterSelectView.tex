@@ -1,0 +1,127 @@
+\hypertarget{classCharacterSelectView}{}\doxysection{Character\+Select\+View Class Reference}
+\label{classCharacterSelectView}\index{CharacterSelectView@{CharacterSelectView}}
+
+
+角色选择视图  
+
+
+
+
+{\ttfamily \#include $<$Character\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Character\+Select\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{classCharacterSelectView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Character\+Select\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{classCharacterSelectView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classCharacterSelectView_ac4a3fc88830ae4b2353a02a3cbdb5cc1}{Character\+Select\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, const std\+::string \&username, \mbox{\hyperlink{classDatabase}{Database}} \&database)
+\begin{DoxyCompactList}\small\item\em 构造角色选择视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCharacterSelectView_aee2d1af998f5061fa19c0d44a76bbe0e}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCharacterSelectView_a4d3e3886ac6cd2c19381be73a04d7f92}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCharacterSelectView_acf80efeb46f05e6bc24c0a10a72788f7}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+角色选择视图 
+
+展示当前用户的3个角色槽位：
+\begin{DoxyItemize}
+\item 已占用槽位：显示职业、等级、分数，提供\char`\"{}选择\char`\"{}和\char`\"{}删除\char`\"{}按钮
+\item 空槽位：显示\char`\"{}空槽位\char`\"{}，提供\char`\"{}新建角色\char`\"{}按钮 选择角色后，将槽位号存入 user\+\_\+settings 表，然后进入游戏。 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classCharacterSelectView_ac4a3fc88830ae4b2353a02a3cbdb5cc1}\label{classCharacterSelectView_ac4a3fc88830ae4b2353a02a3cbdb5cc1}} 
+\index{CharacterSelectView@{CharacterSelectView}!CharacterSelectView@{CharacterSelectView}}
+\index{CharacterSelectView@{CharacterSelectView}!CharacterSelectView@{CharacterSelectView}}
+\doxysubsubsection{\texorpdfstring{CharacterSelectView()}{CharacterSelectView()}}
+{\footnotesize\ttfamily Character\+Select\+View\+::\+Character\+Select\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{const std\+::string \&}]{username,  }\item[{\mbox{\hyperlink{classDatabase}{Database}} \&}]{database }\end{DoxyParamCaption})}
+
+
+
+构造角色选择视图 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+{\em username} & 当前用户名 \\
+\hline
+{\em database} & 数据库引用 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classCharacterSelectView_acf80efeb46f05e6bc24c0a10a72788f7}\label{classCharacterSelectView_acf80efeb46f05e6bc24c0a10a72788f7}} 
+\index{CharacterSelectView@{CharacterSelectView}!draw@{draw}}
+\index{draw@{draw}!CharacterSelectView@{CharacterSelectView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Character\+Select\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classCharacterSelectView_aee2d1af998f5061fa19c0d44a76bbe0e}\label{classCharacterSelectView_aee2d1af998f5061fa19c0d44a76bbe0e}} 
+\index{CharacterSelectView@{CharacterSelectView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!CharacterSelectView@{CharacterSelectView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Character\+Select\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classCharacterSelectView_a4d3e3886ac6cd2c19381be73a04d7f92}\label{classCharacterSelectView_a4d3e3886ac6cd2c19381be73a04d7f92}} 
+\index{CharacterSelectView@{CharacterSelectView}!update@{update}}
+\index{update@{update}!CharacterSelectView@{CharacterSelectView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Character\+Select\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{CharacterView_8hpp}{Character\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{CharacterView_8cpp}{Character\+View.\+cpp}}\end{DoxyCompactItemize}

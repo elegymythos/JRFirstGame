@@ -1,0 +1,4 @@
+<map id="CharacterSelectView" name="CharacterSelectView">
+<area shape="rect" id="node1" title="角色选择视图" alt="" coords="5,80,165,107"/>
+<area shape="rect" id="node2" href="$classView.html" title="视图基类" alt="" coords="58,5,113,32"/>
+</map>

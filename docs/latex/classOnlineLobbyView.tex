@@ -1,0 +1,108 @@
+\hypertarget{classOnlineLobbyView}{}\doxysection{Online\+Lobby\+View Class Reference}
+\label{classOnlineLobbyView}\index{OnlineLobbyView@{OnlineLobbyView}}
+
+
+联机大厅视图  
+
+
+
+
+{\ttfamily \#include $<$Online\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Online\+Lobby\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classOnlineLobbyView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Online\+Lobby\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classOnlineLobbyView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classOnlineLobbyView_a50dea7e7fa6a2593f31002ea3a4cc99d}{Online\+Lobby\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, \mbox{\hyperlink{classNetworkManager}{Network\+Manager}} \&network)
+\item 
+void \mbox{\hyperlink{classOnlineLobbyView_a97ec2f490eee83bb550fd9723c1a0d79}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classOnlineLobbyView_a8bccb97407f963232df9b6138c761819}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classOnlineLobbyView_a0306826eacabcda3ad9cba06acc1a940}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+联机大厅视图 
+
+提供\+IP和端口输入框，以及\char`\"{}创建房间\char`\"{}和\char`\"{}加入房间\char`\"{}按钮。 创建房间时以服务器模式启动，加入房间时以客户端模式连接。 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classOnlineLobbyView_a50dea7e7fa6a2593f31002ea3a4cc99d}\label{classOnlineLobbyView_a50dea7e7fa6a2593f31002ea3a4cc99d}} 
+\index{OnlineLobbyView@{OnlineLobbyView}!OnlineLobbyView@{OnlineLobbyView}}
+\index{OnlineLobbyView@{OnlineLobbyView}!OnlineLobbyView@{OnlineLobbyView}}
+\doxysubsubsection{\texorpdfstring{OnlineLobbyView()}{OnlineLobbyView()}}
+{\footnotesize\ttfamily Online\+Lobby\+View\+::\+Online\+Lobby\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{\mbox{\hyperlink{classNetworkManager}{Network\+Manager}} \&}]{network }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classOnlineLobbyView_a0306826eacabcda3ad9cba06acc1a940}\label{classOnlineLobbyView_a0306826eacabcda3ad9cba06acc1a940}} 
+\index{OnlineLobbyView@{OnlineLobbyView}!draw@{draw}}
+\index{draw@{draw}!OnlineLobbyView@{OnlineLobbyView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Online\+Lobby\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classOnlineLobbyView_a97ec2f490eee83bb550fd9723c1a0d79}\label{classOnlineLobbyView_a97ec2f490eee83bb550fd9723c1a0d79}} 
+\index{OnlineLobbyView@{OnlineLobbyView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!OnlineLobbyView@{OnlineLobbyView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Online\+Lobby\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classOnlineLobbyView_a8bccb97407f963232df9b6138c761819}\label{classOnlineLobbyView_a8bccb97407f963232df9b6138c761819}} 
+\index{OnlineLobbyView@{OnlineLobbyView}!update@{update}}
+\index{update@{update}!OnlineLobbyView@{OnlineLobbyView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Online\+Lobby\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{OnlineView_8hpp}{Online\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{OnlineView_8cpp}{Online\+View.\+cpp}}\end{DoxyCompactItemize}

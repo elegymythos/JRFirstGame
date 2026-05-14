@@ -1,0 +1,76 @@
+\hypertarget{CharacterView_8hpp_source}{}\doxysection{Character\+View.\+hpp}
+\label{CharacterView_8hpp_source}\index{src/CharacterView.hpp@{src/CharacterView.hpp}}
+\mbox{\hyperlink{CharacterView_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{ViewBase_8hpp}{ViewBase.hpp}}"{}}   \textcolor{comment}{// 视图基类}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{UIWidgets_8hpp}{UIWidgets.hpp}}"{}}  \textcolor{comment}{// Button 控件}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Database_8hpp}{Database.hpp}}"{}}   \textcolor{comment}{// 数据库操作接口}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{34 \textcolor{keyword}{class }\mbox{\hyperlink{classCharacterCreateView}{CharacterCreateView}} : \textcolor{keyword}{public} \mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{35 \textcolor{keyword}{public}:}
+\DoxyCodeLine{44     \mbox{\hyperlink{classCharacterCreateView_a6ebd3bb6c0099f77d3f5c81f6ddf72dd}{CharacterCreateView}}(\textcolor{keyword}{const} sf::Font\& font, std::function<\textcolor{keywordtype}{void}(std::string)> changeView,}
+\DoxyCodeLine{45                         \textcolor{keyword}{const} std::string\& username, \mbox{\hyperlink{classDatabase}{Database}}\& database, \textcolor{keywordtype}{int} slot = -\/1);}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47     \textcolor{keywordtype}{void} \mbox{\hyperlink{classCharacterCreateView_a2c715b6b6180cff742fabe92e7254bbb}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{48     \textcolor{keywordtype}{void} \mbox{\hyperlink{classCharacterCreateView_af88e3037884d00774cbc99288c533a3e}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) \textcolor{keyword}{override};}
+\DoxyCodeLine{49     \textcolor{keywordtype}{void} \mbox{\hyperlink{classCharacterCreateView_ac23c035c4641ee644ae47ae3ebde9ce5}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{keyword}{private}:}
+\DoxyCodeLine{53     \textcolor{keywordtype}{void} rerollAttributes();}
+\DoxyCodeLine{55     \textcolor{keywordtype}{void} selectClass(\mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{CharacterClass}} cls);}
+\DoxyCodeLine{57     \textcolor{keywordtype}{void} confirmCreate();}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     \mbox{\hyperlink{classDatabase}{Database}}\& db;                              }
+\DoxyCodeLine{60     std::string username\_;                     }
+\DoxyCodeLine{61     \textcolor{keywordtype}{int} slot\_;                                 }
+\DoxyCodeLine{62     std::function<void(std::string)> changeView; }
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64     \mbox{\hyperlink{structAttributes}{Attributes}} currentAttributes\_;             }
+\DoxyCodeLine{65     \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{CharacterClass}} selectedClass\_ = \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7a7ee7fa010d64b90a36803a8445f2e943}{CharacterClass::Warrior}}; }
+\DoxyCodeLine{66     \mbox{\hyperlink{structClassConfig}{ClassConfig}} classConfig\_;                  }
+\DoxyCodeLine{67     \textcolor{keywordtype}{bool} classSelected\_ = \textcolor{keyword}{false};               }
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     sf::Text title\_;                           }
+\DoxyCodeLine{70     sf::Text attrText\_;                        }
+\DoxyCodeLine{71     sf::Text classInfoText\_;                   }
+\DoxyCodeLine{72     sf::Text statusText\_;                      }
+\DoxyCodeLine{73     \mbox{\hyperlink{classButton}{Button}} warriorBtn\_, mageBtn\_, assassinBtn\_; }
+\DoxyCodeLine{74     \mbox{\hyperlink{classButton}{Button}} rerollBtn\_, confirmBtn\_, backBtn\_;  }
+\DoxyCodeLine{75 \};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{86 \textcolor{keyword}{class }\mbox{\hyperlink{classCharacterSelectView}{CharacterSelectView}} : \textcolor{keyword}{public} \mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{87 \textcolor{keyword}{public}:}
+\DoxyCodeLine{95     \mbox{\hyperlink{classCharacterSelectView_ac4a3fc88830ae4b2353a02a3cbdb5cc1}{CharacterSelectView}}(\textcolor{keyword}{const} sf::Font\& font, std::function<\textcolor{keywordtype}{void}(std::string)> changeView,}
+\DoxyCodeLine{96                         \textcolor{keyword}{const} std::string\& username, \mbox{\hyperlink{classDatabase}{Database}}\& database);}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98     \textcolor{keywordtype}{void} \mbox{\hyperlink{classCharacterSelectView_aee2d1af998f5061fa19c0d44a76bbe0e}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{99     \textcolor{keywordtype}{void} \mbox{\hyperlink{classCharacterSelectView_a4d3e3886ac6cd2c19381be73a04d7f92}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) \textcolor{keyword}{override};}
+\DoxyCodeLine{100     \textcolor{keywordtype}{void} \mbox{\hyperlink{classCharacterSelectView_acf80efeb46f05e6bc24c0a10a72788f7}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102 \textcolor{keyword}{private}:}
+\DoxyCodeLine{104     \textcolor{keywordtype}{void} refreshSlots();}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106     \mbox{\hyperlink{classDatabase}{Database}}\& db;                              }
+\DoxyCodeLine{107     std::string username\_;                     }
+\DoxyCodeLine{108     std::function<void(std::string)> changeView; }
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110     std::vector<CharacterData> characters\_;    }
+\DoxyCodeLine{111     sf::Text title\_;                           }
+\DoxyCodeLine{112     std::vector<sf::Text> slotTexts\_;          }
+\DoxyCodeLine{113     std::vector<std::unique\_ptr<Button>> selectBtns\_;  }
+\DoxyCodeLine{114     std::vector<std::unique\_ptr<Button>> deleteBtns\_;  }
+\DoxyCodeLine{115     std::vector<std::unique\_ptr<Button>> createBtns\_;  }
+\DoxyCodeLine{116     \mbox{\hyperlink{classButton}{Button}} backBtn\_;                           }
+\DoxyCodeLine{117     \textcolor{keywordtype}{bool} needsRefresh\_ = \textcolor{keyword}{false};                }
+\DoxyCodeLine{118 \};}
+
+\end{DoxyCode}

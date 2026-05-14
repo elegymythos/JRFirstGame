@@ -1,0 +1,718 @@
+\hypertarget{classPlayer}{}\doxysection{Player Class Reference}
+\label{classPlayer}\index{Player@{Player}}
+
+
+玩家角色  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+
+
+Inheritance diagram for Player\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{classPlayer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Player\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classPlayer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classPlayer_aa8f43c594c06c62d6a986d271402664b}{Player}} (sf\+::\+Vector2f pos=\{400, 300\})
+\item 
+void \mbox{\hyperlink{classPlayer_abe2902b7decc38472183a08977eeb57f}{update}} (float dt) override
+\begin{DoxyCompactList}\small\item\em 每帧更新位置：position += velocity $\ast$ dt \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPlayer_a12ef01e1a26542218229c2b6a4a1d17e}{can\+Attack}} () const
+\begin{DoxyCompactList}\small\item\em 攻击冷却是否已结束且不在翻滚中 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_a285dc38bfd945d1ba55e9a71cb6a7d4f}{reset\+Attack\+Cooldown}} ()
+\begin{DoxyCompactList}\small\item\em 重置攻击冷却 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPlayer_a1641f643413ec475931307f367cffa86}{can\+Roll}} () const
+\begin{DoxyCompactList}\small\item\em 翻滚冷却是否已结束且不在翻滚/攻击中 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_ab1403ad89bb8be099383ba70db00affc}{start\+Roll}} (const sf\+::\+Vector2f \&dir)
+\begin{DoxyCompactList}\small\item\em 开始翻滚（设置方向、无敌标记、冷却） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_a503cb856d98af9b99e8ec9794f221238}{update\+Roll}} (float dt)
+\begin{DoxyCompactList}\small\item\em 每帧更新翻滚状态 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_a0799675d964a59d405a4782ee6b0c679}{start\+Slash}} (float angle)
+\begin{DoxyCompactList}\small\item\em 激活刀光动画 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_a9233861741b41a2edd4000ff29592abb}{update\+Slash}} (float dt)
+\begin{DoxyCompactList}\small\item\em 每帧更新刀光状态 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPlayer_a4e8ce118eea8733770c814723cdd074c}{equip\+Weapon}} (const std\+::string \&name)
+\begin{DoxyCompactList}\small\item\em 装备武器 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_a84783b48d19914b175c2d73183c5db61}{recalc\+Combat\+Stats}} ()
+\begin{DoxyCompactList}\small\item\em 根据武器+属性+阶段强化重新计算战斗属性 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_a9b8f99ae26245d777f5a6c77a4c677c8}{apply\+Stage\+Boost}} (int stage\+Level)
+\begin{DoxyCompactList}\small\item\em 应用阶段性胜利强化 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classPlayer_ae27731bcd1d77c1a080464221deb5f42}{calculate\+Damage}} () const
+\begin{DoxyCompactList}\small\item\em 计算当前伤害 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{classPlayer_ab9643a8e00becb3f5d6bd7e952c4a23b}{get\+Final\+Attributes}} () const
+\begin{DoxyCompactList}\small\item\em 获取最终属性 = 基础 + 职业加成 + 等级加成 + 分数加成 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_a133246fbfa5d187745296552302a35c0}{get\+Score\+Multiplier}} () const
+\begin{DoxyCompactList}\small\item\em 获取分数加成倍率 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_a5e0147aee1248db63417987b9a203a9a}{draw}} (sf\+::\+Render\+Window \&window) const override
+\begin{DoxyCompactList}\small\item\em 绘制玩家（圆形+血条，翻滚时半透明） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_adeb6eee9fad67170444cc9076f948ef7}{draw\+With\+Name}} (sf\+::\+Render\+Window \&window, const sf\+::\+Font $\ast$font=nullptr) const
+\begin{DoxyCompactList}\small\item\em 绘制玩家并显示名字和武器图标 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classPlayer_abe808569a12498459690ca19518fb134}{draw\+Slash}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em 绘制刀光动画（扇形剑气拖尾+剑尖高亮） \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{classPlayer_a09316fdad9b696ed43c81d14bff98457}{base\+Attributes}}
+\begin{DoxyCompactList}\small\item\em 基础属性（随机生成+掉落物增加） \end{DoxyCompactList}\item 
+\mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{Character\+Class}} \mbox{\hyperlink{classPlayer_aaa72a6755acd2ba0c9dfd9745d28fcae}{char\+Class}} = \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7a7ee7fa010d64b90a36803a8445f2e943}{Character\+Class\+::\+Warrior}}
+\begin{DoxyCompactList}\small\item\em 当前职业 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structClassConfig}{Class\+Config}} \mbox{\hyperlink{classPlayer_a78679d808e0d699e415d62a48d361457}{class\+Config}}
+\begin{DoxyCompactList}\small\item\em 职业配置 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structLevelData}{Level\+Data}} \mbox{\hyperlink{classPlayer_a024e5894b8f8855444e80b24ede1f4bd}{level\+Data}}
+\begin{DoxyCompactList}\small\item\em 等级与经验 \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classPlayer_af6823e27c17ba6ed5d2b4713abbe4d5a}{username}}
+\begin{DoxyCompactList}\small\item\em 玩家用户名 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classWeaponListBridge}{Weapon\+List\+Bridge}} \mbox{\hyperlink{classPlayer_a304ad9c17253b4ce68e71cfdfb3a81e1}{weapon\+List}}
+\begin{DoxyCompactList}\small\item\em 武器链表（\+C链表+\+C++桥接） \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{structWeaponData}{Weapon\+Data}} $\ast$ \mbox{\hyperlink{classPlayer_ab4d310d21bca9b5e4929f70dcc01e953}{equipped\+Weapon}} = nullptr
+\begin{DoxyCompactList}\small\item\em 当前装备的武器指针 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classPlayer_a42486764b264f3fcc5ea2cbb112c7c76}{kill\+Count}} = 0
+\begin{DoxyCompactList}\small\item\em 击杀数 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classPlayer_a53898a8fdb84e2c6d95684cdfe49323e}{total\+Score}} = 0
+\begin{DoxyCompactList}\small\item\em 累计分数 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_a51ac7c0ae49aeb8b7f70979fe2be98f5}{attack\+Cooldown}} = 0.f
+\begin{DoxyCompactList}\small\item\em 攻击冷却剩余时间 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classPlayer_a47043ff5069c9c786eeeec590b436474}{attack\+Damage}} = 20
+\begin{DoxyCompactList}\small\item\em 攻击伤害（由武器和属性计算） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_aa530dd0f5b5052c5a7cf0a8f87335e68}{attack\+Range}} = 80.f
+\begin{DoxyCompactList}\small\item\em 攻击范围 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_ae981264164b0e81007338b5ada9ec38f}{attack\+Cooldown\+Max}} = 0.\+5f
+\begin{DoxyCompactList}\small\item\em 攻击冷却时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_a4e7da237a21ecc2d861ce4fd2ced5f1f}{attack\+Range\+Bonus}} = 0.f
+\begin{DoxyCompactList}\small\item\em 掉落物增加的攻击范围 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classPlayer_a067f335e98a66952412bef37253046e1}{victory\+Stage\+Level}} = 0
+\begin{DoxyCompactList}\small\item\em 当前强化等级（0=未强化，1-\/5） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_acd356d493e09ec2d9cd0bdb95cbfe959}{damage\+Bonus}} = 0.f
+\begin{DoxyCompactList}\small\item\em 阶段强化伤害加成 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_aa8a0fc0ef85c18de95f31bef8fb48e7a}{attack\+Speed\+Bonus}} = 0.f
+\begin{DoxyCompactList}\small\item\em 阶段强化攻速加成（减少冷却） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_a48c47d8230c596ac312a4fc076cb0c6b}{projectile\+Explosion\+Radius}} = 0.f
+\begin{DoxyCompactList}\small\item\em 法师投射物爆炸半径 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_a4278b1f2166e978266049775d820bdde}{crit\+Chance}} = 0.f
+\begin{DoxyCompactList}\small\item\em 刺客暴击概率（0-\/1） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_aa16b5040c952f4c4ae48398ffad9f8fd}{crit\+Multiplier}} = 1.\+5f
+\begin{DoxyCompactList}\small\item\em 暴击伤害倍率 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPlayer_a6a94fd8acee90104f6370839fd5ff110}{is\+Rolling}} = false
+\begin{DoxyCompactList}\small\item\em 是否正在翻滚 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_a01c26fcd82a499e1b6dc9547d178a6bb}{roll\+Timer}} = 0.f
+\begin{DoxyCompactList}\small\item\em 翻滚剩余时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_aed096fb9d1cf484f935b4678850f2414}{roll\+Duration}} = 0.\+3f
+\begin{DoxyCompactList}\small\item\em 翻滚持续时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_aed4cc77c29df012bde35db8a9b46a031}{roll\+Cooldown}} = 0.f
+\begin{DoxyCompactList}\small\item\em 翻滚冷却剩余时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_afdcada1f3c533de9720be30cffd0b725}{roll\+Cooldown\+Max}} = 0.\+8f
+\begin{DoxyCompactList}\small\item\em 翻滚冷却时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_a06ec5a966daf807fdf69975fbac9efb0}{roll\+Speed}} = 400.f
+\begin{DoxyCompactList}\small\item\em 翻滚速度 \end{DoxyCompactList}\item 
+sf\+::\+Vector2f \mbox{\hyperlink{classPlayer_a23d657e7ce8cad378f95ab55d60e1b83}{roll\+Direction}} = \{0, 0\}
+\begin{DoxyCompactList}\small\item\em 翻滚方向 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPlayer_a88222d1c9a1fd902dad23f275a174255}{is\+Invincible}} = false
+\begin{DoxyCompactList}\small\item\em 翻滚期间无敌标记 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_aa598193ae63b4d1526afc21cb1f8bf9a}{slash\+Timer}} = 0.f
+\begin{DoxyCompactList}\small\item\em 刀光剩余时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_ac2940438876c8b74943d0e1cb7149c56}{slash\+Duration}} = 0.\+25f
+\begin{DoxyCompactList}\small\item\em 刀光持续时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classPlayer_ae02670d43638a2996d32af8b491f5b5f}{slash\+Angle}} = 0.f
+\begin{DoxyCompactList}\small\item\em 刀光朝向角度（弧度） \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPlayer_aedf6c069bbdc00c0eb92f85a75370d39}{slash\+Active}} = false
+\begin{DoxyCompactList}\small\item\em 刀光是否激活 \end{DoxyCompactList}\item 
+sf\+::\+Color \mbox{\hyperlink{classPlayer_a8af3c24d2a9dee759c633febfdd61669}{slash\+Color}} = sf\+::\+Color(255, 140, 0)
+\begin{DoxyCompactList}\small\item\em 刀光颜色（默认橙色） \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classPlayer_a05f5822ee04f27825d43d13d517b9f11}{last\+Attack\+Was\+Crit}} = false
+\begin{DoxyCompactList}\small\item\em 上次攻击是否暴击（calculate\+Damage 设置） \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+玩家角色 
+
+继承 RPGEntity，增加以下系统：
+\begin{DoxyItemize}
+\item 属性与职业：基础属性、职业配置、等级数据
+\item 武器系统：\+Weapon\+List\+Bridge 管理武器链表，可装备匹配职业的武器
+\item 战斗属性：攻击伤害、范围、冷却，由武器和属性共同决定
+\item 翻滚系统：\+Shift 触发，持续0.3秒，期间无敌，冷却0.8秒
+\item 刀光动画：攻击时显示扇形剑气拖尾
+\item 阶段胜利强化：根据职业不同，提升伤害/攻速/暴击/爆炸范围
+\item 分数加成：每50分增加10全属性和速度，上限200\% 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classPlayer_aa8f43c594c06c62d6a986d271402664b}\label{classPlayer_aa8f43c594c06c62d6a986d271402664b}} 
+\index{Player@{Player}!Player@{Player}}
+\index{Player@{Player}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{Player()}{Player()}}
+{\footnotesize\ttfamily Player\+::\+Player (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{pos = {\ttfamily \{400,300\}} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classPlayer_a9b8f99ae26245d777f5a6c77a4c677c8}\label{classPlayer_a9b8f99ae26245d777f5a6c77a4c677c8}} 
+\index{Player@{Player}!applyStageBoost@{applyStageBoost}}
+\index{applyStageBoost@{applyStageBoost}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{applyStageBoost()}{applyStageBoost()}}
+{\footnotesize\ttfamily void Player\+::apply\+Stage\+Boost (\begin{DoxyParamCaption}\item[{int}]{stage\+Level }\end{DoxyParamCaption})}
+
+
+
+应用阶段性胜利强化 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stage\+Level} & 阶段等级 (1-\/5)\\
+\hline
+\end{DoxyParams}
+根据职业不同：
+\begin{DoxyItemize}
+\item 战士：伤害+5/阶段，攻速+15\%/阶段，攻击范围增大
+\item 法师：伤害+4/阶段，爆炸半径+30/阶段，攻速+10\%/阶段
+\item 刺客：伤害+3/阶段，暴击率+12\%/阶段，暴击倍率递增，攻速+25\%/阶段 强化后回满血。 
+\end{DoxyItemize}\mbox{\Hypertarget{classPlayer_ae27731bcd1d77c1a080464221deb5f42}\label{classPlayer_ae27731bcd1d77c1a080464221deb5f42}} 
+\index{Player@{Player}!calculateDamage@{calculateDamage}}
+\index{calculateDamage@{calculateDamage}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{calculateDamage()}{calculateDamage()}}
+{\footnotesize\ttfamily int Player\+::calculate\+Damage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+计算当前伤害 
+
+\begin{DoxyReturn}{Returns}
+伤害值（含武器基础+属性加成+阶段强化+分数加成+暴击）
+\end{DoxyReturn}
+属性加成：剑→力量$\ast$0.8, 法器→魔法$\ast$0.8, 刺刀→敏捷$\ast$0.8 暴击：基础5，刺客阶段强化后最高80\% \mbox{\Hypertarget{classPlayer_a12ef01e1a26542218229c2b6a4a1d17e}\label{classPlayer_a12ef01e1a26542218229c2b6a4a1d17e}} 
+\index{Player@{Player}!canAttack@{canAttack}}
+\index{canAttack@{canAttack}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{canAttack()}{canAttack()}}
+{\footnotesize\ttfamily bool Player\+::can\+Attack (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+攻击冷却是否已结束且不在翻滚中 
+
+\mbox{\Hypertarget{classPlayer_a1641f643413ec475931307f367cffa86}\label{classPlayer_a1641f643413ec475931307f367cffa86}} 
+\index{Player@{Player}!canRoll@{canRoll}}
+\index{canRoll@{canRoll}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{canRoll()}{canRoll()}}
+{\footnotesize\ttfamily bool Player\+::can\+Roll (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+翻滚冷却是否已结束且不在翻滚/攻击中 
+
+\mbox{\Hypertarget{classPlayer_a5e0147aee1248db63417987b9a203a9a}\label{classPlayer_a5e0147aee1248db63417987b9a203a9a}} 
+\index{Player@{Player}!draw@{draw}}
+\index{draw@{draw}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Player\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制玩家（圆形+血条，翻滚时半透明） 
+
+
+
+Reimplemented from \mbox{\hyperlink{classRPGEntity_aaff22114306ef740e9eec179b91006c1}{RPGEntity}}.
+
+\mbox{\Hypertarget{classPlayer_abe808569a12498459690ca19518fb134}\label{classPlayer_abe808569a12498459690ca19518fb134}} 
+\index{Player@{Player}!drawSlash@{drawSlash}}
+\index{drawSlash@{drawSlash}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{drawSlash()}{drawSlash()}}
+{\footnotesize\ttfamily void Player\+::draw\+Slash (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const}
+
+
+
+绘制刀光动画（扇形剑气拖尾+剑尖高亮） 
+
+\mbox{\Hypertarget{classPlayer_adeb6eee9fad67170444cc9076f948ef7}\label{classPlayer_adeb6eee9fad67170444cc9076f948ef7}} 
+\index{Player@{Player}!drawWithName@{drawWithName}}
+\index{drawWithName@{drawWithName}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{drawWithName()}{drawWithName()}}
+{\footnotesize\ttfamily void Player\+::draw\+With\+Name (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window,  }\item[{const sf\+::\+Font $\ast$}]{font = {\ttfamily nullptr} }\end{DoxyParamCaption}) const}
+
+
+
+绘制玩家并显示名字和武器图标 
+
+\mbox{\Hypertarget{classPlayer_a4e8ce118eea8733770c814723cdd074c}\label{classPlayer_a4e8ce118eea8733770c814723cdd074c}} 
+\index{Player@{Player}!equipWeapon@{equipWeapon}}
+\index{equipWeapon@{equipWeapon}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{equipWeapon()}{equipWeapon()}}
+{\footnotesize\ttfamily bool Player\+::equip\+Weapon (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption})}
+
+
+
+装备武器 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & 武器名称 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true=装备成功（职业匹配），false=失败
+\end{DoxyReturn}
+装备后自动调用 \mbox{\hyperlink{classPlayer_a84783b48d19914b175c2d73183c5db61}{recalc\+Combat\+Stats()}} 重新计算战斗属性。 \mbox{\Hypertarget{classPlayer_ab9643a8e00becb3f5d6bd7e952c4a23b}\label{classPlayer_ab9643a8e00becb3f5d6bd7e952c4a23b}} 
+\index{Player@{Player}!getFinalAttributes@{getFinalAttributes}}
+\index{getFinalAttributes@{getFinalAttributes}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{getFinalAttributes()}{getFinalAttributes()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAttributes}{Attributes}} Player\+::get\+Final\+Attributes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取最终属性 = 基础 + 职业加成 + 等级加成 + 分数加成 
+
+\mbox{\Hypertarget{classPlayer_a133246fbfa5d187745296552302a35c0}\label{classPlayer_a133246fbfa5d187745296552302a35c0}} 
+\index{Player@{Player}!getScoreMultiplier@{getScoreMultiplier}}
+\index{getScoreMultiplier@{getScoreMultiplier}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{getScoreMultiplier()}{getScoreMultiplier()}}
+{\footnotesize\ttfamily float Player\+::get\+Score\+Multiplier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取分数加成倍率 
+
+\begin{DoxyReturn}{Returns}
+1.\+0 + min(总分数/50 $\ast$ 0.\+1, 1.\+0)，范围\mbox{[}1.\+0, 2.\+0\mbox{]}
+\end{DoxyReturn}
+每50分增加10，上限200（即倍率2.0） \mbox{\Hypertarget{classPlayer_a84783b48d19914b175c2d73183c5db61}\label{classPlayer_a84783b48d19914b175c2d73183c5db61}} 
+\index{Player@{Player}!recalcCombatStats@{recalcCombatStats}}
+\index{recalcCombatStats@{recalcCombatStats}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{recalcCombatStats()}{recalcCombatStats()}}
+{\footnotesize\ttfamily void Player\+::recalc\+Combat\+Stats (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+根据武器+属性+阶段强化重新计算战斗属性 
+
+计算 attack\+Damage、attack\+Range、attack\+Cooldown\+Max、max\+Health、speed 等。 \mbox{\Hypertarget{classPlayer_a285dc38bfd945d1ba55e9a71cb6a7d4f}\label{classPlayer_a285dc38bfd945d1ba55e9a71cb6a7d4f}} 
+\index{Player@{Player}!resetAttackCooldown@{resetAttackCooldown}}
+\index{resetAttackCooldown@{resetAttackCooldown}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{resetAttackCooldown()}{resetAttackCooldown()}}
+{\footnotesize\ttfamily void Player\+::reset\+Attack\+Cooldown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+重置攻击冷却 
+
+\mbox{\Hypertarget{classPlayer_ab1403ad89bb8be099383ba70db00affc}\label{classPlayer_ab1403ad89bb8be099383ba70db00affc}} 
+\index{Player@{Player}!startRoll@{startRoll}}
+\index{startRoll@{startRoll}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{startRoll()}{startRoll()}}
+{\footnotesize\ttfamily void Player\+::start\+Roll (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{dir }\end{DoxyParamCaption})}
+
+
+
+开始翻滚（设置方向、无敌标记、冷却） 
+
+\mbox{\Hypertarget{classPlayer_a0799675d964a59d405a4782ee6b0c679}\label{classPlayer_a0799675d964a59d405a4782ee6b0c679}} 
+\index{Player@{Player}!startSlash@{startSlash}}
+\index{startSlash@{startSlash}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{startSlash()}{startSlash()}}
+{\footnotesize\ttfamily void Player\+::start\+Slash (\begin{DoxyParamCaption}\item[{float}]{angle }\end{DoxyParamCaption})}
+
+
+
+激活刀光动画 
+
+\mbox{\Hypertarget{classPlayer_abe2902b7decc38472183a08977eeb57f}\label{classPlayer_abe2902b7decc38472183a08977eeb57f}} 
+\index{Player@{Player}!update@{update}}
+\index{update@{update}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Player\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新位置：position += velocity $\ast$ dt 
+
+
+
+Reimplemented from \mbox{\hyperlink{classRPGEntity_ab4e1e4617259d027f26377010bdb36c1}{RPGEntity}}.
+
+\mbox{\Hypertarget{classPlayer_a503cb856d98af9b99e8ec9794f221238}\label{classPlayer_a503cb856d98af9b99e8ec9794f221238}} 
+\index{Player@{Player}!updateRoll@{updateRoll}}
+\index{updateRoll@{updateRoll}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{updateRoll()}{updateRoll()}}
+{\footnotesize\ttfamily void Player\+::update\+Roll (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})}
+
+
+
+每帧更新翻滚状态 
+
+\mbox{\Hypertarget{classPlayer_a9233861741b41a2edd4000ff29592abb}\label{classPlayer_a9233861741b41a2edd4000ff29592abb}} 
+\index{Player@{Player}!updateSlash@{updateSlash}}
+\index{updateSlash@{updateSlash}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{updateSlash()}{updateSlash()}}
+{\footnotesize\ttfamily void Player\+::update\+Slash (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})}
+
+
+
+每帧更新刀光状态 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classPlayer_a51ac7c0ae49aeb8b7f70979fe2be98f5}\label{classPlayer_a51ac7c0ae49aeb8b7f70979fe2be98f5}} 
+\index{Player@{Player}!attackCooldown@{attackCooldown}}
+\index{attackCooldown@{attackCooldown}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{attackCooldown}{attackCooldown}}
+{\footnotesize\ttfamily float Player\+::attack\+Cooldown = 0.f}
+
+
+
+攻击冷却剩余时间 
+
+\mbox{\Hypertarget{classPlayer_ae981264164b0e81007338b5ada9ec38f}\label{classPlayer_ae981264164b0e81007338b5ada9ec38f}} 
+\index{Player@{Player}!attackCooldownMax@{attackCooldownMax}}
+\index{attackCooldownMax@{attackCooldownMax}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{attackCooldownMax}{attackCooldownMax}}
+{\footnotesize\ttfamily float Player\+::attack\+Cooldown\+Max = 0.\+5f}
+
+
+
+攻击冷却时间 
+
+\mbox{\Hypertarget{classPlayer_a47043ff5069c9c786eeeec590b436474}\label{classPlayer_a47043ff5069c9c786eeeec590b436474}} 
+\index{Player@{Player}!attackDamage@{attackDamage}}
+\index{attackDamage@{attackDamage}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{attackDamage}{attackDamage}}
+{\footnotesize\ttfamily int Player\+::attack\+Damage = 20}
+
+
+
+攻击伤害（由武器和属性计算） 
+
+\mbox{\Hypertarget{classPlayer_aa530dd0f5b5052c5a7cf0a8f87335e68}\label{classPlayer_aa530dd0f5b5052c5a7cf0a8f87335e68}} 
+\index{Player@{Player}!attackRange@{attackRange}}
+\index{attackRange@{attackRange}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{attackRange}{attackRange}}
+{\footnotesize\ttfamily float Player\+::attack\+Range = 80.f}
+
+
+
+攻击范围 
+
+\mbox{\Hypertarget{classPlayer_a4e7da237a21ecc2d861ce4fd2ced5f1f}\label{classPlayer_a4e7da237a21ecc2d861ce4fd2ced5f1f}} 
+\index{Player@{Player}!attackRangeBonus@{attackRangeBonus}}
+\index{attackRangeBonus@{attackRangeBonus}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{attackRangeBonus}{attackRangeBonus}}
+{\footnotesize\ttfamily float Player\+::attack\+Range\+Bonus = 0.f}
+
+
+
+掉落物增加的攻击范围 
+
+\mbox{\Hypertarget{classPlayer_aa8a0fc0ef85c18de95f31bef8fb48e7a}\label{classPlayer_aa8a0fc0ef85c18de95f31bef8fb48e7a}} 
+\index{Player@{Player}!attackSpeedBonus@{attackSpeedBonus}}
+\index{attackSpeedBonus@{attackSpeedBonus}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{attackSpeedBonus}{attackSpeedBonus}}
+{\footnotesize\ttfamily float Player\+::attack\+Speed\+Bonus = 0.f}
+
+
+
+阶段强化攻速加成（减少冷却） 
+
+\mbox{\Hypertarget{classPlayer_a09316fdad9b696ed43c81d14bff98457}\label{classPlayer_a09316fdad9b696ed43c81d14bff98457}} 
+\index{Player@{Player}!baseAttributes@{baseAttributes}}
+\index{baseAttributes@{baseAttributes}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{baseAttributes}{baseAttributes}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAttributes}{Attributes}} Player\+::base\+Attributes}
+
+
+
+基础属性（随机生成+掉落物增加） 
+
+\mbox{\Hypertarget{classPlayer_aaa72a6755acd2ba0c9dfd9745d28fcae}\label{classPlayer_aaa72a6755acd2ba0c9dfd9745d28fcae}} 
+\index{Player@{Player}!charClass@{charClass}}
+\index{charClass@{charClass}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{charClass}{charClass}}
+{\footnotesize\ttfamily \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{Character\+Class}} Player\+::char\+Class = \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7a7ee7fa010d64b90a36803a8445f2e943}{Character\+Class\+::\+Warrior}}}
+
+
+
+当前职业 
+
+\mbox{\Hypertarget{classPlayer_a78679d808e0d699e415d62a48d361457}\label{classPlayer_a78679d808e0d699e415d62a48d361457}} 
+\index{Player@{Player}!classConfig@{classConfig}}
+\index{classConfig@{classConfig}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{classConfig}{classConfig}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structClassConfig}{Class\+Config}} Player\+::class\+Config}
+
+
+
+职业配置 
+
+\mbox{\Hypertarget{classPlayer_a4278b1f2166e978266049775d820bdde}\label{classPlayer_a4278b1f2166e978266049775d820bdde}} 
+\index{Player@{Player}!critChance@{critChance}}
+\index{critChance@{critChance}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{critChance}{critChance}}
+{\footnotesize\ttfamily float Player\+::crit\+Chance = 0.f}
+
+
+
+刺客暴击概率（0-\/1） 
+
+\mbox{\Hypertarget{classPlayer_aa16b5040c952f4c4ae48398ffad9f8fd}\label{classPlayer_aa16b5040c952f4c4ae48398ffad9f8fd}} 
+\index{Player@{Player}!critMultiplier@{critMultiplier}}
+\index{critMultiplier@{critMultiplier}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{critMultiplier}{critMultiplier}}
+{\footnotesize\ttfamily float Player\+::crit\+Multiplier = 1.\+5f}
+
+
+
+暴击伤害倍率 
+
+\mbox{\Hypertarget{classPlayer_acd356d493e09ec2d9cd0bdb95cbfe959}\label{classPlayer_acd356d493e09ec2d9cd0bdb95cbfe959}} 
+\index{Player@{Player}!damageBonus@{damageBonus}}
+\index{damageBonus@{damageBonus}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{damageBonus}{damageBonus}}
+{\footnotesize\ttfamily float Player\+::damage\+Bonus = 0.f}
+
+
+
+阶段强化伤害加成 
+
+\mbox{\Hypertarget{classPlayer_ab4d310d21bca9b5e4929f70dcc01e953}\label{classPlayer_ab4d310d21bca9b5e4929f70dcc01e953}} 
+\index{Player@{Player}!equippedWeapon@{equippedWeapon}}
+\index{equippedWeapon@{equippedWeapon}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{equippedWeapon}{equippedWeapon}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structWeaponData}{Weapon\+Data}}$\ast$ Player\+::equipped\+Weapon = nullptr}
+
+
+
+当前装备的武器指针 
+
+\mbox{\Hypertarget{classPlayer_a88222d1c9a1fd902dad23f275a174255}\label{classPlayer_a88222d1c9a1fd902dad23f275a174255}} 
+\index{Player@{Player}!isInvincible@{isInvincible}}
+\index{isInvincible@{isInvincible}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{isInvincible}{isInvincible}}
+{\footnotesize\ttfamily bool Player\+::is\+Invincible = false}
+
+
+
+翻滚期间无敌标记 
+
+\mbox{\Hypertarget{classPlayer_a6a94fd8acee90104f6370839fd5ff110}\label{classPlayer_a6a94fd8acee90104f6370839fd5ff110}} 
+\index{Player@{Player}!isRolling@{isRolling}}
+\index{isRolling@{isRolling}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{isRolling}{isRolling}}
+{\footnotesize\ttfamily bool Player\+::is\+Rolling = false}
+
+
+
+是否正在翻滚 
+
+\mbox{\Hypertarget{classPlayer_a42486764b264f3fcc5ea2cbb112c7c76}\label{classPlayer_a42486764b264f3fcc5ea2cbb112c7c76}} 
+\index{Player@{Player}!killCount@{killCount}}
+\index{killCount@{killCount}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{killCount}{killCount}}
+{\footnotesize\ttfamily int Player\+::kill\+Count = 0}
+
+
+
+击杀数 
+
+\mbox{\Hypertarget{classPlayer_a05f5822ee04f27825d43d13d517b9f11}\label{classPlayer_a05f5822ee04f27825d43d13d517b9f11}} 
+\index{Player@{Player}!lastAttackWasCrit@{lastAttackWasCrit}}
+\index{lastAttackWasCrit@{lastAttackWasCrit}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{lastAttackWasCrit}{lastAttackWasCrit}}
+{\footnotesize\ttfamily bool Player\+::last\+Attack\+Was\+Crit = false\hspace{0.3cm}{\ttfamily [mutable]}}
+
+
+
+上次攻击是否暴击（calculate\+Damage 设置） 
+
+\mbox{\Hypertarget{classPlayer_a024e5894b8f8855444e80b24ede1f4bd}\label{classPlayer_a024e5894b8f8855444e80b24ede1f4bd}} 
+\index{Player@{Player}!levelData@{levelData}}
+\index{levelData@{levelData}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{levelData}{levelData}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structLevelData}{Level\+Data}} Player\+::level\+Data}
+
+
+
+等级与经验 
+
+\mbox{\Hypertarget{classPlayer_a48c47d8230c596ac312a4fc076cb0c6b}\label{classPlayer_a48c47d8230c596ac312a4fc076cb0c6b}} 
+\index{Player@{Player}!projectileExplosionRadius@{projectileExplosionRadius}}
+\index{projectileExplosionRadius@{projectileExplosionRadius}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{projectileExplosionRadius}{projectileExplosionRadius}}
+{\footnotesize\ttfamily float Player\+::projectile\+Explosion\+Radius = 0.f}
+
+
+
+法师投射物爆炸半径 
+
+\mbox{\Hypertarget{classPlayer_aed4cc77c29df012bde35db8a9b46a031}\label{classPlayer_aed4cc77c29df012bde35db8a9b46a031}} 
+\index{Player@{Player}!rollCooldown@{rollCooldown}}
+\index{rollCooldown@{rollCooldown}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{rollCooldown}{rollCooldown}}
+{\footnotesize\ttfamily float Player\+::roll\+Cooldown = 0.f}
+
+
+
+翻滚冷却剩余时间 
+
+\mbox{\Hypertarget{classPlayer_afdcada1f3c533de9720be30cffd0b725}\label{classPlayer_afdcada1f3c533de9720be30cffd0b725}} 
+\index{Player@{Player}!rollCooldownMax@{rollCooldownMax}}
+\index{rollCooldownMax@{rollCooldownMax}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{rollCooldownMax}{rollCooldownMax}}
+{\footnotesize\ttfamily float Player\+::roll\+Cooldown\+Max = 0.\+8f}
+
+
+
+翻滚冷却时间 
+
+\mbox{\Hypertarget{classPlayer_a23d657e7ce8cad378f95ab55d60e1b83}\label{classPlayer_a23d657e7ce8cad378f95ab55d60e1b83}} 
+\index{Player@{Player}!rollDirection@{rollDirection}}
+\index{rollDirection@{rollDirection}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{rollDirection}{rollDirection}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Player\+::roll\+Direction = \{0, 0\}}
+
+
+
+翻滚方向 
+
+\mbox{\Hypertarget{classPlayer_aed096fb9d1cf484f935b4678850f2414}\label{classPlayer_aed096fb9d1cf484f935b4678850f2414}} 
+\index{Player@{Player}!rollDuration@{rollDuration}}
+\index{rollDuration@{rollDuration}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{rollDuration}{rollDuration}}
+{\footnotesize\ttfamily float Player\+::roll\+Duration = 0.\+3f}
+
+
+
+翻滚持续时间 
+
+\mbox{\Hypertarget{classPlayer_a06ec5a966daf807fdf69975fbac9efb0}\label{classPlayer_a06ec5a966daf807fdf69975fbac9efb0}} 
+\index{Player@{Player}!rollSpeed@{rollSpeed}}
+\index{rollSpeed@{rollSpeed}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{rollSpeed}{rollSpeed}}
+{\footnotesize\ttfamily float Player\+::roll\+Speed = 400.f}
+
+
+
+翻滚速度 
+
+\mbox{\Hypertarget{classPlayer_a01c26fcd82a499e1b6dc9547d178a6bb}\label{classPlayer_a01c26fcd82a499e1b6dc9547d178a6bb}} 
+\index{Player@{Player}!rollTimer@{rollTimer}}
+\index{rollTimer@{rollTimer}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{rollTimer}{rollTimer}}
+{\footnotesize\ttfamily float Player\+::roll\+Timer = 0.f}
+
+
+
+翻滚剩余时间 
+
+\mbox{\Hypertarget{classPlayer_aedf6c069bbdc00c0eb92f85a75370d39}\label{classPlayer_aedf6c069bbdc00c0eb92f85a75370d39}} 
+\index{Player@{Player}!slashActive@{slashActive}}
+\index{slashActive@{slashActive}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{slashActive}{slashActive}}
+{\footnotesize\ttfamily bool Player\+::slash\+Active = false}
+
+
+
+刀光是否激活 
+
+\mbox{\Hypertarget{classPlayer_ae02670d43638a2996d32af8b491f5b5f}\label{classPlayer_ae02670d43638a2996d32af8b491f5b5f}} 
+\index{Player@{Player}!slashAngle@{slashAngle}}
+\index{slashAngle@{slashAngle}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{slashAngle}{slashAngle}}
+{\footnotesize\ttfamily float Player\+::slash\+Angle = 0.f}
+
+
+
+刀光朝向角度（弧度） 
+
+\mbox{\Hypertarget{classPlayer_a8af3c24d2a9dee759c633febfdd61669}\label{classPlayer_a8af3c24d2a9dee759c633febfdd61669}} 
+\index{Player@{Player}!slashColor@{slashColor}}
+\index{slashColor@{slashColor}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{slashColor}{slashColor}}
+{\footnotesize\ttfamily sf\+::\+Color Player\+::slash\+Color = sf\+::\+Color(255, 140, 0)}
+
+
+
+刀光颜色（默认橙色） 
+
+\mbox{\Hypertarget{classPlayer_ac2940438876c8b74943d0e1cb7149c56}\label{classPlayer_ac2940438876c8b74943d0e1cb7149c56}} 
+\index{Player@{Player}!slashDuration@{slashDuration}}
+\index{slashDuration@{slashDuration}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{slashDuration}{slashDuration}}
+{\footnotesize\ttfamily float Player\+::slash\+Duration = 0.\+25f}
+
+
+
+刀光持续时间 
+
+\mbox{\Hypertarget{classPlayer_aa598193ae63b4d1526afc21cb1f8bf9a}\label{classPlayer_aa598193ae63b4d1526afc21cb1f8bf9a}} 
+\index{Player@{Player}!slashTimer@{slashTimer}}
+\index{slashTimer@{slashTimer}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{slashTimer}{slashTimer}}
+{\footnotesize\ttfamily float Player\+::slash\+Timer = 0.f}
+
+
+
+刀光剩余时间 
+
+\mbox{\Hypertarget{classPlayer_a53898a8fdb84e2c6d95684cdfe49323e}\label{classPlayer_a53898a8fdb84e2c6d95684cdfe49323e}} 
+\index{Player@{Player}!totalScore@{totalScore}}
+\index{totalScore@{totalScore}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{totalScore}{totalScore}}
+{\footnotesize\ttfamily int Player\+::total\+Score = 0}
+
+
+
+累计分数 
+
+\mbox{\Hypertarget{classPlayer_af6823e27c17ba6ed5d2b4713abbe4d5a}\label{classPlayer_af6823e27c17ba6ed5d2b4713abbe4d5a}} 
+\index{Player@{Player}!username@{username}}
+\index{username@{username}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{username}{username}}
+{\footnotesize\ttfamily std\+::string Player\+::username}
+
+
+
+玩家用户名 
+
+\mbox{\Hypertarget{classPlayer_a067f335e98a66952412bef37253046e1}\label{classPlayer_a067f335e98a66952412bef37253046e1}} 
+\index{Player@{Player}!victoryStageLevel@{victoryStageLevel}}
+\index{victoryStageLevel@{victoryStageLevel}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{victoryStageLevel}{victoryStageLevel}}
+{\footnotesize\ttfamily int Player\+::victory\+Stage\+Level = 0}
+
+
+
+当前强化等级（0=未强化，1-\/5） 
+
+\mbox{\Hypertarget{classPlayer_a304ad9c17253b4ce68e71cfdfb3a81e1}\label{classPlayer_a304ad9c17253b4ce68e71cfdfb3a81e1}} 
+\index{Player@{Player}!weaponList@{weaponList}}
+\index{weaponList@{weaponList}!Player@{Player}}
+\doxysubsubsection{\texorpdfstring{weaponList}{weaponList}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classWeaponListBridge}{Weapon\+List\+Bridge}} Player\+::weapon\+List}
+
+
+
+武器链表（\+C链表+\+C++桥接） 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\item 
+src/\mbox{\hyperlink{GameLogic_8cpp}{Game\+Logic.\+cpp}}\end{DoxyCompactItemize}

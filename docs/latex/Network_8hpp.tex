@@ -1,0 +1,124 @@
+\hypertarget{Network_8hpp}{}\doxysection{src/\+Network.hpp File Reference}
+\label{Network_8hpp}\index{src/Network.hpp@{src/Network.hpp}}
+
+
+UDP 网络通信封装  
+
+
+{\ttfamily \#include $<$SFML/\+Network.\+hpp$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$optional$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+Include dependency graph for Network.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Network_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Network_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structPlayerInput}{Player\+Input}}
+\begin{DoxyCompactList}\small\item\em 玩家输入状态 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structGameState}{Game\+State}}
+\begin{DoxyCompactList}\small\item\em 游戏状态快照 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structGameState_1_1PlayerState}{Game\+State\+::\+Player\+State}}
+\begin{DoxyCompactList}\small\item\em 单个玩家的状态 \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classNetworkManager}{Network\+Manager}}
+\begin{DoxyCompactList}\small\item\em UDP 网络通信管理器 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86}{Net\+Msg\+Type}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a6adf97f83acf6453d4a6a4b1070f3754}{None}}
+, \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a49ab28040dfa07f53544970c6d147e1e}{Connect}}
+, \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a2b96e1c8c10d17f221b8da13252e6452}{Connect\+Accept}}
+, \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a8cea42c2ef58f150b49a2f8795d9afbb}{Player\+Input}}
+, \newline
+\mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a591ff635fd539aade6fb6f6c018d2cfa}{Player\+Attack}}
+, \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a6277a336d65b47660f890eb9299aa7ec}{Player\+Roll}}
+, \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a9b2b13057e7b26024b1c05665108a78e}{Game\+State}}
+, \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a492785297322c6add81eb6abe8744bdf}{Game\+Start}}
+, \newline
+\mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a90cc62cc585e7dc272a20403af456796}{Pause\+Sync}}
+, \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a42ae25231906c83927831e0ef7c317ac}{Disconnect}}
+ \}
+\begin{DoxyCompactList}\small\item\em 网络消息类型枚举 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+UDP 网络通信封装 
+
+基于 SFML 的 Udp\+Socket 实现简单的服务器/客户端网络通信。 用于联机双人闯关模式：
+\begin{DoxyItemize}
+\item 服务器（房主）：绑定指定端口，接收客户端连接和输入，广播游戏状态
+\item 客户端：绑定随机端口，连接服务器，发送输入，接收游戏状态
+\end{DoxyItemize}
+
+通信协议： 每个包的第一个字节是 Net\+Msg\+Type 枚举值，后续数据依消息类型而定。 所有通信使用非阻塞模式。 
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86}} 
+\index{Network.hpp@{Network.hpp}!NetMsgType@{NetMsgType}}
+\index{NetMsgType@{NetMsgType}!Network.hpp@{Network.hpp}}
+\doxysubsubsection{\texorpdfstring{NetMsgType}{NetMsgType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86}{Net\+Msg\+Type}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+网络消息类型枚举 
+
+每种消息的第一个字节为此枚举值，用于区分消息类型。 \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{None@{None}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!None@{None}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a6adf97f83acf6453d4a6a4b1070f3754}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a6adf97f83acf6453d4a6a4b1070f3754}} 
+None&无效消息 \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Connect@{Connect}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!Connect@{Connect}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a49ab28040dfa07f53544970c6d147e1e}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a49ab28040dfa07f53544970c6d147e1e}} 
+Connect&客户端请求连接（携带职业和用户名） \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ConnectAccept@{ConnectAccept}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!ConnectAccept@{ConnectAccept}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a2b96e1c8c10d17f221b8da13252e6452}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a2b96e1c8c10d17f221b8da13252e6452}} 
+Connect\+Accept&服务器接受连接（返回分配的玩家\+ID） \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PlayerInput@{PlayerInput}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!PlayerInput@{PlayerInput}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a8cea42c2ef58f150b49a2f8795d9afbb}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a8cea42c2ef58f150b49a2f8795d9afbb}} 
+Player\+Input&客户端发送输入状态（\+WASD） \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PlayerAttack@{PlayerAttack}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!PlayerAttack@{PlayerAttack}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a591ff635fd539aade6fb6f6c018d2cfa}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a591ff635fd539aade6fb6f6c018d2cfa}} 
+Player\+Attack&客户端发送攻击信号 \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PlayerRoll@{PlayerRoll}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!PlayerRoll@{PlayerRoll}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a6277a336d65b47660f890eb9299aa7ec}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a6277a336d65b47660f890eb9299aa7ec}} 
+Player\+Roll&客户端发送翻滚信号（含方向） \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GameState@{GameState}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!GameState@{GameState}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a9b2b13057e7b26024b1c05665108a78e}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a9b2b13057e7b26024b1c05665108a78e}} 
+Game\+State&服务器广播完整游戏状态（玩家/敌人/投射物/掉落物） \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GameStart@{GameStart}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!GameStart@{GameStart}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a492785297322c6add81eb6abe8744bdf}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a492785297322c6add81eb6abe8744bdf}} 
+Game\+Start&房主通知客户端游戏开始 \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PauseSync@{PauseSync}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!PauseSync@{PauseSync}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a90cc62cc585e7dc272a20403af456796}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a90cc62cc585e7dc272a20403af456796}} 
+Pause\+Sync&暂停状态同步 \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Disconnect@{Disconnect}!Network.hpp@{Network.hpp}}\index{Network.hpp@{Network.hpp}!Disconnect@{Disconnect}}}\mbox{\Hypertarget{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a42ae25231906c83927831e0ef7c317ac}\label{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a42ae25231906c83927831e0ef7c317ac}} 
+Disconnect&断开连接 \\
+\hline
+
+\end{DoxyEnumFields}

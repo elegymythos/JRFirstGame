@@ -1,0 +1,121 @@
+\hypertarget{GameLogic_8cpp}{}\doxysection{src/\+Game\+Logic.cpp File Reference}
+\label{GameLogic_8cpp}\index{src/GameLogic.cpp@{src/GameLogic.cpp}}
+
+
+游戏核心逻辑实现  
+
+
+{\ttfamily \#include \char`\"{}Game\+Logic.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}I18n.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+Include dependency graph for Game\+Logic.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{GameLogic_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Vector2f \mbox{\hyperlink{GameLogic_8cpp_a166ac79672227d1f32f601b6d8bc1726}{normalize}} (const sf\+::\+Vector2f \&v)
+\begin{DoxyCompactList}\small\item\em 二维向量归一化 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{GameLogic_8cpp_acbc54471c8ce390c9d61a1eb28d1fbdc}{distance}} (const sf\+::\+Vector2f \&a, const sf\+::\+Vector2f \&b)
+\begin{DoxyCompactList}\small\item\em 计算两点间欧几里得距离 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{GameLogic_8cpp_ad4e4bc9f6c202a5c95a8fc81e09a49fa}{operator+}} (const \mbox{\hyperlink{structAttributes}{Attributes}} \&a, const \mbox{\hyperlink{structAttributes}{Attributes}} \&b)
+\begin{DoxyCompactList}\small\item\em 属性逐项相加 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{GameLogic_8cpp_a08d5395e6323be989442fc20f12d1490}{generate\+Random\+Attributes}} ()
+\begin{DoxyCompactList}\small\item\em 随机生成六大属性（正态分布，范围\mbox{[}1,20\mbox{]}，总和上限80） \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structClassConfig}{Class\+Config}} \mbox{\hyperlink{GameLogic_8cpp_a27eba14deacc834a7149e330808b182d}{get\+Class\+Config}} (\mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{Character\+Class}} cls)
+\begin{DoxyCompactList}\small\item\em 获取指定职业的配置信息 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{GameLogic_8cpp_a2b395d232a5bc82f88b37da1a802d3e9}{get\+Total\+Attributes}} (const \mbox{\hyperlink{structAttributes}{Attributes}} \&base, const \mbox{\hyperlink{structClassConfig}{Class\+Config}} \&cls, const \mbox{\hyperlink{structAttributes}{Attributes}} \&level\+Bonus)
+\begin{DoxyCompactList}\small\item\em 计算最终属性 = 基础属性 + 职业加成 + 等级加成 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structEnemyConfig}{Enemy\+Config}} \mbox{\hyperlink{GameLogic_8cpp_a5ec6f429c62c4a6f3f7f960b4b522b4f}{get\+Enemy\+Config}} (\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}} type)
+\begin{DoxyCompactList}\small\item\em 获取指定敌人类型的配置 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+游戏核心逻辑实现 
+
+包含所有游戏实体的构造、更新、绘制、战斗计算等实现， 以及属性生成、职业配置、敌人配置、投射物/掉落物系统。 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{GameLogic_8cpp_acbc54471c8ce390c9d61a1eb28d1fbdc}\label{GameLogic_8cpp_acbc54471c8ce390c9d61a1eb28d1fbdc}} 
+\index{GameLogic.cpp@{GameLogic.cpp}!distance@{distance}}
+\index{distance@{distance}!GameLogic.cpp@{GameLogic.cpp}}
+\doxysubsubsection{\texorpdfstring{distance()}{distance()}}
+{\footnotesize\ttfamily float distance (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{a,  }\item[{const sf\+::\+Vector2f \&}]{b }\end{DoxyParamCaption})}
+
+
+
+计算两点间欧几里得距离 
+
+\mbox{\Hypertarget{GameLogic_8cpp_a08d5395e6323be989442fc20f12d1490}\label{GameLogic_8cpp_a08d5395e6323be989442fc20f12d1490}} 
+\index{GameLogic.cpp@{GameLogic.cpp}!generateRandomAttributes@{generateRandomAttributes}}
+\index{generateRandomAttributes@{generateRandomAttributes}!GameLogic.cpp@{GameLogic.cpp}}
+\doxysubsubsection{\texorpdfstring{generateRandomAttributes()}{generateRandomAttributes()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAttributes}{Attributes}} generate\+Random\+Attributes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+随机生成六大属性（正态分布，范围\mbox{[}1,20\mbox{]}，总和上限80） 
+
+\mbox{\Hypertarget{GameLogic_8cpp_a27eba14deacc834a7149e330808b182d}\label{GameLogic_8cpp_a27eba14deacc834a7149e330808b182d}} 
+\index{GameLogic.cpp@{GameLogic.cpp}!getClassConfig@{getClassConfig}}
+\index{getClassConfig@{getClassConfig}!GameLogic.cpp@{GameLogic.cpp}}
+\doxysubsubsection{\texorpdfstring{getClassConfig()}{getClassConfig()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structClassConfig}{Class\+Config}} get\+Class\+Config (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{Character\+Class}}}]{cls }\end{DoxyParamCaption})}
+
+
+
+获取指定职业的配置信息 
+
+\mbox{\Hypertarget{GameLogic_8cpp_a5ec6f429c62c4a6f3f7f960b4b522b4f}\label{GameLogic_8cpp_a5ec6f429c62c4a6f3f7f960b4b522b4f}} 
+\index{GameLogic.cpp@{GameLogic.cpp}!getEnemyConfig@{getEnemyConfig}}
+\index{getEnemyConfig@{getEnemyConfig}!GameLogic.cpp@{GameLogic.cpp}}
+\doxysubsubsection{\texorpdfstring{getEnemyConfig()}{getEnemyConfig()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structEnemyConfig}{Enemy\+Config}} get\+Enemy\+Config (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}}}]{type }\end{DoxyParamCaption})}
+
+
+
+获取指定敌人类型的配置 
+
+\mbox{\Hypertarget{GameLogic_8cpp_a2b395d232a5bc82f88b37da1a802d3e9}\label{GameLogic_8cpp_a2b395d232a5bc82f88b37da1a802d3e9}} 
+\index{GameLogic.cpp@{GameLogic.cpp}!getTotalAttributes@{getTotalAttributes}}
+\index{getTotalAttributes@{getTotalAttributes}!GameLogic.cpp@{GameLogic.cpp}}
+\doxysubsubsection{\texorpdfstring{getTotalAttributes()}{getTotalAttributes()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAttributes}{Attributes}} get\+Total\+Attributes (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAttributes}{Attributes}} \&}]{base,  }\item[{const \mbox{\hyperlink{structClassConfig}{Class\+Config}} \&}]{cls,  }\item[{const \mbox{\hyperlink{structAttributes}{Attributes}} \&}]{level\+Bonus }\end{DoxyParamCaption})}
+
+
+
+计算最终属性 = 基础属性 + 职业加成 + 等级加成 
+
+\mbox{\Hypertarget{GameLogic_8cpp_a166ac79672227d1f32f601b6d8bc1726}\label{GameLogic_8cpp_a166ac79672227d1f32f601b6d8bc1726}} 
+\index{GameLogic.cpp@{GameLogic.cpp}!normalize@{normalize}}
+\index{normalize@{normalize}!GameLogic.cpp@{GameLogic.cpp}}
+\doxysubsubsection{\texorpdfstring{normalize()}{normalize()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f normalize (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{v }\end{DoxyParamCaption})}
+
+
+
+二维向量归一化 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & 输入向量 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+单位向量，零向量返回 (0,0) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{GameLogic_8cpp_ad4e4bc9f6c202a5c95a8fc81e09a49fa}\label{GameLogic_8cpp_ad4e4bc9f6c202a5c95a8fc81e09a49fa}} 
+\index{GameLogic.cpp@{GameLogic.cpp}!operator+@{operator+}}
+\index{operator+@{operator+}!GameLogic.cpp@{GameLogic.cpp}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAttributes}{Attributes}} operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAttributes}{Attributes}} \&}]{a,  }\item[{const \mbox{\hyperlink{structAttributes}{Attributes}} \&}]{b }\end{DoxyParamCaption})}
+
+
+
+属性逐项相加 
+

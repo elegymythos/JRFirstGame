@@ -1,0 +1,134 @@
+\hypertarget{structGameWorld_1_1NetPlayer}{}\doxysection{Game\+World\+::Net\+Player Struct Reference}
+\label{structGameWorld_1_1NetPlayer}\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+
+
+网络玩家数据（简化版，不含完整属性系统）  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+
+
+Collaboration diagram for Game\+World\+::Net\+Player\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=213pt]{structGameWorld_1_1NetPlayer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Vector2f \mbox{\hyperlink{structGameWorld_1_1NetPlayer_a4260bbc4957fef7141229117df54e6f5}{position}}
+\begin{DoxyCompactList}\small\item\em 世界坐标位置 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structPlayerInput}{Player\+Input}} \mbox{\hyperlink{structGameWorld_1_1NetPlayer_aed3b63cabb9d2f4fe04a4a5e8fbd4fee}{input}}
+\begin{DoxyCompactList}\small\item\em 当前输入状态 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structGameWorld_1_1NetPlayer_a31b0a9078c67a5a21cb1409f12ed1c7c}{health}} = 100
+\begin{DoxyCompactList}\small\item\em 当前血量 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structGameWorld_1_1NetPlayer_aef0ca0be8b0b0704a682b6a068d7dd1a}{max\+Health}} = 100
+\begin{DoxyCompactList}\small\item\em 血量上限 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structGameWorld_1_1NetPlayer_ae65f41dccbe81b954b199fe7eedb70e3}{attack\+Cooldown}} = 0.f
+\begin{DoxyCompactList}\small\item\em 攻击冷却剩余 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structGameWorld_1_1NetPlayer_a55d8b1ce2df2703a5dd84231fce8fd00}{attack\+Damage}} = 20
+\begin{DoxyCompactList}\small\item\em 攻击伤害 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structGameWorld_1_1NetPlayer_ad5a0b8b4c2c3128f7cbf9c1f8176931e}{attack\+Range}} = 40.f
+\begin{DoxyCompactList}\small\item\em 攻击范围 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr float \mbox{\hyperlink{structGameWorld_1_1NetPlayer_a1942cddf8f0a1192b50e0cb52ce4389e}{attack\+Cooldown\+Max}} = 0.\+5f
+\begin{DoxyCompactList}\small\item\em 攻击冷却时间 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+网络玩家数据（简化版，不含完整属性系统） 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structGameWorld_1_1NetPlayer_ae65f41dccbe81b954b199fe7eedb70e3}\label{structGameWorld_1_1NetPlayer_ae65f41dccbe81b954b199fe7eedb70e3}} 
+\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}!attackCooldown@{attackCooldown}}
+\index{attackCooldown@{attackCooldown}!GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+\doxysubsubsection{\texorpdfstring{attackCooldown}{attackCooldown}}
+{\footnotesize\ttfamily float Game\+World\+::\+Net\+Player\+::attack\+Cooldown = 0.f}
+
+
+
+攻击冷却剩余 
+
+\mbox{\Hypertarget{structGameWorld_1_1NetPlayer_a1942cddf8f0a1192b50e0cb52ce4389e}\label{structGameWorld_1_1NetPlayer_a1942cddf8f0a1192b50e0cb52ce4389e}} 
+\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}!attackCooldownMax@{attackCooldownMax}}
+\index{attackCooldownMax@{attackCooldownMax}!GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+\doxysubsubsection{\texorpdfstring{attackCooldownMax}{attackCooldownMax}}
+{\footnotesize\ttfamily constexpr float Game\+World\+::\+Net\+Player\+::attack\+Cooldown\+Max = 0.\+5f\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+攻击冷却时间 
+
+\mbox{\Hypertarget{structGameWorld_1_1NetPlayer_a55d8b1ce2df2703a5dd84231fce8fd00}\label{structGameWorld_1_1NetPlayer_a55d8b1ce2df2703a5dd84231fce8fd00}} 
+\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}!attackDamage@{attackDamage}}
+\index{attackDamage@{attackDamage}!GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+\doxysubsubsection{\texorpdfstring{attackDamage}{attackDamage}}
+{\footnotesize\ttfamily int Game\+World\+::\+Net\+Player\+::attack\+Damage = 20}
+
+
+
+攻击伤害 
+
+\mbox{\Hypertarget{structGameWorld_1_1NetPlayer_ad5a0b8b4c2c3128f7cbf9c1f8176931e}\label{structGameWorld_1_1NetPlayer_ad5a0b8b4c2c3128f7cbf9c1f8176931e}} 
+\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}!attackRange@{attackRange}}
+\index{attackRange@{attackRange}!GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+\doxysubsubsection{\texorpdfstring{attackRange}{attackRange}}
+{\footnotesize\ttfamily float Game\+World\+::\+Net\+Player\+::attack\+Range = 40.f}
+
+
+
+攻击范围 
+
+\mbox{\Hypertarget{structGameWorld_1_1NetPlayer_a31b0a9078c67a5a21cb1409f12ed1c7c}\label{structGameWorld_1_1NetPlayer_a31b0a9078c67a5a21cb1409f12ed1c7c}} 
+\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}!health@{health}}
+\index{health@{health}!GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+\doxysubsubsection{\texorpdfstring{health}{health}}
+{\footnotesize\ttfamily int Game\+World\+::\+Net\+Player\+::health = 100}
+
+
+
+当前血量 
+
+\mbox{\Hypertarget{structGameWorld_1_1NetPlayer_aed3b63cabb9d2f4fe04a4a5e8fbd4fee}\label{structGameWorld_1_1NetPlayer_aed3b63cabb9d2f4fe04a4a5e8fbd4fee}} 
+\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}!input@{input}}
+\index{input@{input}!GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+\doxysubsubsection{\texorpdfstring{input}{input}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structPlayerInput}{Player\+Input}} Game\+World\+::\+Net\+Player\+::input}
+
+
+
+当前输入状态 
+
+\mbox{\Hypertarget{structGameWorld_1_1NetPlayer_aef0ca0be8b0b0704a682b6a068d7dd1a}\label{structGameWorld_1_1NetPlayer_aef0ca0be8b0b0704a682b6a068d7dd1a}} 
+\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}!maxHealth@{maxHealth}}
+\index{maxHealth@{maxHealth}!GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+\doxysubsubsection{\texorpdfstring{maxHealth}{maxHealth}}
+{\footnotesize\ttfamily int Game\+World\+::\+Net\+Player\+::max\+Health = 100}
+
+
+
+血量上限 
+
+\mbox{\Hypertarget{structGameWorld_1_1NetPlayer_a4260bbc4957fef7141229117df54e6f5}\label{structGameWorld_1_1NetPlayer_a4260bbc4957fef7141229117df54e6f5}} 
+\index{GameWorld::NetPlayer@{GameWorld::NetPlayer}!position@{position}}
+\index{position@{position}!GameWorld::NetPlayer@{GameWorld::NetPlayer}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Game\+World\+::\+Net\+Player\+::position}
+
+
+
+世界坐标位置 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\end{DoxyCompactItemize}

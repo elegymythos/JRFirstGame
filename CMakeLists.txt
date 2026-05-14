@@ -77,6 +77,37 @@ endif()
 message(STATUS "SFML 库: ${SFML_LIBRARIES}")
 
 # =============================================================================
+# 提取 SFML 动态库目录（用于复制 SO/DLL/dylib 到输出目录）
+# =============================================================================
+if(TARGET SFML::Graphics AND NOT DEFINED SFML_LIB_DIR)
+    # 从导入目标中提取库目录
+    get_target_property(_SFML_GRAPHICS_LIB SFML::Graphics IMPORTED_LOCATION)
+    if(NOT _SFML_GRAPHICS_LIB)
+        get_target_property(_SFML_GRAPHICS_LIB SFML::Graphics LOCATION)
+    endif()
+    if(_SFML_GRAPHICS_LIB)
+        get_filename_component(SFML_LIB_DIR "${_SFML_GRAPHICS_LIB}" DIRECTORY)
+        message(STATUS "SFML 库目录 (从目标提取): ${SFML_LIB_DIR}")
+    endif()
+    # 回退：从 SFML_DIR 推断
+    if(NOT SFML_LIB_DIR AND DEFINED SFML_DIR)
+        # SFML_DIR 通常指向 lib/cmake/SFML，向上两级得到 lib/
+        get_filename_component(_SFML_LIB_ROOT "${SFML_DIR}" DIRECTORY)
+        get_filename_component(_SFML_LIB_ROOT "${_SFML_LIB_ROOT}" DIRECTORY)
+        if(EXISTS "${_SFML_LIB_ROOT}/libsfml-graphics.so" OR EXISTS "${_SFML_LIB_ROOT}/libsfml-graphics.so.3.0")
+            set(SFML_LIB_DIR "${_SFML_LIB_ROOT}")
+            message(STATUS "SFML 库目录 (从 SFML_DIR 推断): ${SFML_LIB_DIR}")
+        endif()
+    endif()
+endif()
+# 回退：从 SFML_LIBRARIES 列表提取
+if(NOT DEFINED SFML_LIB_DIR AND SFML_LIBRARIES)
+    list(GET SFML_LIBRARIES 0 _FIRST_SFML_LIB)
+    get_filename_component(SFML_LIB_DIR "${_FIRST_SFML_LIB}" DIRECTORY)
+    message(STATUS "SFML 库目录 (从 SFML_LIBRARIES 提取): ${SFML_LIB_DIR}")
+endif()
+
+# =============================================================================
 # SQLite3 源文件（编译为静态库）
 # =============================================================================
 set(SQLITE_SOURCES external/sqlite3.c)
@@ -334,6 +365,40 @@ if(WIN32)
     endif()
 endif()
 
+# Linux/macOS: 复制 ONNX Runtime 动态库到输出目录
+if(UNIX AND AI_ENABLED)
+    if(EXISTS "${ONNXRUNTIME_DIR}/lib/libonnxruntime.so.1.19.2")
+        add_custom_command(TARGET JRFirstGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${ONNXRUNTIME_DIR}/lib/libonnxruntime.so.1.19.2"
+                "$<TARGET_FILE_DIR:JRFirstGame>"
+            COMMAND ${CMAKE_COMMAND} -E create_symlink
+                "libonnxruntime.so.1.19.2"
+                "$<TARGET_FILE_DIR:JRFirstGame>/libonnxruntime.so.1"
+            COMMAND ${CMAKE_COMMAND} -E create_symlink
+                "libonnxruntime.so.1"
+                "$<TARGET_FILE_DIR:JRFirstGame>/libonnxruntime.so"
+            COMMENT "复制 ONNX Runtime SO 文件并创建符号链接"
+        )
+    elseif(EXISTS "${ONNXRUNTIME_DIR}/lib/libonnxruntime.so")
+        add_custom_command(TARGET JRFirstGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${ONNXRUNTIME_DIR}/lib/libonnxruntime.so"
+                "$<TARGET_FILE_DIR:JRFirstGame>"
+            COMMENT "复制 libonnxruntime.so"
+        )
+    endif()
+    # macOS dylib
+    if(APPLE AND EXISTS "${ONNXRUNTIME_DIR}/lib/libonnxruntime.dylib")
+        add_custom_command(TARGET JRFirstGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${ONNXRUNTIME_DIR}/lib/libonnxruntime.dylib"
+                "$<TARGET_FILE_DIR:JRFirstGame>"
+            COMMENT "复制 libonnxruntime.dylib"
+        )
+    endif()
+endif()
+
 if(APPLE)
     target_link_libraries(JRFirstGame PRIVATE
         "-framework CoreFoundation"
@@ -435,14 +500,18 @@ if(WIN32 AND DEFINED SFML_BIN_DIR)
     endif()
 endif()
 # Linux：复制 SO 文件并设置 RPATH
-if(UNIX AND NOT APPLE AND DEFINED SFML_LIB_DIR)
+if(UNIX AND NOT APPLE AND DEFINED SFML_LIB_DIR AND SFML_LIB_DIR)
     file(GLOB SFML_SOS "${SFML_LIB_DIR}/libsfml-*.so*")
-    add_custom_command(TARGET JRFirstGame POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${SFML_SOS}
-            "$<TARGET_FILE_DIR:JRFirstGame>"
-        COMMENT "复制 SFML SO 文件到输出目录"
-    )
+    if(SFML_SOS)
+        add_custom_command(TARGET JRFirstGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${SFML_SOS}
+                "$<TARGET_FILE_DIR:JRFirstGame>"
+            COMMENT "复制 SFML SO 文件到输出目录"
+        )
+    else()
+        message(WARNING "SFML_LIB_DIR 已设置 (${SFML_LIB_DIR})，但未找到 libsfml-*.so* 文件")
+    endif()
     set_target_properties(JRFirstGame PROPERTIES
         INSTALL_RPATH "$ORIGIN"
         BUILD_WITH_INSTALL_RPATH TRUE
@@ -450,16 +519,18 @@ if(UNIX AND NOT APPLE AND DEFINED SFML_LIB_DIR)
 endif()
 
 # macOS：复制 dylib 到 .app 包内
-if(APPLE AND DEFINED SFML_LIB_DIR)
+if(APPLE AND DEFINED SFML_LIB_DIR AND SFML_LIB_DIR)
     set(APP_FRAMEWORKS_DIR "$<TARGET_BUNDLE_CONTENT_DIR:JRFirstGame>/Frameworks")
     file(GLOB SFML_DYLIBS "${SFML_LIB_DIR}/libsfml-*.dylib")
-    add_custom_command(TARGET JRFirstGame POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${APP_FRAMEWORKS_DIR}"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${SFML_DYLIBS}
-            "${APP_FRAMEWORKS_DIR}"
-        COMMENT "复制 SFML dylib 文件到 .app 包内"
-    )
+    if(SFML_DYLIBS)
+        add_custom_command(TARGET JRFirstGame POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${APP_FRAMEWORKS_DIR}"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${SFML_DYLIBS}
+                "${APP_FRAMEWORKS_DIR}"
+            COMMENT "复制 SFML dylib 文件到 .app 包内"
+        )
+    endif()
     set_target_properties(JRFirstGame PROPERTIES
         INSTALL_RPATH "@executable_path/../Frameworks"
         BUILD_WITH_INSTALL_RPATH TRUE

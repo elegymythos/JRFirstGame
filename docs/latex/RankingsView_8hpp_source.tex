@@ -1,0 +1,35 @@
+\hypertarget{RankingsView_8hpp_source}{}\doxysection{Rankings\+View.\+hpp}
+\label{RankingsView_8hpp_source}\index{src/RankingsView.hpp@{src/RankingsView.hpp}}
+\mbox{\hyperlink{RankingsView_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{ViewBase_8hpp}{ViewBase.hpp}}"{}}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{UIWidgets_8hpp}{UIWidgets.hpp}}"{}}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Database_8hpp}{Database.hpp}}"{}}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{27 \textcolor{keyword}{class }\mbox{\hyperlink{classRankingsView}{RankingsView}} : \textcolor{keyword}{public} \mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{28 \textcolor{keyword}{public}:}
+\DoxyCodeLine{35     \mbox{\hyperlink{classRankingsView_a8c59bb392d2aee777adbffa62d0e801f}{RankingsView}}(\textcolor{keyword}{const} sf::Font\& font, std::function<\textcolor{keywordtype}{void}(std::string)> changeView, \mbox{\hyperlink{classDatabase}{Database}}\& database);}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} \mbox{\hyperlink{classRankingsView_ab41c470bc139ed58985aaa6d452ff021}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{38     \textcolor{keywordtype}{void} \mbox{\hyperlink{classRankingsView_aa42c19a4d76e25c34a17e9b959705a3f}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) \textcolor{keyword}{override};}
+\DoxyCodeLine{39     \textcolor{keywordtype}{void} \mbox{\hyperlink{classRankingsView_adfa525cb6d7ad11656153c57b4fe00a2}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{keyword}{private}:}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} refreshRankings();}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45     \mbox{\hyperlink{classDatabase}{Database}}\& db;                              }
+\DoxyCodeLine{46     sf::Text title;                            }
+\DoxyCodeLine{47     std::vector<sf::Text> rankTexts;           }
+\DoxyCodeLine{48     \mbox{\hyperlink{classButton}{Button}} backBtn;                            }
+\DoxyCodeLine{49     std::function<void(std::string)> changeView; }
+\DoxyCodeLine{50 \};}
+
+\end{DoxyCode}

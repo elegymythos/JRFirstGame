@@ -1,0 +1,121 @@
+\hypertarget{structLevelData}{}\doxysection{Level\+Data Struct Reference}
+\label{structLevelData}\index{LevelData@{LevelData}}
+
+
+等级与经验数据  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{structLevelData_a8a852bfbb5b294696d9729da16ade8cc}{gain\+Exp}} (int amount)
+\begin{DoxyCompactList}\small\item\em 增加经验值，自动处理连续升级 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structLevelData_a78061f54887ae4c57cfc8011a35b7537}{check\+Level\+Up}} ()
+\begin{DoxyCompactList}\small\item\em 检查是否满足升级条件，满足则升级并返回 true \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{structLevelData_a8ab62e61761f2bbe07a7d84745886351}{get\+Level\+Bonus}} () const
+\begin{DoxyCompactList}\small\item\em 获取等级带来的属性加成（每项 = LEVEL\+\_\+\+BONUS\+\_\+\+PER\+\_\+\+ATTR $\ast$ (level-\/1)） \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{structLevelData_afb447a1f3b14665461fbd97d408fb3a2}{level}} = 1
+\begin{DoxyCompactList}\small\item\em 当前等级 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structLevelData_acb0bbd94b37a41f8827526e39a67b2b4}{experience}} = 0
+\begin{DoxyCompactList}\small\item\em 当前经验值 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structLevelData_a3e661044a2e9c4a86402adf8c6b8d202}{exp\+To\+Next\+Level}} = 100
+\begin{DoxyCompactList}\small\item\em 升级所需经验 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr int \mbox{\hyperlink{structLevelData_af12e76d489916a73f2471e1791bff8ce}{LEVEL\+\_\+\+BONUS\+\_\+\+PER\+\_\+\+ATTR}} = 2
+\begin{DoxyCompactList}\small\item\em 每级每项属性加成 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+等级与经验数据 
+
+升级经验需求 = 100 $\ast$ 当前等级。 每升一级，所有属性 +LEVEL\+\_\+\+BONUS\+\_\+\+PER\+\_\+\+ATTR（默认2）。 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structLevelData_a78061f54887ae4c57cfc8011a35b7537}\label{structLevelData_a78061f54887ae4c57cfc8011a35b7537}} 
+\index{LevelData@{LevelData}!checkLevelUp@{checkLevelUp}}
+\index{checkLevelUp@{checkLevelUp}!LevelData@{LevelData}}
+\doxysubsubsection{\texorpdfstring{checkLevelUp()}{checkLevelUp()}}
+{\footnotesize\ttfamily bool Level\+Data\+::check\+Level\+Up (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+检查是否满足升级条件，满足则升级并返回 true 
+
+\mbox{\Hypertarget{structLevelData_a8a852bfbb5b294696d9729da16ade8cc}\label{structLevelData_a8a852bfbb5b294696d9729da16ade8cc}} 
+\index{LevelData@{LevelData}!gainExp@{gainExp}}
+\index{gainExp@{gainExp}!LevelData@{LevelData}}
+\doxysubsubsection{\texorpdfstring{gainExp()}{gainExp()}}
+{\footnotesize\ttfamily void Level\+Data\+::gain\+Exp (\begin{DoxyParamCaption}\item[{int}]{amount }\end{DoxyParamCaption})}
+
+
+
+增加经验值，自动处理连续升级 
+
+\mbox{\Hypertarget{structLevelData_a8ab62e61761f2bbe07a7d84745886351}\label{structLevelData_a8ab62e61761f2bbe07a7d84745886351}} 
+\index{LevelData@{LevelData}!getLevelBonus@{getLevelBonus}}
+\index{getLevelBonus@{getLevelBonus}!LevelData@{LevelData}}
+\doxysubsubsection{\texorpdfstring{getLevelBonus()}{getLevelBonus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAttributes}{Attributes}} Level\+Data\+::get\+Level\+Bonus (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取等级带来的属性加成（每项 = LEVEL\+\_\+\+BONUS\+\_\+\+PER\+\_\+\+ATTR $\ast$ (level-\/1)） 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structLevelData_acb0bbd94b37a41f8827526e39a67b2b4}\label{structLevelData_acb0bbd94b37a41f8827526e39a67b2b4}} 
+\index{LevelData@{LevelData}!experience@{experience}}
+\index{experience@{experience}!LevelData@{LevelData}}
+\doxysubsubsection{\texorpdfstring{experience}{experience}}
+{\footnotesize\ttfamily int Level\+Data\+::experience = 0}
+
+
+
+当前经验值 
+
+\mbox{\Hypertarget{structLevelData_a3e661044a2e9c4a86402adf8c6b8d202}\label{structLevelData_a3e661044a2e9c4a86402adf8c6b8d202}} 
+\index{LevelData@{LevelData}!expToNextLevel@{expToNextLevel}}
+\index{expToNextLevel@{expToNextLevel}!LevelData@{LevelData}}
+\doxysubsubsection{\texorpdfstring{expToNextLevel}{expToNextLevel}}
+{\footnotesize\ttfamily int Level\+Data\+::exp\+To\+Next\+Level = 100}
+
+
+
+升级所需经验 
+
+\mbox{\Hypertarget{structLevelData_afb447a1f3b14665461fbd97d408fb3a2}\label{structLevelData_afb447a1f3b14665461fbd97d408fb3a2}} 
+\index{LevelData@{LevelData}!level@{level}}
+\index{level@{level}!LevelData@{LevelData}}
+\doxysubsubsection{\texorpdfstring{level}{level}}
+{\footnotesize\ttfamily int Level\+Data\+::level = 1}
+
+
+
+当前等级 
+
+\mbox{\Hypertarget{structLevelData_af12e76d489916a73f2471e1791bff8ce}\label{structLevelData_af12e76d489916a73f2471e1791bff8ce}} 
+\index{LevelData@{LevelData}!LEVEL\_BONUS\_PER\_ATTR@{LEVEL\_BONUS\_PER\_ATTR}}
+\index{LEVEL\_BONUS\_PER\_ATTR@{LEVEL\_BONUS\_PER\_ATTR}!LevelData@{LevelData}}
+\doxysubsubsection{\texorpdfstring{LEVEL\_BONUS\_PER\_ATTR}{LEVEL\_BONUS\_PER\_ATTR}}
+{\footnotesize\ttfamily constexpr int Level\+Data\+::\+LEVEL\+\_\+\+BONUS\+\_\+\+PER\+\_\+\+ATTR = 2\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+每级每项属性加成 
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\item 
+src/\mbox{\hyperlink{GameLogic_8cpp}{Game\+Logic.\+cpp}}\end{DoxyCompactItemize}

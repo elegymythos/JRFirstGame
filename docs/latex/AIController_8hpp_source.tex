@@ -1,0 +1,141 @@
+\hypertarget{AIController_8hpp_source}{}\doxysection{AIController.\+hpp}
+\label{AIController_8hpp_source}\index{src/AIController.hpp@{src/AIController.hpp}}
+\mbox{\hyperlink{AIController_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include <array>}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{33 \textcolor{keyword}{struct }\mbox{\hyperlink{structAIPlayerState}{AIPlayerState}} \{}
+\DoxyCodeLine{34     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_a92c2c15fb5810f23fbd094266e81d31e}{x}} = 0, \mbox{\hyperlink{structAIPlayerState_a2b7076ba8223ed0898ef1b0eb9bcc200}{y}} = 0;             }
+\DoxyCodeLine{35     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_a2426c1910843438641948342a9188b88}{vx}} = 0, \mbox{\hyperlink{structAIPlayerState_ab93666a05f0786847aacf6e9107f1307}{vy}} = 0;           }
+\DoxyCodeLine{36     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIPlayerState_a164a9c23ae3b75c0931a76874b981bbd}{health}} = 100, \mbox{\hyperlink{structAIPlayerState_a0ea02597f6b2f74464ef9e118c3720e8}{maxHealth}} = 100; }
+\DoxyCodeLine{37     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_a558b9157215e072d5f383b6aceb4e233}{speed}} = 150.f;            }
+\DoxyCodeLine{38     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_a9c3f06fb20eae8ca620eab6e3c1e87ff}{radius}} = 20.f;            }
+\DoxyCodeLine{39     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIPlayerState_a3ea39fc5dcc6ff5762246bac144498c1}{isRolling}} = \textcolor{keyword}{false};          }
+\DoxyCodeLine{40     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIPlayerState_af6e49efaea8a594848731dbb2f3c13b5}{isInvincible}} = \textcolor{keyword}{false};       }
+\DoxyCodeLine{41     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_a6050631cffd2c5a28fbe5d84e49632f2}{attackCooldown}} = 0.f;      }
+\DoxyCodeLine{42     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_a111459056d034f1fd1002f3c84df91db}{attackCooldownMax}} = 0.5f;  }
+\DoxyCodeLine{43     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_ab97d1300a12dd50ab87126ec017c2275}{rollCooldown}} = 0.f;       }
+\DoxyCodeLine{44     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_a784ee20796fbf298f91184eae70d62ac}{rollCooldownMax}} = 0.8f;    }
+\DoxyCodeLine{45     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIPlayerState_a687224a414310d07cbf395b7c9d86f26}{totalScore}} = 0;             }
+\DoxyCodeLine{46     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIPlayerState_a40786551a13ab9207dfffbe5f312d0b3}{killCount}} = 0;              }
+\DoxyCodeLine{47     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIPlayerState_adb0050d32b6fc66e19cd501406779332}{level}} = 1;                  }
+\DoxyCodeLine{48     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIPlayerState_aac590db0a83ae7a828ef33ede91d44ac}{victoryStage}} = 0;           }
+\DoxyCodeLine{49     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_aa5868a334ce59248e1b908568f1c1b96}{attackRange}} = 80.f;       }
+\DoxyCodeLine{50     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIPlayerState_a04de45f627a1791198610f3949eaccff}{attackDamage}} = 20;          }
+\DoxyCodeLine{51     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_ad6143b6aa63f7461b38ebd9d996a5b42}{damageBonus}} = 0.f;        }
+\DoxyCodeLine{52     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_abec7f8b772d1915dc01eccd70841e5cc}{attackSpeedBonus}} = 0.f;   }
+\DoxyCodeLine{53     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIPlayerState_acecf884968665e71971384638d68d336}{critChance}} = 0.f;         }
+\DoxyCodeLine{54     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIPlayerState_aaf4a1fd7ef09370a4915bbec7ffdbd70}{strength}} = 15;              }
+\DoxyCodeLine{55 \};}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{61 \textcolor{keyword}{struct }\mbox{\hyperlink{structAIEnemyState}{AIEnemyState}} \{}
+\DoxyCodeLine{62     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIEnemyState_a3719c0842a0024e8f323576374161b9a}{x}} = 0, \mbox{\hyperlink{structAIEnemyState_a4d332c4f0e5e4649c92b59c682cf1067}{y}} = 0;             }
+\DoxyCodeLine{63     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIEnemyState_ab54a70611e86209fff3aa4dcaf952613}{vx}} = 0, \mbox{\hyperlink{structAIEnemyState_a611909d26387deb1d2130f99584dd8ec}{vy}} = 0;           }
+\DoxyCodeLine{64     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIEnemyState_aad5f78d5b0b6a583f156b43edc104f0e}{health}} = 0, \mbox{\hyperlink{structAIEnemyState_a8445d23193721012e325b96a39b1cc3b}{maxHealth}} = 1;   }
+\DoxyCodeLine{65     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIEnemyState_a409d3ec262326e92f803637059cd0c31}{radius}} = 16.f;            }
+\DoxyCodeLine{66     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIEnemyState_a3421b97a8f89e387420793a9475ffe0d}{entityType}} = 0;             }
+\DoxyCodeLine{67     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIEnemyState_a73affb529b6030f17ce1bce7ed48b144}{attackDamage}} = 10;          }
+\DoxyCodeLine{68     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIEnemyState_aa9945e6648233b7f65e096ec7d1f7d11}{attackRange}} = 30.f;       }
+\DoxyCodeLine{69     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIEnemyState_a6517be518a49285c7e4bbfc7e78544e6}{attackCooldown}} = 0.f;     }
+\DoxyCodeLine{70     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIEnemyState_ac62cdf5b6b5851ae1b7ca81f75c586f2}{attackCooldownMax}} = 1.0f;  }
+\DoxyCodeLine{71     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIEnemyState_ac478fa60528b44d2c73bb65ca67cdac0}{speed}} = 80.f;            }
+\DoxyCodeLine{72     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIEnemyState_aaf307c9ddd9ebb777b551a526d10f632}{isRanged}} = \textcolor{keyword}{false};          }
+\DoxyCodeLine{73     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIEnemyState_a4b4fa6a5eb546f4535a69126705a9dc6}{score}} = 15;                 }
+\DoxyCodeLine{74     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIEnemyState_ad982eae3bf9c7acfabc86bcd4a03a0cf}{alive}} = \textcolor{keyword}{true};              }
+\DoxyCodeLine{75 \};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{81 \textcolor{keyword}{struct }\mbox{\hyperlink{structAIProjectileState}{AIProjectileState}} \{}
+\DoxyCodeLine{82     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIProjectileState_a59dd69454aeb757b332d97fbf72d92e7}{x}} = 0, \mbox{\hyperlink{structAIProjectileState_abe1a621fabf4ec2f35dc52def81349af}{y}} = 0;             }
+\DoxyCodeLine{83     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIProjectileState_a58199b37a9b3dd96d9d886334a8c57fc}{dx}} = 0, \mbox{\hyperlink{structAIProjectileState_aa3ce8d845cd94713ec00dea93fc8bb25}{dy}} = 0;           }
+\DoxyCodeLine{84     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIProjectileState_aea57dea76e8168860c806a99f1f2245a}{speed}} = 300.f;            }
+\DoxyCodeLine{85     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIProjectileState_a6335df6e9f7e7b0a255118bdf7d56d72}{damage}} = 10;                }
+\DoxyCodeLine{86     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIProjectileState_aa9d49a367f152933e6bacafb525ceee5}{fromPlayer}} = \textcolor{keyword}{true};         }
+\DoxyCodeLine{87     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIProjectileState_a53f4c7254223a0e7634e47837765cde0}{alive}} = \textcolor{keyword}{true};              }
+\DoxyCodeLine{88 \};}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{94 \textcolor{keyword}{struct }\mbox{\hyperlink{structAIDropState}{AIDropState}} \{}
+\DoxyCodeLine{95     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIDropState_a6e4fea9dd6b2ffe0ae116a2503803843}{x}} = 0, \mbox{\hyperlink{structAIDropState_a41f05000b41e1b8bce88964d3cfa6133}{y}} = 0;             }
+\DoxyCodeLine{96     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIDropState_aa88c57f443ece81160d9d7ffa1e0034f}{dropType}} = 0;               }
+\DoxyCodeLine{97     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIDropState_a6dbc16ea2be89f25bf13607b6425c263}{alive}} = \textcolor{keyword}{true};              }
+\DoxyCodeLine{98 \};}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{104 \textcolor{keyword}{struct }\mbox{\hyperlink{structAIGameState}{AIGameState}} \{}
+\DoxyCodeLine{105     \mbox{\hyperlink{structAIPlayerState}{AIPlayerState}} \mbox{\hyperlink{structAIGameState_a41fb9a1fb6c17881aadd44509b092e05}{player}};                          }
+\DoxyCodeLine{106     std::vector<AIEnemyState> \mbox{\hyperlink{structAIGameState_a3db7081b02710b5d5ac6a706685fdd46}{enemies}};             }
+\DoxyCodeLine{107     std::vector<AIProjectileState> \mbox{\hyperlink{structAIGameState_a8b39805c9bb4aa2abccafabdb43632b0}{projectiles}};    }
+\DoxyCodeLine{108     std::vector<AIDropState> \mbox{\hyperlink{structAIGameState_a54ec0bb9a14827308f016e8b55dd7e88}{drops}};                }
+\DoxyCodeLine{109     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIGameState_a766eb4aa2089405078fc122bf2ee1660}{gameTime}} = 0.f;                         }
+\DoxyCodeLine{110     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIGameState_aaf73173fd6432d4b7877a7e3f2967c71}{difficultyScale}} = 1.f;                  }
+\DoxyCodeLine{111     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIGameState_ad3f689ac1d1788b62c11f25dba0bdbb6}{currentVictoryStage}} = 0;                  }
+\DoxyCodeLine{112 \};}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{120 \textcolor{keyword}{struct }\mbox{\hyperlink{structAIAction}{AIAction}} \{}
+\DoxyCodeLine{121     \textcolor{keywordtype}{float} \mbox{\hyperlink{structAIAction_acf70bbb0e864383196f50bce33e7dfbd}{moveX}} = 0, \mbox{\hyperlink{structAIAction_a63b131dada93a42ada0da1088085825a}{moveY}} = 0;     }
+\DoxyCodeLine{122     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIAction_a5cc3cf51ae12f2d8358f1a6a6e054bc4}{attack}} = \textcolor{keyword}{false};            }
+\DoxyCodeLine{123     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAIAction_aa1b6a029a203645fb9d6d990962bc317}{attackTarget}} = 0;           }
+\DoxyCodeLine{124     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIAction_a1529733a6f42a6f2d39c5ee20ddde4c6}{roll}} = \textcolor{keyword}{false};              }
+\DoxyCodeLine{125     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structAIAction_aabcf521b41163781e36965e1d63dee11}{pickup}} = \textcolor{keyword}{false};            }
+\DoxyCodeLine{126 \};}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{137 \textcolor{keyword}{class }\mbox{\hyperlink{classAIObservation}{AIObservation}} \{}
+\DoxyCodeLine{138 \textcolor{keyword}{public}:}
+\DoxyCodeLine{139     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_af490e9c3be64683326ef75f1a0dd5586}{MAX\_ENEMIES}} = 20;      }
+\DoxyCodeLine{140     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_ab48a45731102c7dbcdf90c4d58a906f5}{MAX\_PROJECTILES}} = 10;   }
+\DoxyCodeLine{141     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_a36c0ddeac30657b87c504d6c0c6cb1bf}{MAX\_DROPS}} = 10;         }
+\DoxyCodeLine{142     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_ae3a6a9605ac27a07d3a1eca248f72c04}{DANGER\_GRID\_DIM}} = 8;    }
+\DoxyCodeLine{143     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_a5bb6720a8034cd0e76b8c9134ed5159e}{PLAYER\_DIM}} = 20;        }
+\DoxyCodeLine{144     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_abf65541a9b23ab5d8ef4f373c80e335a}{ENEMY\_DIM}} = 10;          }
+\DoxyCodeLine{145     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_a6dbab816fee76b332dc3fb44ab0353ec}{PROJ\_DIM}} = 6;           }
+\DoxyCodeLine{146     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_a4d2bfe79ab20f65367c29a32af34486c}{DROP\_DIM}} = 4;           }
+\DoxyCodeLine{147 }
+\DoxyCodeLine{149     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_ad0ce4e5842d15ac6f4c67918109b6586}{OBS\_DIM}} =}
+\DoxyCodeLine{150         \mbox{\hyperlink{classAIObservation_a5bb6720a8034cd0e76b8c9134ed5159e}{PLAYER\_DIM}}}
+\DoxyCodeLine{151         + \mbox{\hyperlink{classAIObservation_af490e9c3be64683326ef75f1a0dd5586}{MAX\_ENEMIES}} * \mbox{\hyperlink{classAIObservation_abf65541a9b23ab5d8ef4f373c80e335a}{ENEMY\_DIM}}}
+\DoxyCodeLine{152         + \mbox{\hyperlink{classAIObservation_ab48a45731102c7dbcdf90c4d58a906f5}{MAX\_PROJECTILES}} * \mbox{\hyperlink{classAIObservation_a6dbab816fee76b332dc3fb44ab0353ec}{PROJ\_DIM}}}
+\DoxyCodeLine{153         + \mbox{\hyperlink{classAIObservation_a36c0ddeac30657b87c504d6c0c6cb1bf}{MAX\_DROPS}} * \mbox{\hyperlink{classAIObservation_a4d2bfe79ab20f65367c29a32af34486c}{DROP\_DIM}}}
+\DoxyCodeLine{154         + \mbox{\hyperlink{classAIObservation_ae3a6a9605ac27a07d3a1eca248f72c04}{DANGER\_GRID\_DIM}}}
+\DoxyCodeLine{155         + 2;}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{158     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{classAIObservation_a3ab6d3a1de997008b2cd8adf8aa0f6e7}{NUM\_ACTIONS}} = 12;}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{161     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{classAIObservation_aba89f34c528e861d5ffa280da960a3a5}{ACTION\_NAMES}}[] = \{}
+\DoxyCodeLine{162         \textcolor{stringliteral}{"{}stay"{}}, \textcolor{stringliteral}{"{}up"{}}, \textcolor{stringliteral}{"{}down"{}}, \textcolor{stringliteral}{"{}left"{}}, \textcolor{stringliteral}{"{}right"{}},}
+\DoxyCodeLine{163         \textcolor{stringliteral}{"{}up\_left"{}}, \textcolor{stringliteral}{"{}up\_right"{}}, \textcolor{stringliteral}{"{}down\_left"{}}, \textcolor{stringliteral}{"{}down\_right"{}},}
+\DoxyCodeLine{164         \textcolor{stringliteral}{"{}attack\_nearest"{}}, \textcolor{stringliteral}{"{}roll"{}}, \textcolor{stringliteral}{"{}pickup"{}}}
+\DoxyCodeLine{165     \};}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{168     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} std::array<std::pair<float,float>, 9> \mbox{\hyperlink{classAIObservation_aaca5f86e0b3b2532a2c2c92e1375b3be}{MOVE\_DIRS}} = \{\{}
+\DoxyCodeLine{169         \{0.f, 0.f\},}
+\DoxyCodeLine{170         \{0.f, -\/1.f\},}
+\DoxyCodeLine{171         \{0.f, 1.f\},}
+\DoxyCodeLine{172         \{-\/1.f, 0.f\},}
+\DoxyCodeLine{173         \{1.f, 0.f\},}
+\DoxyCodeLine{174         \{-\/1.f, -\/1.f\},}
+\DoxyCodeLine{175         \{1.f, -\/1.f\},}
+\DoxyCodeLine{176         \{-\/1.f, 1.f\},}
+\DoxyCodeLine{177         \{1.f, 1.f\},}
+\DoxyCodeLine{178     \}\};}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{185     \textcolor{keyword}{static} std::array<float, OBS\_DIM> \mbox{\hyperlink{classAIObservation_a5848f3e8144841bf9b87135820c068a8}{build}}(\textcolor{keyword}{const} \mbox{\hyperlink{structAIGameState}{AIGameState}}\& state);}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{194     \textcolor{keyword}{static} \mbox{\hyperlink{structAIAction}{AIAction}} \mbox{\hyperlink{classAIObservation_a008a93e26cb96e3ba85871ee57433903}{decodeAction}}(\textcolor{keywordtype}{int} action);}
+\DoxyCodeLine{195 }
+\DoxyCodeLine{196 \textcolor{keyword}{private}:}
+\DoxyCodeLine{197     \textcolor{keyword}{static} \textcolor{keywordtype}{float} clamp(\textcolor{keywordtype}{float} v, \textcolor{keywordtype}{float} lo, \textcolor{keywordtype}{float} hi) \{}
+\DoxyCodeLine{198         \textcolor{keywordflow}{return} std::max(lo, std::min(hi, v));}
+\DoxyCodeLine{199     \}}
+\DoxyCodeLine{200     \textcolor{keyword}{static} \textcolor{keywordtype}{void} normalizeAngle(\textcolor{keywordtype}{float} dx, \textcolor{keywordtype}{float} dy, \textcolor{keywordtype}{float}\& outX, \textcolor{keywordtype}{float}\& outY) \{}
+\DoxyCodeLine{201         \textcolor{keywordtype}{float} len = std::sqrt(dx*dx + dy*dy);}
+\DoxyCodeLine{202         \textcolor{keywordflow}{if} (len < 1e-\/8f) \{ outX = 0.f; outY = 0.f; \textcolor{keywordflow}{return}; \}}
+\DoxyCodeLine{203         outX = dx / len; outY = dy / len;}
+\DoxyCodeLine{204     \}}
+\DoxyCodeLine{205 \};}
+
+\end{DoxyCode}

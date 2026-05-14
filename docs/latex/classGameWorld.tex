@@ -1,0 +1,126 @@
+\hypertarget{classGameWorld}{}\doxysection{Game\+World Class Reference}
+\label{classGameWorld}\index{GameWorld@{GameWorld}}
+
+
+联机游戏逻辑管理（简化版双人模式）  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structGameWorld_1_1NetPlayer}{Net\+Player}}
+\begin{DoxyCompactList}\small\item\em 网络玩家数据（简化版，不含完整属性系统） \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classGameWorld_a7d6ad9248222182616e70e0b3fa86ed8}{add\+Player}} (int id, const sf\+::\+Vector2f \&start\+Pos)
+\begin{DoxyCompactList}\small\item\em 添加玩家到联机世界 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGameWorld_ab9bdf76c054d7fd1d08241a954315b46}{remove\+Player}} (int id)
+\begin{DoxyCompactList}\small\item\em 移除指定\+ID的玩家 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGameWorld_a34d4782ef357603080a903b94e442ca2}{set\+Player\+Input}} (int id, const \mbox{\hyperlink{structPlayerInput}{Player\+Input}} \&input)
+\begin{DoxyCompactList}\small\item\em 设置玩家输入状态 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGameWorld_a44ab2c8b7e2ef97921965569b837a4d2}{attack}} (int attacker\+Id, int target\+Id)
+\begin{DoxyCompactList}\small\item\em 玩家攻击 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGameWorld_a8f3de158eb6830ddc8e7315d3da6cd48}{update}} (float dt)
+\begin{DoxyCompactList}\small\item\em 每帧更新所有玩家位置 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structGameState}{Game\+State}} \mbox{\hyperlink{classGameWorld_a240b3b2f11a7cc4767658aad413a63e0}{get\+State}} () const
+\begin{DoxyCompactList}\small\item\em 获取当前游戏状态快照 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+联机游戏逻辑管理（简化版双人模式） 
+
+维护多个 Net\+Player，处理输入、攻击和状态同步。 当前主要用于网络同步的基础框架，完整联机逻辑在 Online\+View 中。 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classGameWorld_a7d6ad9248222182616e70e0b3fa86ed8}\label{classGameWorld_a7d6ad9248222182616e70e0b3fa86ed8}} 
+\index{GameWorld@{GameWorld}!addPlayer@{addPlayer}}
+\index{addPlayer@{addPlayer}!GameWorld@{GameWorld}}
+\doxysubsubsection{\texorpdfstring{addPlayer()}{addPlayer()}}
+{\footnotesize\ttfamily void Game\+World\+::add\+Player (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{const sf\+::\+Vector2f \&}]{start\+Pos }\end{DoxyParamCaption})}
+
+
+
+添加玩家到联机世界 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & 玩家\+ID \\
+\hline
+{\em start\+Pos} & 初始位置 \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGameWorld_a44ab2c8b7e2ef97921965569b837a4d2}\label{classGameWorld_a44ab2c8b7e2ef97921965569b837a4d2}} 
+\index{GameWorld@{GameWorld}!attack@{attack}}
+\index{attack@{attack}!GameWorld@{GameWorld}}
+\doxysubsubsection{\texorpdfstring{attack()}{attack()}}
+{\footnotesize\ttfamily void Game\+World\+::attack (\begin{DoxyParamCaption}\item[{int}]{attacker\+Id,  }\item[{int}]{target\+Id }\end{DoxyParamCaption})}
+
+
+
+玩家攻击 
+
+
+\begin{DoxyParams}{Parameters}
+{\em attacker\+Id} & 攻击者\+ID \\
+\hline
+{\em target\+Id} & 被攻击者\+ID \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGameWorld_a240b3b2f11a7cc4767658aad413a63e0}\label{classGameWorld_a240b3b2f11a7cc4767658aad413a63e0}} 
+\index{GameWorld@{GameWorld}!getState@{getState}}
+\index{getState@{getState}!GameWorld@{GameWorld}}
+\doxysubsubsection{\texorpdfstring{getState()}{getState()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structGameState}{Game\+State}} Game\+World\+::get\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取当前游戏状态快照 
+
+\mbox{\Hypertarget{classGameWorld_ab9bdf76c054d7fd1d08241a954315b46}\label{classGameWorld_ab9bdf76c054d7fd1d08241a954315b46}} 
+\index{GameWorld@{GameWorld}!removePlayer@{removePlayer}}
+\index{removePlayer@{removePlayer}!GameWorld@{GameWorld}}
+\doxysubsubsection{\texorpdfstring{removePlayer()}{removePlayer()}}
+{\footnotesize\ttfamily void Game\+World\+::remove\+Player (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+
+
+
+移除指定\+ID的玩家 
+
+\mbox{\Hypertarget{classGameWorld_a34d4782ef357603080a903b94e442ca2}\label{classGameWorld_a34d4782ef357603080a903b94e442ca2}} 
+\index{GameWorld@{GameWorld}!setPlayerInput@{setPlayerInput}}
+\index{setPlayerInput@{setPlayerInput}!GameWorld@{GameWorld}}
+\doxysubsubsection{\texorpdfstring{setPlayerInput()}{setPlayerInput()}}
+{\footnotesize\ttfamily void Game\+World\+::set\+Player\+Input (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{const \mbox{\hyperlink{structPlayerInput}{Player\+Input}} \&}]{input }\end{DoxyParamCaption})}
+
+
+
+设置玩家输入状态 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & 玩家\+ID \\
+\hline
+{\em input} & 输入状态（\+WASD方向键） \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGameWorld_a8f3de158eb6830ddc8e7315d3da6cd48}\label{classGameWorld_a8f3de158eb6830ddc8e7315d3da6cd48}} 
+\index{GameWorld@{GameWorld}!update@{update}}
+\index{update@{update}!GameWorld@{GameWorld}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Game\+World\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})}
+
+
+
+每帧更新所有玩家位置 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\item 
+src/\mbox{\hyperlink{GameLogic_8cpp}{Game\+Logic.\+cpp}}\end{DoxyCompactItemize}

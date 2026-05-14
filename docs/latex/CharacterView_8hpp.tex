@@ -1,0 +1,48 @@
+\hypertarget{CharacterView_8hpp}{}\doxysection{src/\+Character\+View.hpp File Reference}
+\label{CharacterView_8hpp}\index{src/CharacterView.hpp@{src/CharacterView.hpp}}
+
+
+角色创建与选择视图  
+
+
+{\ttfamily \#include $<$SFML/\+Graphics.\+hpp$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include \char`\"{}View\+Base.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}UIWidgets.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Database.\+hpp\char`\"{}}\newline
+Include dependency graph for Character\+View.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{CharacterView_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=310pt]{CharacterView_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classCharacterCreateView}{Character\+Create\+View}}
+\begin{DoxyCompactList}\small\item\em 角色创建视图 \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classCharacterSelectView}{Character\+Select\+View}}
+\begin{DoxyCompactList}\small\item\em 角色选择视图 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+角色创建与选择视图 
+
+提供两个视图：
+\begin{DoxyItemize}
+\item Character\+Create\+View：创建新角色，选择职业（战士/法师/刺客）， 随机生成六大属性，可重新随机，确认后存入数据库。
+\item Character\+Select\+View：展示已有角色列表（最多3个槽位）， 支持选择角色进入游戏、删除角色、在空槽位新建角色。 
+\end{DoxyItemize}

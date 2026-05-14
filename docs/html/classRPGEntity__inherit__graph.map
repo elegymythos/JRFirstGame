@@ -1,0 +1,5 @@
+<map id="RPGEntity" name="RPGEntity">
+<area shape="rect" id="node1" title="游戏实体基类" alt="" coords="39,5,126,32"/>
+<area shape="rect" id="node2" href="$classEnemy.html" title="敌人角色" alt="" coords="5,80,72,107"/>
+<area shape="rect" id="node3" href="$classPlayer.html" title="玩家角色" alt="" coords="96,80,160,107"/>
+</map>

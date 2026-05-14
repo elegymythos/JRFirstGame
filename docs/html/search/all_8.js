@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['i18n_0',['I18n',['../classI18n.html',1,'']]],
+  ['i18n_2ecpp_1',['I18n.cpp',['../I18n_8cpp.html',1,'']]],
+  ['i18n_2ehpp_2',['I18n.hpp',['../I18n_8hpp.html',1,'']]],
+  ['initdefaultweapons_3',['initDefaultWeapons',['../classWeaponListBridge.html#ae1701477fa1b920e99b82a4a9ca309ca',1,'WeaponListBridge']]],
+  ['input_4',['input',['../structGameWorld_1_1NetPlayer.html#aed3b63cabb9d2f4fe04a4a5e8fbd4fee',1,'GameWorld::NetPlayer']]],
+  ['inputfield_5',['InputField',['../classInputField.html',1,'InputField'],['../classInputField.html#a97423f3b7c45eaeeb28dccf2cb60dc99',1,'InputField::InputField()']]],
+  ['instance_6',['instance',['../classAudioManager.html#a2c96ed190548d62c1a0dbc2c9b356581',1,'AudioManager::instance()'],['../classI18n.html#a5b0eb855f6c37ddc08bb8fe71118f314',1,'I18n::instance()']]],
+  ['intelligence_7',['intelligence',['../structAttributes.html#a518cca579561dc78b2541940f7110056',1,'Attributes']]],
+  ['isalive_8',['isAlive',['../classRPGEntity.html#a37ed3f18662fc4a0ac370ce83714c823',1,'RPGEntity']]],
+  ['isbgmloading_9',['isBGMLoading',['../classAudioManager.html#a47e73f87895d85a6f77b6025ef72e70e',1,'AudioManager']]],
+  ['iscrit_10',['isCrit',['../structProjectile.html#ae3feaab9ebd0308f1d1015b3452767df',1,'Projectile::isCrit()'],['../structDamageNumber.html#a024da7fe32ae9519e21a6c4b4f0597a9',1,'DamageNumber::isCrit()']]],
+  ['isexpired_11',['isExpired',['../structProjectile.html#a3850bded71594e01a6c3339ca1ca40af',1,'Projectile']]],
+  ['isinvincible_12',['isInvincible',['../structAIPlayerState.html#af6e49efaea8a594848731dbb2f3c13b5',1,'AIPlayerState::isInvincible()'],['../classPlayer.html#a88222d1c9a1fd902dad23f275a174255',1,'Player::isInvincible()'],['../structSyncPlayer.html#a77db4f72eef2c50f763e3e87f3526120',1,'SyncPlayer::isInvincible()']]],
+  ['isloaded_13',['isLoaded',['../classAIInference.html#a151f9d2958f96aa9e63e9151050a3a5e',1,'AIInference']]],
+  ['isranged_14',['isRanged',['../structAIEnemyState.html#aaf307c9ddd9ebb777b551a526d10f632',1,'AIEnemyState::isRanged()'],['../structEnemyConfig.html#a1f6daa5d7f87d39496b6b4d84ed69dd5',1,'EnemyConfig::isRanged()'],['../classEnemy.html#a246979d262e6cee1ea2a076e972d4cb8',1,'Enemy::isRanged()'],['../structWeapon.html#af61ca505dce18da028eb1a4adda4df9a',1,'Weapon::isRanged()'],['../structWeaponData.html#aed240d252aa8f19eddbf0be0c65b17c2',1,'WeaponData::isRanged()']]],
+  ['isrolling_15',['isRolling',['../structAIPlayerState.html#a3ea39fc5dcc6ff5762246bac144498c1',1,'AIPlayerState::isRolling()'],['../classPlayer.html#a6a94fd8acee90104f6370839fd5ff110',1,'Player::isRolling()'],['../structSyncPlayer.html#adf23e2582efb8c5229ab37d1a6f77267',1,'SyncPlayer::isRolling()']]],
+  ['isvisible_16',['isVisible',['../classAttributePanel.html#a1c89a854d99312687b409ba8a374fb62',1,'AttributePanel']]]
+];

@@ -1,0 +1,206 @@
+\hypertarget{classView}{}\doxysection{View Class Reference}
+\label{classView}\index{View@{View}}
+
+
+视图基类  
+
+
+
+
+{\ttfamily \#include $<$View\+Base.\+hpp$>$}
+
+
+
+Inheritance diagram for View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=279pt]{classView__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classView_a7694148264d02d29c32edc67f7de5f27}{View}} (const sf\+::\+Font \&font)
+\begin{DoxyCompactList}\small\item\em 构造视图，保存全局字体引用 \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classView_ad0f3ade04bca4e74b8868e63729bad86}{$\sim$\+View}} ()=default
+\item 
+virtual void \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window)=0
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size)=0
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{draw}} (sf\+::\+Render\+Window \&window)=0
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classView_a5060f1089800ec8b192ab4be62ba644d}{needs\+Refresh}} () const
+\begin{DoxyCompactList}\small\item\em 语言切换后是否需要重建视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classView_a42f4b34bb3ae6ce4c2ed92579f2d458e}{clear\+Refresh\+Flag}} ()
+\begin{DoxyCompactList}\small\item\em 清除刷新标记 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classView_a2e7bc4e41ddd515b976302658dea37f0}{draw\+Lang\+Button}} (sf\+::\+Render\+Window \&window, sf\+::\+Vector2f pos=\{1180, 10\})
+\begin{DoxyCompactList}\small\item\em 绘制语言切换按钮 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classView_a70476d4e3ac328d8e0c36bbc334f9a38}{handle\+Lang\+Button}} (sf\+::\+Vector2f mouse\+Pos, bool is\+Clicked, sf\+::\+Vector2f pos=\{1180, 10\})
+\begin{DoxyCompactList}\small\item\em 处理语言切换按钮的点击 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const sf\+::\+Font \& \mbox{\hyperlink{classView_ab6e4535f2a2e5ecb6abb5a992dbae81f}{global\+Font}}
+\begin{DoxyCompactList}\small\item\em 全局字体引用（子类可直接使用） \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classView_a7c6031cfdfcbece29c3b5574af3c08af}{language\+Changed}} = false
+\begin{DoxyCompactList}\small\item\em 语言是否刚切换（主循环据此重建视图） \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+视图基类 
+
+主循环中通过 std\+::unique\+\_\+ptr$<$\+View$>$ 管理当前视图， 视图切换通过 change\+View 回调（设置 pending\+View 字符串）实现。 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classView_a7694148264d02d29c32edc67f7de5f27}\label{classView_a7694148264d02d29c32edc67f7de5f27}} 
+\index{View@{View}!View@{View}}
+\index{View@{View}!View@{View}}
+\doxysubsubsection{\texorpdfstring{View()}{View()}}
+{\footnotesize\ttfamily View\+::\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font }\end{DoxyParamCaption})}
+
+
+
+构造视图，保存全局字体引用 
+
+\mbox{\Hypertarget{classView_ad0f3ade04bca4e74b8868e63729bad86}\label{classView_ad0f3ade04bca4e74b8868e63729bad86}} 
+\index{View@{View}!````~View@{$\sim$View}}
+\index{````~View@{$\sim$View}!View@{View}}
+\doxysubsubsection{\texorpdfstring{$\sim$View()}{~View()}}
+{\footnotesize\ttfamily virtual View\+::$\sim$\+View (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classView_a42f4b34bb3ae6ce4c2ed92579f2d458e}\label{classView_a42f4b34bb3ae6ce4c2ed92579f2d458e}} 
+\index{View@{View}!clearRefreshFlag@{clearRefreshFlag}}
+\index{clearRefreshFlag@{clearRefreshFlag}!View@{View}}
+\doxysubsubsection{\texorpdfstring{clearRefreshFlag()}{clearRefreshFlag()}}
+{\footnotesize\ttfamily void View\+::clear\+Refresh\+Flag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+清除刷新标记 
+
+\mbox{\Hypertarget{classView_a7ae9517dcaafe968b3a82db068c6f02a}\label{classView_a7ae9517dcaafe968b3a82db068c6f02a}} 
+\index{View@{View}!draw@{draw}}
+\index{draw@{draw}!View@{View}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily virtual void View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implemented in \mbox{\hyperlink{classLoginView_ae0cb4721f4c2cd7625398c67578d47e5}{Login\+View}}, \mbox{\hyperlink{classSignUpView_a9a78bb8003d9bee620a2c780ee53282c}{Sign\+Up\+View}}, \mbox{\hyperlink{classCharacterCreateView_ac23c035c4641ee644ae47ae3ebde9ce5}{Character\+Create\+View}}, \mbox{\hyperlink{classCharacterSelectView_acf80efeb46f05e6bc24c0a10a72788f7}{Character\+Select\+View}}, \mbox{\hyperlink{classActualGameView_a019af5a59a6b7a129f032b68bfb70579}{Actual\+Game\+View}}, \mbox{\hyperlink{classMainMenuView_a42d6e2d2f7dcf654161ff44a40862e40}{Main\+Menu\+View}}, \mbox{\hyperlink{classLevelSelectView_a95f18a3fa4763eb501b991ffb1077131}{Level\+Select\+View}}, \mbox{\hyperlink{classOnlineLobbyView_a0306826eacabcda3ad9cba06acc1a940}{Online\+Lobby\+View}}, \mbox{\hyperlink{classOnlineGameView_a3000982228341f9851d0897642c69962}{Online\+Game\+View}}, and \mbox{\hyperlink{classRankingsView_adfa525cb6d7ad11656153c57b4fe00a2}{Rankings\+View}}.
+
+\mbox{\Hypertarget{classView_a2e7bc4e41ddd515b976302658dea37f0}\label{classView_a2e7bc4e41ddd515b976302658dea37f0}} 
+\index{View@{View}!drawLangButton@{drawLangButton}}
+\index{drawLangButton@{drawLangButton}!View@{View}}
+\doxysubsubsection{\texorpdfstring{drawLangButton()}{drawLangButton()}}
+{\footnotesize\ttfamily void View\+::draw\+Lang\+Button (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window,  }\item[{sf\+::\+Vector2f}]{pos = {\ttfamily \{1180,~10\}} }\end{DoxyParamCaption})}
+
+
+
+绘制语言切换按钮 
+
+
+\begin{DoxyParams}{Parameters}
+{\em window} & 渲染窗口 \\
+\hline
+{\em pos} & 按钮位置，默认右上角 (1180, 10)\\
+\hline
+\end{DoxyParams}
+显示当前语言名称（\char`\"{}\+EN\char`\"{}或\char`\"{}中文\char`\"{}），悬停时高亮。 \mbox{\Hypertarget{classView_a2af7c11ce2e56f287af8d60670facdcb}\label{classView_a2af7c11ce2e56f287af8d60670facdcb}} 
+\index{View@{View}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!View@{View}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily virtual void View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implemented in \mbox{\hyperlink{classLoginView_a0efc68746ac3b375224b17902d1d24a4}{Login\+View}}, \mbox{\hyperlink{classSignUpView_a94303233f6f0d3b08c801dfbcf5e5b93}{Sign\+Up\+View}}, \mbox{\hyperlink{classCharacterCreateView_a2c715b6b6180cff742fabe92e7254bbb}{Character\+Create\+View}}, \mbox{\hyperlink{classCharacterSelectView_aee2d1af998f5061fa19c0d44a76bbe0e}{Character\+Select\+View}}, \mbox{\hyperlink{classActualGameView_ada7f69d1e68e3b7beceb3b0c0d37d624}{Actual\+Game\+View}}, \mbox{\hyperlink{classMainMenuView_a379c6a4ef6cf4b3179e1cc3214e484dc}{Main\+Menu\+View}}, \mbox{\hyperlink{classLevelSelectView_a414ca7fda555a1b93f933b8bf7cda873}{Level\+Select\+View}}, \mbox{\hyperlink{classOnlineLobbyView_a97ec2f490eee83bb550fd9723c1a0d79}{Online\+Lobby\+View}}, \mbox{\hyperlink{classOnlineGameView_af1a0fe5afb2bfb126c48cfe609776c9d}{Online\+Game\+View}}, and \mbox{\hyperlink{classRankingsView_ab41c470bc139ed58985aaa6d452ff021}{Rankings\+View}}.
+
+\mbox{\Hypertarget{classView_a70476d4e3ac328d8e0c36bbc334f9a38}\label{classView_a70476d4e3ac328d8e0c36bbc334f9a38}} 
+\index{View@{View}!handleLangButton@{handleLangButton}}
+\index{handleLangButton@{handleLangButton}!View@{View}}
+\doxysubsubsection{\texorpdfstring{handleLangButton()}{handleLangButton()}}
+{\footnotesize\ttfamily bool View\+::handle\+Lang\+Button (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{bool}]{is\+Clicked,  }\item[{sf\+::\+Vector2f}]{pos = {\ttfamily \{1180,~10\}} }\end{DoxyParamCaption})}
+
+
+
+处理语言切换按钮的点击 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mouse\+Pos} & 鼠标位置 \\
+\hline
+{\em is\+Clicked} & 是否为点击事件 \\
+\hline
+{\em pos} & 按钮位置 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true=点击了语言按钮（已切换语言） 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classView_a5060f1089800ec8b192ab4be62ba644d}\label{classView_a5060f1089800ec8b192ab4be62ba644d}} 
+\index{View@{View}!needsRefresh@{needsRefresh}}
+\index{needsRefresh@{needsRefresh}!View@{View}}
+\doxysubsubsection{\texorpdfstring{needsRefresh()}{needsRefresh()}}
+{\footnotesize\ttfamily bool View\+::needs\+Refresh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+语言切换后是否需要重建视图 
+
+\mbox{\Hypertarget{classView_a0b211d1af3a25e4a97cc391d39607ec8}\label{classView_a0b211d1af3a25e4a97cc391d39607ec8}} 
+\index{View@{View}!update@{update}}
+\index{update@{update}!View@{View}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily virtual void View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implemented in \mbox{\hyperlink{classLoginView_a365ac01e9b827a69a7fdde4763dbdfe5}{Login\+View}}, \mbox{\hyperlink{classSignUpView_a8307219669cde07451a0ce16132934f3}{Sign\+Up\+View}}, \mbox{\hyperlink{classCharacterCreateView_af88e3037884d00774cbc99288c533a3e}{Character\+Create\+View}}, \mbox{\hyperlink{classCharacterSelectView_a4d3e3886ac6cd2c19381be73a04d7f92}{Character\+Select\+View}}, \mbox{\hyperlink{classActualGameView_a075a7866946f3f2b7df513f7cb1d8b69}{Actual\+Game\+View}}, \mbox{\hyperlink{classMainMenuView_a26f2061cde7a040bc43d07f8c53c3f1a}{Main\+Menu\+View}}, \mbox{\hyperlink{classLevelSelectView_a0715f239c9c3340a853f4841277e0e16}{Level\+Select\+View}}, \mbox{\hyperlink{classOnlineLobbyView_a8bccb97407f963232df9b6138c761819}{Online\+Lobby\+View}}, \mbox{\hyperlink{classOnlineGameView_a6869d0e2c6596b51180d1e12399916ef}{Online\+Game\+View}}, and \mbox{\hyperlink{classRankingsView_aa42c19a4d76e25c34a17e9b959705a3f}{Rankings\+View}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classView_ab6e4535f2a2e5ecb6abb5a992dbae81f}\label{classView_ab6e4535f2a2e5ecb6abb5a992dbae81f}} 
+\index{View@{View}!globalFont@{globalFont}}
+\index{globalFont@{globalFont}!View@{View}}
+\doxysubsubsection{\texorpdfstring{globalFont}{globalFont}}
+{\footnotesize\ttfamily const sf\+::\+Font\& View\+::global\+Font\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+全局字体引用（子类可直接使用） 
+
+\mbox{\Hypertarget{classView_a7c6031cfdfcbece29c3b5574af3c08af}\label{classView_a7c6031cfdfcbece29c3b5574af3c08af}} 
+\index{View@{View}!languageChanged@{languageChanged}}
+\index{languageChanged@{languageChanged}!View@{View}}
+\doxysubsubsection{\texorpdfstring{languageChanged}{languageChanged}}
+{\footnotesize\ttfamily bool View\+::language\+Changed = false\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+语言是否刚切换（主循环据此重建视图） 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{ViewBase_8hpp}{View\+Base.\+hpp}}\item 
+src/\mbox{\hyperlink{ViewBase_8cpp}{View\+Base.\+cpp}}\end{DoxyCompactItemize}

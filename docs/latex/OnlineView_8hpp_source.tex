@@ -1,0 +1,180 @@
+\hypertarget{OnlineView_8hpp_source}{}\doxysection{Online\+View.\+hpp}
+\label{OnlineView_8hpp_source}\index{src/OnlineView.hpp@{src/OnlineView.hpp}}
+\mbox{\hyperlink{OnlineView_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{ViewBase_8hpp}{ViewBase.hpp}}"{}}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{UIWidgets_8hpp}{UIWidgets.hpp}}"{}}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{GameLogic_8hpp}{GameLogic.hpp}}"{}}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{MapSystem_8hpp}{MapSystem.hpp}}"{}}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Network_8hpp}{Network.hpp}}"{}}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Database_8hpp}{Database.hpp}}"{}}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AudioManager_8hpp}{AudioManager.hpp}}"{}}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{41 \textcolor{keyword}{class }\mbox{\hyperlink{classOnlineLobbyView}{OnlineLobbyView}} : \textcolor{keyword}{public} \mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{42 \textcolor{keyword}{public}:}
+\DoxyCodeLine{43     \mbox{\hyperlink{classOnlineLobbyView_a50dea7e7fa6a2593f31002ea3a4cc99d}{OnlineLobbyView}}(\textcolor{keyword}{const} sf::Font\& font, std::function<\textcolor{keywordtype}{void}(std::string)> changeView, \mbox{\hyperlink{classNetworkManager}{NetworkManager}}\& network);}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45     \textcolor{keywordtype}{void} \mbox{\hyperlink{classOnlineLobbyView_a97ec2f490eee83bb550fd9723c1a0d79}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{46     \textcolor{keywordtype}{void} \mbox{\hyperlink{classOnlineLobbyView_a8bccb97407f963232df9b6138c761819}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) \textcolor{keyword}{override};}
+\DoxyCodeLine{47     \textcolor{keywordtype}{void} \mbox{\hyperlink{classOnlineLobbyView_a0306826eacabcda3ad9cba06acc1a940}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49 \textcolor{keyword}{private}:}
+\DoxyCodeLine{50     \mbox{\hyperlink{classInputField}{InputField}} ipInput, portInput;   }
+\DoxyCodeLine{51     \mbox{\hyperlink{classButton}{Button}} createBtn, joinBtn, backBtn;  }
+\DoxyCodeLine{52     sf::Text statusText;             }
+\DoxyCodeLine{53     std::function<void(std::string)> changeView; }
+\DoxyCodeLine{54     \mbox{\hyperlink{classNetworkManager}{NetworkManager}}\& network;         }
+\DoxyCodeLine{55 \};}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{64 \textcolor{keyword}{struct }\mbox{\hyperlink{structSyncEnemy}{SyncEnemy}} \{}
+\DoxyCodeLine{65     \textcolor{keywordtype}{int} \mbox{\hyperlink{structSyncEnemy_a3cd42a0d5fb25c7abc221e7bd13f124f}{type}};               }
+\DoxyCodeLine{66     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncEnemy_a25bb3c52e7b474f35b55a80dad1925fd}{posX}}, \mbox{\hyperlink{structSyncEnemy_a10d2e49c1499ca1d042ce1f3597daa1a}{posY}};       }
+\DoxyCodeLine{67     \textcolor{keywordtype}{int} \mbox{\hyperlink{structSyncEnemy_a0ef020508aca99cb74da57e4be020abc}{health}}, \mbox{\hyperlink{structSyncEnemy_a9c268dcb25e5446224ffe50443f84d5b}{maxHealth}};  }
+\DoxyCodeLine{68     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncEnemy_ae1e67fdcca03ca9c5c444091e9d109eb}{radius}};           }
+\DoxyCodeLine{69     \textcolor{keywordtype}{int} \mbox{\hyperlink{structSyncEnemy_a07eff778d2bbc151b5efeab2da257e1b}{score}};              }
+\DoxyCodeLine{70 \};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{76 \textcolor{keyword}{struct }\mbox{\hyperlink{structSyncProjectile}{SyncProjectile}} \{}
+\DoxyCodeLine{77     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncProjectile_ab2b71dbbc96791cd1767a1fce82b35df}{posX}}, \mbox{\hyperlink{structSyncProjectile_aac5c98529589496d429ca9b09aef95de}{posY}};       }
+\DoxyCodeLine{78     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncProjectile_ada60fe9764f91725eced472bd3627871}{dirX}}, \mbox{\hyperlink{structSyncProjectile_ab6de20bc7befe701d1155c20c8b62fd1}{dirY}};       }
+\DoxyCodeLine{79     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncProjectile_a6b3c371f968148da3fdd9e93948fe2f3}{speed}};            }
+\DoxyCodeLine{80     \textcolor{keywordtype}{int} \mbox{\hyperlink{structSyncProjectile_aef1c941025812d855529284da50f4e75}{damage}};             }
+\DoxyCodeLine{81     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncProjectile_a320f418c847b853ae66b6dab18855bd8}{maxDistance}}, \mbox{\hyperlink{structSyncProjectile_a8408298f7c3d59455b4de4743587f57e}{traveled}};  }
+\DoxyCodeLine{82     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structSyncProjectile_a7fe37a7d24b68353981080d12ec34088}{fromPlayer}};        }
+\DoxyCodeLine{83     uint8\_t \mbox{\hyperlink{structSyncProjectile_aa7ee09686a1b25a3ac43aa1bf6314e5e}{colorR}}, \mbox{\hyperlink{structSyncProjectile_a5d5edb0cca92ca1440cfadc733083c01}{colorG}}, \mbox{\hyperlink{structSyncProjectile_a9e63d60eff11aba724e4c606dc658a39}{colorB}};  }
+\DoxyCodeLine{84 \};}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{90 \textcolor{keyword}{struct }\mbox{\hyperlink{structSyncPlayer}{SyncPlayer}} \{}
+\DoxyCodeLine{91     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncPlayer_a445dfcc10338982ac69b7a74981892c3}{posX}}, \mbox{\hyperlink{structSyncPlayer_a1519857ab9809bb70819012e78a8c681}{posY}};       }
+\DoxyCodeLine{92     \textcolor{keywordtype}{int} \mbox{\hyperlink{structSyncPlayer_aa967dedd218f6c68ab0172143fe35337}{health}}, \mbox{\hyperlink{structSyncPlayer_afd33e3c2dcce7404a3d4be660e85e0c8}{maxHealth}};  }
+\DoxyCodeLine{93     \textcolor{keywordtype}{int} \mbox{\hyperlink{structSyncPlayer_a4bd04d3423f14bc6eee40e4617f595f2}{totalScore}};         }
+\DoxyCodeLine{94     \textcolor{keywordtype}{int} \mbox{\hyperlink{structSyncPlayer_a8884dd85a4d6e91257c5f52aa45ad03e}{level}};              }
+\DoxyCodeLine{95     std::string \mbox{\hyperlink{structSyncPlayer_a9629a784745b355b72646277b1157c98}{name}};       }
+\DoxyCodeLine{96     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncPlayer_af315cbca0066dfaa949fbf4e78f474b3}{radius}};           }
+\DoxyCodeLine{97     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structSyncPlayer_adf23e2582efb8c5229ab37d1a6f77267}{isRolling}};         }
+\DoxyCodeLine{98     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structSyncPlayer_a77db4f72eef2c50f763e3e87f3526120}{isInvincible}};      }
+\DoxyCodeLine{99 \};}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{105 \textcolor{keyword}{struct }\mbox{\hyperlink{structSyncDrop}{SyncDrop}} \{}
+\DoxyCodeLine{106     \textcolor{keywordtype}{int} \mbox{\hyperlink{structSyncDrop_afad7a28eefbd0cdc355e7cbde260b5eb}{type}};               }
+\DoxyCodeLine{107     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncDrop_afd3c498a16d70bf3efc1b7e7381cd10a}{posX}}, \mbox{\hyperlink{structSyncDrop_a49c92e0335b66704c8f58b99e4954f09}{posY}};       }
+\DoxyCodeLine{108     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncDrop_ad198bdb58acc5da23d67dc3f3dc84c2d}{lifetime}};         }
+\DoxyCodeLine{109     \textcolor{keywordtype}{float} \mbox{\hyperlink{structSyncDrop_a4b19ffd93a3e8bd9b7c5609943be9ccd}{bobTimer}};         }
+\DoxyCodeLine{110 \};}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{129 \textcolor{keyword}{class }\mbox{\hyperlink{classOnlineGameView}{OnlineGameView}} : \textcolor{keyword}{public} \mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{130 \textcolor{keyword}{public}:}
+\DoxyCodeLine{140     \mbox{\hyperlink{classOnlineGameView_a0931711787d410ae1de92e06d3411710}{OnlineGameView}}(\textcolor{keyword}{const} sf::Font\& font, std::function<\textcolor{keywordtype}{void}(std::string)> changeView,}
+\DoxyCodeLine{141                    \mbox{\hyperlink{classNetworkManager}{NetworkManager}}\& network, \textcolor{keywordtype}{bool} isHost, \textcolor{keyword}{const} std::string\& username,}
+\DoxyCodeLine{142                    \mbox{\hyperlink{classDatabase}{Database}}\& database);}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{144     \textcolor{keywordtype}{void} \mbox{\hyperlink{classOnlineGameView_af1a0fe5afb2bfb126c48cfe609776c9d}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{145     \textcolor{keywordtype}{void} \mbox{\hyperlink{classOnlineGameView_a6869d0e2c6596b51180d1e12399916ef}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) \textcolor{keyword}{override};}
+\DoxyCodeLine{146     \textcolor{keywordtype}{void} \mbox{\hyperlink{classOnlineGameView_a3000982228341f9851d0897642c69962}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{148 \textcolor{keyword}{private}:}
+\DoxyCodeLine{149     \textcolor{comment}{/* -\/-\/-\/-\/ 网络通信 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{151     \textcolor{keywordtype}{void} sendInputToServer();}
+\DoxyCodeLine{153     \textcolor{keywordtype}{void} sendAttackSignal();}
+\DoxyCodeLine{155     \textcolor{keywordtype}{void} broadcastFullState();}
+\DoxyCodeLine{157     \textcolor{keywordtype}{void} processNetwork();}
+\DoxyCodeLine{158 }
+\DoxyCodeLine{159     \textcolor{comment}{/* -\/-\/-\/-\/ 主机端游戏逻辑 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{161     \textcolor{keywordtype}{void} hostUpdateGame(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{163     \textcolor{keywordtype}{void} hostHandleEnemyAttacks(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{165     \textcolor{keywordtype}{void} hostUpdateProjectiles(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{167     \textcolor{keywordtype}{void} hostProcessKill();}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{169     \textcolor{comment}{/* -\/-\/-\/-\/ 掉落物系统（主机端） -\/-\/-\/-\/ */}}
+\DoxyCodeLine{170     \textcolor{keywordtype}{void} spawnDrops(\textcolor{keyword}{const} \mbox{\hyperlink{classEnemy}{Enemy}}\& enemy);}
+\DoxyCodeLine{171     \textcolor{keywordtype}{void} updateDrops(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{172     \textcolor{keywordtype}{void} checkPickups();}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174     \textcolor{comment}{/* -\/-\/-\/-\/ 攻击逻辑 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{176     \textcolor{keywordtype}{void} performAttack(\textcolor{keywordtype}{int} playerId);}
+\DoxyCodeLine{177 }
+\DoxyCodeLine{178     \textcolor{comment}{/* -\/-\/-\/-\/ 渲染 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{180     \textcolor{keywordtype}{void} drawGameWorld(sf::RenderWindow\& window);}
+\DoxyCodeLine{182     \textcolor{keywordtype}{void} drawPlayers(sf::RenderWindow\& window);}
+\DoxyCodeLine{184     \textcolor{keywordtype}{void} drawUI(sf::RenderWindow\& window);}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186     \textcolor{comment}{/* -\/-\/-\/-\/ 基本状态 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{187     std::string myUsername;                     }
+\DoxyCodeLine{188     std::function<void(std::string)> changeView; }
+\DoxyCodeLine{189     \mbox{\hyperlink{classNetworkManager}{NetworkManager}}\& network;                    }
+\DoxyCodeLine{190     \mbox{\hyperlink{classDatabase}{Database}}\& db;                               }
+\DoxyCodeLine{191     \textcolor{keywordtype}{bool} isHost;                                }
+\DoxyCodeLine{192     \textcolor{keywordtype}{int} myId = -\/1;                              }
+\DoxyCodeLine{193     \textcolor{keywordtype}{bool} connected = \textcolor{keyword}{false};                     }
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195     \textcolor{comment}{/* -\/-\/-\/-\/ 玩家数据 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{197     std::map<int, Player> coopPlayers;}
+\DoxyCodeLine{199     std::map<int, SyncPlayer> syncPlayers;}
+\DoxyCodeLine{201     std::map<int, std::string> playerNames;}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203     \textcolor{comment}{/* -\/-\/-\/-\/ 敌人与投射物 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{204     std::vector<Enemy> enemies;                 }
+\DoxyCodeLine{205     std::vector<Projectile> projectiles;        }
+\DoxyCodeLine{206     std::vector<SyncEnemy> syncEnemies;         }
+\DoxyCodeLine{207     std::vector<SyncProjectile> syncProjectiles; }
+\DoxyCodeLine{208 }
+\DoxyCodeLine{209     \textcolor{comment}{/* -\/-\/-\/-\/ 掉落物系统 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{210     std::vector<DropItem> drops;                }
+\DoxyCodeLine{211     std::vector<SyncDrop> syncDrops;            }
+\DoxyCodeLine{212 }
+\DoxyCodeLine{214     \textcolor{keyword}{struct }PickupEffect \{}
+\DoxyCodeLine{215         sf::Vector2f position;}
+\DoxyCodeLine{216         sf::Color color;}
+\DoxyCodeLine{217         std::string text;}
+\DoxyCodeLine{218         \textcolor{keywordtype}{float} timer = 3.0f;}
+\DoxyCodeLine{219     \};}
+\DoxyCodeLine{220     std::vector<PickupEffect> pickupEffects;}
+\DoxyCodeLine{221     std::vector<DamageNumber> damageNumbers;    }
+\DoxyCodeLine{222 }
+\DoxyCodeLine{223     \textcolor{comment}{/* -\/-\/-\/-\/ 地图与摄像机 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{224     \mbox{\hyperlink{classMapSystem}{MapSystem}} mapSystem;                        }
+\DoxyCodeLine{225     sf::View gameView;                          }
+\DoxyCodeLine{226     \mbox{\hyperlink{classAttributePanel}{AttributePanel}} attrPanel;                   }
+\DoxyCodeLine{227 }
+\DoxyCodeLine{228     \textcolor{comment}{/* -\/-\/-\/-\/ UI元素 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{229     std::unique\_ptr<Button> backBtn;            }
+\DoxyCodeLine{230     std::unique\_ptr<Button> startBtn;           }
+\DoxyCodeLine{231     std::unique\_ptr<Button> victoryContinueBtn; }
+\DoxyCodeLine{232     std::unique\_ptr<Button> victoryBackBtn;     }
+\DoxyCodeLine{233     sf::Text statusText;                        }
+\DoxyCodeLine{234     sf::Text infoText;                          }
+\DoxyCodeLine{235     sf::Text gameResultText;                    }
+\DoxyCodeLine{236     sf::Text victoryText;                       }
+\DoxyCodeLine{237     sf::Clock deltaClock;                       }
+\DoxyCodeLine{238     sf::Clock inputSendClock;                   }
+\DoxyCodeLine{239     sf::Clock attackSendClock;                  }
+\DoxyCodeLine{240     sf::Clock gameClock;                        }
+\DoxyCodeLine{241 }
+\DoxyCodeLine{242     \textcolor{comment}{/* -\/-\/-\/-\/ 输入与游戏状态 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{243     \mbox{\hyperlink{structPlayerInput}{PlayerInput}} currentInput;                   }
+\DoxyCodeLine{244     \textcolor{keywordtype}{bool} attackRequested = \textcolor{keyword}{false};               }
+\DoxyCodeLine{245     \textcolor{keywordtype}{bool} gameOver = \textcolor{keyword}{false};                      }
+\DoxyCodeLine{246     \textcolor{keywordtype}{bool} paused = \textcolor{keyword}{false};                        }
+\DoxyCodeLine{247     \textcolor{keywordtype}{bool} gameStarted = \textcolor{keyword}{false};                   }
+\DoxyCodeLine{248     \textcolor{keywordtype}{bool} stageVictory = \textcolor{keyword}{false};                  }
+\DoxyCodeLine{249     \textcolor{keywordtype}{int} currentVictoryStage = 0;                }
+\DoxyCodeLine{250     \textcolor{keywordtype}{float} pausedTime = 0.f;                     }
+\DoxyCodeLine{251     \textcolor{keywordtype}{float} lastPauseTime = 0.f;                  }
+\DoxyCodeLine{252     \textcolor{keywordtype}{int} nextPlayerId = 1;                       }
+\DoxyCodeLine{253     \textcolor{keywordtype}{int} killCount = 0;                          }
+\DoxyCodeLine{254 }
+\DoxyCodeLine{256     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} STAGE\_THRESHOLDS[] = \{100, 1000, 2000, 5000, 10000\};}
+\DoxyCodeLine{257     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} STAGE\_COUNT = 5;}
+\DoxyCodeLine{258 \};}
+
+\end{DoxyCode}

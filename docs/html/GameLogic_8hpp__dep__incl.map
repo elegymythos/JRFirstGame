@@ -1,0 +1,23 @@
+<map id="src/GameLogic.hpp" name="src/GameLogic.hpp">
+<area shape="rect" id="node1" title="游戏核心逻辑：实体、属性、职业、等级、敌人、投射物、掉落物系统" alt="" coords="1405,5,1556,32"/>
+<area shape="rect" id="node2" href="$Database_8hpp.html" title="SQLite数据库操作封装" alt="" coords="599,80,738,107"/>
+<area shape="rect" id="node10" href="$GameView_8hpp.html" title="单机闯关游戏视图" alt="" coords="1234,155,1382,181"/>
+<area shape="rect" id="node13" href="$OnlineView_8hpp.html" title="联机大厅与联机游戏视图（双人合作闯关）" alt="" coords="1406,155,1557,181"/>
+<area shape="rect" id="node14" href="$OnlineView_8cpp.html" title="联机大厅与联机游戏视图实现（双人合作闯关）" alt="" coords="1570,229,1721,256"/>
+<area shape="rect" id="node17" href="$GameLogic_8cpp.html" title="游戏核心逻辑实现" alt="" coords="1912,80,2062,107"/>
+<area shape="rect" id="node18" href="$MapSystem_8hpp.html" title="地图区域与摄像机系统（无限地图）" alt="" coords="1518,80,1672,107"/>
+<area shape="rect" id="node20" href="$UIWidgets_8hpp.html" title="UI基础控件：Button、InputField、AttributePanel." alt="" coords="948,80,1095,107"/>
+<area shape="rect" id="node3" href="$AuthView_8cpp.html" title="登录/注册视图实现" alt="" coords="30,229,168,256"/>
+<area shape="rect" id="node4" href="$AuthView_8hpp.html" title="登录与注册视图" alt="" coords="238,155,376,181"/>
+<area shape="rect" id="node5" href="$main_8cpp.html" title="程序入口和主循环" alt="" coords="678,229,787,256"/>
+<area shape="rect" id="node6" href="$CharacterView_8cpp.html" title="角色创建与选择视图实现" alt="" coords="208,229,382,256"/>
+<area shape="rect" id="node7" href="$CharacterView_8hpp.html" title="角色创建与选择视图" alt="" coords="401,155,576,181"/>
+<area shape="rect" id="node8" href="$Database_8cpp.html" title="SQLite数据库操作封装实现" alt="" coords="24,155,163,181"/>
+<area shape="rect" id="node9" href="$GameView_8cpp.html" title="单机闯关游戏视图实现" alt="" coords="1235,229,1382,256"/>
+<area shape="rect" id="node11" href="$MenuView_8hpp.html" title="主菜单与模式选择视图" alt="" coords="651,155,795,181"/>
+<area shape="rect" id="node15" href="$RankingsView_8hpp.html" title="排行榜视图" alt="" coords="820,155,989,181"/>
+<area shape="rect" id="node12" href="$MenuView_8cpp.html" title="主菜单与模式选择视图实现" alt="" coords="510,229,653,256"/>
+<area shape="rect" id="node16" href="$RankingsView_8cpp.html" title="排行榜视图实现" alt="" coords="820,229,988,256"/>
+<area shape="rect" id="node19" href="$MapSystem_8cpp.html" title="地图区域与摄像机系统实现" alt="" coords="1684,155,1837,181"/>
+<area shape="rect" id="node21" href="$UIWidgets_8cpp.html" title="UI基础控件实现" alt="" coords="1065,155,1210,181"/>
+</map>

@@ -1,0 +1,54 @@
+\hypertarget{GameView_8hpp}{}\doxysection{src/\+Game\+View.hpp File Reference}
+\label{GameView_8hpp}\index{src/GameView.hpp@{src/GameView.hpp}}
+
+
+单机闯关游戏视图  
+
+
+{\ttfamily \#include $<$SFML/\+Graphics.\+hpp$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}View\+Base.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}UIWidgets.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Game\+Logic.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Map\+System.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Database.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Audio\+Manager.\+hpp\char`\"{}}\newline
+Include dependency graph for Game\+View.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{GameView_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{GameView_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classActualGameView}{Actual\+Game\+View}}
+\begin{DoxyCompactList}\small\item\em 单机闯关游戏视图 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+单机闯关游戏视图 
+
+核心游戏视图，管理单机模式下的完整游戏循环：
+\begin{DoxyItemize}
+\item 从数据库加载角色存档（属性、职业、等级、分数、武器）
+\item 每帧处理玩家输入（\+WASD移动、攻击、翻滚、暂停、存档）
+\item 地图系统自动生成敌人（基于区域网格，越远越强）
+\item 战斗系统：扇形近战/远程投射物，刀光动画，伤害数字
+\item 掉落物系统：击杀敌人概率掉落血瓶和属性提升道具
+\item 阶段性胜利：分数达到阈值时暂停，应用职业强化，回满血
+\item 暂停/存档：\+Esc暂停，\+P键中途存档
+\item 游戏结束：保存角色数据和排行榜记录 
+\end{DoxyItemize}

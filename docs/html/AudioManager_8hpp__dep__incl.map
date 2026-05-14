@@ -1,0 +1,19 @@
+<map id="src/AudioManager.hpp" name="src/AudioManager.hpp">
+<area shape="rect" id="node1" title="音频管理器 &#45; 背景音乐(BGM)和音效(SFX)统一管理" alt="" coords="197,5,367,32"/>
+<area shape="rect" id="node2" href="$AudioManager_8cpp.html" title="音频管理器实现" alt="" coords="26,80,194,107"/>
+<area shape="rect" id="node3" href="$GameView_8hpp.html" title="单机闯关游戏视图" alt="" coords="5,155,153,181"/>
+<area shape="rect" id="node5" href="$main_8cpp.html" title="程序入口和主循环" alt="" coords="734,229,843,256"/>
+<area shape="rect" id="node6" href="$OnlineView_8hpp.html" title="联机大厅与联机游戏视图（双人合作闯关）" alt="" coords="177,155,328,181"/>
+<area shape="rect" id="node8" href="$UIWidgets_8hpp.html" title="UI基础控件：Button、InputField、AttributePanel." alt="" coords="431,80,578,107"/>
+<area shape="rect" id="node4" href="$GameView_8cpp.html" title="单机闯关游戏视图实现" alt="" coords="6,229,153,256"/>
+<area shape="rect" id="node7" href="$OnlineView_8cpp.html" title="联机大厅与联机游戏视图实现（双人合作闯关）" alt="" coords="177,229,328,256"/>
+<area shape="rect" id="node9" href="$AuthView_8hpp.html" title="登录与注册视图" alt="" coords="353,155,491,181"/>
+<area shape="rect" id="node11" href="$CharacterView_8hpp.html" title="角色创建与选择视图" alt="" coords="685,155,860,181"/>
+<area shape="rect" id="node13" href="$MenuView_8hpp.html" title="主菜单与模式选择视图" alt="" coords="885,155,1029,181"/>
+<area shape="rect" id="node15" href="$RankingsView_8hpp.html" title="排行榜视图" alt="" coords="1053,155,1223,181"/>
+<area shape="rect" id="node17" href="$UIWidgets_8cpp.html" title="UI基础控件实现" alt="" coords="516,155,661,181"/>
+<area shape="rect" id="node10" href="$AuthView_8cpp.html" title="登录/注册视图实现" alt="" coords="353,229,491,256"/>
+<area shape="rect" id="node12" href="$CharacterView_8cpp.html" title="角色创建与选择视图实现" alt="" coords="537,229,710,256"/>
+<area shape="rect" id="node14" href="$MenuView_8cpp.html" title="主菜单与模式选择视图实现" alt="" coords="885,229,1028,256"/>
+<area shape="rect" id="node16" href="$RankingsView_8cpp.html" title="排行榜视图实现" alt="" coords="1054,229,1222,256"/>
+</map>

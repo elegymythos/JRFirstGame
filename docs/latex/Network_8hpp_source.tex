@@ -1,0 +1,79 @@
+\hypertarget{Network_8hpp_source}{}\doxysection{Network.\+hpp}
+\label{Network_8hpp_source}\index{src/Network.hpp@{src/Network.hpp}}
+\mbox{\hyperlink{Network_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <SFML/Network.hpp>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <set>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <optional>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <cstdint>}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{29 \textcolor{keyword}{enum class} \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86}{NetMsgType}} : uint8\_t \{}
+\DoxyCodeLine{30     \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a6adf97f83acf6453d4a6a4b1070f3754}{None}},            }
+\DoxyCodeLine{31     \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a49ab28040dfa07f53544970c6d147e1e}{Connect}},         }
+\DoxyCodeLine{32     \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a2b96e1c8c10d17f221b8da13252e6452}{ConnectAccept}},   }
+\DoxyCodeLine{33     \mbox{\hyperlink{structPlayerInput}{PlayerInput}},     }
+\DoxyCodeLine{34     \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a591ff635fd539aade6fb6f6c018d2cfa}{PlayerAttack}},    }
+\DoxyCodeLine{35     \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a6277a336d65b47660f890eb9299aa7ec}{PlayerRoll}},      }
+\DoxyCodeLine{36     \mbox{\hyperlink{structGameState}{GameState}},       }
+\DoxyCodeLine{37     \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a492785297322c6add81eb6abe8744bdf}{GameStart}},       }
+\DoxyCodeLine{38     \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a90cc62cc585e7dc272a20403af456796}{PauseSync}},       }
+\DoxyCodeLine{39     \mbox{\hyperlink{Network_8hpp_adad5c5f8ee43822ffe88113a22623e86a42ae25231906c83927831e0ef7c317ac}{Disconnect}}       }
+\DoxyCodeLine{40 \};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{48 \textcolor{keyword}{struct }\mbox{\hyperlink{structPlayerInput}{PlayerInput}} \{}
+\DoxyCodeLine{49     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structPlayerInput_a89a08b59ae92ccf206dcf44f49a1070a}{up}} = \textcolor{keyword}{false}, \mbox{\hyperlink{structPlayerInput_a6c9854c2018d6ff239d321cc3153da8b}{down}} = \textcolor{keyword}{false}, \mbox{\hyperlink{structPlayerInput_aba2e0c3bac244196f51678f3d6cc1aba}{left}} = \textcolor{keyword}{false}, \mbox{\hyperlink{structPlayerInput_a5db02f412ab52e2566d9164b6b9b3426}{right}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{50 \};}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{59 \textcolor{keyword}{struct }\mbox{\hyperlink{structGameState}{GameState}} \{}
+\DoxyCodeLine{61     \textcolor{keyword}{struct }\mbox{\hyperlink{structGameState_1_1PlayerState}{PlayerState}} \{}
+\DoxyCodeLine{62         sf::Vector2f \mbox{\hyperlink{structGameState_1_1PlayerState_aba9a9fa1fc0da6c3d3fba0f94ee415d5}{position}};  }
+\DoxyCodeLine{63         \textcolor{keywordtype}{int} \mbox{\hyperlink{structGameState_1_1PlayerState_ada1819e7b2d358fdbe18d3b754ccfcc5}{health}} = 100;       }
+\DoxyCodeLine{64         \textcolor{keywordtype}{int} \mbox{\hyperlink{structGameState_1_1PlayerState_acad95a43a207b7950a9a59a3ab0af1c4}{maxHealth}} = 100;    }
+\DoxyCodeLine{65     \};}
+\DoxyCodeLine{66     std::vector<PlayerState> \mbox{\hyperlink{structGameState_abc078f7ff598a741919270630418cceb}{players}};  }
+\DoxyCodeLine{67 \};}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{77 \textcolor{keyword}{class }\mbox{\hyperlink{classNetworkManager}{NetworkManager}} \{}
+\DoxyCodeLine{78 \textcolor{keyword}{public}:}
+\DoxyCodeLine{80     \textcolor{keyword}{enum} \mbox{\hyperlink{classNetworkManager_a9c2b890a55f719d3af66e4950eed4574}{Role}} \{ \mbox{\hyperlink{classNetworkManager_a9c2b890a55f719d3af66e4950eed4574ae9c9451095c20c9bfa1abc70db08810e}{None}}, \mbox{\hyperlink{classNetworkManager_a9c2b890a55f719d3af66e4950eed4574ad5afc99a3b0d6e2448de412720931538}{Server}}, \mbox{\hyperlink{classNetworkManager_a9c2b890a55f719d3af66e4950eed4574ab716da34b04efbc5fe3c31220e1f615b}{Client}} \};}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82     \mbox{\hyperlink{classNetworkManager_a5aaf71c4aa7a2efab7f1dbae02312280}{NetworkManager}}();}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{91     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classNetworkManager_a5e271f46689fc1ebc4787419584fcfa5}{startServer}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} port);}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{101     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classNetworkManager_a48d2b6a852e8796be18bb97481831601}{connectToServer}}(\textcolor{keyword}{const} sf::IpAddress\& ip, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} port);}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{104     \textcolor{keywordtype}{void} \mbox{\hyperlink{classNetworkManager_a751f87add468a5ddc70c4087ab80533f}{disconnect}}();}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{107     \textcolor{keywordtype}{void} \mbox{\hyperlink{classNetworkManager_a7b7e944aefd9b4a7973393b77de0db71}{setPendingPort}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} port) \{ pendingPort = port; \}}
+\DoxyCodeLine{109     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} \mbox{\hyperlink{classNetworkManager_ac27e6a12909ee32590d77b7a4a3611a5}{getPendingPort}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} pendingPort; \}}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{112     \textcolor{keywordtype}{void} \mbox{\hyperlink{classNetworkManager_ab319a115199f8f420286a25e68ebe0a2}{send}}(sf::Packet\& packet, \textcolor{keyword}{const} sf::IpAddress\& addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} port);}
+\DoxyCodeLine{114     \textcolor{keywordtype}{void} \mbox{\hyperlink{classNetworkManager_ae771b2545b2ca78415319b46101c12ba}{broadcast}}(sf::Packet\& packet);}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{121     std::optional<std::pair<NetMsgType, std::pair<sf::IpAddress, unsigned short>>> \mbox{\hyperlink{classNetworkManager_a90c3987bafa5be0985d9a315f1be77b3}{receive}}(sf::Packet\& outPacket);}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{124     \textcolor{keywordtype}{void} \mbox{\hyperlink{classNetworkManager_af8e83bc88a58d2119d59e036742d3184}{addClient}}(\textcolor{keyword}{const} sf::IpAddress\& ip, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} port);}
+\DoxyCodeLine{126     \textcolor{keywordtype}{void} \mbox{\hyperlink{classNetworkManager_a9da3e820e951787b104a41eeb5652368}{removeClient}}(\textcolor{keyword}{const} sf::IpAddress\& ip, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} port);}
+\DoxyCodeLine{128     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classNetworkManager_a83e37fdb789deaada04aba1d4a7ea33b}{hasClient}}(\textcolor{keyword}{const} sf::IpAddress\& ip, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} port) \textcolor{keyword}{const};}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{131     \mbox{\hyperlink{classNetworkManager_a9c2b890a55f719d3af66e4950eed4574}{Role}} \mbox{\hyperlink{classNetworkManager_a616529bf3a74fdf41cbf600e7a3ecbc2}{getRole}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} role; \}}
+\DoxyCodeLine{133     \textcolor{keyword}{const} std::optional<sf::IpAddress>\& \mbox{\hyperlink{classNetworkManager_ad6497926d9afee7092c9b7c216dd9878}{getServerAddr}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} serverAddr; \}}
+\DoxyCodeLine{135     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} \mbox{\hyperlink{classNetworkManager_ae54b15fa6139f13d389bc1a78d0825c9}{getServerPort}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} serverPort; \}}
+\DoxyCodeLine{137     \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classNetworkManager_a830bbebc7e77276195a6e793b2b1af03}{getClientCount}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} clients.size(); \}}
+\DoxyCodeLine{139     \textcolor{keyword}{const} std::set<std::pair<sf::IpAddress, unsigned short>>\& \mbox{\hyperlink{classNetworkManager_a47b56fe297aaecbc6fe09a6798ea861d}{getAllClients}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} clients; \}}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141 \textcolor{keyword}{private}:}
+\DoxyCodeLine{142     sf::UdpSocket socket;           }
+\DoxyCodeLine{143     \mbox{\hyperlink{classNetworkManager_a9c2b890a55f719d3af66e4950eed4574}{Role}} role = \mbox{\hyperlink{classNetworkManager_a9c2b890a55f719d3af66e4950eed4574ae9c9451095c20c9bfa1abc70db08810e}{None}};               }
+\DoxyCodeLine{144     std::optional<sf::IpAddress> serverAddr;  }
+\DoxyCodeLine{145     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} serverPort = 0;  }
+\DoxyCodeLine{146     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} pendingPort = 54000;  }
+\DoxyCodeLine{147     std::set<std::pair<sf::IpAddress, unsigned short>> clients;  }
+\DoxyCodeLine{148 \};}
+
+\end{DoxyCode}

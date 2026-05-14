@@ -1,0 +1,38 @@
+\hypertarget{ViewBase_8hpp_source}{}\doxysection{View\+Base.\+hpp}
+\label{ViewBase_8hpp_source}\index{src/ViewBase.hpp@{src/ViewBase.hpp}}
+\mbox{\hyperlink{ViewBase_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{I18n_8hpp}{I18n.hpp}}"{}}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{26 \textcolor{keyword}{class }\mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{27 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{28     \textcolor{keyword}{const} sf::Font\& \mbox{\hyperlink{classView_ab6e4535f2a2e5ecb6abb5a992dbae81f}{globalFont}};     }
+\DoxyCodeLine{29     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classView_a7c6031cfdfcbece29c3b5574af3c08af}{languageChanged}} = \textcolor{keyword}{false};   }
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{public}:}
+\DoxyCodeLine{33     \mbox{\hyperlink{classView_a7694148264d02d29c32edc67f7de5f27}{View}}(\textcolor{keyword}{const} sf::Font\& font);}
+\DoxyCodeLine{34     \textcolor{keyword}{virtual} \mbox{\hyperlink{classView_ad0f3ade04bca4e74b8868e63729bad86}{\string~View}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{37     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) = 0;}
+\DoxyCodeLine{39     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) = 0;}
+\DoxyCodeLine{41     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{draw}}(sf::RenderWindow\& window) = 0;}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{44     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classView_a5060f1089800ec8b192ab4be62ba644d}{needsRefresh}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \mbox{\hyperlink{classView_a7c6031cfdfcbece29c3b5574af3c08af}{languageChanged}}; \}}
+\DoxyCodeLine{46     \textcolor{keywordtype}{void} \mbox{\hyperlink{classView_a42f4b34bb3ae6ce4c2ed92579f2d458e}{clearRefreshFlag}}() \{ \mbox{\hyperlink{classView_a7c6031cfdfcbece29c3b5574af3c08af}{languageChanged}} = \textcolor{keyword}{false}; \}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{55     \textcolor{keywordtype}{void} \mbox{\hyperlink{classView_a2e7bc4e41ddd515b976302658dea37f0}{drawLangButton}}(sf::RenderWindow\& window, sf::Vector2f pos = \{1180, 10\});}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{64     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classView_a70476d4e3ac328d8e0c36bbc334f9a38}{handleLangButton}}(sf::Vector2f mousePos, \textcolor{keywordtype}{bool} isClicked, sf::Vector2f pos = \{1180, 10\});}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{keyword}{private}:}
+\DoxyCodeLine{67     sf::RectangleShape langBg\_;          }
+\DoxyCodeLine{68     sf::Text langText\_;                  }
+\DoxyCodeLine{69     \textcolor{keywordtype}{bool} langButtonHovered\_ = \textcolor{keyword}{false};     }
+\DoxyCodeLine{70 \};}
+
+\end{DoxyCode}

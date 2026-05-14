@@ -1,0 +1,137 @@
+\hypertarget{structSyncPlayer}{}\doxysection{Sync\+Player Struct Reference}
+\label{structSyncPlayer}\index{SyncPlayer@{SyncPlayer}}
+
+
+同步的玩家数据（网络传输用）  
+
+
+
+
+{\ttfamily \#include $<$Online\+View.\+hpp$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{structSyncPlayer_a445dfcc10338982ac69b7a74981892c3}{posX}}
+\item 
+float \mbox{\hyperlink{structSyncPlayer_a1519857ab9809bb70819012e78a8c681}{posY}}
+\begin{DoxyCompactList}\small\item\em 位置 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structSyncPlayer_aa967dedd218f6c68ab0172143fe35337}{health}}
+\item 
+int \mbox{\hyperlink{structSyncPlayer_afd33e3c2dcce7404a3d4be660e85e0c8}{max\+Health}}
+\begin{DoxyCompactList}\small\item\em 血量 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structSyncPlayer_a4bd04d3423f14bc6eee40e4617f595f2}{total\+Score}}
+\begin{DoxyCompactList}\small\item\em 累计分数 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structSyncPlayer_a8884dd85a4d6e91257c5f52aa45ad03e}{level}}
+\begin{DoxyCompactList}\small\item\em 等级 \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{structSyncPlayer_a9629a784745b355b72646277b1157c98}{name}}
+\begin{DoxyCompactList}\small\item\em 玩家名字 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structSyncPlayer_af315cbca0066dfaa949fbf4e78f474b3}{radius}}
+\begin{DoxyCompactList}\small\item\em 碰撞半径 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structSyncPlayer_adf23e2582efb8c5229ab37d1a6f77267}{is\+Rolling}}
+\begin{DoxyCompactList}\small\item\em 翻滚状态 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structSyncPlayer_a77db4f72eef2c50f763e3e87f3526120}{is\+Invincible}}
+\begin{DoxyCompactList}\small\item\em 无敌状态 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+同步的玩家数据（网络传输用） 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structSyncPlayer_aa967dedd218f6c68ab0172143fe35337}\label{structSyncPlayer_aa967dedd218f6c68ab0172143fe35337}} 
+\index{SyncPlayer@{SyncPlayer}!health@{health}}
+\index{health@{health}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{health}{health}}
+{\footnotesize\ttfamily int Sync\+Player\+::health}
+
+\mbox{\Hypertarget{structSyncPlayer_a77db4f72eef2c50f763e3e87f3526120}\label{structSyncPlayer_a77db4f72eef2c50f763e3e87f3526120}} 
+\index{SyncPlayer@{SyncPlayer}!isInvincible@{isInvincible}}
+\index{isInvincible@{isInvincible}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{isInvincible}{isInvincible}}
+{\footnotesize\ttfamily bool Sync\+Player\+::is\+Invincible}
+
+
+
+无敌状态 
+
+\mbox{\Hypertarget{structSyncPlayer_adf23e2582efb8c5229ab37d1a6f77267}\label{structSyncPlayer_adf23e2582efb8c5229ab37d1a6f77267}} 
+\index{SyncPlayer@{SyncPlayer}!isRolling@{isRolling}}
+\index{isRolling@{isRolling}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{isRolling}{isRolling}}
+{\footnotesize\ttfamily bool Sync\+Player\+::is\+Rolling}
+
+
+
+翻滚状态 
+
+\mbox{\Hypertarget{structSyncPlayer_a8884dd85a4d6e91257c5f52aa45ad03e}\label{structSyncPlayer_a8884dd85a4d6e91257c5f52aa45ad03e}} 
+\index{SyncPlayer@{SyncPlayer}!level@{level}}
+\index{level@{level}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{level}{level}}
+{\footnotesize\ttfamily int Sync\+Player\+::level}
+
+
+
+等级 
+
+\mbox{\Hypertarget{structSyncPlayer_afd33e3c2dcce7404a3d4be660e85e0c8}\label{structSyncPlayer_afd33e3c2dcce7404a3d4be660e85e0c8}} 
+\index{SyncPlayer@{SyncPlayer}!maxHealth@{maxHealth}}
+\index{maxHealth@{maxHealth}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{maxHealth}{maxHealth}}
+{\footnotesize\ttfamily int Sync\+Player\+::max\+Health}
+
+
+
+血量 
+
+\mbox{\Hypertarget{structSyncPlayer_a9629a784745b355b72646277b1157c98}\label{structSyncPlayer_a9629a784745b355b72646277b1157c98}} 
+\index{SyncPlayer@{SyncPlayer}!name@{name}}
+\index{name@{name}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily std\+::string Sync\+Player\+::name}
+
+
+
+玩家名字 
+
+\mbox{\Hypertarget{structSyncPlayer_a445dfcc10338982ac69b7a74981892c3}\label{structSyncPlayer_a445dfcc10338982ac69b7a74981892c3}} 
+\index{SyncPlayer@{SyncPlayer}!posX@{posX}}
+\index{posX@{posX}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{posX}{posX}}
+{\footnotesize\ttfamily float Sync\+Player\+::posX}
+
+\mbox{\Hypertarget{structSyncPlayer_a1519857ab9809bb70819012e78a8c681}\label{structSyncPlayer_a1519857ab9809bb70819012e78a8c681}} 
+\index{SyncPlayer@{SyncPlayer}!posY@{posY}}
+\index{posY@{posY}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{posY}{posY}}
+{\footnotesize\ttfamily float Sync\+Player\+::posY}
+
+
+
+位置 
+
+\mbox{\Hypertarget{structSyncPlayer_af315cbca0066dfaa949fbf4e78f474b3}\label{structSyncPlayer_af315cbca0066dfaa949fbf4e78f474b3}} 
+\index{SyncPlayer@{SyncPlayer}!radius@{radius}}
+\index{radius@{radius}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{radius}{radius}}
+{\footnotesize\ttfamily float Sync\+Player\+::radius}
+
+
+
+碰撞半径 
+
+\mbox{\Hypertarget{structSyncPlayer_a4bd04d3423f14bc6eee40e4617f595f2}\label{structSyncPlayer_a4bd04d3423f14bc6eee40e4617f595f2}} 
+\index{SyncPlayer@{SyncPlayer}!totalScore@{totalScore}}
+\index{totalScore@{totalScore}!SyncPlayer@{SyncPlayer}}
+\doxysubsubsection{\texorpdfstring{totalScore}{totalScore}}
+{\footnotesize\ttfamily int Sync\+Player\+::total\+Score}
+
+
+
+累计分数 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{OnlineView_8hpp}{Online\+View.\+hpp}}\end{DoxyCompactItemize}

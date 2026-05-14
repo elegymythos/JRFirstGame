@@ -1,0 +1,9 @@
+<map id="src/MapSystem.hpp" name="src/MapSystem.hpp">
+<area shape="rect" id="node1" title="地图区域与摄像机系统（无限地图）" alt="" coords="232,5,387,32"/>
+<area shape="rect" id="node2" href="$GameView_8cpp.html" title="单机闯关游戏视图实现" alt="" coords="5,155,152,181"/>
+<area shape="rect" id="node3" href="$GameView_8hpp.html" title="单机闯关游戏视图" alt="" coords="61,80,209,107"/>
+<area shape="rect" id="node5" href="$MapSystem_8cpp.html" title="地图区域与摄像机系统实现" alt="" coords="233,80,386,107"/>
+<area shape="rect" id="node6" href="$OnlineView_8cpp.html" title="联机大厅与联机游戏视图实现（双人合作闯关）" alt="" coords="466,155,617,181"/>
+<area shape="rect" id="node7" href="$OnlineView_8hpp.html" title="联机大厅与联机游戏视图（双人合作闯关）" alt="" coords="410,80,561,107"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title="程序入口和主循环" alt="" coords="283,155,392,181"/>
+</map>

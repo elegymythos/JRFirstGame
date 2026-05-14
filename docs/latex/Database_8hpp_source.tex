@@ -1,0 +1,73 @@
+\hypertarget{Database_8hpp_source}{}\doxysection{Database.\+hpp}
+\label{Database_8hpp_source}\index{src/Database.hpp@{src/Database.hpp}}
+\mbox{\hyperlink{Database_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <optional>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <sqlite3.h>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{GameLogic_8hpp}{GameLogic.hpp}}"{}}  \textcolor{comment}{// Attributes, CharacterClass}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{30 \textcolor{keyword}{struct }\mbox{\hyperlink{structRankRecord}{RankRecord}} \{}
+\DoxyCodeLine{31     std::string \mbox{\hyperlink{structRankRecord_a1364d89b9c72d0921229a64d50079e76}{username}};  }
+\DoxyCodeLine{32     \textcolor{keywordtype}{int} \mbox{\hyperlink{structRankRecord_ad1ae91dff63a0b036d5a75a67d75ff05}{level}};             }
+\DoxyCodeLine{33     \textcolor{keywordtype}{int} \mbox{\hyperlink{structRankRecord_a92b5f3290eeb938791afc4c3c1489cda}{score}};             }
+\DoxyCodeLine{34 \};}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{43 \textcolor{keyword}{struct }\mbox{\hyperlink{structCharacterData}{CharacterData}} \{}
+\DoxyCodeLine{44     std::string \mbox{\hyperlink{structCharacterData_a9a19838f6721830516b401724d0e8f3e}{username}};              }
+\DoxyCodeLine{45     \textcolor{keywordtype}{int} \mbox{\hyperlink{structCharacterData_a107afe820f34e0ebd916a171bf30c493}{slot}} = 0;                      }
+\DoxyCodeLine{46     \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{CharacterClass}} \mbox{\hyperlink{structCharacterData_af0977e22ecf5067ad9ccd2c22430c8b3}{classType}};          }
+\DoxyCodeLine{47     \textcolor{keywordtype}{int} \mbox{\hyperlink{structCharacterData_aacddf546aed764719e44f2e6bdbb7481}{level}};                         }
+\DoxyCodeLine{48     \textcolor{keywordtype}{int} \mbox{\hyperlink{structCharacterData_a800cdd4c8e75cbdc9f0fb8ed1b4fbb8b}{experience}};                    }
+\DoxyCodeLine{49     \textcolor{keywordtype}{int} \mbox{\hyperlink{structCharacterData_a02b01d5caba717154900b267cc922834}{score}} = 0;                     }
+\DoxyCodeLine{50     \textcolor{keywordtype}{float} \mbox{\hyperlink{structCharacterData_ade25660af08b7f211f78bbbbb6228909}{gameTime}} = 0.f;              }
+\DoxyCodeLine{51     \textcolor{keywordtype}{int} \mbox{\hyperlink{structCharacterData_a8f455951a9106a2b109da041ce2a0327}{victoryStage}} = 0;              }
+\DoxyCodeLine{52     \mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{structCharacterData_ad46cfe9e65d9d4a2b01d36437ad1e34a}{attributes}};             }
+\DoxyCodeLine{53 \};}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{68 \textcolor{keyword}{class }\mbox{\hyperlink{classDatabase}{Database}} \{}
+\DoxyCodeLine{69 \textcolor{keyword}{public}:}
+\DoxyCodeLine{70     \mbox{\hyperlink{classDatabase_a4703c80e6969d33565ea340f768fdadf}{Database}}();}
+\DoxyCodeLine{71     \mbox{\hyperlink{classDatabase_a84d399a2ad58d69daab9b05330e1316d}{\string~Database}}();}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73     \textcolor{comment}{// 禁止拷贝（sqlite3* 不应共享）}}
+\DoxyCodeLine{74     \mbox{\hyperlink{classDatabase_a83f8b6d2941a4aee50f225e08e97291c}{Database}}(\textcolor{keyword}{const} \mbox{\hyperlink{classDatabase}{Database}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{75     \mbox{\hyperlink{classDatabase}{Database}}\& \mbox{\hyperlink{classDatabase_a46b93a4878076c7cfddd5b4058297f14}{operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classDatabase}{Database}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77     \textcolor{comment}{/* -\/-\/-\/-\/ 用户操作 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{80     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classDatabase_a0f92676a8ea718862030402fce55f3ba}{userExists}}(\textcolor{keyword}{const} std::string\& username);}
+\DoxyCodeLine{82     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classDatabase_ae3b151f904a46ea734d4ea47968f7f9f}{addUser}}(\textcolor{keyword}{const} std::string\& username, \textcolor{keyword}{const} std::string\& salt, \textcolor{keyword}{const} std::string\& hash);}
+\DoxyCodeLine{84     std::optional<std::pair<std::string, std::string>> \mbox{\hyperlink{classDatabase_a7bffef75fb577c309551106bb0cc0e42}{getCredentials}}(\textcolor{keyword}{const} std::string\& username);}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86     \textcolor{comment}{/* -\/-\/-\/-\/ 角色操作（多角色支持） -\/-\/-\/-\/ */}}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{89     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classDatabase_aa3fcfe2810fa4da78c25649a50c8dbe2}{hasCharacter}}(\textcolor{keyword}{const} std::string\& username);}
+\DoxyCodeLine{91     \textcolor{keywordtype}{int} \mbox{\hyperlink{classDatabase_af38c7aa4beba25890ca34bbab7d17906}{getCharacterCount}}(\textcolor{keyword}{const} std::string\& username);}
+\DoxyCodeLine{93     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDatabase_a73ff162ebb6698a9bb9707e0cbe1edb5}{saveCharacter}}(\textcolor{keyword}{const} \mbox{\hyperlink{structCharacterData}{CharacterData}}\& data);}
+\DoxyCodeLine{95     std::optional<CharacterData> \mbox{\hyperlink{classDatabase_af30c75c7b277490c417f9cdc7caf427c}{loadCharacter}}(\textcolor{keyword}{const} std::string\& username, \textcolor{keywordtype}{int} slot);}
+\DoxyCodeLine{97     std::vector<CharacterData> \mbox{\hyperlink{classDatabase_ab6a9be4eeba290881ad4534f9c8bcad8}{loadAllCharacters}}(\textcolor{keyword}{const} std::string\& username);}
+\DoxyCodeLine{99     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDatabase_a64c3a0a2039bc45474c3cffe68688863}{deleteCharacter}}(\textcolor{keyword}{const} std::string\& username, \textcolor{keywordtype}{int} slot);}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     \textcolor{comment}{/* -\/-\/-\/-\/ 选中角色槽位 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{104     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDatabase_aa1ab594e25b86f8e8efe33d08eeed4d5}{saveSelectedSlot}}(\textcolor{keyword}{const} std::string\& username, \textcolor{keywordtype}{int} slot);}
+\DoxyCodeLine{106     \textcolor{keywordtype}{int} \mbox{\hyperlink{classDatabase_addb59b528e00516dc56dde6272a79971}{getSelectedSlot}}(\textcolor{keyword}{const} std::string\& username);}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108     \textcolor{comment}{/* -\/-\/-\/-\/ 排行榜操作 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{111     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDatabase_a7663c2578413c2235a923514a84dd3e3}{saveRanking}}(\textcolor{keyword}{const} std::string\& username, \textcolor{keywordtype}{int} level, \textcolor{keywordtype}{int} score);}
+\DoxyCodeLine{113     std::vector<RankRecord> \mbox{\hyperlink{classDatabase_a82f5646a004ff49cd1874f267b9bfc6c}{loadRankings}}();}
+\DoxyCodeLine{114 }
+\DoxyCodeLine{116     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDatabase_a72bef86a94ec2301ab29be07f5e63668}{saveScore}}(\textcolor{keyword}{const} std::string\& username, \textcolor{keywordtype}{int} score);}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \textcolor{keyword}{private}:}
+\DoxyCodeLine{119     sqlite3* db = \textcolor{keyword}{nullptr};  }
+\DoxyCodeLine{121     \textcolor{keywordtype}{void} initTables();}
+\DoxyCodeLine{122 \};}
+
+\end{DoxyCode}

@@ -1,0 +1,106 @@
+\hypertarget{classAttributePanel}{}\doxysection{Attribute\+Panel Class Reference}
+\label{classAttributePanel}\index{AttributePanel@{AttributePanel}}
+
+
+属性面板控件  
+
+
+
+
+{\ttfamily \#include $<$UIWidgets.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classAttributePanel_a12e98835159cec2176417005f6acc159}{Attribute\+Panel}} (const sf\+::\+Font \&font)
+\begin{DoxyCompactList}\small\item\em 构造属性面板 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classAttributePanel_a8fe9be5056e00878adbe486dc74c2130}{toggle}} ()
+\begin{DoxyCompactList}\small\item\em 切换显示/隐藏 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classAttributePanel_a1c89a854d99312687b409ba8a374fb62}{is\+Visible}} () const
+\begin{DoxyCompactList}\small\item\em 是否可见 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classAttributePanel_ad67a4b75b109f21d807014549276fbbb}{update}} (const \mbox{\hyperlink{classPlayer}{Player}} \&player)
+\begin{DoxyCompactList}\small\item\em 更新属性面板内容 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classAttributePanel_ace8c02fa309ec87b2485d5c074a2f730}{draw}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em 绘制属性面板（背景+文字行） \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+属性面板控件 
+
+半透明黑色背景，显示角色完整属性信息：
+\begin{DoxyItemize}
+\item 六大属性（基础+加成=最终）
+\item 职业、等级、经验、分数
+\item 装备武器名称 Tab键切换显示/隐藏。 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classAttributePanel_a12e98835159cec2176417005f6acc159}\label{classAttributePanel_a12e98835159cec2176417005f6acc159}} 
+\index{AttributePanel@{AttributePanel}!AttributePanel@{AttributePanel}}
+\index{AttributePanel@{AttributePanel}!AttributePanel@{AttributePanel}}
+\doxysubsubsection{\texorpdfstring{AttributePanel()}{AttributePanel()}}
+{\footnotesize\ttfamily Attribute\+Panel\+::\+Attribute\+Panel (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font }\end{DoxyParamCaption})}
+
+
+
+构造属性面板 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classAttributePanel_ace8c02fa309ec87b2485d5c074a2f730}\label{classAttributePanel_ace8c02fa309ec87b2485d5c074a2f730}} 
+\index{AttributePanel@{AttributePanel}!draw@{draw}}
+\index{draw@{draw}!AttributePanel@{AttributePanel}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Attribute\+Panel\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const}
+
+
+
+绘制属性面板（背景+文字行） 
+
+\mbox{\Hypertarget{classAttributePanel_a1c89a854d99312687b409ba8a374fb62}\label{classAttributePanel_a1c89a854d99312687b409ba8a374fb62}} 
+\index{AttributePanel@{AttributePanel}!isVisible@{isVisible}}
+\index{isVisible@{isVisible}!AttributePanel@{AttributePanel}}
+\doxysubsubsection{\texorpdfstring{isVisible()}{isVisible()}}
+{\footnotesize\ttfamily bool Attribute\+Panel\+::is\+Visible (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+是否可见 
+
+\mbox{\Hypertarget{classAttributePanel_a8fe9be5056e00878adbe486dc74c2130}\label{classAttributePanel_a8fe9be5056e00878adbe486dc74c2130}} 
+\index{AttributePanel@{AttributePanel}!toggle@{toggle}}
+\index{toggle@{toggle}!AttributePanel@{AttributePanel}}
+\doxysubsubsection{\texorpdfstring{toggle()}{toggle()}}
+{\footnotesize\ttfamily void Attribute\+Panel\+::toggle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+切换显示/隐藏 
+
+\mbox{\Hypertarget{classAttributePanel_ad67a4b75b109f21d807014549276fbbb}\label{classAttributePanel_ad67a4b75b109f21d807014549276fbbb}} 
+\index{AttributePanel@{AttributePanel}!update@{update}}
+\index{update@{update}!AttributePanel@{AttributePanel}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Attribute\+Panel\+::update (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classPlayer}{Player}} \&}]{player }\end{DoxyParamCaption})}
+
+
+
+更新属性面板内容 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & 玩家对象（从中提取属性、职业、武器等信息） \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{UIWidgets_8hpp}{UIWidgets.\+hpp}}\item 
+src/\mbox{\hyperlink{UIWidgets_8cpp}{UIWidgets.\+cpp}}\end{DoxyCompactItemize}

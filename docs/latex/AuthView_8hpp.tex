@@ -1,0 +1,42 @@
+\hypertarget{AuthView_8hpp}{}\doxysection{src/\+Auth\+View.hpp File Reference}
+\label{AuthView_8hpp}\index{src/AuthView.hpp@{src/AuthView.hpp}}
+
+
+登录与注册视图  
+
+
+{\ttfamily \#include $<$SFML/\+Graphics.\+hpp$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include \char`\"{}View\+Base.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}UIWidgets.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Database.\+hpp\char`\"{}}\newline
+Include dependency graph for Auth\+View.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{AuthView_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{AuthView_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classLoginView}{Login\+View}}
+\begin{DoxyCompactList}\small\item\em 登录视图 \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classSignUpView}{Sign\+Up\+View}}
+\begin{DoxyCompactList}\small\item\em 注册视图 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+登录与注册视图 
+
+提供用户身份验证界面，包含登录（\+Login\+View）和注册（\+Sign\+Up\+View）两个视图。 登录时从数据库读取盐值和哈希，用 SHA-\/256 验证密码； 注册时生成随机盐值并存储哈希后的密码。 验证通过后，用户名会写入 \mbox{\hyperlink{main_8cpp}{main.\+cpp}} 中的 current\+Username 引用。 

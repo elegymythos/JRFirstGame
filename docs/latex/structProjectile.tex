@@ -1,0 +1,190 @@
+\hypertarget{structProjectile}{}\doxysection{Projectile Struct Reference}
+\label{structProjectile}\index{Projectile@{Projectile}}
+
+
+投射物（法师火球、弓箭手箭矢）  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{structProjectile_ac679bd6ba4f2087f16484c5117b89398}{update}} (float dt)
+\begin{DoxyCompactList}\small\item\em 每帧更新位置 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structProjectile_a3850bded71594e01a6c3339ca1ca40af}{is\+Expired}} () const
+\begin{DoxyCompactList}\small\item\em 是否超过最大飞行距离 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structProjectile_a046fb79be3caa95fe6cde694e9f078c0}{draw}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em 绘制投射物（小圆点） \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Vector2f \mbox{\hyperlink{structProjectile_aa5e8d4c6f3221b7705fa273ea25529bb}{position}}
+\begin{DoxyCompactList}\small\item\em 当前位置 \end{DoxyCompactList}\item 
+sf\+::\+Vector2f \mbox{\hyperlink{structProjectile_addbaa4638c4a0fa5d15166b74b6e2435}{direction}}
+\begin{DoxyCompactList}\small\item\em 归一化飞行方向 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structProjectile_a70ff500bdae54f3ad1e9e759b0ecd1fe}{speed}} = 300.f
+\begin{DoxyCompactList}\small\item\em 飞行速度 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structProjectile_a90f5793efb184c30d6c74544a6b91bb4}{damage}} = 10
+\begin{DoxyCompactList}\small\item\em 伤害值 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structProjectile_a708c87279219f350ff2ede835261c6c2}{max\+Distance}} = 400.f
+\begin{DoxyCompactList}\small\item\em 最大飞行距离 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structProjectile_a781d126a1606a1d310dab18030af0464}{traveled}} = 0.f
+\begin{DoxyCompactList}\small\item\em 已飞行距离 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structProjectile_a42d28ed880a9cd205bac3af73644481e}{from\+Player}} = true
+\begin{DoxyCompactList}\small\item\em true=玩家发射, false=敌人发射 \end{DoxyCompactList}\item 
+sf\+::\+Color \mbox{\hyperlink{structProjectile_a330b819a53a030e7cf245cec080b5875}{color}} = sf\+::\+Color\+::\+Yellow
+\begin{DoxyCompactList}\small\item\em 投射物颜色 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structProjectile_a27010abeceb6ddb3fe01f716aa3e5a79}{explosion\+Radius}} = 0.f
+\begin{DoxyCompactList}\small\item\em 爆炸半径（法师阶段强化后 \texorpdfstring{$>$}{>} 0） \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structProjectile_ae3feaab9ebd0308f1d1015b3452767df}{is\+Crit}} = false
+\begin{DoxyCompactList}\small\item\em 是否暴击（用于伤害数字显示） \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+投射物（法师火球、弓箭手箭矢） 
+
+沿直线飞行，超过最大距离后消失。 法师火球命中后可产生爆炸范围杀伤（explosion\+Radius \texorpdfstring{$>$}{>} 0 时）。 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structProjectile_a046fb79be3caa95fe6cde694e9f078c0}\label{structProjectile_a046fb79be3caa95fe6cde694e9f078c0}} 
+\index{Projectile@{Projectile}!draw@{draw}}
+\index{draw@{draw}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Projectile\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const}
+
+
+
+绘制投射物（小圆点） 
+
+\mbox{\Hypertarget{structProjectile_a3850bded71594e01a6c3339ca1ca40af}\label{structProjectile_a3850bded71594e01a6c3339ca1ca40af}} 
+\index{Projectile@{Projectile}!isExpired@{isExpired}}
+\index{isExpired@{isExpired}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{isExpired()}{isExpired()}}
+{\footnotesize\ttfamily bool Projectile\+::is\+Expired (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+是否超过最大飞行距离 
+
+\mbox{\Hypertarget{structProjectile_ac679bd6ba4f2087f16484c5117b89398}\label{structProjectile_ac679bd6ba4f2087f16484c5117b89398}} 
+\index{Projectile@{Projectile}!update@{update}}
+\index{update@{update}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Projectile\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})}
+
+
+
+每帧更新位置 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structProjectile_a330b819a53a030e7cf245cec080b5875}\label{structProjectile_a330b819a53a030e7cf245cec080b5875}} 
+\index{Projectile@{Projectile}!color@{color}}
+\index{color@{color}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{color}{color}}
+{\footnotesize\ttfamily sf\+::\+Color Projectile\+::color = sf\+::\+Color\+::\+Yellow}
+
+
+
+投射物颜色 
+
+\mbox{\Hypertarget{structProjectile_a90f5793efb184c30d6c74544a6b91bb4}\label{structProjectile_a90f5793efb184c30d6c74544a6b91bb4}} 
+\index{Projectile@{Projectile}!damage@{damage}}
+\index{damage@{damage}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{damage}{damage}}
+{\footnotesize\ttfamily int Projectile\+::damage = 10}
+
+
+
+伤害值 
+
+\mbox{\Hypertarget{structProjectile_addbaa4638c4a0fa5d15166b74b6e2435}\label{structProjectile_addbaa4638c4a0fa5d15166b74b6e2435}} 
+\index{Projectile@{Projectile}!direction@{direction}}
+\index{direction@{direction}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{direction}{direction}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Projectile\+::direction}
+
+
+
+归一化飞行方向 
+
+\mbox{\Hypertarget{structProjectile_a27010abeceb6ddb3fe01f716aa3e5a79}\label{structProjectile_a27010abeceb6ddb3fe01f716aa3e5a79}} 
+\index{Projectile@{Projectile}!explosionRadius@{explosionRadius}}
+\index{explosionRadius@{explosionRadius}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{explosionRadius}{explosionRadius}}
+{\footnotesize\ttfamily float Projectile\+::explosion\+Radius = 0.f}
+
+
+
+爆炸半径（法师阶段强化后 \texorpdfstring{$>$}{>} 0） 
+
+\mbox{\Hypertarget{structProjectile_a42d28ed880a9cd205bac3af73644481e}\label{structProjectile_a42d28ed880a9cd205bac3af73644481e}} 
+\index{Projectile@{Projectile}!fromPlayer@{fromPlayer}}
+\index{fromPlayer@{fromPlayer}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{fromPlayer}{fromPlayer}}
+{\footnotesize\ttfamily bool Projectile\+::from\+Player = true}
+
+
+
+true=玩家发射, false=敌人发射 
+
+\mbox{\Hypertarget{structProjectile_ae3feaab9ebd0308f1d1015b3452767df}\label{structProjectile_ae3feaab9ebd0308f1d1015b3452767df}} 
+\index{Projectile@{Projectile}!isCrit@{isCrit}}
+\index{isCrit@{isCrit}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{isCrit}{isCrit}}
+{\footnotesize\ttfamily bool Projectile\+::is\+Crit = false}
+
+
+
+是否暴击（用于伤害数字显示） 
+
+\mbox{\Hypertarget{structProjectile_a708c87279219f350ff2ede835261c6c2}\label{structProjectile_a708c87279219f350ff2ede835261c6c2}} 
+\index{Projectile@{Projectile}!maxDistance@{maxDistance}}
+\index{maxDistance@{maxDistance}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{maxDistance}{maxDistance}}
+{\footnotesize\ttfamily float Projectile\+::max\+Distance = 400.f}
+
+
+
+最大飞行距离 
+
+\mbox{\Hypertarget{structProjectile_aa5e8d4c6f3221b7705fa273ea25529bb}\label{structProjectile_aa5e8d4c6f3221b7705fa273ea25529bb}} 
+\index{Projectile@{Projectile}!position@{position}}
+\index{position@{position}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Projectile\+::position}
+
+
+
+当前位置 
+
+\mbox{\Hypertarget{structProjectile_a70ff500bdae54f3ad1e9e759b0ecd1fe}\label{structProjectile_a70ff500bdae54f3ad1e9e759b0ecd1fe}} 
+\index{Projectile@{Projectile}!speed@{speed}}
+\index{speed@{speed}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily float Projectile\+::speed = 300.f}
+
+
+
+飞行速度 
+
+\mbox{\Hypertarget{structProjectile_a781d126a1606a1d310dab18030af0464}\label{structProjectile_a781d126a1606a1d310dab18030af0464}} 
+\index{Projectile@{Projectile}!traveled@{traveled}}
+\index{traveled@{traveled}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{traveled}{traveled}}
+{\footnotesize\ttfamily float Projectile\+::traveled = 0.f}
+
+
+
+已飞行距离 
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\item 
+src/\mbox{\hyperlink{GameLogic_8cpp}{Game\+Logic.\+cpp}}\end{DoxyCompactItemize}

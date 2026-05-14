@@ -1,0 +1,77 @@
+\hypertarget{classAIInference}{}\doxysection{AIInference Class Reference}
+\label{classAIInference}\index{AIInference@{AIInference}}
+
+
+{\ttfamily \#include $<$AIInference.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classAIInference_a50ccaf629b4abeb0a16b09d864572ab9}{AIInference}} ()
+\item 
+\mbox{\hyperlink{classAIInference_a08250e786c95470a44754170fc7c47cf}{$\sim$\+AIInference}} ()=default
+\item 
+bool \mbox{\hyperlink{classAIInference_ac229ddfdf9fe0683e6b0d119c9a9b61a}{load\+Model}} (const std\+::string \&model\+Path)
+\item 
+bool \mbox{\hyperlink{classAIInference_a151f9d2958f96aa9e63e9151050a3a5e}{is\+Loaded}} () const
+\item 
+int \mbox{\hyperlink{classAIInference_adc3ac47cebabc832bf04c416a2f9864d}{predict}} (const \mbox{\hyperlink{structAIGameState}{AIGame\+State}} \&state)
+\item 
+int \mbox{\hyperlink{classAIInference_a7d7fae8ca2341b5cd6586d3209ea68ab}{get\+Last\+Action}} () const
+\item 
+const std\+::array$<$ float, \mbox{\hyperlink{classAIObservation_a3ab6d3a1de997008b2cd8adf8aa0f6e7}{AIObservation\+::\+NUM\+\_\+\+ACTIONS}} $>$ \& \mbox{\hyperlink{classAIInference_a4780f184b920db9185a0890a551a19a3}{get\+Last\+Logits}} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classAIInference_a50ccaf629b4abeb0a16b09d864572ab9}\label{classAIInference_a50ccaf629b4abeb0a16b09d864572ab9}} 
+\index{AIInference@{AIInference}!AIInference@{AIInference}}
+\index{AIInference@{AIInference}!AIInference@{AIInference}}
+\doxysubsubsection{\texorpdfstring{AIInference()}{AIInference()}}
+{\footnotesize\ttfamily AIInference\+::\+AIInference (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classAIInference_a08250e786c95470a44754170fc7c47cf}\label{classAIInference_a08250e786c95470a44754170fc7c47cf}} 
+\index{AIInference@{AIInference}!````~AIInference@{$\sim$AIInference}}
+\index{````~AIInference@{$\sim$AIInference}!AIInference@{AIInference}}
+\doxysubsubsection{\texorpdfstring{$\sim$AIInference()}{~AIInference()}}
+{\footnotesize\ttfamily AIInference\+::$\sim$\+AIInference (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classAIInference_a7d7fae8ca2341b5cd6586d3209ea68ab}\label{classAIInference_a7d7fae8ca2341b5cd6586d3209ea68ab}} 
+\index{AIInference@{AIInference}!getLastAction@{getLastAction}}
+\index{getLastAction@{getLastAction}!AIInference@{AIInference}}
+\doxysubsubsection{\texorpdfstring{getLastAction()}{getLastAction()}}
+{\footnotesize\ttfamily int AIInference\+::get\+Last\+Action (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classAIInference_a4780f184b920db9185a0890a551a19a3}\label{classAIInference_a4780f184b920db9185a0890a551a19a3}} 
+\index{AIInference@{AIInference}!getLastLogits@{getLastLogits}}
+\index{getLastLogits@{getLastLogits}!AIInference@{AIInference}}
+\doxysubsubsection{\texorpdfstring{getLastLogits()}{getLastLogits()}}
+{\footnotesize\ttfamily const std\+::array$<$ float, \mbox{\hyperlink{classAIObservation_a3ab6d3a1de997008b2cd8adf8aa0f6e7}{AIObservation\+::\+NUM\+\_\+\+ACTIONS}} $>$ \& AIInference\+::get\+Last\+Logits (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classAIInference_a151f9d2958f96aa9e63e9151050a3a5e}\label{classAIInference_a151f9d2958f96aa9e63e9151050a3a5e}} 
+\index{AIInference@{AIInference}!isLoaded@{isLoaded}}
+\index{isLoaded@{isLoaded}!AIInference@{AIInference}}
+\doxysubsubsection{\texorpdfstring{isLoaded()}{isLoaded()}}
+{\footnotesize\ttfamily bool AIInference\+::is\+Loaded (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classAIInference_ac229ddfdf9fe0683e6b0d119c9a9b61a}\label{classAIInference_ac229ddfdf9fe0683e6b0d119c9a9b61a}} 
+\index{AIInference@{AIInference}!loadModel@{loadModel}}
+\index{loadModel@{loadModel}!AIInference@{AIInference}}
+\doxysubsubsection{\texorpdfstring{loadModel()}{loadModel()}}
+{\footnotesize\ttfamily bool AIInference\+::load\+Model (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{model\+Path }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classAIInference_adc3ac47cebabc832bf04c416a2f9864d}\label{classAIInference_adc3ac47cebabc832bf04c416a2f9864d}} 
+\index{AIInference@{AIInference}!predict@{predict}}
+\index{predict@{predict}!AIInference@{AIInference}}
+\doxysubsubsection{\texorpdfstring{predict()}{predict()}}
+{\footnotesize\ttfamily int AIInference\+::predict (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAIGameState}{AIGame\+State}} \&}]{state }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{AIInference_8hpp}{AIInference.\+hpp}}\item 
+src/\mbox{\hyperlink{AIInference_8cpp}{AIInference.\+cpp}}\end{DoxyCompactItemize}

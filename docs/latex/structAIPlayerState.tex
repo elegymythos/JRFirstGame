@@ -1,0 +1,301 @@
+\hypertarget{structAIPlayerState}{}\doxysection{AIPlayer\+State Struct Reference}
+\label{structAIPlayerState}\index{AIPlayerState@{AIPlayerState}}
+
+
+AI 感知的玩家状态  
+
+
+
+
+{\ttfamily \#include $<$AIController.\+hpp$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{structAIPlayerState_a92c2c15fb5810f23fbd094266e81d31e}{x}} = 0
+\item 
+float \mbox{\hyperlink{structAIPlayerState_a2b7076ba8223ed0898ef1b0eb9bcc200}{y}} = 0
+\begin{DoxyCompactList}\small\item\em 世界坐标位置 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_a2426c1910843438641948342a9188b88}{vx}} = 0
+\item 
+float \mbox{\hyperlink{structAIPlayerState_ab93666a05f0786847aacf6e9107f1307}{vy}} = 0
+\begin{DoxyCompactList}\small\item\em 速度分量 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIPlayerState_a164a9c23ae3b75c0931a76874b981bbd}{health}} = 100
+\item 
+int \mbox{\hyperlink{structAIPlayerState_a0ea02597f6b2f74464ef9e118c3720e8}{max\+Health}} = 100
+\begin{DoxyCompactList}\small\item\em 当前/最大血量 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_a558b9157215e072d5f383b6aceb4e233}{speed}} = 150.f
+\begin{DoxyCompactList}\small\item\em 移动速度 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_a9c3f06fb20eae8ca620eab6e3c1e87ff}{radius}} = 20.f
+\begin{DoxyCompactList}\small\item\em 碰撞半径 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structAIPlayerState_a3ea39fc5dcc6ff5762246bac144498c1}{is\+Rolling}} = false
+\begin{DoxyCompactList}\small\item\em 是否翻滚中 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structAIPlayerState_af6e49efaea8a594848731dbb2f3c13b5}{is\+Invincible}} = false
+\begin{DoxyCompactList}\small\item\em 是否无敌 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_a6050631cffd2c5a28fbe5d84e49632f2}{attack\+Cooldown}} = 0.f
+\begin{DoxyCompactList}\small\item\em 攻击冷却剩余 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_a111459056d034f1fd1002f3c84df91db}{attack\+Cooldown\+Max}} = 0.\+5f
+\begin{DoxyCompactList}\small\item\em 攻击冷却时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_ab97d1300a12dd50ab87126ec017c2275}{roll\+Cooldown}} = 0.f
+\begin{DoxyCompactList}\small\item\em 翻滚冷却剩余 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_a784ee20796fbf298f91184eae70d62ac}{roll\+Cooldown\+Max}} = 0.\+8f
+\begin{DoxyCompactList}\small\item\em 翻滚冷却时间 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIPlayerState_a687224a414310d07cbf395b7c9d86f26}{total\+Score}} = 0
+\begin{DoxyCompactList}\small\item\em 累计分数 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIPlayerState_a40786551a13ab9207dfffbe5f312d0b3}{kill\+Count}} = 0
+\begin{DoxyCompactList}\small\item\em 击杀数 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIPlayerState_adb0050d32b6fc66e19cd501406779332}{level}} = 1
+\begin{DoxyCompactList}\small\item\em 当前等级 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIPlayerState_aac590db0a83ae7a828ef33ede91d44ac}{victory\+Stage}} = 0
+\begin{DoxyCompactList}\small\item\em 已达阶段 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_aa5868a334ce59248e1b908568f1c1b96}{attack\+Range}} = 80.f
+\begin{DoxyCompactList}\small\item\em 攻击范围 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIPlayerState_a04de45f627a1791198610f3949eaccff}{attack\+Damage}} = 20
+\begin{DoxyCompactList}\small\item\em 攻击伤害 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_ad6143b6aa63f7461b38ebd9d996a5b42}{damage\+Bonus}} = 0.f
+\begin{DoxyCompactList}\small\item\em 阶段强化伤害加成 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_abec7f8b772d1915dc01eccd70841e5cc}{attack\+Speed\+Bonus}} = 0.f
+\begin{DoxyCompactList}\small\item\em 阶段强化攻速加成 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIPlayerState_acecf884968665e71971384638d68d336}{crit\+Chance}} = 0.f
+\begin{DoxyCompactList}\small\item\em 暴击概率 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIPlayerState_aaf4a1fd7ef09370a4915bbec7ffdbd70}{strength}} = 15
+\begin{DoxyCompactList}\small\item\em 力量属性（影响攻击力） \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+AI 感知的玩家状态 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structAIPlayerState_a6050631cffd2c5a28fbe5d84e49632f2}\label{structAIPlayerState_a6050631cffd2c5a28fbe5d84e49632f2}} 
+\index{AIPlayerState@{AIPlayerState}!attackCooldown@{attackCooldown}}
+\index{attackCooldown@{attackCooldown}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{attackCooldown}{attackCooldown}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::attack\+Cooldown = 0.f}
+
+
+
+攻击冷却剩余 
+
+\mbox{\Hypertarget{structAIPlayerState_a111459056d034f1fd1002f3c84df91db}\label{structAIPlayerState_a111459056d034f1fd1002f3c84df91db}} 
+\index{AIPlayerState@{AIPlayerState}!attackCooldownMax@{attackCooldownMax}}
+\index{attackCooldownMax@{attackCooldownMax}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{attackCooldownMax}{attackCooldownMax}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::attack\+Cooldown\+Max = 0.\+5f}
+
+
+
+攻击冷却时间 
+
+\mbox{\Hypertarget{structAIPlayerState_a04de45f627a1791198610f3949eaccff}\label{structAIPlayerState_a04de45f627a1791198610f3949eaccff}} 
+\index{AIPlayerState@{AIPlayerState}!attackDamage@{attackDamage}}
+\index{attackDamage@{attackDamage}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{attackDamage}{attackDamage}}
+{\footnotesize\ttfamily int AIPlayer\+State\+::attack\+Damage = 20}
+
+
+
+攻击伤害 
+
+\mbox{\Hypertarget{structAIPlayerState_aa5868a334ce59248e1b908568f1c1b96}\label{structAIPlayerState_aa5868a334ce59248e1b908568f1c1b96}} 
+\index{AIPlayerState@{AIPlayerState}!attackRange@{attackRange}}
+\index{attackRange@{attackRange}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{attackRange}{attackRange}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::attack\+Range = 80.f}
+
+
+
+攻击范围 
+
+\mbox{\Hypertarget{structAIPlayerState_abec7f8b772d1915dc01eccd70841e5cc}\label{structAIPlayerState_abec7f8b772d1915dc01eccd70841e5cc}} 
+\index{AIPlayerState@{AIPlayerState}!attackSpeedBonus@{attackSpeedBonus}}
+\index{attackSpeedBonus@{attackSpeedBonus}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{attackSpeedBonus}{attackSpeedBonus}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::attack\+Speed\+Bonus = 0.f}
+
+
+
+阶段强化攻速加成 
+
+\mbox{\Hypertarget{structAIPlayerState_acecf884968665e71971384638d68d336}\label{structAIPlayerState_acecf884968665e71971384638d68d336}} 
+\index{AIPlayerState@{AIPlayerState}!critChance@{critChance}}
+\index{critChance@{critChance}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{critChance}{critChance}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::crit\+Chance = 0.f}
+
+
+
+暴击概率 
+
+\mbox{\Hypertarget{structAIPlayerState_ad6143b6aa63f7461b38ebd9d996a5b42}\label{structAIPlayerState_ad6143b6aa63f7461b38ebd9d996a5b42}} 
+\index{AIPlayerState@{AIPlayerState}!damageBonus@{damageBonus}}
+\index{damageBonus@{damageBonus}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{damageBonus}{damageBonus}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::damage\+Bonus = 0.f}
+
+
+
+阶段强化伤害加成 
+
+\mbox{\Hypertarget{structAIPlayerState_a164a9c23ae3b75c0931a76874b981bbd}\label{structAIPlayerState_a164a9c23ae3b75c0931a76874b981bbd}} 
+\index{AIPlayerState@{AIPlayerState}!health@{health}}
+\index{health@{health}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{health}{health}}
+{\footnotesize\ttfamily int AIPlayer\+State\+::health = 100}
+
+\mbox{\Hypertarget{structAIPlayerState_af6e49efaea8a594848731dbb2f3c13b5}\label{structAIPlayerState_af6e49efaea8a594848731dbb2f3c13b5}} 
+\index{AIPlayerState@{AIPlayerState}!isInvincible@{isInvincible}}
+\index{isInvincible@{isInvincible}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{isInvincible}{isInvincible}}
+{\footnotesize\ttfamily bool AIPlayer\+State\+::is\+Invincible = false}
+
+
+
+是否无敌 
+
+\mbox{\Hypertarget{structAIPlayerState_a3ea39fc5dcc6ff5762246bac144498c1}\label{structAIPlayerState_a3ea39fc5dcc6ff5762246bac144498c1}} 
+\index{AIPlayerState@{AIPlayerState}!isRolling@{isRolling}}
+\index{isRolling@{isRolling}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{isRolling}{isRolling}}
+{\footnotesize\ttfamily bool AIPlayer\+State\+::is\+Rolling = false}
+
+
+
+是否翻滚中 
+
+\mbox{\Hypertarget{structAIPlayerState_a40786551a13ab9207dfffbe5f312d0b3}\label{structAIPlayerState_a40786551a13ab9207dfffbe5f312d0b3}} 
+\index{AIPlayerState@{AIPlayerState}!killCount@{killCount}}
+\index{killCount@{killCount}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{killCount}{killCount}}
+{\footnotesize\ttfamily int AIPlayer\+State\+::kill\+Count = 0}
+
+
+
+击杀数 
+
+\mbox{\Hypertarget{structAIPlayerState_adb0050d32b6fc66e19cd501406779332}\label{structAIPlayerState_adb0050d32b6fc66e19cd501406779332}} 
+\index{AIPlayerState@{AIPlayerState}!level@{level}}
+\index{level@{level}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{level}{level}}
+{\footnotesize\ttfamily int AIPlayer\+State\+::level = 1}
+
+
+
+当前等级 
+
+\mbox{\Hypertarget{structAIPlayerState_a0ea02597f6b2f74464ef9e118c3720e8}\label{structAIPlayerState_a0ea02597f6b2f74464ef9e118c3720e8}} 
+\index{AIPlayerState@{AIPlayerState}!maxHealth@{maxHealth}}
+\index{maxHealth@{maxHealth}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{maxHealth}{maxHealth}}
+{\footnotesize\ttfamily int AIPlayer\+State\+::max\+Health = 100}
+
+
+
+当前/最大血量 
+
+\mbox{\Hypertarget{structAIPlayerState_a9c3f06fb20eae8ca620eab6e3c1e87ff}\label{structAIPlayerState_a9c3f06fb20eae8ca620eab6e3c1e87ff}} 
+\index{AIPlayerState@{AIPlayerState}!radius@{radius}}
+\index{radius@{radius}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{radius}{radius}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::radius = 20.f}
+
+
+
+碰撞半径 
+
+\mbox{\Hypertarget{structAIPlayerState_ab97d1300a12dd50ab87126ec017c2275}\label{structAIPlayerState_ab97d1300a12dd50ab87126ec017c2275}} 
+\index{AIPlayerState@{AIPlayerState}!rollCooldown@{rollCooldown}}
+\index{rollCooldown@{rollCooldown}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{rollCooldown}{rollCooldown}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::roll\+Cooldown = 0.f}
+
+
+
+翻滚冷却剩余 
+
+\mbox{\Hypertarget{structAIPlayerState_a784ee20796fbf298f91184eae70d62ac}\label{structAIPlayerState_a784ee20796fbf298f91184eae70d62ac}} 
+\index{AIPlayerState@{AIPlayerState}!rollCooldownMax@{rollCooldownMax}}
+\index{rollCooldownMax@{rollCooldownMax}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{rollCooldownMax}{rollCooldownMax}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::roll\+Cooldown\+Max = 0.\+8f}
+
+
+
+翻滚冷却时间 
+
+\mbox{\Hypertarget{structAIPlayerState_a558b9157215e072d5f383b6aceb4e233}\label{structAIPlayerState_a558b9157215e072d5f383b6aceb4e233}} 
+\index{AIPlayerState@{AIPlayerState}!speed@{speed}}
+\index{speed@{speed}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::speed = 150.f}
+
+
+
+移动速度 
+
+\mbox{\Hypertarget{structAIPlayerState_aaf4a1fd7ef09370a4915bbec7ffdbd70}\label{structAIPlayerState_aaf4a1fd7ef09370a4915bbec7ffdbd70}} 
+\index{AIPlayerState@{AIPlayerState}!strength@{strength}}
+\index{strength@{strength}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{strength}{strength}}
+{\footnotesize\ttfamily int AIPlayer\+State\+::strength = 15}
+
+
+
+力量属性（影响攻击力） 
+
+\mbox{\Hypertarget{structAIPlayerState_a687224a414310d07cbf395b7c9d86f26}\label{structAIPlayerState_a687224a414310d07cbf395b7c9d86f26}} 
+\index{AIPlayerState@{AIPlayerState}!totalScore@{totalScore}}
+\index{totalScore@{totalScore}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{totalScore}{totalScore}}
+{\footnotesize\ttfamily int AIPlayer\+State\+::total\+Score = 0}
+
+
+
+累计分数 
+
+\mbox{\Hypertarget{structAIPlayerState_aac590db0a83ae7a828ef33ede91d44ac}\label{structAIPlayerState_aac590db0a83ae7a828ef33ede91d44ac}} 
+\index{AIPlayerState@{AIPlayerState}!victoryStage@{victoryStage}}
+\index{victoryStage@{victoryStage}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{victoryStage}{victoryStage}}
+{\footnotesize\ttfamily int AIPlayer\+State\+::victory\+Stage = 0}
+
+
+
+已达阶段 
+
+\mbox{\Hypertarget{structAIPlayerState_a2426c1910843438641948342a9188b88}\label{structAIPlayerState_a2426c1910843438641948342a9188b88}} 
+\index{AIPlayerState@{AIPlayerState}!vx@{vx}}
+\index{vx@{vx}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{vx}{vx}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::vx = 0}
+
+\mbox{\Hypertarget{structAIPlayerState_ab93666a05f0786847aacf6e9107f1307}\label{structAIPlayerState_ab93666a05f0786847aacf6e9107f1307}} 
+\index{AIPlayerState@{AIPlayerState}!vy@{vy}}
+\index{vy@{vy}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{vy}{vy}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::vy = 0}
+
+
+
+速度分量 
+
+\mbox{\Hypertarget{structAIPlayerState_a92c2c15fb5810f23fbd094266e81d31e}\label{structAIPlayerState_a92c2c15fb5810f23fbd094266e81d31e}} 
+\index{AIPlayerState@{AIPlayerState}!x@{x}}
+\index{x@{x}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::x = 0}
+
+\mbox{\Hypertarget{structAIPlayerState_a2b7076ba8223ed0898ef1b0eb9bcc200}\label{structAIPlayerState_a2b7076ba8223ed0898ef1b0eb9bcc200}} 
+\index{AIPlayerState@{AIPlayerState}!y@{y}}
+\index{y@{y}!AIPlayerState@{AIPlayerState}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily float AIPlayer\+State\+::y = 0}
+
+
+
+世界坐标位置 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{AIController_8hpp}{AIController.\+hpp}}\end{DoxyCompactItemize}

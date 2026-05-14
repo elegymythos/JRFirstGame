@@ -1,0 +1,104 @@
+\hypertarget{classMapSystem}{}\doxysection{Map\+System Class Reference}
+\label{classMapSystem}\index{MapSystem@{MapSystem}}
+
+
+无限地图区域管理与摄像机跟随  
+
+
+
+
+{\ttfamily \#include $<$Map\+System.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMapSystem_aa79057a031d5d3e285065d927b6dc9ca}{Map\+System}} ()
+\item 
+void \mbox{\hyperlink{classMapSystem_a4730e2c486d7c562835d979140d7c691}{update\+Camera}} (sf\+::\+View \&view, sf\+::\+Vector2f player\+Pos) const
+\begin{DoxyCompactList}\small\item\em 更新摄像机位置（跟随玩家） \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structEnemySpawnInfo}{Enemy\+Spawn\+Info}} $>$ \mbox{\hyperlink{classMapSystem_a264c44e0d9ff2769859f09de36130e0d}{check\+And\+Spawn}} (sf\+::\+Vector2f player\+Pos)
+\begin{DoxyCompactList}\small\item\em 检查并生成敌人 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMapSystem_a885bce763bcc299125ce4af273c53964}{draw\+Background}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em 绘制地图背景网格线（基于摄像机可见范围） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classMapSystem_a114c4559df838eadf35f81763b1f3265}{get\+Difficulty\+Scale}} () const
+\begin{DoxyCompactList}\small\item\em 获取当前难度缩放因子 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+无限地图区域管理与摄像机跟随 
+
+核心方法：
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{classMapSystem_a264c44e0d9ff2769859f09de36130e0d}{check\+And\+Spawn()}}：检查玩家所在区域及相邻区域，返回需要生成的敌人列表
+\item \mbox{\hyperlink{classMapSystem_a4730e2c486d7c562835d979140d7c691}{update\+Camera()}}：将摄像机中心设为玩家位置
+\item \mbox{\hyperlink{classMapSystem_a885bce763bcc299125ce4af273c53964}{draw\+Background()}}：绘制区域网格线
+\item \mbox{\hyperlink{classMapSystem_a114c4559df838eadf35f81763b1f3265}{get\+Difficulty\+Scale()}}：返回基于已探索区域数的难度缩放因子 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMapSystem_aa79057a031d5d3e285065d927b6dc9ca}\label{classMapSystem_aa79057a031d5d3e285065d927b6dc9ca}} 
+\index{MapSystem@{MapSystem}!MapSystem@{MapSystem}}
+\index{MapSystem@{MapSystem}!MapSystem@{MapSystem}}
+\doxysubsubsection{\texorpdfstring{MapSystem()}{MapSystem()}}
+{\footnotesize\ttfamily Map\+System\+::\+Map\+System (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMapSystem_a264c44e0d9ff2769859f09de36130e0d}\label{classMapSystem_a264c44e0d9ff2769859f09de36130e0d}} 
+\index{MapSystem@{MapSystem}!checkAndSpawn@{checkAndSpawn}}
+\index{checkAndSpawn@{checkAndSpawn}!MapSystem@{MapSystem}}
+\doxysubsubsection{\texorpdfstring{checkAndSpawn()}{checkAndSpawn()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structEnemySpawnInfo}{Enemy\+Spawn\+Info}} $>$ Map\+System\+::check\+And\+Spawn (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{player\+Pos }\end{DoxyParamCaption})}
+
+
+
+检查并生成敌人 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+Pos} & 玩家当前位置 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+需要生成的敌人列表
+\end{DoxyReturn}
+当玩家进入新区域时，检查周围3x3范围， 对未刷新的区域按配置生成敌人，位置在区域内随机分布。 \mbox{\Hypertarget{classMapSystem_a885bce763bcc299125ce4af273c53964}\label{classMapSystem_a885bce763bcc299125ce4af273c53964}} 
+\index{MapSystem@{MapSystem}!drawBackground@{drawBackground}}
+\index{drawBackground@{drawBackground}!MapSystem@{MapSystem}}
+\doxysubsubsection{\texorpdfstring{drawBackground()}{drawBackground()}}
+{\footnotesize\ttfamily void Map\+System\+::draw\+Background (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const}
+
+
+
+绘制地图背景网格线（基于摄像机可见范围） 
+
+\mbox{\Hypertarget{classMapSystem_a114c4559df838eadf35f81763b1f3265}\label{classMapSystem_a114c4559df838eadf35f81763b1f3265}} 
+\index{MapSystem@{MapSystem}!getDifficultyScale@{getDifficultyScale}}
+\index{getDifficultyScale@{getDifficultyScale}!MapSystem@{MapSystem}}
+\doxysubsubsection{\texorpdfstring{getDifficultyScale()}{getDifficultyScale()}}
+{\footnotesize\ttfamily float Map\+System\+::get\+Difficulty\+Scale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取当前难度缩放因子 
+
+\begin{DoxyReturn}{Returns}
+1.\+0 + explored\+Count $\ast$ 0.\+05
+\end{DoxyReturn}
+每探索一个新区域，难度增加5。 \mbox{\Hypertarget{classMapSystem_a4730e2c486d7c562835d979140d7c691}\label{classMapSystem_a4730e2c486d7c562835d979140d7c691}} 
+\index{MapSystem@{MapSystem}!updateCamera@{updateCamera}}
+\index{updateCamera@{updateCamera}!MapSystem@{MapSystem}}
+\doxysubsubsection{\texorpdfstring{updateCamera()}{updateCamera()}}
+{\footnotesize\ttfamily void Map\+System\+::update\+Camera (\begin{DoxyParamCaption}\item[{sf\+::\+View \&}]{view,  }\item[{sf\+::\+Vector2f}]{player\+Pos }\end{DoxyParamCaption}) const}
+
+
+
+更新摄像机位置（跟随玩家） 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{MapSystem_8hpp}{Map\+System.\+hpp}}\item 
+src/\mbox{\hyperlink{MapSystem_8cpp}{Map\+System.\+cpp}}\end{DoxyCompactItemize}

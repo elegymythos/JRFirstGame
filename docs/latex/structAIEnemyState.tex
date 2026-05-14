@@ -1,0 +1,205 @@
+\hypertarget{structAIEnemyState}{}\doxysection{AIEnemy\+State Struct Reference}
+\label{structAIEnemyState}\index{AIEnemyState@{AIEnemyState}}
+
+
+AI 感知的敌人状态  
+
+
+
+
+{\ttfamily \#include $<$AIController.\+hpp$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{structAIEnemyState_a3719c0842a0024e8f323576374161b9a}{x}} = 0
+\item 
+float \mbox{\hyperlink{structAIEnemyState_a4d332c4f0e5e4649c92b59c682cf1067}{y}} = 0
+\begin{DoxyCompactList}\small\item\em 世界坐标位置 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIEnemyState_ab54a70611e86209fff3aa4dcaf952613}{vx}} = 0
+\item 
+float \mbox{\hyperlink{structAIEnemyState_a611909d26387deb1d2130f99584dd8ec}{vy}} = 0
+\begin{DoxyCompactList}\small\item\em 速度分量 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIEnemyState_aad5f78d5b0b6a583f156b43edc104f0e}{health}} = 0
+\item 
+int \mbox{\hyperlink{structAIEnemyState_a8445d23193721012e325b96a39b1cc3b}{max\+Health}} = 1
+\begin{DoxyCompactList}\small\item\em 当前/最大血量 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIEnemyState_a409d3ec262326e92f803637059cd0c31}{radius}} = 16.f
+\begin{DoxyCompactList}\small\item\em 碰撞半径 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIEnemyState_a3421b97a8f89e387420793a9475ffe0d}{entity\+Type}} = 0
+\begin{DoxyCompactList}\small\item\em 敌人类型 (0=Slime,1=Warrior,2=Archer,3=Giant) \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIEnemyState_a73affb529b6030f17ce1bce7ed48b144}{attack\+Damage}} = 10
+\begin{DoxyCompactList}\small\item\em 攻击伤害 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIEnemyState_aa9945e6648233b7f65e096ec7d1f7d11}{attack\+Range}} = 30.f
+\begin{DoxyCompactList}\small\item\em 攻击范围 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIEnemyState_a6517be518a49285c7e4bbfc7e78544e6}{attack\+Cooldown}} = 0.f
+\begin{DoxyCompactList}\small\item\em 攻击冷却剩余 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIEnemyState_ac62cdf5b6b5851ae1b7ca81f75c586f2}{attack\+Cooldown\+Max}} = 1.\+0f
+\begin{DoxyCompactList}\small\item\em 攻击冷却时间 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIEnemyState_ac478fa60528b44d2c73bb65ca67cdac0}{speed}} = 80.f
+\begin{DoxyCompactList}\small\item\em 移动速度 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structAIEnemyState_aaf307c9ddd9ebb777b551a526d10f632}{is\+Ranged}} = false
+\begin{DoxyCompactList}\small\item\em 是否远程 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIEnemyState_a4b4fa6a5eb546f4535a69126705a9dc6}{score}} = 15
+\begin{DoxyCompactList}\small\item\em 击杀分数 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structAIEnemyState_ad982eae3bf9c7acfabc86bcd4a03a0cf}{alive}} = true
+\begin{DoxyCompactList}\small\item\em 是否存活 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+AI 感知的敌人状态 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structAIEnemyState_ad982eae3bf9c7acfabc86bcd4a03a0cf}\label{structAIEnemyState_ad982eae3bf9c7acfabc86bcd4a03a0cf}} 
+\index{AIEnemyState@{AIEnemyState}!alive@{alive}}
+\index{alive@{alive}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{alive}{alive}}
+{\footnotesize\ttfamily bool AIEnemy\+State\+::alive = true}
+
+
+
+是否存活 
+
+\mbox{\Hypertarget{structAIEnemyState_a6517be518a49285c7e4bbfc7e78544e6}\label{structAIEnemyState_a6517be518a49285c7e4bbfc7e78544e6}} 
+\index{AIEnemyState@{AIEnemyState}!attackCooldown@{attackCooldown}}
+\index{attackCooldown@{attackCooldown}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{attackCooldown}{attackCooldown}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::attack\+Cooldown = 0.f}
+
+
+
+攻击冷却剩余 
+
+\mbox{\Hypertarget{structAIEnemyState_ac62cdf5b6b5851ae1b7ca81f75c586f2}\label{structAIEnemyState_ac62cdf5b6b5851ae1b7ca81f75c586f2}} 
+\index{AIEnemyState@{AIEnemyState}!attackCooldownMax@{attackCooldownMax}}
+\index{attackCooldownMax@{attackCooldownMax}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{attackCooldownMax}{attackCooldownMax}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::attack\+Cooldown\+Max = 1.\+0f}
+
+
+
+攻击冷却时间 
+
+\mbox{\Hypertarget{structAIEnemyState_a73affb529b6030f17ce1bce7ed48b144}\label{structAIEnemyState_a73affb529b6030f17ce1bce7ed48b144}} 
+\index{AIEnemyState@{AIEnemyState}!attackDamage@{attackDamage}}
+\index{attackDamage@{attackDamage}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{attackDamage}{attackDamage}}
+{\footnotesize\ttfamily int AIEnemy\+State\+::attack\+Damage = 10}
+
+
+
+攻击伤害 
+
+\mbox{\Hypertarget{structAIEnemyState_aa9945e6648233b7f65e096ec7d1f7d11}\label{structAIEnemyState_aa9945e6648233b7f65e096ec7d1f7d11}} 
+\index{AIEnemyState@{AIEnemyState}!attackRange@{attackRange}}
+\index{attackRange@{attackRange}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{attackRange}{attackRange}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::attack\+Range = 30.f}
+
+
+
+攻击范围 
+
+\mbox{\Hypertarget{structAIEnemyState_a3421b97a8f89e387420793a9475ffe0d}\label{structAIEnemyState_a3421b97a8f89e387420793a9475ffe0d}} 
+\index{AIEnemyState@{AIEnemyState}!entityType@{entityType}}
+\index{entityType@{entityType}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{entityType}{entityType}}
+{\footnotesize\ttfamily int AIEnemy\+State\+::entity\+Type = 0}
+
+
+
+敌人类型 (0=Slime,1=Warrior,2=Archer,3=Giant) 
+
+\mbox{\Hypertarget{structAIEnemyState_aad5f78d5b0b6a583f156b43edc104f0e}\label{structAIEnemyState_aad5f78d5b0b6a583f156b43edc104f0e}} 
+\index{AIEnemyState@{AIEnemyState}!health@{health}}
+\index{health@{health}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{health}{health}}
+{\footnotesize\ttfamily int AIEnemy\+State\+::health = 0}
+
+\mbox{\Hypertarget{structAIEnemyState_aaf307c9ddd9ebb777b551a526d10f632}\label{structAIEnemyState_aaf307c9ddd9ebb777b551a526d10f632}} 
+\index{AIEnemyState@{AIEnemyState}!isRanged@{isRanged}}
+\index{isRanged@{isRanged}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{isRanged}{isRanged}}
+{\footnotesize\ttfamily bool AIEnemy\+State\+::is\+Ranged = false}
+
+
+
+是否远程 
+
+\mbox{\Hypertarget{structAIEnemyState_a8445d23193721012e325b96a39b1cc3b}\label{structAIEnemyState_a8445d23193721012e325b96a39b1cc3b}} 
+\index{AIEnemyState@{AIEnemyState}!maxHealth@{maxHealth}}
+\index{maxHealth@{maxHealth}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{maxHealth}{maxHealth}}
+{\footnotesize\ttfamily int AIEnemy\+State\+::max\+Health = 1}
+
+
+
+当前/最大血量 
+
+\mbox{\Hypertarget{structAIEnemyState_a409d3ec262326e92f803637059cd0c31}\label{structAIEnemyState_a409d3ec262326e92f803637059cd0c31}} 
+\index{AIEnemyState@{AIEnemyState}!radius@{radius}}
+\index{radius@{radius}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{radius}{radius}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::radius = 16.f}
+
+
+
+碰撞半径 
+
+\mbox{\Hypertarget{structAIEnemyState_a4b4fa6a5eb546f4535a69126705a9dc6}\label{structAIEnemyState_a4b4fa6a5eb546f4535a69126705a9dc6}} 
+\index{AIEnemyState@{AIEnemyState}!score@{score}}
+\index{score@{score}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{score}{score}}
+{\footnotesize\ttfamily int AIEnemy\+State\+::score = 15}
+
+
+
+击杀分数 
+
+\mbox{\Hypertarget{structAIEnemyState_ac478fa60528b44d2c73bb65ca67cdac0}\label{structAIEnemyState_ac478fa60528b44d2c73bb65ca67cdac0}} 
+\index{AIEnemyState@{AIEnemyState}!speed@{speed}}
+\index{speed@{speed}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::speed = 80.f}
+
+
+
+移动速度 
+
+\mbox{\Hypertarget{structAIEnemyState_ab54a70611e86209fff3aa4dcaf952613}\label{structAIEnemyState_ab54a70611e86209fff3aa4dcaf952613}} 
+\index{AIEnemyState@{AIEnemyState}!vx@{vx}}
+\index{vx@{vx}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{vx}{vx}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::vx = 0}
+
+\mbox{\Hypertarget{structAIEnemyState_a611909d26387deb1d2130f99584dd8ec}\label{structAIEnemyState_a611909d26387deb1d2130f99584dd8ec}} 
+\index{AIEnemyState@{AIEnemyState}!vy@{vy}}
+\index{vy@{vy}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{vy}{vy}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::vy = 0}
+
+
+
+速度分量 
+
+\mbox{\Hypertarget{structAIEnemyState_a3719c0842a0024e8f323576374161b9a}\label{structAIEnemyState_a3719c0842a0024e8f323576374161b9a}} 
+\index{AIEnemyState@{AIEnemyState}!x@{x}}
+\index{x@{x}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::x = 0}
+
+\mbox{\Hypertarget{structAIEnemyState_a4d332c4f0e5e4649c92b59c682cf1067}\label{structAIEnemyState_a4d332c4f0e5e4649c92b59c682cf1067}} 
+\index{AIEnemyState@{AIEnemyState}!y@{y}}
+\index{y@{y}!AIEnemyState@{AIEnemyState}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily float AIEnemy\+State\+::y = 0}
+
+
+
+世界坐标位置 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{AIController_8hpp}{AIController.\+hpp}}\end{DoxyCompactItemize}

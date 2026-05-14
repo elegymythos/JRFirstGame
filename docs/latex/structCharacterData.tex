@@ -1,0 +1,145 @@
+\hypertarget{structCharacterData}{}\doxysection{Character\+Data Struct Reference}
+\label{structCharacterData}\index{CharacterData@{CharacterData}}
+
+
+角色完整数据  
+
+
+
+
+{\ttfamily \#include $<$Database.\+hpp$>$}
+
+
+
+Collaboration diagram for Character\+Data\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=177pt]{structCharacterData__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{structCharacterData_a9a19838f6721830516b401724d0e8f3e}{username}}
+\begin{DoxyCompactList}\small\item\em 所属用户名 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structCharacterData_a107afe820f34e0ebd916a171bf30c493}{slot}} = 0
+\begin{DoxyCompactList}\small\item\em 角色槽位编号 (0-\/2) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{Character\+Class}} \mbox{\hyperlink{structCharacterData_af0977e22ecf5067ad9ccd2c22430c8b3}{class\+Type}}
+\begin{DoxyCompactList}\small\item\em 职业类型（战士/法师/刺客） \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structCharacterData_aacddf546aed764719e44f2e6bdbb7481}{level}}
+\begin{DoxyCompactList}\small\item\em 当前等级 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structCharacterData_a800cdd4c8e75cbdc9f0fb8ed1b4fbb8b}{experience}}
+\begin{DoxyCompactList}\small\item\em 当前经验值 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structCharacterData_a02b01d5caba717154900b267cc922834}{score}} = 0
+\begin{DoxyCompactList}\small\item\em 累计分数 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structCharacterData_ade25660af08b7f211f78bbbbb6228909}{game\+Time}} = 0.f
+\begin{DoxyCompactList}\small\item\em 游戏时长（秒，不含暂停时间） \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structCharacterData_a8f455951a9106a2b109da041ce2a0327}{victory\+Stage}} = 0
+\begin{DoxyCompactList}\small\item\em 已达到的最高胜利阶段 (0=未达到, 1-\/5) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{structCharacterData_ad46cfe9e65d9d4a2b01d36437ad1e34a}{attributes}}
+\begin{DoxyCompactList}\small\item\em 六大基础属性 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+角色完整数据 
+
+存储一个角色的所有持久化信息，对应数据库 characters 表的一行。 每个用户最多3个角色，通过 (username, slot) 联合主键标识。 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structCharacterData_ad46cfe9e65d9d4a2b01d36437ad1e34a}\label{structCharacterData_ad46cfe9e65d9d4a2b01d36437ad1e34a}} 
+\index{CharacterData@{CharacterData}!attributes@{attributes}}
+\index{attributes@{attributes}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{attributes}{attributes}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAttributes}{Attributes}} Character\+Data\+::attributes}
+
+
+
+六大基础属性 
+
+\mbox{\Hypertarget{structCharacterData_af0977e22ecf5067ad9ccd2c22430c8b3}\label{structCharacterData_af0977e22ecf5067ad9ccd2c22430c8b3}} 
+\index{CharacterData@{CharacterData}!classType@{classType}}
+\index{classType@{classType}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{classType}{classType}}
+{\footnotesize\ttfamily \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{Character\+Class}} Character\+Data\+::class\+Type}
+
+
+
+职业类型（战士/法师/刺客） 
+
+\mbox{\Hypertarget{structCharacterData_a800cdd4c8e75cbdc9f0fb8ed1b4fbb8b}\label{structCharacterData_a800cdd4c8e75cbdc9f0fb8ed1b4fbb8b}} 
+\index{CharacterData@{CharacterData}!experience@{experience}}
+\index{experience@{experience}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{experience}{experience}}
+{\footnotesize\ttfamily int Character\+Data\+::experience}
+
+
+
+当前经验值 
+
+\mbox{\Hypertarget{structCharacterData_ade25660af08b7f211f78bbbbb6228909}\label{structCharacterData_ade25660af08b7f211f78bbbbb6228909}} 
+\index{CharacterData@{CharacterData}!gameTime@{gameTime}}
+\index{gameTime@{gameTime}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{gameTime}{gameTime}}
+{\footnotesize\ttfamily float Character\+Data\+::game\+Time = 0.f}
+
+
+
+游戏时长（秒，不含暂停时间） 
+
+\mbox{\Hypertarget{structCharacterData_aacddf546aed764719e44f2e6bdbb7481}\label{structCharacterData_aacddf546aed764719e44f2e6bdbb7481}} 
+\index{CharacterData@{CharacterData}!level@{level}}
+\index{level@{level}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{level}{level}}
+{\footnotesize\ttfamily int Character\+Data\+::level}
+
+
+
+当前等级 
+
+\mbox{\Hypertarget{structCharacterData_a02b01d5caba717154900b267cc922834}\label{structCharacterData_a02b01d5caba717154900b267cc922834}} 
+\index{CharacterData@{CharacterData}!score@{score}}
+\index{score@{score}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{score}{score}}
+{\footnotesize\ttfamily int Character\+Data\+::score = 0}
+
+
+
+累计分数 
+
+\mbox{\Hypertarget{structCharacterData_a107afe820f34e0ebd916a171bf30c493}\label{structCharacterData_a107afe820f34e0ebd916a171bf30c493}} 
+\index{CharacterData@{CharacterData}!slot@{slot}}
+\index{slot@{slot}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{slot}{slot}}
+{\footnotesize\ttfamily int Character\+Data\+::slot = 0}
+
+
+
+角色槽位编号 (0-\/2) 
+
+\mbox{\Hypertarget{structCharacterData_a9a19838f6721830516b401724d0e8f3e}\label{structCharacterData_a9a19838f6721830516b401724d0e8f3e}} 
+\index{CharacterData@{CharacterData}!username@{username}}
+\index{username@{username}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{username}{username}}
+{\footnotesize\ttfamily std\+::string Character\+Data\+::username}
+
+
+
+所属用户名 
+
+\mbox{\Hypertarget{structCharacterData_a8f455951a9106a2b109da041ce2a0327}\label{structCharacterData_a8f455951a9106a2b109da041ce2a0327}} 
+\index{CharacterData@{CharacterData}!victoryStage@{victoryStage}}
+\index{victoryStage@{victoryStage}!CharacterData@{CharacterData}}
+\doxysubsubsection{\texorpdfstring{victoryStage}{victoryStage}}
+{\footnotesize\ttfamily int Character\+Data\+::victory\+Stage = 0}
+
+
+
+已达到的最高胜利阶段 (0=未达到, 1-\/5) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{Database_8hpp}{Database.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,50 @@
+\hypertarget{MapSystem_8hpp_source}{}\doxysection{Map\+System.\+hpp}
+\label{MapSystem_8hpp_source}\index{src/MapSystem.hpp@{src/MapSystem.hpp}}
+\mbox{\hyperlink{MapSystem_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <utility>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{GameLogic_8hpp}{GameLogic.hpp}}"{}}  \textcolor{comment}{// EnemyType}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{29 \textcolor{keyword}{struct }\mbox{\hyperlink{structMapRegion}{MapRegion}} \{}
+\DoxyCodeLine{30     \textcolor{keywordtype}{int} \mbox{\hyperlink{structMapRegion_a4f6fad2e8977208deaf4c88c4ec3d513}{regionId}};                                       }
+\DoxyCodeLine{31     \textcolor{keywordtype}{int} \mbox{\hyperlink{structMapRegion_a599c30e7637e73cc717a0329ab826dbe}{col}}, \mbox{\hyperlink{structMapRegion_ab091bc5244c6e38c2215dd1fb9b34cbf}{row}};                                       }
+\DoxyCodeLine{32     std::vector<std::pair<EnemyType, int>> \mbox{\hyperlink{structMapRegion_abe18a4b07527645aa399204d02666d7e}{enemyConfig}}; }
+\DoxyCodeLine{33     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structMapRegion_a9ae22db3e36f3b3d36c8566455939b41}{spawned}} = \textcolor{keyword}{false};                               }
+\DoxyCodeLine{34 \};}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{42 \textcolor{keyword}{struct }\mbox{\hyperlink{structEnemySpawnInfo}{EnemySpawnInfo}} \{}
+\DoxyCodeLine{43     \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{EnemyType}} \mbox{\hyperlink{structEnemySpawnInfo_a630b234a3f7b58ddf5fefb309addc224}{type}};              }
+\DoxyCodeLine{44     sf::Vector2f \mbox{\hyperlink{structEnemySpawnInfo_a98e0eb09f01cdd88fa6d2b6274de0519}{position}};       }
+\DoxyCodeLine{45 \};}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{57 \textcolor{keyword}{class }\mbox{\hyperlink{classMapSystem}{MapSystem}} \{}
+\DoxyCodeLine{58 \textcolor{keyword}{public}:}
+\DoxyCodeLine{59     \mbox{\hyperlink{classMapSystem_aa79057a031d5d3e285065d927b6dc9ca}{MapSystem}}();}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{62     \textcolor{keywordtype}{void} \mbox{\hyperlink{classMapSystem_a4730e2c486d7c562835d979140d7c691}{updateCamera}}(sf::View\& view, sf::Vector2f playerPos) \textcolor{keyword}{const};}
+\DoxyCodeLine{71     std::vector<EnemySpawnInfo> \mbox{\hyperlink{classMapSystem_a264c44e0d9ff2769859f09de36130e0d}{checkAndSpawn}}(sf::Vector2f playerPos);}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{74     \textcolor{keywordtype}{void} \mbox{\hyperlink{classMapSystem_a885bce763bcc299125ce4af273c53964}{drawBackground}}(sf::RenderWindow\& window) \textcolor{keyword}{const};}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{82     \textcolor{keywordtype}{float} \mbox{\hyperlink{classMapSystem_a114c4559df838eadf35f81763b1f3265}{getDifficultyScale}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{keyword}{private}:}
+\DoxyCodeLine{85     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{float} REGION\_W = 800.f;  }
+\DoxyCodeLine{86     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{float} REGION\_H = 800.f;  }
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88     std::unordered\_map<int, MapRegion> regions\_;  }
+\DoxyCodeLine{89     \textcolor{keywordtype}{int} lastRegionKey\_ = -\/1;                      }
+\DoxyCodeLine{90     \textcolor{keywordtype}{int} exploredCount\_ = 0;                       }
+\DoxyCodeLine{91 }
+\DoxyCodeLine{93     \textcolor{keywordtype}{int} regionKey(\textcolor{keywordtype}{int} col, \textcolor{keywordtype}{int} row)\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} col + row * 100000; \}}
+\DoxyCodeLine{95     \mbox{\hyperlink{structMapRegion}{MapRegion}}\& getOrCreateRegion(\textcolor{keywordtype}{int} col, \textcolor{keywordtype}{int} row);}
+\DoxyCodeLine{97     \textcolor{keywordtype}{void} assignEnemyConfig(\mbox{\hyperlink{structMapRegion}{MapRegion}}\& region, \textcolor{keywordtype}{int} col, \textcolor{keywordtype}{int} row);}
+\DoxyCodeLine{98 \};}
+
+\end{DoxyCode}

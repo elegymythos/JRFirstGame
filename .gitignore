@@ -71,9 +71,9 @@ SFML-mingw/
 .arts/
 
 # Doxygen 生成文件
-html/
-latex/
-dot/
+# html/
+# latex/
+# dot/
 
 # Doxyfile 配置（本地生成）
 Doxyfile

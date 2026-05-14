@@ -1,0 +1,95 @@
+\hypertarget{structAIAction}{}\doxysection{AIAction Struct Reference}
+\label{structAIAction}\index{AIAction@{AIAction}}
+
+
+AI 决策动作  
+
+
+
+
+{\ttfamily \#include $<$AIController.\+hpp$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{structAIAction_acf70bbb0e864383196f50bce33e7dfbd}{moveX}} = 0
+\item 
+float \mbox{\hyperlink{structAIAction_a63b131dada93a42ada0da1088085825a}{moveY}} = 0
+\begin{DoxyCompactList}\small\item\em 移动方向（归一化） \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structAIAction_a5cc3cf51ae12f2d8358f1a6a6e054bc4}{attack}} = false
+\begin{DoxyCompactList}\small\item\em 是否攻击 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIAction_aa1b6a029a203645fb9d6d990962bc317}{attack\+Target}} = 0
+\begin{DoxyCompactList}\small\item\em 攻击目标策略 (0=none, 1=nearest, 2=weakest, 3=ranged\+\_\+priority) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structAIAction_a1529733a6f42a6f2d39c5ee20ddde4c6}{roll}} = false
+\begin{DoxyCompactList}\small\item\em 是否翻滚 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structAIAction_aabcf521b41163781e36965e1d63dee11}{pickup}} = false
+\begin{DoxyCompactList}\small\item\em 是否拾取掉落物 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+AI 决策动作 
+
+解码后的动作包含：移动方向、是否攻击、攻击目标策略、是否翻滚、是否拾取。 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structAIAction_a5cc3cf51ae12f2d8358f1a6a6e054bc4}\label{structAIAction_a5cc3cf51ae12f2d8358f1a6a6e054bc4}} 
+\index{AIAction@{AIAction}!attack@{attack}}
+\index{attack@{attack}!AIAction@{AIAction}}
+\doxysubsubsection{\texorpdfstring{attack}{attack}}
+{\footnotesize\ttfamily bool AIAction\+::attack = false}
+
+
+
+是否攻击 
+
+\mbox{\Hypertarget{structAIAction_aa1b6a029a203645fb9d6d990962bc317}\label{structAIAction_aa1b6a029a203645fb9d6d990962bc317}} 
+\index{AIAction@{AIAction}!attackTarget@{attackTarget}}
+\index{attackTarget@{attackTarget}!AIAction@{AIAction}}
+\doxysubsubsection{\texorpdfstring{attackTarget}{attackTarget}}
+{\footnotesize\ttfamily int AIAction\+::attack\+Target = 0}
+
+
+
+攻击目标策略 (0=none, 1=nearest, 2=weakest, 3=ranged\+\_\+priority) 
+
+\mbox{\Hypertarget{structAIAction_acf70bbb0e864383196f50bce33e7dfbd}\label{structAIAction_acf70bbb0e864383196f50bce33e7dfbd}} 
+\index{AIAction@{AIAction}!moveX@{moveX}}
+\index{moveX@{moveX}!AIAction@{AIAction}}
+\doxysubsubsection{\texorpdfstring{moveX}{moveX}}
+{\footnotesize\ttfamily float AIAction\+::moveX = 0}
+
+\mbox{\Hypertarget{structAIAction_a63b131dada93a42ada0da1088085825a}\label{structAIAction_a63b131dada93a42ada0da1088085825a}} 
+\index{AIAction@{AIAction}!moveY@{moveY}}
+\index{moveY@{moveY}!AIAction@{AIAction}}
+\doxysubsubsection{\texorpdfstring{moveY}{moveY}}
+{\footnotesize\ttfamily float AIAction\+::moveY = 0}
+
+
+
+移动方向（归一化） 
+
+\mbox{\Hypertarget{structAIAction_aabcf521b41163781e36965e1d63dee11}\label{structAIAction_aabcf521b41163781e36965e1d63dee11}} 
+\index{AIAction@{AIAction}!pickup@{pickup}}
+\index{pickup@{pickup}!AIAction@{AIAction}}
+\doxysubsubsection{\texorpdfstring{pickup}{pickup}}
+{\footnotesize\ttfamily bool AIAction\+::pickup = false}
+
+
+
+是否拾取掉落物 
+
+\mbox{\Hypertarget{structAIAction_a1529733a6f42a6f2d39c5ee20ddde4c6}\label{structAIAction_a1529733a6f42a6f2d39c5ee20ddde4c6}} 
+\index{AIAction@{AIAction}!roll@{roll}}
+\index{roll@{roll}!AIAction@{AIAction}}
+\doxysubsubsection{\texorpdfstring{roll}{roll}}
+{\footnotesize\ttfamily bool AIAction\+::roll = false}
+
+
+
+是否翻滚 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{AIController_8hpp}{AIController.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,121 @@
+\hypertarget{classRankingsView}{}\doxysection{Rankings\+View Class Reference}
+\label{classRankingsView}\index{RankingsView@{RankingsView}}
+
+
+排行榜视图  
+
+
+
+
+{\ttfamily \#include $<$Rankings\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Rankings\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classRankingsView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Rankings\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classRankingsView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classRankingsView_a8c59bb392d2aee777adbffa62d0e801f}{Rankings\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, \mbox{\hyperlink{classDatabase}{Database}} \&database)
+\begin{DoxyCompactList}\small\item\em 构造排行榜视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classRankingsView_ab41c470bc139ed58985aaa6d452ff021}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classRankingsView_aa42c19a4d76e25c34a17e9b959705a3f}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classRankingsView_adfa525cb6d7ad11656153c57b4fe00a2}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+排行榜视图 
+
+构造时自动从数据库加载排行数据。 每条记录显示：排名、用户名、等级、分数。 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classRankingsView_a8c59bb392d2aee777adbffa62d0e801f}\label{classRankingsView_a8c59bb392d2aee777adbffa62d0e801f}} 
+\index{RankingsView@{RankingsView}!RankingsView@{RankingsView}}
+\index{RankingsView@{RankingsView}!RankingsView@{RankingsView}}
+\doxysubsubsection{\texorpdfstring{RankingsView()}{RankingsView()}}
+{\footnotesize\ttfamily Rankings\+View\+::\+Rankings\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{\mbox{\hyperlink{classDatabase}{Database}} \&}]{database }\end{DoxyParamCaption})}
+
+
+
+构造排行榜视图 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+{\em database} & 数据库引用 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classRankingsView_adfa525cb6d7ad11656153c57b4fe00a2}\label{classRankingsView_adfa525cb6d7ad11656153c57b4fe00a2}} 
+\index{RankingsView@{RankingsView}!draw@{draw}}
+\index{draw@{draw}!RankingsView@{RankingsView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Rankings\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classRankingsView_ab41c470bc139ed58985aaa6d452ff021}\label{classRankingsView_ab41c470bc139ed58985aaa6d452ff021}} 
+\index{RankingsView@{RankingsView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!RankingsView@{RankingsView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Rankings\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classRankingsView_aa42c19a4d76e25c34a17e9b959705a3f}\label{classRankingsView_aa42c19a4d76e25c34a17e9b959705a3f}} 
+\index{RankingsView@{RankingsView}!update@{update}}
+\index{update@{update}!RankingsView@{RankingsView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Rankings\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{RankingsView_8hpp}{Rankings\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{RankingsView_8cpp}{Rankings\+View.\+cpp}}\end{DoxyCompactItemize}

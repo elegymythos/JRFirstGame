@@ -1,0 +1,255 @@
+\hypertarget{classAIObservation}{}\doxysection{AIObservation Class Reference}
+\label{classAIObservation}\index{AIObservation@{AIObservation}}
+
+
+AI 观测编码器  
+
+
+
+
+{\ttfamily \#include $<$AIController.\+hpp$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::array$<$ float, \mbox{\hyperlink{classAIObservation_ad0ce4e5842d15ac6f4c67918109b6586}{OBS\+\_\+\+DIM}} $>$ \mbox{\hyperlink{classAIObservation_a5848f3e8144841bf9b87135820c068a8}{build}} (const \mbox{\hyperlink{structAIGameState}{AIGame\+State}} \&state)
+\begin{DoxyCompactList}\small\item\em 将游戏状态编码为观测向量 \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{structAIAction}{AIAction}} \mbox{\hyperlink{classAIObservation_a008a93e26cb96e3ba85871ee57433903}{decode\+Action}} (int action)
+\begin{DoxyCompactList}\small\item\em 将动作索引解码为 \mbox{\hyperlink{structAIAction}{AIAction}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_af490e9c3be64683326ef75f1a0dd5586}{MAX\+\_\+\+ENEMIES}} = 20
+\begin{DoxyCompactList}\small\item\em 最多编码 20 个敌人 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_ab48a45731102c7dbcdf90c4d58a906f5}{MAX\+\_\+\+PROJECTILES}} = 10
+\begin{DoxyCompactList}\small\item\em 最多编码 10 个投射物 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_a36c0ddeac30657b87c504d6c0c6cb1bf}{MAX\+\_\+\+DROPS}} = 10
+\begin{DoxyCompactList}\small\item\em 最多编码 10 个掉落物 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_ae3a6a9605ac27a07d3a1eca248f72c04}{DANGER\+\_\+\+GRID\+\_\+\+DIM}} = 8
+\begin{DoxyCompactList}\small\item\em 8 方向危险度网格 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_a5bb6720a8034cd0e76b8c9134ed5159e}{PLAYER\+\_\+\+DIM}} = 20
+\begin{DoxyCompactList}\small\item\em 玩家状态维度 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_abf65541a9b23ab5d8ef4f373c80e335a}{ENEMY\+\_\+\+DIM}} = 10
+\begin{DoxyCompactList}\small\item\em 单个敌人状态维度 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_a6dbab816fee76b332dc3fb44ab0353ec}{PROJ\+\_\+\+DIM}} = 6
+\begin{DoxyCompactList}\small\item\em 单个投射物状态维度 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_a4d2bfe79ab20f65367c29a32af34486c}{DROP\+\_\+\+DIM}} = 4
+\begin{DoxyCompactList}\small\item\em 单个掉落物状态维度 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_ad0ce4e5842d15ac6f4c67918109b6586}{OBS\+\_\+\+DIM}}
+\begin{DoxyCompactList}\small\item\em 观测总维度 = 20 + 20$\ast$10 + 10$\ast$6 + 10$\ast$4 + 8 + 2 = 330 \end{DoxyCompactList}\item 
+static constexpr int \mbox{\hyperlink{classAIObservation_a3ab6d3a1de997008b2cd8adf8aa0f6e7}{NUM\+\_\+\+ACTIONS}} = 12
+\begin{DoxyCompactList}\small\item\em 动作数量：9 移动 + 攻击最近 + 翻滚 + 拾取 = 12 \end{DoxyCompactList}\item 
+static constexpr const char $\ast$ \mbox{\hyperlink{classAIObservation_aba89f34c528e861d5ffa280da960a3a5}{ACTION\+\_\+\+NAMES}} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em 动作含义：0-\/8=移动, 9=攻击最近, 10=翻滚, 11=拾取 \end{DoxyCompactList}\item 
+static constexpr std\+::array$<$ std\+::pair$<$ float, float $>$, 9 $>$ \mbox{\hyperlink{classAIObservation_aaca5f86e0b3b2532a2c2c92e1375b3be}{MOVE\+\_\+\+DIRS}}
+\begin{DoxyCompactList}\small\item\em 9 个移动方向（与 Python MOVE\+\_\+\+DIRS 一致） \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+AI 观测编码器 
+
+将 \mbox{\hyperlink{structAIGameState}{AIGame\+State}} 编码为固定维度的浮点向量供 ONNX 模型推理， 并将模型输出的动作索引解码为 AIAction。
+
+编码方式与 Python 训练环境 rl/game\+\_\+env.\+py 完全一致。 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classAIObservation_a5848f3e8144841bf9b87135820c068a8}\label{classAIObservation_a5848f3e8144841bf9b87135820c068a8}} 
+\index{AIObservation@{AIObservation}!build@{build}}
+\index{build@{build}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}}
+{\footnotesize\ttfamily std\+::array$<$ float, \mbox{\hyperlink{classAIObservation_ad0ce4e5842d15ac6f4c67918109b6586}{AIObservation\+::\+OBS\+\_\+\+DIM}} $>$ AIObservation\+::build (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structAIGameState}{AIGame\+State}} \&}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+将游戏状态编码为观测向量 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & AI 感知的游戏状态 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+330 维浮点观测向量，值域 \mbox{[}-\/1, 1\mbox{]} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classAIObservation_a008a93e26cb96e3ba85871ee57433903}\label{classAIObservation_a008a93e26cb96e3ba85871ee57433903}} 
+\index{AIObservation@{AIObservation}!decodeAction@{decodeAction}}
+\index{decodeAction@{decodeAction}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{decodeAction()}{decodeAction()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAIAction}{AIAction}} AIObservation\+::decode\+Action (\begin{DoxyParamCaption}\item[{int}]{action }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+将动作索引解码为 \mbox{\hyperlink{structAIAction}{AIAction}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & 动作索引 \mbox{[}0, 11\mbox{]} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+解码后的动作结构
+\end{DoxyReturn}
+0-\/8\+: 移动方向, 9\+: 攻击最近, 10\+: 翻滚, 11\+: 拾取 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classAIObservation_aba89f34c528e861d5ffa280da960a3a5}\label{classAIObservation_aba89f34c528e861d5ffa280da960a3a5}} 
+\index{AIObservation@{AIObservation}!ACTION\_NAMES@{ACTION\_NAMES}}
+\index{ACTION\_NAMES@{ACTION\_NAMES}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{ACTION\_NAMES}{ACTION\_NAMES}}
+{\footnotesize\ttfamily constexpr const char$\ast$ AIObservation\+::\+ACTION\+\_\+\+NAMES\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{        \textcolor{stringliteral}{"{}stay"{}}, \textcolor{stringliteral}{"{}up"{}}, \textcolor{stringliteral}{"{}down"{}}, \textcolor{stringliteral}{"{}left"{}}, \textcolor{stringliteral}{"{}right"{}},}
+\DoxyCodeLine{        \textcolor{stringliteral}{"{}up\_left"{}}, \textcolor{stringliteral}{"{}up\_right"{}}, \textcolor{stringliteral}{"{}down\_left"{}}, \textcolor{stringliteral}{"{}down\_right"{}},}
+\DoxyCodeLine{        \textcolor{stringliteral}{"{}attack\_nearest"{}}, \textcolor{stringliteral}{"{}roll"{}}, \textcolor{stringliteral}{"{}pickup"{}}}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+
+
+动作含义：0-\/8=移动, 9=攻击最近, 10=翻滚, 11=拾取 
+
+\mbox{\Hypertarget{classAIObservation_ae3a6a9605ac27a07d3a1eca248f72c04}\label{classAIObservation_ae3a6a9605ac27a07d3a1eca248f72c04}} 
+\index{AIObservation@{AIObservation}!DANGER\_GRID\_DIM@{DANGER\_GRID\_DIM}}
+\index{DANGER\_GRID\_DIM@{DANGER\_GRID\_DIM}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{DANGER\_GRID\_DIM}{DANGER\_GRID\_DIM}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+DANGER\+\_\+\+GRID\+\_\+\+DIM = 8\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+8 方向危险度网格 
+
+\mbox{\Hypertarget{classAIObservation_a4d2bfe79ab20f65367c29a32af34486c}\label{classAIObservation_a4d2bfe79ab20f65367c29a32af34486c}} 
+\index{AIObservation@{AIObservation}!DROP\_DIM@{DROP\_DIM}}
+\index{DROP\_DIM@{DROP\_DIM}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{DROP\_DIM}{DROP\_DIM}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+DROP\+\_\+\+DIM = 4\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+单个掉落物状态维度 
+
+\mbox{\Hypertarget{classAIObservation_abf65541a9b23ab5d8ef4f373c80e335a}\label{classAIObservation_abf65541a9b23ab5d8ef4f373c80e335a}} 
+\index{AIObservation@{AIObservation}!ENEMY\_DIM@{ENEMY\_DIM}}
+\index{ENEMY\_DIM@{ENEMY\_DIM}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{ENEMY\_DIM}{ENEMY\_DIM}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+ENEMY\+\_\+\+DIM = 10\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+单个敌人状态维度 
+
+\mbox{\Hypertarget{classAIObservation_a36c0ddeac30657b87c504d6c0c6cb1bf}\label{classAIObservation_a36c0ddeac30657b87c504d6c0c6cb1bf}} 
+\index{AIObservation@{AIObservation}!MAX\_DROPS@{MAX\_DROPS}}
+\index{MAX\_DROPS@{MAX\_DROPS}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{MAX\_DROPS}{MAX\_DROPS}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+MAX\+\_\+\+DROPS = 10\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+最多编码 10 个掉落物 
+
+\mbox{\Hypertarget{classAIObservation_af490e9c3be64683326ef75f1a0dd5586}\label{classAIObservation_af490e9c3be64683326ef75f1a0dd5586}} 
+\index{AIObservation@{AIObservation}!MAX\_ENEMIES@{MAX\_ENEMIES}}
+\index{MAX\_ENEMIES@{MAX\_ENEMIES}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{MAX\_ENEMIES}{MAX\_ENEMIES}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+MAX\+\_\+\+ENEMIES = 20\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+最多编码 20 个敌人 
+
+\mbox{\Hypertarget{classAIObservation_ab48a45731102c7dbcdf90c4d58a906f5}\label{classAIObservation_ab48a45731102c7dbcdf90c4d58a906f5}} 
+\index{AIObservation@{AIObservation}!MAX\_PROJECTILES@{MAX\_PROJECTILES}}
+\index{MAX\_PROJECTILES@{MAX\_PROJECTILES}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{MAX\_PROJECTILES}{MAX\_PROJECTILES}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+MAX\+\_\+\+PROJECTILES = 10\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+最多编码 10 个投射物 
+
+\mbox{\Hypertarget{classAIObservation_aaca5f86e0b3b2532a2c2c92e1375b3be}\label{classAIObservation_aaca5f86e0b3b2532a2c2c92e1375b3be}} 
+\index{AIObservation@{AIObservation}!MOVE\_DIRS@{MOVE\_DIRS}}
+\index{MOVE\_DIRS@{MOVE\_DIRS}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{MOVE\_DIRS}{MOVE\_DIRS}}
+{\footnotesize\ttfamily constexpr std\+::array$<$std\+::pair$<$float,float$>$, 9$>$ AIObservation\+::\+MOVE\+\_\+\+DIRS\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{\{}
+\DoxyCodeLine{        \{0.f, 0.f\},}
+\DoxyCodeLine{        \{0.f, -\/1.f\},}
+\DoxyCodeLine{        \{0.f, 1.f\},}
+\DoxyCodeLine{        \{-\/1.f, 0.f\},}
+\DoxyCodeLine{        \{1.f, 0.f\},}
+\DoxyCodeLine{        \{-\/1.f, -\/1.f\},}
+\DoxyCodeLine{        \{1.f, -\/1.f\},}
+\DoxyCodeLine{        \{-\/1.f, 1.f\},}
+\DoxyCodeLine{        \{1.f, 1.f\},}
+\DoxyCodeLine{    \}\}}
+
+\end{DoxyCode}
+
+
+9 个移动方向（与 Python MOVE\+\_\+\+DIRS 一致） 
+
+\mbox{\Hypertarget{classAIObservation_a3ab6d3a1de997008b2cd8adf8aa0f6e7}\label{classAIObservation_a3ab6d3a1de997008b2cd8adf8aa0f6e7}} 
+\index{AIObservation@{AIObservation}!NUM\_ACTIONS@{NUM\_ACTIONS}}
+\index{NUM\_ACTIONS@{NUM\_ACTIONS}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{NUM\_ACTIONS}{NUM\_ACTIONS}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+NUM\+\_\+\+ACTIONS = 12\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+动作数量：9 移动 + 攻击最近 + 翻滚 + 拾取 = 12 
+
+\mbox{\Hypertarget{classAIObservation_ad0ce4e5842d15ac6f4c67918109b6586}\label{classAIObservation_ad0ce4e5842d15ac6f4c67918109b6586}} 
+\index{AIObservation@{AIObservation}!OBS\_DIM@{OBS\_DIM}}
+\index{OBS\_DIM@{OBS\_DIM}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{OBS\_DIM}{OBS\_DIM}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+OBS\+\_\+\+DIM\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{        \mbox{\hyperlink{classAIObservation_a5bb6720a8034cd0e76b8c9134ed5159e}{PLAYER\_DIM}}}
+\DoxyCodeLine{        + \mbox{\hyperlink{classAIObservation_af490e9c3be64683326ef75f1a0dd5586}{MAX\_ENEMIES}} * \mbox{\hyperlink{classAIObservation_abf65541a9b23ab5d8ef4f373c80e335a}{ENEMY\_DIM}}}
+\DoxyCodeLine{        + \mbox{\hyperlink{classAIObservation_ab48a45731102c7dbcdf90c4d58a906f5}{MAX\_PROJECTILES}} * \mbox{\hyperlink{classAIObservation_a6dbab816fee76b332dc3fb44ab0353ec}{PROJ\_DIM}}}
+\DoxyCodeLine{        + \mbox{\hyperlink{classAIObservation_a36c0ddeac30657b87c504d6c0c6cb1bf}{MAX\_DROPS}} * \mbox{\hyperlink{classAIObservation_a4d2bfe79ab20f65367c29a32af34486c}{DROP\_DIM}}}
+\DoxyCodeLine{        + \mbox{\hyperlink{classAIObservation_ae3a6a9605ac27a07d3a1eca248f72c04}{DANGER\_GRID\_DIM}}}
+\DoxyCodeLine{        + 2}
+
+\end{DoxyCode}
+
+
+观测总维度 = 20 + 20$\ast$10 + 10$\ast$6 + 10$\ast$4 + 8 + 2 = 330 
+
+\mbox{\Hypertarget{classAIObservation_a5bb6720a8034cd0e76b8c9134ed5159e}\label{classAIObservation_a5bb6720a8034cd0e76b8c9134ed5159e}} 
+\index{AIObservation@{AIObservation}!PLAYER\_DIM@{PLAYER\_DIM}}
+\index{PLAYER\_DIM@{PLAYER\_DIM}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{PLAYER\_DIM}{PLAYER\_DIM}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+PLAYER\+\_\+\+DIM = 20\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+玩家状态维度 
+
+\mbox{\Hypertarget{classAIObservation_a6dbab816fee76b332dc3fb44ab0353ec}\label{classAIObservation_a6dbab816fee76b332dc3fb44ab0353ec}} 
+\index{AIObservation@{AIObservation}!PROJ\_DIM@{PROJ\_DIM}}
+\index{PROJ\_DIM@{PROJ\_DIM}!AIObservation@{AIObservation}}
+\doxysubsubsection{\texorpdfstring{PROJ\_DIM}{PROJ\_DIM}}
+{\footnotesize\ttfamily constexpr int AIObservation\+::\+PROJ\+\_\+\+DIM = 6\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+单个投射物状态维度 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{AIController_8hpp}{AIController.\+hpp}}\item 
+src/\mbox{\hyperlink{AIController_8cpp}{AIController.\+cpp}}\end{DoxyCompactItemize}

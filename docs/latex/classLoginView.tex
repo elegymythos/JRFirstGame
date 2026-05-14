@@ -1,0 +1,123 @@
+\hypertarget{classLoginView}{}\doxysection{Login\+View Class Reference}
+\label{classLoginView}\index{LoginView@{LoginView}}
+
+
+登录视图  
+
+
+
+
+{\ttfamily \#include $<$Auth\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Login\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{classLoginView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Login\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=147pt]{classLoginView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLoginView_a83fa66ed37730c4e2a44541039cdb6d0}{Login\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, std\+::string \&username, \mbox{\hyperlink{classDatabase}{Database}} \&database)
+\begin{DoxyCompactList}\small\item\em 构造登录视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoginView_a0efc68746ac3b375224b17902d1d24a4}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（鼠标点击、键盘输入等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoginView_a365ac01e9b827a69a7fdde4763dbdfe5}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新（按钮悬停检测） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoginView_ae0cb4721f4c2cd7625398c67578d47e5}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制登录界面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+登录视图 
+
+用户输入用户名和密码，点击确认后与数据库中存储的 盐值+哈希进行比对。验证成功则跳转到模式选择页面， 失败则显示错误提示。 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classLoginView_a83fa66ed37730c4e2a44541039cdb6d0}\label{classLoginView_a83fa66ed37730c4e2a44541039cdb6d0}} 
+\index{LoginView@{LoginView}!LoginView@{LoginView}}
+\index{LoginView@{LoginView}!LoginView@{LoginView}}
+\doxysubsubsection{\texorpdfstring{LoginView()}{LoginView()}}
+{\footnotesize\ttfamily Login\+View\+::\+Login\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{std\+::string \&}]{username,  }\item[{\mbox{\hyperlink{classDatabase}{Database}} \&}]{database }\end{DoxyParamCaption})}
+
+
+
+构造登录视图 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+{\em username} & 当前用户名引用（验证成功时写入） \\
+\hline
+{\em database} & 数据库引用 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLoginView_ae0cb4721f4c2cd7625398c67578d47e5}\label{classLoginView_ae0cb4721f4c2cd7625398c67578d47e5}} 
+\index{LoginView@{LoginView}!draw@{draw}}
+\index{draw@{draw}!LoginView@{LoginView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Login\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制登录界面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classLoginView_a0efc68746ac3b375224b17902d1d24a4}\label{classLoginView_a0efc68746ac3b375224b17902d1d24a4}} 
+\index{LoginView@{LoginView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!LoginView@{LoginView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Login\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（鼠标点击、键盘输入等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classLoginView_a365ac01e9b827a69a7fdde4763dbdfe5}\label{classLoginView_a365ac01e9b827a69a7fdde4763dbdfe5}} 
+\index{LoginView@{LoginView}!update@{update}}
+\index{update@{update}!LoginView@{LoginView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Login\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新（按钮悬停检测） 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{AuthView_8hpp}{Auth\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{AuthView_8cpp}{Auth\+View.\+cpp}}\end{DoxyCompactItemize}

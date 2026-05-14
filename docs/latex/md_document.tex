@@ -1,0 +1,500 @@
+\hypertarget{md_document_autotoc_md22}{}\doxysection{1. 项目概述}\label{md_document_autotoc_md22}
+JRFirst\+Game 是一个基于 C++17 + SFML 3.\+x + SQLite3 构建的 RPG 闯关游戏。玩家在无限地图中击杀敌人、收集掉落物、提升属性，通过阶段性胜利不断强化角色。支持单机闯关和双人\+UDP联机合作两种模式。\hypertarget{md_document_autotoc_md23}{}\doxysubsection{1.\+1 核心玩法}\label{md_document_autotoc_md23}
+
+\begin{DoxyItemize}
+\item $\ast$$\ast$单机闯关$\ast$$\ast$：选择角色后进入无限地图，击杀敌人获得分数和经验，分数达到阈值触发阶段胜利，角色获得职业专属强化
+\item $\ast$$\ast$双人闯关$\ast$$\ast$：一人创建房间（主机），另一人加入（客户端），共享同一地图合作对抗敌人，击杀分数共享
+\item $\ast$$\ast$角色成长$\ast$$\ast$：六大属性随机生成，职业提供属性加成，升级增加全属性，掉落物可永久提升属性，分数提供倍率加成
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md24}{}\doxysubsection{1.\+2 技术选型}\label{md_document_autotoc_md24}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 技术   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 版本   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 用途    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 技术   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 版本   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 用途    }\\\cline{1-3}
+\endhead
+C++   &17   &核心语言标准，使用 std\+::optional、std\+::string\+\_\+view 等特性    \\\cline{1-3}
+SFML   &3.\+x   &图形渲染、窗口管理、网络通信    \\\cline{1-3}
+SQLite3   &3.\+x   &用户账户、角色数据、排行榜的持久化存储（源码编译）    \\\cline{1-3}
+CMake   &3.\+15+   &跨平台构建系统    \\\cline{1-3}
+Git\+Hub Actions   &-\/   &自动构建 Windows/\+Linux/mac\+OS 并发布 Release   \\\cline{1-3}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md26}{}\doxysection{2. 架构设计}\label{md_document_autotoc_md26}
+\hypertarget{md_document_autotoc_md27}{}\doxysubsection{2.\+1 整体架构}\label{md_document_autotoc_md27}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{┌─────────────────────────────────────────────────┐}
+\DoxyCodeLine{│                   main.cpp                      │}
+\DoxyCodeLine{│         主循环：事件→更新→绘制，视图切换          │}
+\DoxyCodeLine{└──────────────────────┬──────────────────────────┘}
+\DoxyCodeLine{                       │}
+\DoxyCodeLine{          ┌────────────┴────────────┐}
+\DoxyCodeLine{          │      View（基类）        │}
+\DoxyCodeLine{          │  handleEvent/update/draw │}
+\DoxyCodeLine{          └────────────┬────────────┘}
+\DoxyCodeLine{                       │}
+\DoxyCodeLine{    ┌──────────┬───────┼───────┬──────────┐}
+\DoxyCodeLine{    │          │       │       │          │}
+\DoxyCodeLine{ MainMenu  AuthView  Menu   GameView  OnlineView}
+\DoxyCodeLine{                        │               │}
+\DoxyCodeLine{                   CharacterView    RankingsView}
+
+\end{DoxyCode}
+\hypertarget{md_document_autotoc_md28}{}\doxysubsection{2.\+2 视图切换机制}\label{md_document_autotoc_md28}
+主循环通过 {\ttfamily std\+::unique\+\_\+ptr\texorpdfstring{$<$}{<}\mbox{\hyperlink{classView}{View}}\texorpdfstring{$>$}{>}} 管理当前视图。视图切换通过回调函数实现：
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::function<void(std::string)> changeView = [\&](std::string name) \{}
+\DoxyCodeLine{    pendingView = name;}
+\DoxyCodeLine{\};}
+
+\end{DoxyCode}
+
+
+每帧检查 {\ttfamily pending\+View}，根据字符串创建对应的视图对象。支持的语言切换会设置 {\ttfamily language\+Changed} 标记，主循环检测后重建当前视图以刷新所有文字。\hypertarget{md_document_autotoc_md29}{}\doxysubsection{2.\+3 视图列表}\label{md_document_autotoc_md29}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 视图类   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 标识字符串   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 功能    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 视图类   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 标识字符串   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 功能    }\\\cline{1-3}
+\endhead
+\mbox{\hyperlink{classMainMenuView}{Main\+Menu\+View}}   &\char`\"{}\+MENU\char`\"{}   &主菜单（登录/注册/退出）    \\\cline{1-3}
+\mbox{\hyperlink{classLoginView}{Login\+View}}   &\char`\"{}\+LOGIN\char`\"{}   &登录界面    \\\cline{1-3}
+\mbox{\hyperlink{classSignUpView}{Sign\+Up\+View}}   &\char`\"{}\+SIGNUP\char`\"{}   &注册界面    \\\cline{1-3}
+\mbox{\hyperlink{classLevelSelectView}{Level\+Select\+View}}   &\char`\"{}\+SELECT\+\_\+\+LEVEL\char`\"{}   &模式选择    \\\cline{1-3}
+\mbox{\hyperlink{classCharacterCreateView}{Character\+Create\+View}}   &\char`\"{}\+CHAR\+\_\+\+CREATE\char`\"{}   &创建角色    \\\cline{1-3}
+\mbox{\hyperlink{classCharacterSelectView}{Character\+Select\+View}}   &\char`\"{}\+CHAR\+\_\+\+SELECT\char`\"{}   &选择角色    \\\cline{1-3}
+\mbox{\hyperlink{classActualGameView}{Actual\+Game\+View}}   &\char`\"{}\+LEVEL\+\_\+\+GAME\char`\"{}   &单机闯关    \\\cline{1-3}
+\mbox{\hyperlink{classOnlineLobbyView}{Online\+Lobby\+View}}   &\char`\"{}\+ONLINE\+\_\+\+LOBBY\char`\"{}   &联机大厅    \\\cline{1-3}
+\mbox{\hyperlink{classOnlineGameView}{Online\+Game\+View}}   &\char`\"{}\+ONLINE\+\_\+\+GAME\+\_\+\+HOST/\+CLIENT\char`\"{}   &联机游戏    \\\cline{1-3}
+\mbox{\hyperlink{classRankingsView}{Rankings\+View}}   &\char`\"{}\+RANKINGS\char`\"{}   &排行榜   \\\cline{1-3}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md31}{}\doxysection{3. 核心系统详解}\label{md_document_autotoc_md31}
+\hypertarget{md_document_autotoc_md32}{}\doxysubsection{3.\+1 属性系统}\label{md_document_autotoc_md32}
+六大属性定义在 {\ttfamily \mbox{\hyperlink{structAttributes}{Attributes}}} 结构体中：
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 属性   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 英文   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 影响    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 属性   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 英文   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 影响    }\\\cline{1-3}
+\endhead
+力量   &strength   &剑伤害加成（strength $\ast$ 0.\+8）    \\\cline{1-3}
+敏捷   &agility   &刺刀伤害加成（agility $\ast$ 0.\+8）    \\\cline{1-3}
+魔法   &magic   &法器伤害加成（magic $\ast$ 0.\+8）    \\\cline{1-3}
+智力   &intelligence   &预留扩展    \\\cline{1-3}
+生命   &vitality   &血量上限 = 120 + vitality $\ast$ 8    \\\cline{1-3}
+幸运   &luck   &预留扩展   \\\cline{1-3}
+\end{longtabu}
+
+
+$\ast$$\ast$属性计算链$\ast$$\ast$： 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{最终属性 = 基础属性 + 职业加成 + 等级加成 + 分数加成}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item 基础属性：创建角色时随机生成（正态分布，均值10，标准差4，范围\mbox{[}1,20\mbox{]}，总和上限80）
+\item 职业加成：战士力量+5，法师魔法+5，刺客敏捷+5
+\item 等级加成：每级每项+2，即 2$\ast$(level-\/1)
+\item 分数加成：每50分每项+1，上限20
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md33}{}\doxysubsection{3.\+2 职业系统}\label{md_document_autotoc_md33}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 职业   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 属性加成   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 武器   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 攻击方式   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 阶段强化方向    }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 职业   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 属性加成   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 武器   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 攻击方式   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 阶段强化方向    }\\\cline{1-5}
+\endhead
+战士   &力量+5   &铁剑   &扇形近战   &伤害+5/阶段，攻速+15\%/阶段，攻击范围增大    \\\cline{1-5}
+法师   &魔法+5   &火焰法器   &远程投射物   &伤害+4/阶段，爆炸半径+30/阶段，攻速+10\%/阶段    \\\cline{1-5}
+刺客   &敏捷+5   &暗影刺刀   &扇形近战（快速）   &伤害+3/阶段，暴击率+12\%/阶段，暴击倍率递增，攻速+25\%/阶段   \\\cline{1-5}
+\end{longtabu}
+\hypertarget{md_document_autotoc_md34}{}\doxysubsection{3.\+3 等级系统}\label{md_document_autotoc_md34}
+
+\begin{DoxyItemize}
+\item 升级经验需求：{\ttfamily 100 $\ast$ 当前等级}
+\item 升级后经验溢出自动继续判断
+\item 等级上限：999
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md35}{}\doxysubsection{3.\+4 战斗系统}\label{md_document_autotoc_md35}
+$\ast$$\ast$伤害计算$\ast$$\ast$： 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{总伤害 = (武器基础伤害 + 属性加成 + 阶段强化伤害) × 分数倍率 × 暴击倍率}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item 属性加成：剑→力量$\ast$0.8，法器→魔法$\ast$0.8，刺刀→敏捷$\ast$0.8
+\item 分数倍率：1.0 + min(总分数/50 $\ast$ 0.\+1, 1.\+0)，范围\mbox{[}1.\+0, 2.\+0\mbox{]}
+\item 暴击：基础5概率，刺客阶段强化后最高80，暴击倍率1.5起
+\end{DoxyItemize}
+
+$\ast$$\ast$攻击方式$\ast$$\ast$：
+\begin{DoxyItemize}
+\item 近战（战士/刺客）：180度扇形范围判定，显示刀光动画
+\item 远程（法师）：向最近敌人发射投射物，命中后可爆炸范围杀伤
+\end{DoxyItemize}
+
+$\ast$$\ast$翻滚系统$\ast$$\ast$：
+\begin{DoxyItemize}
+\item 持续时间0.3秒，冷却0.8秒
+\item 翻滚期间无敌（is\+Invincible=true），半透明显示
+\item 翻滚方向由当前\+WASD输入决定
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md36}{}\doxysubsection{3.\+5 敌人系统}\label{md_document_autotoc_md36}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{7}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 敌人   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 血量   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 伤害   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 速度   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 攻击方式   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 击杀分数   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 颜色    }\\\cline{1-7}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 敌人   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 血量   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 伤害   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 速度   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 攻击方式   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 击杀分数   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 颜色    }\\\cline{1-7}
+\endhead
+史莱姆   &40   &8   &50   &近战追踪   &15   &绿色    \\\cline{1-7}
+骷髅刀斧手   &80   &15   &80   &近战追踪   &30   &灰白色    \\\cline{1-7}
+骷髅弓箭手   &50   &12   &70   &远程射击（保持150-\/250距离）   &25   &暗黄色    \\\cline{1-7}
+巨人   &200   &30   &25   &近战追踪   &60   &棕色   \\\cline{1-7}
+\end{longtabu}
+
+
+$\ast$$\ast$难度缩放$\ast$$\ast$： 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{敌人缩放因子 = 地图难度 × 时间难度 × 分数难度}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item 地图难度：1.0 + 已探索区域数 $\ast$ 0.\+05
+\item 时间难度：1.0 + 游戏时间/600
+\item 分数难度：1.0 + 总分数/1000
+\end{DoxyItemize}
+
+缩放后：血量/伤害/分数乘以缩放因子，速度乘以sqrt(缩放因子)。\hypertarget{md_document_autotoc_md37}{}\doxysubsection{3.\+6 掉落物系统}\label{md_document_autotoc_md37}
+敌人被击杀后概率掉落：
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 掉落物   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 概率权重   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 效果   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 颜色    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 掉落物   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 概率权重   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 效果   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 颜色    }\\\cline{1-4}
+\endhead
+血瓶   &30\%   &回复33血量   &红色    \\\cline{1-4}
+力量提升   &15\%   &力量+2（上限30）   &橙色    \\\cline{1-4}
+敏捷提升   &15\%   &敏捷+2   &青色    \\\cline{1-4}
+魔法提升   &15\%   &魔法+2   &紫色    \\\cline{1-4}
+生命提升   &13\%   &生命+2   &绿色    \\\cline{1-4}
+范围提升   &12\%   &攻击范围+15   &黄色   \\\cline{1-4}
+\end{longtabu}
+
+
+基础掉率40，强敌掉率更高（巨人80，骷髅刀斧手55，骷髅弓箭手45）。 掉落物10秒后消失，带有上下浮动动画和光晕效果。\hypertarget{md_document_autotoc_md38}{}\doxysubsection{3.\+7 阶段胜利系统}\label{md_document_autotoc_md38}
+分数达到以下阈值时触发阶段胜利：
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 阶段   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 分数阈值   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 效果    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 阶段   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 分数阈值   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 效果    }\\\cline{1-3}
+\endhead
+1   &100   &职业专属强化等级1，回满血    \\\cline{1-3}
+2   &1000   &职业专属强化等级2，回满血    \\\cline{1-3}
+3   &2000   &职业专属强化等级3，回满血    \\\cline{1-3}
+4   &5000   &职业专属强化等级4，回满血    \\\cline{1-3}
+5   &10000   &最终胜利，职业专属强化等级5，回满血   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_document_autotoc_md39}{}\doxysubsection{3.\+8 地图系统}\label{md_document_autotoc_md39}
+
+\begin{DoxyItemize}
+\item 世界被划分为 800×800 像素的区域网格
+\item 玩家进入新区域时，检查周围3×3范围并生成敌人
+\item 敌人配置由区域到原点的曼哈顿距离决定：
+\begin{DoxyItemize}
+\item 距离0：1只史莱姆
+\item 距离1-\/2：史莱姆+骷髅刀斧手
+\item 距离3-\/4：史莱姆+骷髅刀斧手+骷髅弓箭手
+\item 距离5-\/6：2骷髅刀斧手+骷髅弓箭手
+\item 距离7-\/8：2骷髅弓箭手+巨人
+\item 距离9+：巨人+骷髅刀斧手+骷髅弓箭手（数量随距离增长）
+\end{DoxyItemize}
+\item 摄像机始终跟随玩家
+\item 背景绘制半透明网格线标识区域边界
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md41}{}\doxysection{4. 数据库设计}\label{md_document_autotoc_md41}
+使用 SQLite3，四张表：\hypertarget{md_document_autotoc_md42}{}\doxysubsection{4.\+1 users 表}\label{md_document_autotoc_md42}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 列   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 列   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endhead
+username   &TEXT PRIMARY KEY   &用户名    \\\cline{1-3}
+salt   &TEXT NOT NULL   &16字节随机盐值（32字符16进制）    \\\cline{1-3}
+hash   &TEXT NOT NULL   &SHA-\/256+盐值10000轮迭代哈希（64字符16进制）   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_document_autotoc_md43}{}\doxysubsection{4.\+2 characters 表}\label{md_document_autotoc_md43}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 列   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 列   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endhead
+username   &TEXT   &用户名（联合主键一部分）    \\\cline{1-3}
+slot   &INTEGER   &角色槽位0-\/2（联合主键一部分）    \\\cline{1-3}
+class\+\_\+type   &INTEGER   &职业枚举值    \\\cline{1-3}
+level   &INTEGER   &等级    \\\cline{1-3}
+experience   &INTEGER   &经验值    \\\cline{1-3}
+score   &INTEGER   &累计分数    \\\cline{1-3}
+game\+\_\+time   &REAL   &游戏时长（秒）    \\\cline{1-3}
+victory\+\_\+shown   &INTEGER   &最高胜利阶段    \\\cline{1-3}
+strength$\sim$luck   &INTEGER   &六大属性   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_document_autotoc_md44}{}\doxysubsection{4.\+3 rankings 表}\label{md_document_autotoc_md44}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 列   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 列   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endhead
+username   &TEXT PRIMARY KEY   &用户名    \\\cline{1-3}
+level   &INTEGER   &最高等级    \\\cline{1-3}
+score   &INTEGER   &最高分数   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_document_autotoc_md45}{}\doxysubsection{4.\+4 user\+\_\+settings 表}\label{md_document_autotoc_md45}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 列   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 列   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 说明    }\\\cline{1-3}
+\endhead
+username   &TEXT PRIMARY KEY   &用户名    \\\cline{1-3}
+selected\+\_\+slot   &INTEGER   &选中的角色槽位   \\\cline{1-3}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md47}{}\doxysection{5. 网络系统}\label{md_document_autotoc_md47}
+\hypertarget{md_document_autotoc_md48}{}\doxysubsection{5.\+1 架构}\label{md_document_autotoc_md48}
+采用主机-\/客户端架构：
+
+
+\begin{DoxyItemize}
+\item $\ast$$\ast$主机$\ast$$\ast$：运行完整游戏逻辑，接收客户端输入，广播游戏状态
+\item $\ast$$\ast$客户端$\ast$$\ast$：发送输入和攻击信号，接收并渲染主机同步的状态
+\end{DoxyItemize}
+
+通信使用 UDP 协议，\+SFML Udp\+Socket 实现，非阻塞模式。\hypertarget{md_document_autotoc_md49}{}\doxysubsection{5.\+2 消息协议}\label{md_document_autotoc_md49}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 消息类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 方向   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 数据内容    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 消息类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 方向   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 数据内容    }\\\cline{1-3}
+\endhead
+Connect   &C→S   &职业类型(int) + 用户名(string)    \\\cline{1-3}
+Connect\+Accept   &S→C   &分配的玩家\+ID(int)    \\\cline{1-3}
+\mbox{\hyperlink{structPlayerInput}{Player\+Input}}   &C→S   &玩家\+ID + 上下左右4个bool    \\\cline{1-3}
+Player\+Attack   &C→S   &玩家\+ID    \\\cline{1-3}
+Player\+Roll   &C→S   &玩家\+ID + 方向x/y    \\\cline{1-3}
+\mbox{\hyperlink{structGameState}{Game\+State}}   &S→C   &玩家列表 + 敌人列表 + 投射物列表 + 掉落物列表    \\\cline{1-3}
+Game\+Start   &S→C   &无    \\\cline{1-3}
+Pause\+Sync   &双向   &暂停状态bool    \\\cline{1-3}
+Disconnect   &双向   &玩家\+ID   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_document_autotoc_md50}{}\doxysubsection{5.\+3 同步数据结构}\label{md_document_autotoc_md50}
+$\ast$$\ast$\+Game\+State 包格式$\ast$$\ast$： 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{[玩家数量]}
+\DoxyCodeLine{  每个玩家: ID, posX, posY, health, maxHealth, totalScore, level, name}
+\DoxyCodeLine{[敌人数量]}
+\DoxyCodeLine{  每个敌人: type, posX, posY, health, maxHealth, radius, score}
+\DoxyCodeLine{[投射物数量]}
+\DoxyCodeLine{  每个投射物: posX, posY, dirX, dirY, speed, damage, maxDistance, traveled, fromPlayer, colorR, colorG, colorB}
+\DoxyCodeLine{[掉落物数量]}
+\DoxyCodeLine{  每个掉落物: type, posX, posY, lifetime, bobTimer}
+
+\end{DoxyCode}
+\hypertarget{md_document_autotoc_md51}{}\doxysubsection{5.\+4 频率控制}\label{md_document_autotoc_md51}
+
+\begin{DoxyItemize}
+\item 输入发送：$\sim$30\+Hz（每33ms发送一次）
+\item 攻击信号：$\sim$10\+Hz（每100ms发送一次）
+\item 状态广播：每帧（60\+Hz）
+\item 网络接收：每帧最多处理10个包
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md53}{}\doxysection{6. 武器系统}\label{md_document_autotoc_md53}
+\hypertarget{md_document_autotoc_md54}{}\doxysubsection{6.\+1 C语言链表层（\+Weapon\+List.\+c）}\label{md_document_autotoc_md54}
+纯\+C实现的单链表，提供创建/销毁/插入/删除/查找/遍历接口。使用 {\ttfamily extern \char`\"{}\+C\char`\"{}} 保证\+C++可调用。\hypertarget{md_document_autotoc_md55}{}\doxysubsection{6.\+2 C++桥接层（\+Weapon\+List\+Bridge）}\label{md_document_autotoc_md55}
+RAII封装\+C链表，提供类型安全接口：
+\begin{DoxyItemize}
+\item 构造时调用 {\ttfamily \mbox{\hyperlink{WeaponList_8c_a35cda3cfe3a5aad55f35bbf74c71951a}{weapon\+\_\+list\+\_\+create()}}}
+\item 析构时调用 {\ttfamily \mbox{\hyperlink{WeaponList_8c_a398e2cf3dba2563c50bb805a56aaca29}{weapon\+\_\+list\+\_\+destroy()}}}
+\item {\ttfamily c\+To\+Cpp()} 静态方法将C Weapon节点转为\+C++ \mbox{\hyperlink{structWeaponData}{Weapon\+Data}}
+\item 禁止拷贝，允许移动语义
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md56}{}\doxysubsection{6.\+3 默认武器}\label{md_document_autotoc_md56}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{6}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 武器   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 伤害   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 范围   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 攻速   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 远程    }\\\cline{1-6}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 武器   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 类型   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 伤害   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 范围   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 攻速   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ 远程    }\\\cline{1-6}
+\endhead
+铁剑   &WEAPON\+\_\+\+SWORD   &15   &80   &2.\+5   &否    \\\cline{1-6}
+火焰法器   &WEAPON\+\_\+\+ARTIFACT   &20   &300   &0.\+8   &是    \\\cline{1-6}
+暗影刺刀   &WEAPON\+\_\+\+DAGGER   &8   &50   &4.\+0   &否   \\\cline{1-6}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md58}{}\doxysection{7. 国际化系统}\label{md_document_autotoc_md58}
+单例模式，哈希表存储翻译键值对。每个键对应 {\ttfamily \{英文, 中文\}} 一对翻译。
+
+默认语言为中文，可通过 L 键或右上角按钮切换。切换后设置 {\ttfamily language\+Changed} 标记，主循环重建当前视图以刷新所有文字。
+
+翻译覆盖范围：菜单、登录/注册、角色创建/选择、游戏内\+UI、排行榜、联机大厅、武器名、敌人名等。
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md60}{}\doxysection{8. 安全相关}\label{md_document_autotoc_md60}
+\hypertarget{md_document_autotoc_md61}{}\doxysubsection{8.\+1 密码存储}\label{md_document_autotoc_md61}
+
+\begin{DoxyItemize}
+\item 注册时生成16字节随机盐值（32字符16进制）
+\item 密码哈希：\+SHA-\/256 + 盐值，10000轮迭代（类\+PBKDF2）
+\item 哈希过程：{\ttfamily SHA256(salt + password + salt)} → 9999轮 {\ttfamily SHA256(上一轮结果 + salt + password + salt)}
+\item 存储格式：64字符16进制字符串
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md62}{}\doxysubsection{8.\+2 SQL注入防护}\label{md_document_autotoc_md62}
+所有数据库查询使用参数化语句（{\ttfamily sqlite3\+\_\+bind\+\_\+text}/{\ttfamily sqlite3\+\_\+bind\+\_\+int}），不拼接\+SQL字符串。
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md64}{}\doxysection{9. 构建与发布}\label{md_document_autotoc_md64}
+\hypertarget{md_document_autotoc_md65}{}\doxysubsection{9.\+1 CMake配置}\label{md_document_autotoc_md65}
+
+\begin{DoxyItemize}
+\item C++17标准，\+UTF-\/8编码
+\item SQLite3源码编译为静态库
+\item 可选字体嵌入（\+EMBED\+\_\+\+RESOURCES=ON，默认开启）
+\item 跨平台\+SFML查找（支持3.\+x和2.\+x回退）
+\item 平台特定链接：\+Linux需\+X11/\+Open\+GL，\+Windows需winmm/ws2\+\_\+32，mac\+OS需\+Core\+Foundation
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md66}{}\doxysubsection{9.\+2 Git\+Hub Actions CI/\+CD}\label{md_document_autotoc_md66}
+工作流 {\ttfamily .github/workflows/build.\+yml}：
+
+
+\begin{DoxyEnumerate}
+\item 推送到main/master分支时触发构建
+\item 推送v$\ast$标签时触发构建+发布\+Release
+\item 三个平台并行构建：\+Windows(\+VS2022)、\+Linux(\+GCC)、mac\+OS(\+Clang arm64)
+\item 自动下载\+SFML 3.\+0.\+2预编译包
+\item 构建后打包：\+Windows→zip，\+Linux→tar.\+gz，mac\+OS→app zip
+\item 发布时上传三个平台的包到\+Git\+Hub Release
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md68}{}\doxysection{10. 渲染细节}\label{md_document_autotoc_md68}
+\hypertarget{md_document_autotoc_md69}{}\doxysubsection{10.\+1 玩家渲染}\label{md_document_autotoc_md69}
+
+\begin{DoxyItemize}
+\item 圆形主体（半径18），翻滚时半透明（alpha=128）
+\item 上方血条（50×8像素，红底绿条）
+\item 名字显示在下方
+\item 武器图标显示在右侧（剑=银白长条，法器=橙色圆，刺刀=紫色短条）
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md70}{}\doxysubsection{10.\+2 敌人渲染}\label{md_document_autotoc_md70}
+
+\begin{DoxyItemize}
+\item 45度旋转正方形（菱形）
+\item 上方血条
+\item 名字带黑色描边（4方向偏移）提高可读性
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md71}{}\doxysubsection{10.\+3 刀光动画}\label{md_document_autotoc_md71}
+
+\begin{DoxyItemize}
+\item 180度扇形弧线扫过
+\item 24段梯形四边形组成
+\item 剑尖处最亮，拖尾渐隐
+\item 剑尖高亮光点
+\item 颜色按职业设置（战士/法师/刺客各有不同橙色色调）
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md72}{}\doxysubsection{10.\+4 伤害数字}\label{md_document_autotoc_md72}
+
+\begin{DoxyItemize}
+\item 普通伤害：黄色18号字
+\item 暴击伤害：红色24号字+描边
+\item 环绕敌人位置缓慢旋转
+\item 2秒后消失，最后0.6秒淡出
+\end{DoxyItemize}\hypertarget{md_document_autotoc_md73}{}\doxysubsection{10.\+5 掉落物渲染}\label{md_document_autotoc_md73}
+
+\begin{DoxyItemize}
+\item 外圈光晕（半径12，半透明）
+\item 内圈（半径8，实色）
+\item 中心高亮点（半径3，白色）
+\item 上下浮动动画（sin波，振幅3像素）
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md_document_autotoc_md75}{}\doxysection{11. 已知限制}\label{md_document_autotoc_md75}
+
+\begin{DoxyEnumerate}
+\item 联机模式仅支持局域网\+UDP，无断线重连和延迟补偿
+\item 密码哈希使用djb2算法，不可用于生产环境
+\item mac\+OS版本未经深度测试
+\item 客户端不运行游戏逻辑，完全依赖主机同步，主机断开则游戏结束
+\item 掉落物拾取仅在主机端判定，客户端看到的是同步后的效果
+\item 敌人数量无上限，极端情况下可能影响性能 
+\end{DoxyEnumerate}

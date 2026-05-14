@@ -1,0 +1,54 @@
+\hypertarget{WeaponListBridge_8hpp}{}\doxysection{src/\+Weapon\+List\+Bridge.hpp File Reference}
+\label{WeaponListBridge_8hpp}\index{src/WeaponListBridge.hpp@{src/WeaponListBridge.hpp}}
+
+
+C++桥接层 -\/ 封装\+C语言武器链表，提供\+RAII和类型安全接口  
+
+
+{\ttfamily \#include \char`\"{}Weapon\+List.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$optional$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+Include dependency graph for Weapon\+List\+Bridge.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{WeaponListBridge_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{WeaponListBridge_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structWeaponData}{Weapon\+Data}}
+\begin{DoxyCompactList}\small\item\em C++武器数据结构 \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classWeaponListBridge}{Weapon\+List\+Bridge}}
+\begin{DoxyCompactList}\small\item\em 武器链表\+C++桥接类 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+C++桥接层 -\/ 封装\+C语言武器链表，提供\+RAII和类型安全接口 
+
+设计目的： 武器系统的底层数据结构用纯\+C语言实现（\+Weapon\+List.\+c）， 使用单链表管理武器节点。此桥接层将\+C接口封装为\+C++类， 提供：
+\begin{DoxyItemize}
+\item RAII：构造时创建链表，析构时自动销毁
+\item 类型安全：\+C的char\mbox{[}\mbox{]}转为std\+::string，int布尔转为bool
+\item 移动语义：允许转移链表所有权，禁止拷贝
+\item 装备管理：记录当前装备的武器数据
+\end{DoxyItemize}
+
+三种默认武器：
+\begin{DoxyItemize}
+\item 铁剑（\+Iron Sword）：近战，伤害15，范围80，攻速2.5
+\item 火焰法器（\+Flame Artifact）：远程，伤害20，范围300，攻速0.8
+\item 暗影刺刀（\+Shadow Dagger）：近战，伤害8，范围50，攻速4.0 
+\end{DoxyItemize}

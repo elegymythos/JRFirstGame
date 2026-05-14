@@ -1,0 +1,63 @@
+\hypertarget{AIController_8hpp}{}\doxysection{src/\+AIController.hpp File Reference}
+\label{AIController_8hpp}\index{src/AIController.hpp@{src/AIController.hpp}}
+
+
+AI 观测编码与动作解码  
+
+
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+Include dependency graph for AIController.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{AIController_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=332pt]{AIController_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structAIPlayerState}{AIPlayer\+State}}
+\begin{DoxyCompactList}\small\item\em AI 感知的玩家状态 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structAIEnemyState}{AIEnemy\+State}}
+\begin{DoxyCompactList}\small\item\em AI 感知的敌人状态 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structAIProjectileState}{AIProjectile\+State}}
+\begin{DoxyCompactList}\small\item\em AI 感知的投射物状态 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structAIDropState}{AIDrop\+State}}
+\begin{DoxyCompactList}\small\item\em AI 感知的掉落物状态 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structAIGameState}{AIGame\+State}}
+\begin{DoxyCompactList}\small\item\em AI 完整游戏状态（所有感知信息的聚合） \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structAIAction}{AIAction}}
+\begin{DoxyCompactList}\small\item\em AI 决策动作 \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classAIObservation}{AIObservation}}
+\begin{DoxyCompactList}\small\item\em AI 观测编码器 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+AI 观测编码与动作解码 
+
+定义 AI 与游戏交互的数据结构和转换逻辑：
+\begin{DoxyItemize}
+\item AIGame\+State：\+AI 感知的游戏状态（玩家/敌人/投射物/掉落物/难度等）
+\item AIObservation：将游戏状态编码为 276 维浮点观测向量
+\item AIAction：将动作索引解码为移动/攻击/翻滚/拾取指令
+\end{DoxyItemize}
+
+动作空间（12 个离散动作）： 0-\/8\+: 9 个移动方向（静止/上/下/左/右/左上/右上/左下/右下） 9\+: 攻击最近敌人（自动边打边走） 10\+: 翻滚（朝最近敌人方向） 11\+: 拾取（朝最近掉落物移动）
+
+观测空间（330 维）： 玩家状态 20 维 + 20 敌人×10 维 + 10 投射物×6 维
+\begin{DoxyItemize}
+\item 10 掉落物×4 维 + 8 方向危险度 + 游戏时间 + 难度 
+\end{DoxyItemize}

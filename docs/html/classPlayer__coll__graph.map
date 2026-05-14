@@ -1,0 +1,9 @@
+<map id="Player" name="Player">
+<area shape="rect" id="node1" title="玩家角色" alt="" coords="345,184,409,211"/>
+<area shape="rect" id="node2" href="$classRPGEntity.html" title="游戏实体基类" alt="" coords="5,95,92,121"/>
+<area shape="rect" id="node3" href="$structAttributes.html" title="角色六大属性" alt="" coords="119,5,205,32"/>
+<area shape="rect" id="node4" href="$structClassConfig.html" title="职业配置" alt="" coords="266,95,365,121"/>
+<area shape="rect" id="node5" href="$structLevelData.html" title="等级与经验数据" alt="" coords="389,95,477,121"/>
+<area shape="rect" id="node6" href="$classWeaponListBridge.html" title="武器链表C++桥接类" alt="" coords="501,95,642,121"/>
+<area shape="rect" id="node7" href="$structWeaponData.html" title="C++武器数据结构" alt="" coords="666,95,773,121"/>
+</map>

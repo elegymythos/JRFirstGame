@@ -1,0 +1,119 @@
+\hypertarget{structAIGameState}{}\doxysection{AIGame\+State Struct Reference}
+\label{structAIGameState}\index{AIGameState@{AIGameState}}
+
+
+AI 完整游戏状态（所有感知信息的聚合）  
+
+
+
+
+{\ttfamily \#include $<$AIController.\+hpp$>$}
+
+
+
+Collaboration diagram for AIGame\+State\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{structAIGameState__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structAIPlayerState}{AIPlayer\+State}} \mbox{\hyperlink{structAIGameState_a41fb9a1fb6c17881aadd44509b092e05}{player}}
+\begin{DoxyCompactList}\small\item\em 玩家状态 \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structAIEnemyState}{AIEnemy\+State}} $>$ \mbox{\hyperlink{structAIGameState_a3db7081b02710b5d5ac6a706685fdd46}{enemies}}
+\begin{DoxyCompactList}\small\item\em 所有敌人状态 \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structAIProjectileState}{AIProjectile\+State}} $>$ \mbox{\hyperlink{structAIGameState_a8b39805c9bb4aa2abccafabdb43632b0}{projectiles}}
+\begin{DoxyCompactList}\small\item\em 所有投射物状态 \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structAIDropState}{AIDrop\+State}} $>$ \mbox{\hyperlink{structAIGameState_a54ec0bb9a14827308f016e8b55dd7e88}{drops}}
+\begin{DoxyCompactList}\small\item\em 所有掉落物状态 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIGameState_a766eb4aa2089405078fc122bf2ee1660}{game\+Time}} = 0.f
+\begin{DoxyCompactList}\small\item\em 游戏时间（秒） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structAIGameState_aaf73173fd6432d4b7877a7e3f2967c71}{difficulty\+Scale}} = 1.f
+\begin{DoxyCompactList}\small\item\em 难度缩放因子 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAIGameState_ad3f689ac1d1788b62c11f25dba0bdbb6}{current\+Victory\+Stage}} = 0
+\begin{DoxyCompactList}\small\item\em 当前胜利阶段 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+AI 完整游戏状态（所有感知信息的聚合） 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structAIGameState_ad3f689ac1d1788b62c11f25dba0bdbb6}\label{structAIGameState_ad3f689ac1d1788b62c11f25dba0bdbb6}} 
+\index{AIGameState@{AIGameState}!currentVictoryStage@{currentVictoryStage}}
+\index{currentVictoryStage@{currentVictoryStage}!AIGameState@{AIGameState}}
+\doxysubsubsection{\texorpdfstring{currentVictoryStage}{currentVictoryStage}}
+{\footnotesize\ttfamily int AIGame\+State\+::current\+Victory\+Stage = 0}
+
+
+
+当前胜利阶段 
+
+\mbox{\Hypertarget{structAIGameState_aaf73173fd6432d4b7877a7e3f2967c71}\label{structAIGameState_aaf73173fd6432d4b7877a7e3f2967c71}} 
+\index{AIGameState@{AIGameState}!difficultyScale@{difficultyScale}}
+\index{difficultyScale@{difficultyScale}!AIGameState@{AIGameState}}
+\doxysubsubsection{\texorpdfstring{difficultyScale}{difficultyScale}}
+{\footnotesize\ttfamily float AIGame\+State\+::difficulty\+Scale = 1.f}
+
+
+
+难度缩放因子 
+
+\mbox{\Hypertarget{structAIGameState_a54ec0bb9a14827308f016e8b55dd7e88}\label{structAIGameState_a54ec0bb9a14827308f016e8b55dd7e88}} 
+\index{AIGameState@{AIGameState}!drops@{drops}}
+\index{drops@{drops}!AIGameState@{AIGameState}}
+\doxysubsubsection{\texorpdfstring{drops}{drops}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structAIDropState}{AIDrop\+State}}$>$ AIGame\+State\+::drops}
+
+
+
+所有掉落物状态 
+
+\mbox{\Hypertarget{structAIGameState_a3db7081b02710b5d5ac6a706685fdd46}\label{structAIGameState_a3db7081b02710b5d5ac6a706685fdd46}} 
+\index{AIGameState@{AIGameState}!enemies@{enemies}}
+\index{enemies@{enemies}!AIGameState@{AIGameState}}
+\doxysubsubsection{\texorpdfstring{enemies}{enemies}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structAIEnemyState}{AIEnemy\+State}}$>$ AIGame\+State\+::enemies}
+
+
+
+所有敌人状态 
+
+\mbox{\Hypertarget{structAIGameState_a766eb4aa2089405078fc122bf2ee1660}\label{structAIGameState_a766eb4aa2089405078fc122bf2ee1660}} 
+\index{AIGameState@{AIGameState}!gameTime@{gameTime}}
+\index{gameTime@{gameTime}!AIGameState@{AIGameState}}
+\doxysubsubsection{\texorpdfstring{gameTime}{gameTime}}
+{\footnotesize\ttfamily float AIGame\+State\+::game\+Time = 0.f}
+
+
+
+游戏时间（秒） 
+
+\mbox{\Hypertarget{structAIGameState_a41fb9a1fb6c17881aadd44509b092e05}\label{structAIGameState_a41fb9a1fb6c17881aadd44509b092e05}} 
+\index{AIGameState@{AIGameState}!player@{player}}
+\index{player@{player}!AIGameState@{AIGameState}}
+\doxysubsubsection{\texorpdfstring{player}{player}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structAIPlayerState}{AIPlayer\+State}} AIGame\+State\+::player}
+
+
+
+玩家状态 
+
+\mbox{\Hypertarget{structAIGameState_a8b39805c9bb4aa2abccafabdb43632b0}\label{structAIGameState_a8b39805c9bb4aa2abccafabdb43632b0}} 
+\index{AIGameState@{AIGameState}!projectiles@{projectiles}}
+\index{projectiles@{projectiles}!AIGameState@{AIGameState}}
+\doxysubsubsection{\texorpdfstring{projectiles}{projectiles}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structAIProjectileState}{AIProjectile\+State}}$>$ AIGame\+State\+::projectiles}
+
+
+
+所有投射物状态 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{AIController_8hpp}{AIController.\+hpp}}\end{DoxyCompactItemize}

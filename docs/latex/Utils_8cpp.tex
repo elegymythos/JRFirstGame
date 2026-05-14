@@ -1,0 +1,76 @@
+\hypertarget{Utils_8cpp}{}\doxysection{src/\+Utils.cpp File Reference}
+\label{Utils_8cpp}\index{src/Utils.cpp@{src/Utils.cpp}}
+
+
+工具函数实现：\+SHA-\/256哈希、随机盐值生成、密码哈希  
+
+
+{\ttfamily \#include \char`\"{}Utils.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$random$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$array$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+Include dependency graph for Utils.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Utils_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{Utils_8cpp_a3ad8e66739ba1f60a62abbc106cf855a}{generate\+Random\+Salt}} ()
+\begin{DoxyCompactList}\small\item\em 生成随机盐值 \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{Utils_8cpp_ac3a623f6d2431c7eba7d5c53c316ad1d}{hash\+Password}} (const std\+::string \&password, const std\+::string \&secret\+\_\+salt)
+\begin{DoxyCompactList}\small\item\em 对密码进行哈希 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+工具函数实现：\+SHA-\/256哈希、随机盐值生成、密码哈希 
+
+包含纯\+C++实现的\+SHA-\/256算法（用于学习项目）， 以及generate\+Random\+Salt()和hash\+Password()两个公共接口。 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{Utils_8cpp_a3ad8e66739ba1f60a62abbc106cf855a}\label{Utils_8cpp_a3ad8e66739ba1f60a62abbc106cf855a}} 
+\index{Utils.cpp@{Utils.cpp}!generateRandomSalt@{generateRandomSalt}}
+\index{generateRandomSalt@{generateRandomSalt}!Utils.cpp@{Utils.cpp}}
+\doxysubsubsection{\texorpdfstring{generateRandomSalt()}{generateRandomSalt()}}
+{\footnotesize\ttfamily std\+::string generate\+Random\+Salt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+生成随机盐值 
+
+\begin{DoxyReturn}{Returns}
+32字符的16进制字符串（16字节随机数）
+\end{DoxyReturn}
+使用 std\+::random\+\_\+device 获取真随机数种子。 \mbox{\Hypertarget{Utils_8cpp_ac3a623f6d2431c7eba7d5c53c316ad1d}\label{Utils_8cpp_ac3a623f6d2431c7eba7d5c53c316ad1d}} 
+\index{Utils.cpp@{Utils.cpp}!hashPassword@{hashPassword}}
+\index{hashPassword@{hashPassword}!Utils.cpp@{Utils.cpp}}
+\doxysubsubsection{\texorpdfstring{hashPassword()}{hashPassword()}}
+{\footnotesize\ttfamily std\+::string hash\+Password (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{password,  }\item[{const std\+::string \&}]{secret\+\_\+salt }\end{DoxyParamCaption})}
+
+
+
+对密码进行哈希 
+
+
+\begin{DoxyParams}{Parameters}
+{\em password} & 明文密码 \\
+\hline
+{\em secret\+\_\+salt} & 盐值 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+64字符的16进制字符串（\+SHA-\/256哈希结果）
+\end{DoxyReturn}
+哈希过程（类\+PBKDF2）：
+\begin{DoxyEnumerate}
+\item 组合字符串 = salt + password + salt
+\item 第1轮：\+SHA-\/256(组合字符串)
+\item 第2-\/10000轮：\+SHA-\/256(上一轮哈希 + 组合字符串)
+\item 输出最终哈希的16进制表示 
+\end{DoxyEnumerate}

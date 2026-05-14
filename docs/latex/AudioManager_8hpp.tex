@@ -1,0 +1,38 @@
+\hypertarget{AudioManager_8hpp}{}\doxysection{src/\+Audio\+Manager.hpp File Reference}
+\label{AudioManager_8hpp}\index{src/AudioManager.hpp@{src/AudioManager.hpp}}
+
+
+音频管理器 -\/ 背景音乐(\+BGM)和音效(\+SFX)统一管理  
+
+
+{\ttfamily \#include $<$SFML/\+Audio.\+hpp$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+Include dependency graph for Audio\+Manager.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{AudioManager_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{AudioManager_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classAudioManager}{Audio\+Manager}}
+\begin{DoxyCompactList}\small\item\em 音频管理器单例 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+音频管理器 -\/ 背景音乐(\+BGM)和音效(\+SFX)统一管理 
+
+单例模式，管理背景音乐和音效的加载、播放、音量控制。 BGM使用sf\+::\+Music流式播放，\+SFX使用sf\+::\+Sound\+Buffer+sf\+::\+Sound， 支持最多32个\+SFX通道轮换播放，避免音效被截断。 支持\+BGM淡入淡出效果。 

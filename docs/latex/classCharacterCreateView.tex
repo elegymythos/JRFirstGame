@@ -1,0 +1,131 @@
+\hypertarget{classCharacterCreateView}{}\doxysection{Character\+Create\+View Class Reference}
+\label{classCharacterCreateView}\index{CharacterCreateView@{CharacterCreateView}}
+
+
+角色创建视图  
+
+
+
+
+{\ttfamily \#include $<$Character\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Character\+Create\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{classCharacterCreateView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Character\+Create\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{classCharacterCreateView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classCharacterCreateView_a6ebd3bb6c0099f77d3f5c81f6ddf72dd}{Character\+Create\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, const std\+::string \&username, \mbox{\hyperlink{classDatabase}{Database}} \&database, int slot=-\/1)
+\begin{DoxyCompactList}\small\item\em 构造角色创建视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCharacterCreateView_a2c715b6b6180cff742fabe92e7254bbb}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCharacterCreateView_af88e3037884d00774cbc99288c533a3e}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCharacterCreateView_ac23c035c4641ee644ae47ae3ebde9ce5}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+角色创建视图 
+
+流程：
+\begin{DoxyEnumerate}
+\item 自动随机生成六大属性（正态分布，范围\mbox{[}1,20\mbox{]}，总和上限80）
+\item 用户可点击\char`\"{}重新随机\char`\"{}刷新属性
+\item 选择职业：战士（力量+5/铁剑）、法师（魔法+5/火焰法器）、刺客（敏捷+5/暗影刺刀）
+\item 确认创建，自动分配空槽位，存入数据库 
+\end{DoxyEnumerate}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classCharacterCreateView_a6ebd3bb6c0099f77d3f5c81f6ddf72dd}\label{classCharacterCreateView_a6ebd3bb6c0099f77d3f5c81f6ddf72dd}} 
+\index{CharacterCreateView@{CharacterCreateView}!CharacterCreateView@{CharacterCreateView}}
+\index{CharacterCreateView@{CharacterCreateView}!CharacterCreateView@{CharacterCreateView}}
+\doxysubsubsection{\texorpdfstring{CharacterCreateView()}{CharacterCreateView()}}
+{\footnotesize\ttfamily Character\+Create\+View\+::\+Character\+Create\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{const std\+::string \&}]{username,  }\item[{\mbox{\hyperlink{classDatabase}{Database}} \&}]{database,  }\item[{int}]{slot = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+
+
+构造角色创建视图 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+{\em username} & 当前登录用户名 \\
+\hline
+{\em database} & 数据库引用 \\
+\hline
+{\em slot} & 指定槽位（-\/1表示自动分配） \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classCharacterCreateView_ac23c035c4641ee644ae47ae3ebde9ce5}\label{classCharacterCreateView_ac23c035c4641ee644ae47ae3ebde9ce5}} 
+\index{CharacterCreateView@{CharacterCreateView}!draw@{draw}}
+\index{draw@{draw}!CharacterCreateView@{CharacterCreateView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Character\+Create\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classCharacterCreateView_a2c715b6b6180cff742fabe92e7254bbb}\label{classCharacterCreateView_a2c715b6b6180cff742fabe92e7254bbb}} 
+\index{CharacterCreateView@{CharacterCreateView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!CharacterCreateView@{CharacterCreateView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Character\+Create\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classCharacterCreateView_af88e3037884d00774cbc99288c533a3e}\label{classCharacterCreateView_af88e3037884d00774cbc99288c533a3e}} 
+\index{CharacterCreateView@{CharacterCreateView}!update@{update}}
+\index{update@{update}!CharacterCreateView@{CharacterCreateView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Character\+Create\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{CharacterView_8hpp}{Character\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{CharacterView_8cpp}{Character\+View.\+cpp}}\end{DoxyCompactItemize}

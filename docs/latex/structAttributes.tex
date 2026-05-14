@@ -1,0 +1,117 @@
+\hypertarget{structAttributes}{}\doxysection{Attributes Struct Reference}
+\label{structAttributes}\index{Attributes@{Attributes}}
+
+
+角色六大属性  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{structAttributes_ae7ee1032f87906b4a77106a34d3a82ac}{total}} () const
+\begin{DoxyCompactList}\small\item\em 六项属性之和 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{structAttributes_ad955726d9ba06daf4ed27b3956269770}{strength}} = 1
+\begin{DoxyCompactList}\small\item\em 力量：剑伤害加成 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAttributes_acf03abe298ee3f638cbb407c62b3aa83}{agility}} = 1
+\begin{DoxyCompactList}\small\item\em 敏捷：刺刀伤害加成、翻滚相关 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAttributes_a4b38ad571b32e8cb99fe55ae8071bd9c}{magic}} = 1
+\begin{DoxyCompactList}\small\item\em 魔法：法器伤害加成 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAttributes_a518cca579561dc78b2541940f7110056}{intelligence}} = 1
+\begin{DoxyCompactList}\small\item\em 智力：预留扩展 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAttributes_a25a8432946e0f3429222b0d014141aec}{vitality}} = 1
+\begin{DoxyCompactList}\small\item\em 生命：决定 max\+Health = 120 + vitality$\ast$8 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structAttributes_aaaa19208dbe53a0009410f561f7912ab}{luck}} = 1
+\begin{DoxyCompactList}\small\item\em 幸运：预留扩展 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+角色六大属性 
+
+力量影响剑伤害，敏捷影响刺刀伤害和翻滚， 魔法影响法器伤害，智力预留，生命影响血量上限，幸运预留。 随机生成时使用正态分布（均值10，标准差4），钳制到\mbox{[}1,20\mbox{]}，总和上限80。 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structAttributes_ae7ee1032f87906b4a77106a34d3a82ac}\label{structAttributes_ae7ee1032f87906b4a77106a34d3a82ac}} 
+\index{Attributes@{Attributes}!total@{total}}
+\index{total@{total}!Attributes@{Attributes}}
+\doxysubsubsection{\texorpdfstring{total()}{total()}}
+{\footnotesize\ttfamily int Attributes\+::total (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+六项属性之和 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structAttributes_acf03abe298ee3f638cbb407c62b3aa83}\label{structAttributes_acf03abe298ee3f638cbb407c62b3aa83}} 
+\index{Attributes@{Attributes}!agility@{agility}}
+\index{agility@{agility}!Attributes@{Attributes}}
+\doxysubsubsection{\texorpdfstring{agility}{agility}}
+{\footnotesize\ttfamily int Attributes\+::agility = 1}
+
+
+
+敏捷：刺刀伤害加成、翻滚相关 
+
+\mbox{\Hypertarget{structAttributes_a518cca579561dc78b2541940f7110056}\label{structAttributes_a518cca579561dc78b2541940f7110056}} 
+\index{Attributes@{Attributes}!intelligence@{intelligence}}
+\index{intelligence@{intelligence}!Attributes@{Attributes}}
+\doxysubsubsection{\texorpdfstring{intelligence}{intelligence}}
+{\footnotesize\ttfamily int Attributes\+::intelligence = 1}
+
+
+
+智力：预留扩展 
+
+\mbox{\Hypertarget{structAttributes_aaaa19208dbe53a0009410f561f7912ab}\label{structAttributes_aaaa19208dbe53a0009410f561f7912ab}} 
+\index{Attributes@{Attributes}!luck@{luck}}
+\index{luck@{luck}!Attributes@{Attributes}}
+\doxysubsubsection{\texorpdfstring{luck}{luck}}
+{\footnotesize\ttfamily int Attributes\+::luck = 1}
+
+
+
+幸运：预留扩展 
+
+\mbox{\Hypertarget{structAttributes_a4b38ad571b32e8cb99fe55ae8071bd9c}\label{structAttributes_a4b38ad571b32e8cb99fe55ae8071bd9c}} 
+\index{Attributes@{Attributes}!magic@{magic}}
+\index{magic@{magic}!Attributes@{Attributes}}
+\doxysubsubsection{\texorpdfstring{magic}{magic}}
+{\footnotesize\ttfamily int Attributes\+::magic = 1}
+
+
+
+魔法：法器伤害加成 
+
+\mbox{\Hypertarget{structAttributes_ad955726d9ba06daf4ed27b3956269770}\label{structAttributes_ad955726d9ba06daf4ed27b3956269770}} 
+\index{Attributes@{Attributes}!strength@{strength}}
+\index{strength@{strength}!Attributes@{Attributes}}
+\doxysubsubsection{\texorpdfstring{strength}{strength}}
+{\footnotesize\ttfamily int Attributes\+::strength = 1}
+
+
+
+力量：剑伤害加成 
+
+\mbox{\Hypertarget{structAttributes_a25a8432946e0f3429222b0d014141aec}\label{structAttributes_a25a8432946e0f3429222b0d014141aec}} 
+\index{Attributes@{Attributes}!vitality@{vitality}}
+\index{vitality@{vitality}!Attributes@{Attributes}}
+\doxysubsubsection{\texorpdfstring{vitality}{vitality}}
+{\footnotesize\ttfamily int Attributes\+::vitality = 1}
+
+
+
+生命：决定 max\+Health = 120 + vitality$\ast$8 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\end{DoxyCompactItemize}

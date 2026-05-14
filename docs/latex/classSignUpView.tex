@@ -1,0 +1,127 @@
+\hypertarget{classSignUpView}{}\doxysection{Sign\+Up\+View Class Reference}
+\label{classSignUpView}\index{SignUpView@{SignUpView}}
+
+
+注册视图  
+
+
+
+
+{\ttfamily \#include $<$Auth\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Sign\+Up\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=156pt]{classSignUpView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Sign\+Up\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=156pt]{classSignUpView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classSignUpView_a6dd4df743c2451e984bbdff311f84abb}{Sign\+Up\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, \mbox{\hyperlink{classDatabase}{Database}} \&database)
+\begin{DoxyCompactList}\small\item\em 构造注册视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSignUpView_a94303233f6f0d3b08c801dfbcf5e5b93}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSignUpView_a8307219669cde07451a0ce16132934f3}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classSignUpView_a9a78bb8003d9bee620a2c780ee53282c}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制注册界面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+注册视图 
+
+用户输入用户名和密码，点击注册后：
+\begin{DoxyEnumerate}
+\item 检查用户名是否已存在
+\item 生成 16 字节随机盐值
+\item 用 SHA-\/256 + 盐值对密码做 10000 轮迭代哈希
+\item 将用户名、盐值、哈希存入数据库 注册成功后自动跳转到登录页面。 
+\end{DoxyEnumerate}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classSignUpView_a6dd4df743c2451e984bbdff311f84abb}\label{classSignUpView_a6dd4df743c2451e984bbdff311f84abb}} 
+\index{SignUpView@{SignUpView}!SignUpView@{SignUpView}}
+\index{SignUpView@{SignUpView}!SignUpView@{SignUpView}}
+\doxysubsubsection{\texorpdfstring{SignUpView()}{SignUpView()}}
+{\footnotesize\ttfamily Sign\+Up\+View\+::\+Sign\+Up\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{\mbox{\hyperlink{classDatabase}{Database}} \&}]{database }\end{DoxyParamCaption})}
+
+
+
+构造注册视图 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+{\em database} & 数据库引用 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classSignUpView_a9a78bb8003d9bee620a2c780ee53282c}\label{classSignUpView_a9a78bb8003d9bee620a2c780ee53282c}} 
+\index{SignUpView@{SignUpView}!draw@{draw}}
+\index{draw@{draw}!SignUpView@{SignUpView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Sign\+Up\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制注册界面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classSignUpView_a94303233f6f0d3b08c801dfbcf5e5b93}\label{classSignUpView_a94303233f6f0d3b08c801dfbcf5e5b93}} 
+\index{SignUpView@{SignUpView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!SignUpView@{SignUpView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Sign\+Up\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classSignUpView_a8307219669cde07451a0ce16132934f3}\label{classSignUpView_a8307219669cde07451a0ce16132934f3}} 
+\index{SignUpView@{SignUpView}!update@{update}}
+\index{update@{update}!SignUpView@{SignUpView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Sign\+Up\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{AuthView_8hpp}{Auth\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{AuthView_8cpp}{Auth\+View.\+cpp}}\end{DoxyCompactItemize}

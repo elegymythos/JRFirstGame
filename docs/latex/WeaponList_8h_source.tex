@@ -1,0 +1,60 @@
+\hypertarget{WeaponList_8h_source}{}\doxysection{Weapon\+List.\+h}
+\label{WeaponList_8h_source}\index{src/WeaponList.h@{src/WeaponList.h}}
+\mbox{\hyperlink{WeaponList_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#ifndef WEAPON\_LIST\_H}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#define WEAPON\_LIST\_H}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{11 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{comment}{/* ======================== 类型定义 ======================== */}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{19 \textcolor{keyword}{typedef} \textcolor{keyword}{enum} \{}
+\DoxyCodeLine{20     \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8a7ea36fad485cddcdd48ad3a949c18c94}{WEAPON\_SWORD}}    = 0,  \textcolor{comment}{/* 剑 -\/ 近战/中等伤害/中等范围/中等速度 */}}
+\DoxyCodeLine{21     \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8a34e4b7d4ad3769574e8bd6cc55309538}{WEAPON\_ARTIFACT}} = 1,  \textcolor{comment}{/* 法器 -\/ 远程/魔法伤害/远范围/慢速度 */}}
+\DoxyCodeLine{22     \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8afdd382885816a8a901a00750be87498e}{WEAPON\_DAGGER}}   = 2   \textcolor{comment}{/* 刺刀 -\/ 近战/低伤害/短范围/快速度 */}}
+\DoxyCodeLine{23 \} \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{WeaponType}};}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{28 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structWeapon}{Weapon}} \{}
+\DoxyCodeLine{29     \textcolor{keywordtype}{char} \mbox{\hyperlink{structWeapon_a25f30d403a19bfc12f2f087584ed377b}{name}}[32];          \textcolor{comment}{/* 武器名称 */}}
+\DoxyCodeLine{30     \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{WeaponType}} \mbox{\hyperlink{structWeapon_a041978c4c0a12a8c6081c510f79e1d5b}{type}};        \textcolor{comment}{/* 武器类型 */}}
+\DoxyCodeLine{31     \textcolor{keywordtype}{int} \mbox{\hyperlink{structWeapon_abb463127151d807804c556ddbd767e18}{damage}};             \textcolor{comment}{/* 基础伤害 */}}
+\DoxyCodeLine{32     \textcolor{keywordtype}{float} \mbox{\hyperlink{structWeapon_a1a7606431e2189b4a34ae75657deecd7}{range}};            \textcolor{comment}{/* 攻击范围 */}}
+\DoxyCodeLine{33     \textcolor{keywordtype}{float} \mbox{\hyperlink{structWeapon_a8ea2338361450fe357f4e51de049da84}{attackSpeed}};      \textcolor{comment}{/* 每秒攻击次数 */}}
+\DoxyCodeLine{34     \textcolor{keywordtype}{int} \mbox{\hyperlink{structWeapon_af61ca505dce18da028eb1a4adda4df9a}{isRanged}};           \textcolor{comment}{/* 0=近战, 1=远程 */}}
+\DoxyCodeLine{35     \textcolor{keyword}{struct }\mbox{\hyperlink{structWeapon}{Weapon}}* \mbox{\hyperlink{structWeapon_abab74256b5e69f931121f4f404bfeb21}{next}};    \textcolor{comment}{/* 链表下一节点 */}}
+\DoxyCodeLine{36 \} \mbox{\hyperlink{WeaponList_8h_a289267d934011ba74f3f27f807e4841b}{Weapon}};}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{41 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{42     \mbox{\hyperlink{structWeapon}{Weapon}}* \mbox{\hyperlink{structWeaponList_a5c150cb56478ab6e98a3bc5c0d5bc750}{head}};   \textcolor{comment}{/* 链表头节点 */}}
+\DoxyCodeLine{43     \textcolor{keywordtype}{int} \mbox{\hyperlink{structWeaponList_ac5c12257ec08b6ca0bda8490f9ad826e}{count}};      \textcolor{comment}{/* 节点计数 */}}
+\DoxyCodeLine{44 \} \mbox{\hyperlink{structWeaponList}{WeaponList}};}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{comment}{/* ======================== 链表操作 ======================== */}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{52 \mbox{\hyperlink{structWeaponList}{WeaponList}}* \mbox{\hyperlink{WeaponList_8h_a35cda3cfe3a5aad55f35bbf74c71951a}{weapon\_list\_create}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{58 \textcolor{keywordtype}{void} \mbox{\hyperlink{WeaponList_8h_a398e2cf3dba2563c50bb805a56aaca29}{weapon\_list\_destroy}}(\mbox{\hyperlink{structWeaponList}{WeaponList}}* list);}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{66 \textcolor{keywordtype}{int} \mbox{\hyperlink{WeaponList_8h_a537da9172ba4dca855939be15fa30ae5}{weapon\_list\_insert}}(\mbox{\hyperlink{structWeaponList}{WeaponList}}* list, \textcolor{keyword}{const} \mbox{\hyperlink{structWeapon}{Weapon}}* weapon);}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{74 \textcolor{keywordtype}{int} \mbox{\hyperlink{WeaponList_8h_a6d46d0e73f570a731692ef9ad3b91609}{weapon\_list\_remove}}(\mbox{\hyperlink{structWeaponList}{WeaponList}}* list, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* name);}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{82 \mbox{\hyperlink{structWeapon}{Weapon}}* \mbox{\hyperlink{WeaponList_8h_a66f11eeec4465ec5774ae902e655d323}{weapon\_list\_find}}(\mbox{\hyperlink{structWeaponList}{WeaponList}}* list, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* name);}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{90 \mbox{\hyperlink{structWeapon}{Weapon}}* \mbox{\hyperlink{WeaponList_8h_a5a59870e50e85e3330b2d94d379be455}{weapon\_list\_find\_by\_type}}(\mbox{\hyperlink{structWeaponList}{WeaponList}}* list, \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{WeaponType}} type);}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{98 \textcolor{keywordtype}{void} \mbox{\hyperlink{WeaponList_8h_aad05340288ae4757a2e1d8babed9ca7a}{weapon\_list\_foreach}}(\mbox{\hyperlink{structWeaponList}{WeaponList}}* list, \textcolor{keywordtype}{void} (*callback)(\mbox{\hyperlink{structWeapon}{Weapon}}*, \textcolor{keywordtype}{void}*), \textcolor{keywordtype}{void}* userdata);}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{105 \textcolor{keywordtype}{int} \mbox{\hyperlink{WeaponList_8h_aa4426cc73b568db749e37aa87eaa6fce}{weapon\_list\_count}}(\mbox{\hyperlink{structWeaponList}{WeaponList}}* list);}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{108 \}}
+\DoxyCodeLine{109 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* WEAPON\_LIST\_H */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

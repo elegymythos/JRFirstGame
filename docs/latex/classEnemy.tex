@@ -1,0 +1,276 @@
+\hypertarget{classEnemy}{}\doxysection{Enemy Class Reference}
+\label{classEnemy}\index{Enemy@{Enemy}}
+
+
+敌人角色  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+
+
+Inheritance diagram for Enemy\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{classEnemy__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Enemy\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{classEnemy__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEnemy_aaf2ba8f615a693dd18a0d9daa798ff3e}{Enemy}} (\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}} type, sf\+::\+Vector2f pos)
+\item 
+void \mbox{\hyperlink{classEnemy_ae842db91fa891276061579fa234b02c2}{set\+Target}} (const sf\+::\+Vector2f \&target)
+\begin{DoxyCompactList}\small\item\em 设置追踪目标位置 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classEnemy_ab6a3b691be209d9fce40f760bb479a11}{update}} (float dt) override
+\begin{DoxyCompactList}\small\item\em 每帧更新位置：position += velocity $\ast$ dt \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classEnemy_ad35cb50c7b041a183f12756b939a4636}{draw}} (sf\+::\+Render\+Window \&window) const override
+\begin{DoxyCompactList}\small\item\em 绘制为圆形 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classEnemy_a368d0ace6156d06fcc7879f9804eac22}{draw\+With\+Name}} (sf\+::\+Render\+Window \&window, const sf\+::\+Font $\ast$font=nullptr) const
+\begin{DoxyCompactList}\small\item\em 绘制敌人并显示翻译后的名字 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classEnemy_a86b57382d5c2ec04100e7d2dcdcab4cb}{can\+Attack}} () const
+\begin{DoxyCompactList}\small\item\em 攻击冷却是否结束 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classEnemy_a2dde9508d973d2cf9b5e87805ada0dd6}{reset\+Attack\+Cooldown}} ()
+\begin{DoxyCompactList}\small\item\em 重置攻击冷却 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classEnemy_a1db2b466106779e907783d279102b042}{scale\+Stats}} (float scale)
+\begin{DoxyCompactList}\small\item\em 根据难度缩放敌人属性 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}} \mbox{\hyperlink{classEnemy_a36bcaf317708c0ed35835bc0f79c7719}{enemy\+Type}} = \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268eaa537a3d7d5ede5718f2b597568233925}{Enemy\+Type\+::\+Slime}}
+\begin{DoxyCompactList}\small\item\em 敌人类型 \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classEnemy_a62b43d24fa5a537d45bdba46a4e2559b}{name}}
+\begin{DoxyCompactList}\small\item\em 显示名称 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classEnemy_a71a73c9ecbb6ae3cfc93fe5dd2d6423c}{score}} = 10
+\begin{DoxyCompactList}\small\item\em 击杀分数 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classEnemy_a246979d262e6cee1ea2a076e972d4cb8}{is\+Ranged}} = false
+\begin{DoxyCompactList}\small\item\em 是否远程 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classEnemy_a573af3a6b672a882ae23263bfbcdf440}{attack\+Cooldown}} = 0.f
+\begin{DoxyCompactList}\small\item\em 攻击冷却剩余 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classEnemy_a8f880bc20d672dfa5bf3db2cfd3c7732}{attack\+Cooldown\+Max}} = 1.\+0f
+\begin{DoxyCompactList}\small\item\em 攻击冷却时间 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classEnemy_a300791ce62f3acae74cc0fe190c7487a}{attack\+Damage}} = 5
+\begin{DoxyCompactList}\small\item\em 攻击伤害 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classEnemy_a2f871e8d3c88955b9388f9b9aac929d0}{attack\+Range}} = 30.f
+\begin{DoxyCompactList}\small\item\em 攻击范围 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classEnemy_aa500a299c7cf858a04be9c29500698c0}{score\+Processed}} = false
+\begin{DoxyCompactList}\small\item\em 防止击杀分数重复累加 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+敌人角色 
+
+继承 RPGEntity，支持四种类型，各有差异化 AI：
+\begin{DoxyItemize}
+\item Slime：缓慢直线追踪
+\item Skeleton\+Warrior：中速直线追踪，近战
+\item Skeleton\+Archer：保持150-\/250距离，远程射击
+\item Giant：慢速直线追踪，高血量近战 绘制为45度旋转的正方形（菱形）。 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classEnemy_aaf2ba8f615a693dd18a0d9daa798ff3e}\label{classEnemy_aaf2ba8f615a693dd18a0d9daa798ff3e}} 
+\index{Enemy@{Enemy}!Enemy@{Enemy}}
+\index{Enemy@{Enemy}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{Enemy()}{Enemy()}}
+{\footnotesize\ttfamily Enemy\+::\+Enemy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}}}]{type,  }\item[{sf\+::\+Vector2f}]{pos }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classEnemy_a86b57382d5c2ec04100e7d2dcdcab4cb}\label{classEnemy_a86b57382d5c2ec04100e7d2dcdcab4cb}} 
+\index{Enemy@{Enemy}!canAttack@{canAttack}}
+\index{canAttack@{canAttack}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{canAttack()}{canAttack()}}
+{\footnotesize\ttfamily bool Enemy\+::can\+Attack (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+攻击冷却是否结束 
+
+\mbox{\Hypertarget{classEnemy_ad35cb50c7b041a183f12756b939a4636}\label{classEnemy_ad35cb50c7b041a183f12756b939a4636}} 
+\index{Enemy@{Enemy}!draw@{draw}}
+\index{draw@{draw}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Enemy\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制为圆形 
+
+
+
+Reimplemented from \mbox{\hyperlink{classRPGEntity_aaff22114306ef740e9eec179b91006c1}{RPGEntity}}.
+
+\mbox{\Hypertarget{classEnemy_a368d0ace6156d06fcc7879f9804eac22}\label{classEnemy_a368d0ace6156d06fcc7879f9804eac22}} 
+\index{Enemy@{Enemy}!drawWithName@{drawWithName}}
+\index{drawWithName@{drawWithName}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{drawWithName()}{drawWithName()}}
+{\footnotesize\ttfamily void Enemy\+::draw\+With\+Name (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window,  }\item[{const sf\+::\+Font $\ast$}]{font = {\ttfamily nullptr} }\end{DoxyParamCaption}) const}
+
+
+
+绘制敌人并显示翻译后的名字 
+
+\mbox{\Hypertarget{classEnemy_a2dde9508d973d2cf9b5e87805ada0dd6}\label{classEnemy_a2dde9508d973d2cf9b5e87805ada0dd6}} 
+\index{Enemy@{Enemy}!resetAttackCooldown@{resetAttackCooldown}}
+\index{resetAttackCooldown@{resetAttackCooldown}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{resetAttackCooldown()}{resetAttackCooldown()}}
+{\footnotesize\ttfamily void Enemy\+::reset\+Attack\+Cooldown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+重置攻击冷却 
+
+\mbox{\Hypertarget{classEnemy_a1db2b466106779e907783d279102b042}\label{classEnemy_a1db2b466106779e907783d279102b042}} 
+\index{Enemy@{Enemy}!scaleStats@{scaleStats}}
+\index{scaleStats@{scaleStats}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{scaleStats()}{scaleStats()}}
+{\footnotesize\ttfamily void Enemy\+::scale\+Stats (\begin{DoxyParamCaption}\item[{float}]{scale }\end{DoxyParamCaption})}
+
+
+
+根据难度缩放敌人属性 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scale} & 缩放因子 (1.\+0=原始, 2.\+0=双倍)\\
+\hline
+\end{DoxyParams}
+血量、伤害、分数乘以 scale，速度乘以 sqrt(scale)。 \mbox{\Hypertarget{classEnemy_ae842db91fa891276061579fa234b02c2}\label{classEnemy_ae842db91fa891276061579fa234b02c2}} 
+\index{Enemy@{Enemy}!setTarget@{setTarget}}
+\index{setTarget@{setTarget}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{setTarget()}{setTarget()}}
+{\footnotesize\ttfamily void Enemy\+::set\+Target (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{target }\end{DoxyParamCaption})}
+
+
+
+设置追踪目标位置 
+
+\mbox{\Hypertarget{classEnemy_ab6a3b691be209d9fce40f760bb479a11}\label{classEnemy_ab6a3b691be209d9fce40f760bb479a11}} 
+\index{Enemy@{Enemy}!update@{update}}
+\index{update@{update}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Enemy\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新位置：position += velocity $\ast$ dt 
+
+
+
+Reimplemented from \mbox{\hyperlink{classRPGEntity_ab4e1e4617259d027f26377010bdb36c1}{RPGEntity}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classEnemy_a573af3a6b672a882ae23263bfbcdf440}\label{classEnemy_a573af3a6b672a882ae23263bfbcdf440}} 
+\index{Enemy@{Enemy}!attackCooldown@{attackCooldown}}
+\index{attackCooldown@{attackCooldown}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{attackCooldown}{attackCooldown}}
+{\footnotesize\ttfamily float Enemy\+::attack\+Cooldown = 0.f}
+
+
+
+攻击冷却剩余 
+
+\mbox{\Hypertarget{classEnemy_a8f880bc20d672dfa5bf3db2cfd3c7732}\label{classEnemy_a8f880bc20d672dfa5bf3db2cfd3c7732}} 
+\index{Enemy@{Enemy}!attackCooldownMax@{attackCooldownMax}}
+\index{attackCooldownMax@{attackCooldownMax}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{attackCooldownMax}{attackCooldownMax}}
+{\footnotesize\ttfamily float Enemy\+::attack\+Cooldown\+Max = 1.\+0f}
+
+
+
+攻击冷却时间 
+
+\mbox{\Hypertarget{classEnemy_a300791ce62f3acae74cc0fe190c7487a}\label{classEnemy_a300791ce62f3acae74cc0fe190c7487a}} 
+\index{Enemy@{Enemy}!attackDamage@{attackDamage}}
+\index{attackDamage@{attackDamage}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{attackDamage}{attackDamage}}
+{\footnotesize\ttfamily int Enemy\+::attack\+Damage = 5}
+
+
+
+攻击伤害 
+
+\mbox{\Hypertarget{classEnemy_a2f871e8d3c88955b9388f9b9aac929d0}\label{classEnemy_a2f871e8d3c88955b9388f9b9aac929d0}} 
+\index{Enemy@{Enemy}!attackRange@{attackRange}}
+\index{attackRange@{attackRange}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{attackRange}{attackRange}}
+{\footnotesize\ttfamily float Enemy\+::attack\+Range = 30.f}
+
+
+
+攻击范围 
+
+\mbox{\Hypertarget{classEnemy_a36bcaf317708c0ed35835bc0f79c7719}\label{classEnemy_a36bcaf317708c0ed35835bc0f79c7719}} 
+\index{Enemy@{Enemy}!enemyType@{enemyType}}
+\index{enemyType@{enemyType}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{enemyType}{enemyType}}
+{\footnotesize\ttfamily \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}} Enemy\+::enemy\+Type = \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268eaa537a3d7d5ede5718f2b597568233925}{Enemy\+Type\+::\+Slime}}}
+
+
+
+敌人类型 
+
+\mbox{\Hypertarget{classEnemy_a246979d262e6cee1ea2a076e972d4cb8}\label{classEnemy_a246979d262e6cee1ea2a076e972d4cb8}} 
+\index{Enemy@{Enemy}!isRanged@{isRanged}}
+\index{isRanged@{isRanged}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{isRanged}{isRanged}}
+{\footnotesize\ttfamily bool Enemy\+::is\+Ranged = false}
+
+
+
+是否远程 
+
+\mbox{\Hypertarget{classEnemy_a62b43d24fa5a537d45bdba46a4e2559b}\label{classEnemy_a62b43d24fa5a537d45bdba46a4e2559b}} 
+\index{Enemy@{Enemy}!name@{name}}
+\index{name@{name}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily std\+::string Enemy\+::name}
+
+
+
+显示名称 
+
+\mbox{\Hypertarget{classEnemy_a71a73c9ecbb6ae3cfc93fe5dd2d6423c}\label{classEnemy_a71a73c9ecbb6ae3cfc93fe5dd2d6423c}} 
+\index{Enemy@{Enemy}!score@{score}}
+\index{score@{score}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{score}{score}}
+{\footnotesize\ttfamily int Enemy\+::score = 10}
+
+
+
+击杀分数 
+
+\mbox{\Hypertarget{classEnemy_aa500a299c7cf858a04be9c29500698c0}\label{classEnemy_aa500a299c7cf858a04be9c29500698c0}} 
+\index{Enemy@{Enemy}!scoreProcessed@{scoreProcessed}}
+\index{scoreProcessed@{scoreProcessed}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{scoreProcessed}{scoreProcessed}}
+{\footnotesize\ttfamily bool Enemy\+::score\+Processed = false}
+
+
+
+防止击杀分数重复累加 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\item 
+src/\mbox{\hyperlink{GameLogic_8cpp}{Game\+Logic.\+cpp}}\end{DoxyCompactItemize}

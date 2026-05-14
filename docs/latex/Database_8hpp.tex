@@ -1,0 +1,52 @@
+\hypertarget{Database_8hpp}{}\doxysection{src/\+Database.hpp File Reference}
+\label{Database_8hpp}\index{src/Database.hpp@{src/Database.hpp}}
+
+
+SQLite数据库操作封装  
+
+
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$optional$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$sqlite3.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}Game\+Logic.\+hpp\char`\"{}}\newline
+Include dependency graph for Database.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Database_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Database_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structRankRecord}{Rank\+Record}}
+\begin{DoxyCompactList}\small\item\em 排行榜单条记录 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structCharacterData}{Character\+Data}}
+\begin{DoxyCompactList}\small\item\em 角色完整数据 \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classDatabase}{Database}}
+\begin{DoxyCompactList}\small\item\em SQLite 数据库操作封装 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+SQLite数据库操作封装 
+
+管理四张表：
+\begin{DoxyItemize}
+\item users：用户账户（用户名、盐值、密码哈希）
+\item characters：角色数据（多角色，每用户最多3个槽位）
+\item rankings：排行榜（按等级和分数排名）
+\item user\+\_\+settings：用户设置（选中的角色槽位）
+\end{DoxyItemize}
+
+所有查询使用参数化语句防止\+SQL注入。 数据库文件为同目录下的game.\+db，程序启动时自动创建。 

@@ -1,0 +1,70 @@
+\hypertarget{OnlineView_8hpp}{}\doxysection{src/\+Online\+View.hpp File Reference}
+\label{OnlineView_8hpp}\index{src/OnlineView.hpp@{src/OnlineView.hpp}}
+
+
+联机大厅与联机游戏视图（双人合作闯关）  
+
+
+{\ttfamily \#include $<$SFML/\+Graphics.\+hpp$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include \char`\"{}View\+Base.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}UIWidgets.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Game\+Logic.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Map\+System.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Network.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Database.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Audio\+Manager.\+hpp\char`\"{}}\newline
+Include dependency graph for Online\+View.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{OnlineView_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{OnlineView_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classOnlineLobbyView}{Online\+Lobby\+View}}
+\begin{DoxyCompactList}\small\item\em 联机大厅视图 \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSyncEnemy}{Sync\+Enemy}}
+\begin{DoxyCompactList}\small\item\em 同步的敌人数据（网络传输用） \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSyncProjectile}{Sync\+Projectile}}
+\begin{DoxyCompactList}\small\item\em 同步的投射物数据（网络传输用） \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSyncPlayer}{Sync\+Player}}
+\begin{DoxyCompactList}\small\item\em 同步的玩家数据（网络传输用） \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structSyncDrop}{Sync\+Drop}}
+\begin{DoxyCompactList}\small\item\em 同步的掉落物数据（网络传输用） \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classOnlineGameView}{Online\+Game\+View}}
+\begin{DoxyCompactList}\small\item\em 联机游戏视图 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+联机大厅与联机游戏视图（双人合作闯关） 
+
+设计思路：
+\begin{DoxyItemize}
+\item 主机端运行完整游戏逻辑（敌人、投射物、地图生成、分数计算、掉落物）
+\item 客户端只发送输入，接收并渲染主机同步的游戏状态
+\item 双人共享同一无限地图，各自独立移动和攻击
+\item 主机通过扩展的 \mbox{\hyperlink{structGameState}{Game\+State}} 同步：玩家位置/血量、敌人、投射物、分数、掉落物
+\item 联机模式与闯关模式玩法一致：掉落物、阶段胜利、完整\+UI
+\end{DoxyItemize}
+
+包含两个视图：
+\begin{DoxyItemize}
+\item Online\+Lobby\+View：联机大厅，输入\+IP和端口，创建或加入房间
+\item Online\+Game\+View：联机游戏，主机运行逻辑+广播状态，客户端发送输入+渲染 
+\end{DoxyItemize}

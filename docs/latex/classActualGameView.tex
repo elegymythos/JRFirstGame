@@ -1,0 +1,123 @@
+\hypertarget{classActualGameView}{}\doxysection{Actual\+Game\+View Class Reference}
+\label{classActualGameView}\index{ActualGameView@{ActualGameView}}
+
+
+单机闯关游戏视图  
+
+
+
+
+{\ttfamily \#include $<$Game\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Actual\+Game\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classActualGameView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Actual\+Game\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classActualGameView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classActualGameView_ad4aa4b2b9bbaa6dbc5ae7a2fdf9cc505}{Actual\+Game\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, const std\+::string \&username, \mbox{\hyperlink{classDatabase}{Database}} \&database, bool ai\+Mode=false, const std\+::string \&ai\+Model\+Path=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em 构造游戏视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classActualGameView_ada7f69d1e68e3b7beceb3b0c0d37d624}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classActualGameView_a075a7866946f3f2b7df513f7cb1d8b69}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classActualGameView_a019af5a59a6b7a129f032b68bfb70579}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+单机闯关游戏视图 
+
+\char`\"{}\+Actual\+Game\+View\char`\"{} 这个名字来自早期开发，实际就是单机闯关模式的主视图。 联机模式的视图是 Online\+View 中的 Online\+Game\+View。 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classActualGameView_ad4aa4b2b9bbaa6dbc5ae7a2fdf9cc505}\label{classActualGameView_ad4aa4b2b9bbaa6dbc5ae7a2fdf9cc505}} 
+\index{ActualGameView@{ActualGameView}!ActualGameView@{ActualGameView}}
+\index{ActualGameView@{ActualGameView}!ActualGameView@{ActualGameView}}
+\doxysubsubsection{\texorpdfstring{ActualGameView()}{ActualGameView()}}
+{\footnotesize\ttfamily Actual\+Game\+View\+::\+Actual\+Game\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{const std\+::string \&}]{username,  }\item[{\mbox{\hyperlink{classDatabase}{Database}} \&}]{database,  }\item[{bool}]{ai\+Mode = {\ttfamily false},  }\item[{const std\+::string \&}]{ai\+Model\+Path = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+构造游戏视图 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+{\em username} & 当前用户名 \\
+\hline
+{\em database} & 数据库引用\\
+\hline
+\end{DoxyParams}
+构造时从数据库加载角色存档，初始化武器和战斗属性。 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classActualGameView_a019af5a59a6b7a129f032b68bfb70579}\label{classActualGameView_a019af5a59a6b7a129f032b68bfb70579}} 
+\index{ActualGameView@{ActualGameView}!draw@{draw}}
+\index{draw@{draw}!ActualGameView@{ActualGameView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Actual\+Game\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classActualGameView_ada7f69d1e68e3b7beceb3b0c0d37d624}\label{classActualGameView_ada7f69d1e68e3b7beceb3b0c0d37d624}} 
+\index{ActualGameView@{ActualGameView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!ActualGameView@{ActualGameView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Actual\+Game\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classActualGameView_a075a7866946f3f2b7df513f7cb1d8b69}\label{classActualGameView_a075a7866946f3f2b7df513f7cb1d8b69}} 
+\index{ActualGameView@{ActualGameView}!update@{update}}
+\index{update@{update}!ActualGameView@{ActualGameView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Actual\+Game\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameView_8hpp}{Game\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{GameView_8cpp}{Game\+View.\+cpp}}\end{DoxyCompactItemize}

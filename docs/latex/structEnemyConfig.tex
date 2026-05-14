@@ -1,0 +1,135 @@
+\hypertarget{structEnemyConfig}{}\doxysection{Enemy\+Config Struct Reference}
+\label{structEnemyConfig}\index{EnemyConfig@{EnemyConfig}}
+
+
+敌人配置参数  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}} \mbox{\hyperlink{structEnemyConfig_ab571b4e98fd55ff9bb063b3e27b4d08a}{type}}
+\begin{DoxyCompactList}\small\item\em 敌人类型 \end{DoxyCompactList}\item 
+const char $\ast$ \mbox{\hyperlink{structEnemyConfig_a92d6f686fd3c550be5cba706831c3624}{name}}
+\begin{DoxyCompactList}\small\item\em 显示名称 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structEnemyConfig_a67a3803bb241eb54ebd53548dfbbe0cc}{health}}
+\begin{DoxyCompactList}\small\item\em 基础血量 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structEnemyConfig_a847a42f1de77c38d032d54de5da6eb79}{attack\+Damage}}
+\begin{DoxyCompactList}\small\item\em 攻击伤害 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structEnemyConfig_a6387183e68b9df6f73adaaa97f331d29}{speed}}
+\begin{DoxyCompactList}\small\item\em 移动速度 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structEnemyConfig_af9b4c40709b0bc90f5d10a1ed206ffdc}{attack\+Range}}
+\begin{DoxyCompactList}\small\item\em 攻击范围（近战=接触距离，远程=射击距离） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structEnemyConfig_a14cf2496c2e7ff6120581f08e3a72227}{attack\+Cooldown\+Max}}
+\begin{DoxyCompactList}\small\item\em 攻击冷却时间（秒） \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structEnemyConfig_a1f6daa5d7f87d39496b6b4d84ed69dd5}{is\+Ranged}}
+\begin{DoxyCompactList}\small\item\em 是否为远程敌人 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structEnemyConfig_a12f021b25216c3e8a417060ed6e074da}{score}}
+\begin{DoxyCompactList}\small\item\em 击杀获得的分数 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+敌人配置参数 
+
+定义每种敌人的基础属性，由 \mbox{\hyperlink{GameLogic_8cpp_a5ec6f429c62c4a6f3f7f960b4b522b4f}{get\+Enemy\+Config()}} 返回。 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structEnemyConfig_a14cf2496c2e7ff6120581f08e3a72227}\label{structEnemyConfig_a14cf2496c2e7ff6120581f08e3a72227}} 
+\index{EnemyConfig@{EnemyConfig}!attackCooldownMax@{attackCooldownMax}}
+\index{attackCooldownMax@{attackCooldownMax}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{attackCooldownMax}{attackCooldownMax}}
+{\footnotesize\ttfamily float Enemy\+Config\+::attack\+Cooldown\+Max}
+
+
+
+攻击冷却时间（秒） 
+
+\mbox{\Hypertarget{structEnemyConfig_a847a42f1de77c38d032d54de5da6eb79}\label{structEnemyConfig_a847a42f1de77c38d032d54de5da6eb79}} 
+\index{EnemyConfig@{EnemyConfig}!attackDamage@{attackDamage}}
+\index{attackDamage@{attackDamage}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{attackDamage}{attackDamage}}
+{\footnotesize\ttfamily int Enemy\+Config\+::attack\+Damage}
+
+
+
+攻击伤害 
+
+\mbox{\Hypertarget{structEnemyConfig_af9b4c40709b0bc90f5d10a1ed206ffdc}\label{structEnemyConfig_af9b4c40709b0bc90f5d10a1ed206ffdc}} 
+\index{EnemyConfig@{EnemyConfig}!attackRange@{attackRange}}
+\index{attackRange@{attackRange}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{attackRange}{attackRange}}
+{\footnotesize\ttfamily float Enemy\+Config\+::attack\+Range}
+
+
+
+攻击范围（近战=接触距离，远程=射击距离） 
+
+\mbox{\Hypertarget{structEnemyConfig_a67a3803bb241eb54ebd53548dfbbe0cc}\label{structEnemyConfig_a67a3803bb241eb54ebd53548dfbbe0cc}} 
+\index{EnemyConfig@{EnemyConfig}!health@{health}}
+\index{health@{health}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{health}{health}}
+{\footnotesize\ttfamily int Enemy\+Config\+::health}
+
+
+
+基础血量 
+
+\mbox{\Hypertarget{structEnemyConfig_a1f6daa5d7f87d39496b6b4d84ed69dd5}\label{structEnemyConfig_a1f6daa5d7f87d39496b6b4d84ed69dd5}} 
+\index{EnemyConfig@{EnemyConfig}!isRanged@{isRanged}}
+\index{isRanged@{isRanged}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{isRanged}{isRanged}}
+{\footnotesize\ttfamily bool Enemy\+Config\+::is\+Ranged}
+
+
+
+是否为远程敌人 
+
+\mbox{\Hypertarget{structEnemyConfig_a92d6f686fd3c550be5cba706831c3624}\label{structEnemyConfig_a92d6f686fd3c550be5cba706831c3624}} 
+\index{EnemyConfig@{EnemyConfig}!name@{name}}
+\index{name@{name}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily const char$\ast$ Enemy\+Config\+::name}
+
+
+
+显示名称 
+
+\mbox{\Hypertarget{structEnemyConfig_a12f021b25216c3e8a417060ed6e074da}\label{structEnemyConfig_a12f021b25216c3e8a417060ed6e074da}} 
+\index{EnemyConfig@{EnemyConfig}!score@{score}}
+\index{score@{score}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{score}{score}}
+{\footnotesize\ttfamily int Enemy\+Config\+::score}
+
+
+
+击杀获得的分数 
+
+\mbox{\Hypertarget{structEnemyConfig_a6387183e68b9df6f73adaaa97f331d29}\label{structEnemyConfig_a6387183e68b9df6f73adaaa97f331d29}} 
+\index{EnemyConfig@{EnemyConfig}!speed@{speed}}
+\index{speed@{speed}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily float Enemy\+Config\+::speed}
+
+
+
+移动速度 
+
+\mbox{\Hypertarget{structEnemyConfig_ab571b4e98fd55ff9bb063b3e27b4d08a}\label{structEnemyConfig_ab571b4e98fd55ff9bb063b3e27b4d08a}} 
+\index{EnemyConfig@{EnemyConfig}!type@{type}}
+\index{type@{type}!EnemyConfig@{EnemyConfig}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}} Enemy\+Config\+::type}
+
+
+
+敌人类型 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\end{DoxyCompactItemize}

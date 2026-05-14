@@ -1,0 +1,142 @@
+\hypertarget{classOnlineGameView}{}\doxysection{Online\+Game\+View Class Reference}
+\label{classOnlineGameView}\index{OnlineGameView@{OnlineGameView}}
+
+
+联机游戏视图  
+
+
+
+
+{\ttfamily \#include $<$Online\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Online\+Game\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classOnlineGameView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Online\+Game\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classOnlineGameView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classOnlineGameView_a0931711787d410ae1de92e06d3411710}{Online\+Game\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, \mbox{\hyperlink{classNetworkManager}{Network\+Manager}} \&network, bool is\+Host, const std\+::string \&username, \mbox{\hyperlink{classDatabase}{Database}} \&database)
+\begin{DoxyCompactList}\small\item\em 构造联机游戏视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classOnlineGameView_af1a0fe5afb2bfb126c48cfe609776c9d}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classOnlineGameView_a6869d0e2c6596b51180d1e12399916ef}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classOnlineGameView_a3000982228341f9851d0897642c69962}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+联机游戏视图 
+
+主机端和客户端共用此类，通过 is\+Host 区分行为：
+
+主机端（is\+Host=true）：
+\begin{DoxyItemize}
+\item 运行完整游戏逻辑（敌人\+AI、投射物碰撞、掉落物拾取）
+\item 接收客户端输入和攻击信号
+\item 每帧广播完整游戏状态（玩家/敌人/投射物/掉落物）
+\item 检查阶段性胜利，为所有玩家应用强化
+\end{DoxyItemize}
+
+客户端（is\+Host=false）：
+\begin{DoxyItemize}
+\item 发送输入状态（$\sim$30\+Hz）和攻击/翻滚信号
+\item 接收并解析主机广播的游戏状态
+\item 根据同步数据渲染游戏画面 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classOnlineGameView_a0931711787d410ae1de92e06d3411710}\label{classOnlineGameView_a0931711787d410ae1de92e06d3411710}} 
+\index{OnlineGameView@{OnlineGameView}!OnlineGameView@{OnlineGameView}}
+\index{OnlineGameView@{OnlineGameView}!OnlineGameView@{OnlineGameView}}
+\doxysubsubsection{\texorpdfstring{OnlineGameView()}{OnlineGameView()}}
+{\footnotesize\ttfamily Online\+Game\+View\+::\+Online\+Game\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{\mbox{\hyperlink{classNetworkManager}{Network\+Manager}} \&}]{network,  }\item[{bool}]{is\+Host,  }\item[{const std\+::string \&}]{username,  }\item[{\mbox{\hyperlink{classDatabase}{Database}} \&}]{database }\end{DoxyParamCaption})}
+
+
+
+构造联机游戏视图 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+{\em network} & 网络管理器引用 \\
+\hline
+{\em is\+Host} & 是否为主机 \\
+\hline
+{\em username} & 当前用户名 \\
+\hline
+{\em database} & 数据库引用 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classOnlineGameView_a3000982228341f9851d0897642c69962}\label{classOnlineGameView_a3000982228341f9851d0897642c69962}} 
+\index{OnlineGameView@{OnlineGameView}!draw@{draw}}
+\index{draw@{draw}!OnlineGameView@{OnlineGameView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Online\+Game\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classOnlineGameView_af1a0fe5afb2bfb126c48cfe609776c9d}\label{classOnlineGameView_af1a0fe5afb2bfb126c48cfe609776c9d}} 
+\index{OnlineGameView@{OnlineGameView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!OnlineGameView@{OnlineGameView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Online\+Game\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classOnlineGameView_a6869d0e2c6596b51180d1e12399916ef}\label{classOnlineGameView_a6869d0e2c6596b51180d1e12399916ef}} 
+\index{OnlineGameView@{OnlineGameView}!update@{update}}
+\index{update@{update}!OnlineGameView@{OnlineGameView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Online\+Game\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{OnlineView_8hpp}{Online\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{OnlineView_8cpp}{Online\+View.\+cpp}}\end{DoxyCompactItemize}

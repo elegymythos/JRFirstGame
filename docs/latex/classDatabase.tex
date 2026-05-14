@@ -1,0 +1,239 @@
+\hypertarget{classDatabase}{}\doxysection{Database Class Reference}
+\label{classDatabase}\index{Database@{Database}}
+
+
+SQLite 数据库操作封装  
+
+
+
+
+{\ttfamily \#include $<$Database.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classDatabase_a4703c80e6969d33565ea340f768fdadf}{Database}} ()
+\item 
+\mbox{\hyperlink{classDatabase_a84d399a2ad58d69daab9b05330e1316d}{$\sim$\+Database}} ()
+\item 
+\mbox{\hyperlink{classDatabase_a83f8b6d2941a4aee50f225e08e97291c}{Database}} (const \mbox{\hyperlink{classDatabase}{Database}} \&)=delete
+\item 
+\mbox{\hyperlink{classDatabase}{Database}} \& \mbox{\hyperlink{classDatabase_a46b93a4878076c7cfddd5b4058297f14}{operator=}} (const \mbox{\hyperlink{classDatabase}{Database}} \&)=delete
+\item 
+bool \mbox{\hyperlink{classDatabase_a0f92676a8ea718862030402fce55f3ba}{user\+Exists}} (const std\+::string \&username)
+\begin{DoxyCompactList}\small\item\em 检查用户名是否已存在 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classDatabase_ae3b151f904a46ea734d4ea47968f7f9f}{add\+User}} (const std\+::string \&username, const std\+::string \&salt, const std\+::string \&hash)
+\begin{DoxyCompactList}\small\item\em 添加新用户（存储盐值和哈希），成功返回 true \end{DoxyCompactList}\item 
+std\+::optional$<$ std\+::pair$<$ std\+::string, std\+::string $>$ $>$ \mbox{\hyperlink{classDatabase_a7bffef75fb577c309551106bb0cc0e42}{get\+Credentials}} (const std\+::string \&username)
+\begin{DoxyCompactList}\small\item\em 获取用户的盐值和哈希，用户不存在则返回 nullopt \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classDatabase_aa3fcfe2810fa4da78c25649a50c8dbe2}{has\+Character}} (const std\+::string \&username)
+\begin{DoxyCompactList}\small\item\em 检查用户是否至少有一个角色 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classDatabase_af38c7aa4beba25890ca34bbab7d17906}{get\+Character\+Count}} (const std\+::string \&username)
+\begin{DoxyCompactList}\small\item\em 获取用户的角色数量 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDatabase_a73ff162ebb6698a9bb9707e0cbe1edb5}{save\+Character}} (const \mbox{\hyperlink{structCharacterData}{Character\+Data}} \&data)
+\begin{DoxyCompactList}\small\item\em 保存角色数据（\+INSERT OR REPLACE，按 username+slot 匹配） \end{DoxyCompactList}\item 
+std\+::optional$<$ \mbox{\hyperlink{structCharacterData}{Character\+Data}} $>$ \mbox{\hyperlink{classDatabase_af30c75c7b277490c417f9cdc7caf427c}{load\+Character}} (const std\+::string \&username, int slot)
+\begin{DoxyCompactList}\small\item\em 加载指定槽位的角色，不存在则返回 nullopt \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structCharacterData}{Character\+Data}} $>$ \mbox{\hyperlink{classDatabase_ab6a9be4eeba290881ad4534f9c8bcad8}{load\+All\+Characters}} (const std\+::string \&username)
+\begin{DoxyCompactList}\small\item\em 加载用户的所有角色，按槽位排序 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDatabase_a64c3a0a2039bc45474c3cffe68688863}{delete\+Character}} (const std\+::string \&username, int slot)
+\begin{DoxyCompactList}\small\item\em 删除指定槽位的角色 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDatabase_aa1ab594e25b86f8e8efe33d08eeed4d5}{save\+Selected\+Slot}} (const std\+::string \&username, int slot)
+\begin{DoxyCompactList}\small\item\em 保存用户当前选中的角色槽位 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classDatabase_addb59b528e00516dc56dde6272a79971}{get\+Selected\+Slot}} (const std\+::string \&username)
+\begin{DoxyCompactList}\small\item\em 获取用户当前选中的角色槽位，默认0 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDatabase_a7663c2578413c2235a923514a84dd3e3}{save\+Ranking}} (const std\+::string \&username, int level, int score)
+\begin{DoxyCompactList}\small\item\em 保存排行榜记录（取等级和分数的最大值更新） \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structRankRecord}{Rank\+Record}} $>$ \mbox{\hyperlink{classDatabase_a82f5646a004ff49cd1874f267b9bfc6c}{load\+Rankings}} ()
+\begin{DoxyCompactList}\small\item\em 加载排行榜前10名（按等级降序、分数降序） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classDatabase_a72bef86a94ec2301ab29be07f5e63668}{save\+Score}} (const std\+::string \&username, int score)
+\begin{DoxyCompactList}\small\item\em 旧接口兼容：仅保存分数（等级默认1） \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+SQLite 数据库操作封装 
+
+管理四张表：
+\begin{DoxyItemize}
+\item users：用户账户（用户名、盐值、密码哈希）
+\item characters：角色数据（多角色，每用户最多3个槽位）
+\item rankings：排行榜（按等级和分数排名）
+\item user\+\_\+settings：用户设置（选中的角色槽位）
+\end{DoxyItemize}
+
+所有查询使用参数化语句防止 SQL 注入。 数据库文件为同目录下的 game.\+db，程序启动时自动创建。 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classDatabase_a4703c80e6969d33565ea340f768fdadf}\label{classDatabase_a4703c80e6969d33565ea340f768fdadf}} 
+\index{Database@{Database}!Database@{Database}}
+\index{Database@{Database}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{Database()}{Database()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Database\+::\+Database (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a84d399a2ad58d69daab9b05330e1316d}\label{classDatabase_a84d399a2ad58d69daab9b05330e1316d}} 
+\index{Database@{Database}!````~Database@{$\sim$Database}}
+\index{````~Database@{$\sim$Database}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{$\sim$Database()}{~Database()}}
+{\footnotesize\ttfamily Database\+::$\sim$\+Database (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classDatabase_a83f8b6d2941a4aee50f225e08e97291c}\label{classDatabase_a83f8b6d2941a4aee50f225e08e97291c}} 
+\index{Database@{Database}!Database@{Database}}
+\index{Database@{Database}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{Database()}{Database()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Database\+::\+Database (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classDatabase}{Database}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classDatabase_ae3b151f904a46ea734d4ea47968f7f9f}\label{classDatabase_ae3b151f904a46ea734d4ea47968f7f9f}} 
+\index{Database@{Database}!addUser@{addUser}}
+\index{addUser@{addUser}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{addUser()}{addUser()}}
+{\footnotesize\ttfamily bool Database\+::add\+User (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{const std\+::string \&}]{salt,  }\item[{const std\+::string \&}]{hash }\end{DoxyParamCaption})}
+
+
+
+添加新用户（存储盐值和哈希），成功返回 true 
+
+\mbox{\Hypertarget{classDatabase_a64c3a0a2039bc45474c3cffe68688863}\label{classDatabase_a64c3a0a2039bc45474c3cffe68688863}} 
+\index{Database@{Database}!deleteCharacter@{deleteCharacter}}
+\index{deleteCharacter@{deleteCharacter}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{deleteCharacter()}{deleteCharacter()}}
+{\footnotesize\ttfamily void Database\+::delete\+Character (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{int}]{slot }\end{DoxyParamCaption})}
+
+
+
+删除指定槽位的角色 
+
+\mbox{\Hypertarget{classDatabase_af38c7aa4beba25890ca34bbab7d17906}\label{classDatabase_af38c7aa4beba25890ca34bbab7d17906}} 
+\index{Database@{Database}!getCharacterCount@{getCharacterCount}}
+\index{getCharacterCount@{getCharacterCount}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{getCharacterCount()}{getCharacterCount()}}
+{\footnotesize\ttfamily int Database\+::get\+Character\+Count (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username }\end{DoxyParamCaption})}
+
+
+
+获取用户的角色数量 
+
+\mbox{\Hypertarget{classDatabase_a7bffef75fb577c309551106bb0cc0e42}\label{classDatabase_a7bffef75fb577c309551106bb0cc0e42}} 
+\index{Database@{Database}!getCredentials@{getCredentials}}
+\index{getCredentials@{getCredentials}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{getCredentials()}{getCredentials()}}
+{\footnotesize\ttfamily std\+::optional$<$ std\+::pair$<$ std\+::string, std\+::string $>$ $>$ Database\+::get\+Credentials (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username }\end{DoxyParamCaption})}
+
+
+
+获取用户的盐值和哈希，用户不存在则返回 nullopt 
+
+\mbox{\Hypertarget{classDatabase_addb59b528e00516dc56dde6272a79971}\label{classDatabase_addb59b528e00516dc56dde6272a79971}} 
+\index{Database@{Database}!getSelectedSlot@{getSelectedSlot}}
+\index{getSelectedSlot@{getSelectedSlot}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{getSelectedSlot()}{getSelectedSlot()}}
+{\footnotesize\ttfamily int Database\+::get\+Selected\+Slot (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username }\end{DoxyParamCaption})}
+
+
+
+获取用户当前选中的角色槽位，默认0 
+
+\mbox{\Hypertarget{classDatabase_aa3fcfe2810fa4da78c25649a50c8dbe2}\label{classDatabase_aa3fcfe2810fa4da78c25649a50c8dbe2}} 
+\index{Database@{Database}!hasCharacter@{hasCharacter}}
+\index{hasCharacter@{hasCharacter}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{hasCharacter()}{hasCharacter()}}
+{\footnotesize\ttfamily bool Database\+::has\+Character (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username }\end{DoxyParamCaption})}
+
+
+
+检查用户是否至少有一个角色 
+
+\mbox{\Hypertarget{classDatabase_ab6a9be4eeba290881ad4534f9c8bcad8}\label{classDatabase_ab6a9be4eeba290881ad4534f9c8bcad8}} 
+\index{Database@{Database}!loadAllCharacters@{loadAllCharacters}}
+\index{loadAllCharacters@{loadAllCharacters}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{loadAllCharacters()}{loadAllCharacters()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structCharacterData}{Character\+Data}} $>$ Database\+::load\+All\+Characters (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username }\end{DoxyParamCaption})}
+
+
+
+加载用户的所有角色，按槽位排序 
+
+\mbox{\Hypertarget{classDatabase_af30c75c7b277490c417f9cdc7caf427c}\label{classDatabase_af30c75c7b277490c417f9cdc7caf427c}} 
+\index{Database@{Database}!loadCharacter@{loadCharacter}}
+\index{loadCharacter@{loadCharacter}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{loadCharacter()}{loadCharacter()}}
+{\footnotesize\ttfamily std\+::optional$<$ \mbox{\hyperlink{structCharacterData}{Character\+Data}} $>$ Database\+::load\+Character (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{int}]{slot }\end{DoxyParamCaption})}
+
+
+
+加载指定槽位的角色，不存在则返回 nullopt 
+
+\mbox{\Hypertarget{classDatabase_a82f5646a004ff49cd1874f267b9bfc6c}\label{classDatabase_a82f5646a004ff49cd1874f267b9bfc6c}} 
+\index{Database@{Database}!loadRankings@{loadRankings}}
+\index{loadRankings@{loadRankings}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{loadRankings()}{loadRankings()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structRankRecord}{Rank\+Record}} $>$ Database\+::load\+Rankings (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+加载排行榜前10名（按等级降序、分数降序） 
+
+\mbox{\Hypertarget{classDatabase_a46b93a4878076c7cfddd5b4058297f14}\label{classDatabase_a46b93a4878076c7cfddd5b4058297f14}} 
+\index{Database@{Database}!operator=@{operator=}}
+\index{operator=@{operator=}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classDatabase}{Database}} \& Database\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classDatabase}{Database}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classDatabase_a73ff162ebb6698a9bb9707e0cbe1edb5}\label{classDatabase_a73ff162ebb6698a9bb9707e0cbe1edb5}} 
+\index{Database@{Database}!saveCharacter@{saveCharacter}}
+\index{saveCharacter@{saveCharacter}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{saveCharacter()}{saveCharacter()}}
+{\footnotesize\ttfamily void Database\+::save\+Character (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structCharacterData}{Character\+Data}} \&}]{data }\end{DoxyParamCaption})}
+
+
+
+保存角色数据（\+INSERT OR REPLACE，按 username+slot 匹配） 
+
+\mbox{\Hypertarget{classDatabase_a7663c2578413c2235a923514a84dd3e3}\label{classDatabase_a7663c2578413c2235a923514a84dd3e3}} 
+\index{Database@{Database}!saveRanking@{saveRanking}}
+\index{saveRanking@{saveRanking}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{saveRanking()}{saveRanking()}}
+{\footnotesize\ttfamily void Database\+::save\+Ranking (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{int}]{level,  }\item[{int}]{score }\end{DoxyParamCaption})}
+
+
+
+保存排行榜记录（取等级和分数的最大值更新） 
+
+\mbox{\Hypertarget{classDatabase_a72bef86a94ec2301ab29be07f5e63668}\label{classDatabase_a72bef86a94ec2301ab29be07f5e63668}} 
+\index{Database@{Database}!saveScore@{saveScore}}
+\index{saveScore@{saveScore}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{saveScore()}{saveScore()}}
+{\footnotesize\ttfamily void Database\+::save\+Score (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{int}]{score }\end{DoxyParamCaption})}
+
+
+
+旧接口兼容：仅保存分数（等级默认1） 
+
+\mbox{\Hypertarget{classDatabase_aa1ab594e25b86f8e8efe33d08eeed4d5}\label{classDatabase_aa1ab594e25b86f8e8efe33d08eeed4d5}} 
+\index{Database@{Database}!saveSelectedSlot@{saveSelectedSlot}}
+\index{saveSelectedSlot@{saveSelectedSlot}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{saveSelectedSlot()}{saveSelectedSlot()}}
+{\footnotesize\ttfamily void Database\+::save\+Selected\+Slot (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username,  }\item[{int}]{slot }\end{DoxyParamCaption})}
+
+
+
+保存用户当前选中的角色槽位 
+
+\mbox{\Hypertarget{classDatabase_a0f92676a8ea718862030402fce55f3ba}\label{classDatabase_a0f92676a8ea718862030402fce55f3ba}} 
+\index{Database@{Database}!userExists@{userExists}}
+\index{userExists@{userExists}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{userExists()}{userExists()}}
+{\footnotesize\ttfamily bool Database\+::user\+Exists (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{username }\end{DoxyParamCaption})}
+
+
+
+检查用户名是否已存在 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{Database_8hpp}{Database.\+hpp}}\item 
+src/\mbox{\hyperlink{Database_8cpp}{Database.\+cpp}}\end{DoxyCompactItemize}

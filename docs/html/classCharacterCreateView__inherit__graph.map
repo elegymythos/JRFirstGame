@@ -1,0 +1,4 @@
+<map id="CharacterCreateView" name="CharacterCreateView">
+<area shape="rect" id="node1" title="角色创建视图" alt="" coords="5,80,168,107"/>
+<area shape="rect" id="node2" href="$classView.html" title="视图基类" alt="" coords="59,5,114,32"/>
+</map>

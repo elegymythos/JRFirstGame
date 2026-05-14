@@ -1,0 +1,8 @@
+<map id="src/ViewBase.hpp" name="src/ViewBase.hpp">
+<area shape="rect" id="node1" title="视图基类，提供语言切换按钮等通用功能" alt="" coords="123,5,265,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,80,156,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="153,155,213,181"/>
+<area shape="rect" id="node4" href="$I18n_8hpp.html" title="国际化系统 &#45; 支持中文/英文切换" alt="" coords="251,80,332,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="237,155,364,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="389,155,453,181"/>
+</map>

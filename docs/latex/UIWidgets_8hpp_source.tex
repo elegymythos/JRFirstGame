@@ -1,0 +1,102 @@
+\hypertarget{UIWidgets_8hpp_source}{}\doxysection{UIWidgets.\+hpp}
+\label{UIWidgets_8hpp_source}\index{src/UIWidgets.hpp@{src/UIWidgets.hpp}}
+\mbox{\hyperlink{UIWidgets_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{GameLogic_8hpp}{GameLogic.hpp}}"{}}  \textcolor{comment}{// Player, Attributes}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{I18n_8hpp}{I18n.hpp}}"{}}       \textcolor{comment}{// 国际化翻译}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AudioManager_8hpp}{AudioManager.hpp}}"{}}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{comment}{// ======================== Button ========================}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{32 \textcolor{keyword}{class }\mbox{\hyperlink{classButton}{Button}} \{}
+\DoxyCodeLine{33 \textcolor{keyword}{public}:}
+\DoxyCodeLine{34     \textcolor{keyword}{using }\mbox{\hyperlink{classButton_ad002c6e7dde0798a3f0dca47c7839751}{Callback}} = std::function<void()>;  }
+\DoxyCodeLine{35 }
+\DoxyCodeLine{44     \mbox{\hyperlink{classButton_a16dc283570ecffb95a6c89db603967ea}{Button}}(\textcolor{keyword}{const} sf::Font\& font, \textcolor{keyword}{const} std::string\& label, sf::Vector2f pos, sf::Vector2f size, \mbox{\hyperlink{classButton_ad002c6e7dde0798a3f0dca47c7839751}{Callback}} onClick);}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46     \textcolor{comment}{// 允许移动语义（用于 unique\_ptr 容器）}}
+\DoxyCodeLine{47     \mbox{\hyperlink{classButton_a29c97d51a7a49cb95c97b12e30e67219}{Button}}(\mbox{\hyperlink{classButton}{Button}}\&\&) noexcept = default;}
+\DoxyCodeLine{48     \mbox{\hyperlink{classButton}{Button}}\& operator=(\mbox{\hyperlink{classButton}{Button}}\&\&) noexcept = default;}
+\DoxyCodeLine{49     \textcolor{comment}{// 禁止拷贝（std::function 不可拷贝）}}
+\DoxyCodeLine{50     \mbox{\hyperlink{classButton}{Button}}(const \mbox{\hyperlink{classButton}{Button}}\&) = delete;}
+\DoxyCodeLine{51     \mbox{\hyperlink{classButton}{Button}}\& operator=(const \mbox{\hyperlink{classButton}{Button}}\&) = delete;}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{58     \textcolor{keywordtype}{void} \mbox{\hyperlink{classButton_a4d6b003e9be8381801a425f6e544cfbc}{handleEvent}}(sf::Vector2f mousePos, \textcolor{keywordtype}{bool} isClicked);}
+\DoxyCodeLine{60     \textcolor{keywordtype}{void} \mbox{\hyperlink{classButton_a95773eb0a0b33ac29517eac844d23dd9}{draw}}(sf::RenderWindow\& window) const;}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 private:}
+\DoxyCodeLine{63     sf::RectangleShape shape;  }
+\DoxyCodeLine{64     sf::Text text;             }
+\DoxyCodeLine{65     \mbox{\hyperlink{classButton_ad002c6e7dde0798a3f0dca47c7839751}{Callback}} callback;         }
+\DoxyCodeLine{66 \};}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68 \textcolor{comment}{// ======================== InputField ========================}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{82 class \mbox{\hyperlink{classInputField}{InputField}} \{}
+\DoxyCodeLine{83 \textcolor{keyword}{public}:}
+\DoxyCodeLine{93     \mbox{\hyperlink{classInputField}{InputField}}(\textcolor{keyword}{const} sf::Font\& font, sf::Vector2f pos, sf::Vector2f size,}
+\DoxyCodeLine{94                \textcolor{keywordtype}{bool} passwordMode = \textcolor{keyword}{false}, \textcolor{keywordtype}{size\_t} maxLen = 16, \textcolor{keywordtype}{bool} allowSpace = \textcolor{keyword}{true});}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{97     \textcolor{keywordtype}{void} setString(\textcolor{keyword}{const} std::string\& str);}
+\DoxyCodeLine{99     \textcolor{keywordtype}{void} updateCursor();}
+\DoxyCodeLine{101     \textcolor{keywordtype}{void} \mbox{\hyperlink{classButton_a4d6b003e9be8381801a425f6e544cfbc}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::Vector2f mousePos);}
+\DoxyCodeLine{103     \textcolor{keywordtype}{void} clear();}
+\DoxyCodeLine{105     \textcolor{keywordtype}{void} \mbox{\hyperlink{classButton_a95773eb0a0b33ac29517eac844d23dd9}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{const};}
+\DoxyCodeLine{107     std::string getString() \textcolor{keyword}{const};}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{keyword}{private}:}
+\DoxyCodeLine{111     \textcolor{keywordtype}{void} updateDisplayText();}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{121     \textcolor{keyword}{static} \textcolor{keywordtype}{size\_t} utf8Length(\textcolor{keyword}{const} std::string\& str) \{}
+\DoxyCodeLine{122         \textcolor{keywordtype}{size\_t} count = 0;}
+\DoxyCodeLine{123         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < str.length(); ) \{}
+\DoxyCodeLine{124             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} c = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}\textcolor{keyword}{>}(str[i]);}
+\DoxyCodeLine{125             \textcolor{keywordflow}{if} ((c \& 0x80) == 0) i += 1;       \textcolor{comment}{// ASCII: 1字节}}
+\DoxyCodeLine{126             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((c \& 0xE0) == 0xC0) i += 2; \textcolor{comment}{// 2字节UTF-\/8}}
+\DoxyCodeLine{127             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((c \& 0xF0) == 0xE0) i += 3; \textcolor{comment}{// 3字节UTF-\/8（中文）}}
+\DoxyCodeLine{128             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((c \& 0xF8) == 0xF0) i += 4; \textcolor{comment}{// 4字节UTF-\/8（emoji）}}
+\DoxyCodeLine{129             \textcolor{keywordflow}{else} i += 1;                         \textcolor{comment}{// 异常字节，跳过}}
+\DoxyCodeLine{130             ++count;}
+\DoxyCodeLine{131         \}}
+\DoxyCodeLine{132         \textcolor{keywordflow}{return} count;}
+\DoxyCodeLine{133     \}}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135     sf::Clock cursorClock;           }
+\DoxyCodeLine{136     \textcolor{keywordtype}{bool} showCursor = \textcolor{keyword}{false};         }
+\DoxyCodeLine{137     sf::RectangleShape box;          }
+\DoxyCodeLine{138     sf::Text text;                   }
+\DoxyCodeLine{139     std::string content;             }
+\DoxyCodeLine{140     \textcolor{keywordtype}{bool} isFocused = \textcolor{keyword}{false};          }
+\DoxyCodeLine{141     \textcolor{keywordtype}{bool} isPassword = \textcolor{keyword}{false};         }
+\DoxyCodeLine{142     \textcolor{keywordtype}{size\_t} maxLength;                }
+\DoxyCodeLine{143     \textcolor{keywordtype}{bool} allowSpace = \textcolor{keyword}{true};          }
+\DoxyCodeLine{144 \};}
+\DoxyCodeLine{145 }
+\DoxyCodeLine{146 \textcolor{comment}{// ======================== AttributePanel ========================}}
+\DoxyCodeLine{147 }
+\DoxyCodeLine{158 \textcolor{keyword}{class }\mbox{\hyperlink{classAttributePanel}{AttributePanel}} \{}
+\DoxyCodeLine{159 \textcolor{keyword}{public}:}
+\DoxyCodeLine{164     \mbox{\hyperlink{classAttributePanel}{AttributePanel}}(\textcolor{keyword}{const} sf::Font\& font);}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{167     \textcolor{keywordtype}{void} toggle();}
+\DoxyCodeLine{169     \textcolor{keywordtype}{bool} isVisible() \textcolor{keyword}{const};}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{175     \textcolor{keywordtype}{void} update(\textcolor{keyword}{const} \mbox{\hyperlink{classPlayer}{Player}}\& player);}
+\DoxyCodeLine{177     \textcolor{keywordtype}{void} \mbox{\hyperlink{classButton_a95773eb0a0b33ac29517eac844d23dd9}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{const};}
+\DoxyCodeLine{178 }
+\DoxyCodeLine{179 \textcolor{keyword}{private}:}
+\DoxyCodeLine{180     \textcolor{keyword}{const} sf::Font\& font\_;                }
+\DoxyCodeLine{181     \textcolor{keywordtype}{bool} visible\_ = \textcolor{keyword}{false};                }
+\DoxyCodeLine{182     sf::RectangleShape background\_;       }
+\DoxyCodeLine{183     std::vector<sf::Text> lines\_;         }
+\DoxyCodeLine{184 \};}
+
+\end{DoxyCode}

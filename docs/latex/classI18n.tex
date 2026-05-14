@@ -1,0 +1,114 @@
+\hypertarget{classI18n}{}\doxysection{I18n Class Reference}
+\label{classI18n}\index{I18n@{I18n}}
+
+
+国际化单例  
+
+
+
+
+{\ttfamily \#include $<$I18n.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classI18n_a67ac6bd2d7298a5f5e3d43afb5843a39}{set\+Language}} (\mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}} lang)
+\begin{DoxyCompactList}\small\item\em 设置当前语言 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}} \mbox{\hyperlink{classI18n_a55becd139109543f322cb17010dc02a8}{get\+Language}} () const
+\begin{DoxyCompactList}\small\item\em 获取当前语言 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classI18n_ab5e35767c7a42df24d59bce4c21269da}{toggle\+Language}} ()
+\begin{DoxyCompactList}\small\item\em 切换语言（\+EN↔\+ZH） \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classI18n_aa29fc10f296d4864f919727141400e2e}{t}} (const std\+::string \&key) const
+\begin{DoxyCompactList}\small\item\em 获取翻译文本 \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classI18n_a60b2d9a2d762f94f6cbe6b1a53489b09}{get\+Language\+Name}} () const
+\begin{DoxyCompactList}\small\item\em 获取当前语言显示名称 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classI18n}{I18n}} \& \mbox{\hyperlink{classI18n_a5b0eb855f6c37ddc08bb8fe71118f314}{instance}} ()
+\begin{DoxyCompactList}\small\item\em 获取单例引用 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+国际化单例 
+
+使用方式：\+I18n\+::instance().t(\char`\"{}key\char`\"{}) 翻译表在构造时初始化，覆盖所有界面文字。 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classI18n_a55becd139109543f322cb17010dc02a8}\label{classI18n_a55becd139109543f322cb17010dc02a8}} 
+\index{I18n@{I18n}!getLanguage@{getLanguage}}
+\index{getLanguage@{getLanguage}!I18n@{I18n}}
+\doxysubsubsection{\texorpdfstring{getLanguage()}{getLanguage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}} I18n\+::get\+Language (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取当前语言 
+
+\mbox{\Hypertarget{classI18n_a60b2d9a2d762f94f6cbe6b1a53489b09}\label{classI18n_a60b2d9a2d762f94f6cbe6b1a53489b09}} 
+\index{I18n@{I18n}!getLanguageName@{getLanguageName}}
+\index{getLanguageName@{getLanguageName}!I18n@{I18n}}
+\doxysubsubsection{\texorpdfstring{getLanguageName()}{getLanguageName()}}
+{\footnotesize\ttfamily std\+::string I18n\+::get\+Language\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取当前语言显示名称 
+
+\begin{DoxyReturn}{Returns}
+\char`\"{}\+EN\char`\"{} 或 \char`\"{}中文\char`\"{} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classI18n_a5b0eb855f6c37ddc08bb8fe71118f314}\label{classI18n_a5b0eb855f6c37ddc08bb8fe71118f314}} 
+\index{I18n@{I18n}!instance@{instance}}
+\index{instance@{instance}!I18n@{I18n}}
+\doxysubsubsection{\texorpdfstring{instance()}{instance()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classI18n}{I18n}} \& I18n\+::instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+获取单例引用 
+
+\mbox{\Hypertarget{classI18n_a67ac6bd2d7298a5f5e3d43afb5843a39}\label{classI18n_a67ac6bd2d7298a5f5e3d43afb5843a39}} 
+\index{I18n@{I18n}!setLanguage@{setLanguage}}
+\index{setLanguage@{setLanguage}!I18n@{I18n}}
+\doxysubsubsection{\texorpdfstring{setLanguage()}{setLanguage()}}
+{\footnotesize\ttfamily void I18n\+::set\+Language (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}}}]{lang }\end{DoxyParamCaption})}
+
+
+
+设置当前语言 
+
+\mbox{\Hypertarget{classI18n_aa29fc10f296d4864f919727141400e2e}\label{classI18n_aa29fc10f296d4864f919727141400e2e}} 
+\index{I18n@{I18n}!t@{t}}
+\index{t@{t}!I18n@{I18n}}
+\doxysubsubsection{\texorpdfstring{t()}{t()}}
+{\footnotesize\ttfamily std\+::string I18n\+::t (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption}) const}
+
+
+
+获取翻译文本 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & 翻译键 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+当前语言的翻译文本，找不到则返回 key 本身 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classI18n_ab5e35767c7a42df24d59bce4c21269da}\label{classI18n_ab5e35767c7a42df24d59bce4c21269da}} 
+\index{I18n@{I18n}!toggleLanguage@{toggleLanguage}}
+\index{toggleLanguage@{toggleLanguage}!I18n@{I18n}}
+\doxysubsubsection{\texorpdfstring{toggleLanguage()}{toggleLanguage()}}
+{\footnotesize\ttfamily void I18n\+::toggle\+Language (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+切换语言（\+EN↔\+ZH） 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{I18n_8hpp}{I18n.\+hpp}}\item 
+src/\mbox{\hyperlink{I18n_8cpp}{I18n.\+cpp}}\end{DoxyCompactItemize}

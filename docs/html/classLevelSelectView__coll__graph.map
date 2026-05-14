@@ -1,0 +1,4 @@
+<map id="LevelSelectView" name="LevelSelectView">
+<area shape="rect" id="node1" title="模式选择视图" alt="" coords="5,80,136,107"/>
+<area shape="rect" id="node2" href="$classView.html" title="视图基类" alt="" coords="43,5,98,32"/>
+</map>

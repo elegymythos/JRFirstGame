@@ -1,0 +1,43 @@
+\hypertarget{ViewBase_8hpp}{}\doxysection{src/\+View\+Base.hpp File Reference}
+\label{ViewBase_8hpp}\index{src/ViewBase.hpp@{src/ViewBase.hpp}}
+
+
+视图基类，提供语言切换按钮等通用功能  
+
+
+{\ttfamily \#include $<$SFML/\+Graphics.\+hpp$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include \char`\"{}I18n.\+hpp\char`\"{}}\newline
+Include dependency graph for View\+Base.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ViewBase_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ViewBase_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classView}{View}}
+\begin{DoxyCompactList}\small\item\em 视图基类 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+视图基类，提供语言切换按钮等通用功能 
+
+所有视图（菜单、登录、游戏、排行榜等）的公共基类。 提供：
+\begin{DoxyItemize}
+\item global\+Font 引用：所有子类共享的全局字体
+\item 语言切换按钮：右上角显示当前语言，点击切换中/英文
+\item language\+Changed 标记：语言切换后通知主循环重建当前视图
+\item 三个纯虚函数：handle\+Event、update、draw，子类必须实现 
+\end{DoxyItemize}

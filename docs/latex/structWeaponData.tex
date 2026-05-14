@@ -1,0 +1,99 @@
+\hypertarget{structWeaponData}{}\doxysection{Weapon\+Data Struct Reference}
+\label{structWeaponData}\index{WeaponData@{WeaponData}}
+
+
+C++武器数据结构  
+
+
+
+
+{\ttfamily \#include $<$Weapon\+List\+Bridge.\+hpp$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{structWeaponData_aac44f3567572c4662e4918fa7ad2185a}{name}}
+\begin{DoxyCompactList}\small\item\em 武器名称 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{Weapon\+Type}} \mbox{\hyperlink{structWeaponData_a5ec5fbce7423f749a2c133627fcd44d1}{type}}
+\begin{DoxyCompactList}\small\item\em 武器类型（\+WEAPON\+\_\+\+SWORD/\+WEAPON\+\_\+\+ARTIFACT/\+WEAPON\+\_\+\+DAGGER） \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structWeaponData_a4fb44e4ecd03a55ce46bd333bae8f226}{damage}}
+\begin{DoxyCompactList}\small\item\em 基础伤害 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structWeaponData_a1fc1b4300f29c96c5d5020eff67ed2fc}{range}}
+\begin{DoxyCompactList}\small\item\em 攻击范围（像素） \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{structWeaponData_a3d9d45b8ed17b5b60c6e686c4d492a3d}{attack\+Speed}}
+\begin{DoxyCompactList}\small\item\em 每秒攻击次数 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structWeaponData_aed240d252aa8f19eddbf0be0c65b17c2}{is\+Ranged}}
+\begin{DoxyCompactList}\small\item\em 是否远程武器 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+C++武器数据结构 
+
+与\+C语言的 \mbox{\hyperlink{structWeapon}{Weapon}} 结构体一一对应，但使用 std\+::string 替代 char\mbox{[}\mbox{]}， bool 替代 int。由 c\+To\+Cpp() 转换函数桥接。 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structWeaponData_a3d9d45b8ed17b5b60c6e686c4d492a3d}\label{structWeaponData_a3d9d45b8ed17b5b60c6e686c4d492a3d}} 
+\index{WeaponData@{WeaponData}!attackSpeed@{attackSpeed}}
+\index{attackSpeed@{attackSpeed}!WeaponData@{WeaponData}}
+\doxysubsubsection{\texorpdfstring{attackSpeed}{attackSpeed}}
+{\footnotesize\ttfamily float Weapon\+Data\+::attack\+Speed}
+
+
+
+每秒攻击次数 
+
+\mbox{\Hypertarget{structWeaponData_a4fb44e4ecd03a55ce46bd333bae8f226}\label{structWeaponData_a4fb44e4ecd03a55ce46bd333bae8f226}} 
+\index{WeaponData@{WeaponData}!damage@{damage}}
+\index{damage@{damage}!WeaponData@{WeaponData}}
+\doxysubsubsection{\texorpdfstring{damage}{damage}}
+{\footnotesize\ttfamily int Weapon\+Data\+::damage}
+
+
+
+基础伤害 
+
+\mbox{\Hypertarget{structWeaponData_aed240d252aa8f19eddbf0be0c65b17c2}\label{structWeaponData_aed240d252aa8f19eddbf0be0c65b17c2}} 
+\index{WeaponData@{WeaponData}!isRanged@{isRanged}}
+\index{isRanged@{isRanged}!WeaponData@{WeaponData}}
+\doxysubsubsection{\texorpdfstring{isRanged}{isRanged}}
+{\footnotesize\ttfamily bool Weapon\+Data\+::is\+Ranged}
+
+
+
+是否远程武器 
+
+\mbox{\Hypertarget{structWeaponData_aac44f3567572c4662e4918fa7ad2185a}\label{structWeaponData_aac44f3567572c4662e4918fa7ad2185a}} 
+\index{WeaponData@{WeaponData}!name@{name}}
+\index{name@{name}!WeaponData@{WeaponData}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily std\+::string Weapon\+Data\+::name}
+
+
+
+武器名称 
+
+\mbox{\Hypertarget{structWeaponData_a1fc1b4300f29c96c5d5020eff67ed2fc}\label{structWeaponData_a1fc1b4300f29c96c5d5020eff67ed2fc}} 
+\index{WeaponData@{WeaponData}!range@{range}}
+\index{range@{range}!WeaponData@{WeaponData}}
+\doxysubsubsection{\texorpdfstring{range}{range}}
+{\footnotesize\ttfamily float Weapon\+Data\+::range}
+
+
+
+攻击范围（像素） 
+
+\mbox{\Hypertarget{structWeaponData_a5ec5fbce7423f749a2c133627fcd44d1}\label{structWeaponData_a5ec5fbce7423f749a2c133627fcd44d1}} 
+\index{WeaponData@{WeaponData}!type@{type}}
+\index{type@{type}!WeaponData@{WeaponData}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{Weapon\+Type}} Weapon\+Data\+::type}
+
+
+
+武器类型（\+WEAPON\+\_\+\+SWORD/\+WEAPON\+\_\+\+ARTIFACT/\+WEAPON\+\_\+\+DAGGER） 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{WeaponListBridge_8hpp}{Weapon\+List\+Bridge.\+hpp}}\end{DoxyCompactItemize}

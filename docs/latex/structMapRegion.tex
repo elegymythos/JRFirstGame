@@ -1,0 +1,83 @@
+\hypertarget{structMapRegion}{}\doxysection{Map\+Region Struct Reference}
+\label{structMapRegion}\index{MapRegion@{MapRegion}}
+
+
+地图区域  
+
+
+
+
+{\ttfamily \#include $<$Map\+System.\+hpp$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{structMapRegion_a4f6fad2e8977208deaf4c88c4ec3d513}{region\+Id}}
+\begin{DoxyCompactList}\small\item\em 区域唯一\+ID \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structMapRegion_a599c30e7637e73cc717a0329ab826dbe}{col}}
+\item 
+int \mbox{\hyperlink{structMapRegion_ab091bc5244c6e38c2215dd1fb9b34cbf}{row}}
+\begin{DoxyCompactList}\small\item\em 网格坐标 \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}}, int $>$ $>$ \mbox{\hyperlink{structMapRegion_abe18a4b07527645aa399204d02666d7e}{enemy\+Config}}
+\begin{DoxyCompactList}\small\item\em 敌人类型+数量配置 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structMapRegion_a9ae22db3e36f3b3d36c8566455939b41}{spawned}} = false
+\begin{DoxyCompactList}\small\item\em 是否已刷新敌人 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+地图区域 
+
+每个区域有唯一的 region\+Id（由 col + row$\ast$100000 计算）， 包含敌人配置（类型+数量）和是否已刷新标记。 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structMapRegion_a599c30e7637e73cc717a0329ab826dbe}\label{structMapRegion_a599c30e7637e73cc717a0329ab826dbe}} 
+\index{MapRegion@{MapRegion}!col@{col}}
+\index{col@{col}!MapRegion@{MapRegion}}
+\doxysubsubsection{\texorpdfstring{col}{col}}
+{\footnotesize\ttfamily int Map\+Region\+::col}
+
+\mbox{\Hypertarget{structMapRegion_abe18a4b07527645aa399204d02666d7e}\label{structMapRegion_abe18a4b07527645aa399204d02666d7e}} 
+\index{MapRegion@{MapRegion}!enemyConfig@{enemyConfig}}
+\index{enemyConfig@{enemyConfig}!MapRegion@{MapRegion}}
+\doxysubsubsection{\texorpdfstring{enemyConfig}{enemyConfig}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::pair$<$\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{Enemy\+Type}}, int$>$ $>$ Map\+Region\+::enemy\+Config}
+
+
+
+敌人类型+数量配置 
+
+\mbox{\Hypertarget{structMapRegion_a4f6fad2e8977208deaf4c88c4ec3d513}\label{structMapRegion_a4f6fad2e8977208deaf4c88c4ec3d513}} 
+\index{MapRegion@{MapRegion}!regionId@{regionId}}
+\index{regionId@{regionId}!MapRegion@{MapRegion}}
+\doxysubsubsection{\texorpdfstring{regionId}{regionId}}
+{\footnotesize\ttfamily int Map\+Region\+::region\+Id}
+
+
+
+区域唯一\+ID 
+
+\mbox{\Hypertarget{structMapRegion_ab091bc5244c6e38c2215dd1fb9b34cbf}\label{structMapRegion_ab091bc5244c6e38c2215dd1fb9b34cbf}} 
+\index{MapRegion@{MapRegion}!row@{row}}
+\index{row@{row}!MapRegion@{MapRegion}}
+\doxysubsubsection{\texorpdfstring{row}{row}}
+{\footnotesize\ttfamily int Map\+Region\+::row}
+
+
+
+网格坐标 
+
+\mbox{\Hypertarget{structMapRegion_a9ae22db3e36f3b3d36c8566455939b41}\label{structMapRegion_a9ae22db3e36f3b3d36c8566455939b41}} 
+\index{MapRegion@{MapRegion}!spawned@{spawned}}
+\index{spawned@{spawned}!MapRegion@{MapRegion}}
+\doxysubsubsection{\texorpdfstring{spawned}{spawned}}
+{\footnotesize\ttfamily bool Map\+Region\+::spawned = false}
+
+
+
+是否已刷新敌人 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{MapSystem_8hpp}{Map\+System.\+hpp}}\end{DoxyCompactItemize}

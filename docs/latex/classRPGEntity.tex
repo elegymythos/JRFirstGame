@@ -1,0 +1,203 @@
+\hypertarget{classRPGEntity}{}\doxysection{RPGEntity Class Reference}
+\label{classRPGEntity}\index{RPGEntity@{RPGEntity}}
+
+
+游戏实体基类  
+
+
+
+
+{\ttfamily \#include $<$Game\+Logic.\+hpp$>$}
+
+
+
+Inheritance diagram for RPGEntity\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classRPGEntity__inherit__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classRPGEntity_af05087266521ed39d1cb06a6249985fa}{RPGEntity}} (sf\+::\+Vector2f pos=\{400, 300\})
+\item 
+virtual \mbox{\hyperlink{classRPGEntity_ad4bf4082f29c662716c5f75fdaee8930}{$\sim$\+RPGEntity}} ()=default
+\item 
+virtual void \mbox{\hyperlink{classRPGEntity_ab4e1e4617259d027f26377010bdb36c1}{update}} (float dt)
+\begin{DoxyCompactList}\small\item\em 每帧更新位置：position += velocity $\ast$ dt \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classRPGEntity_aaff22114306ef740e9eec179b91006c1}{draw}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em 绘制为圆形 \end{DoxyCompactList}\item 
+sf\+::\+Float\+Rect \mbox{\hyperlink{classRPGEntity_a5029bae9376ff67f00c69c1ed4d72d76}{get\+Bounds}} () const
+\begin{DoxyCompactList}\small\item\em 获取碰撞包围盒 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classRPGEntity_a37ed3f18662fc4a0ac370ce83714c823}{is\+Alive}} () const
+\begin{DoxyCompactList}\small\item\em 是否存活（血量 \texorpdfstring{$>$}{>} 0） \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+sf\+::\+Vector2f \mbox{\hyperlink{classRPGEntity_aa2d0032e911957d2fe305f9b5670bebc}{position}}
+\begin{DoxyCompactList}\small\item\em 世界坐标位置 \end{DoxyCompactList}\item 
+sf\+::\+Vector2f \mbox{\hyperlink{classRPGEntity_ac9093703f5ed10749c736a9321df60d8}{velocity}}
+\begin{DoxyCompactList}\small\item\em 当前速度向量 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classRPGEntity_ae3ed62a067d7ff2845af629d0f236767}{radius}} = 20.f
+\begin{DoxyCompactList}\small\item\em 碰撞半径 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classRPGEntity_a40d359c36f5db20fd45974f401c71d2b}{health}} = 100
+\begin{DoxyCompactList}\small\item\em 当前血量 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classRPGEntity_a6ec987ce8c24ff19bb1807a1fe7bfbd5}{max\+Health}} = 100
+\begin{DoxyCompactList}\small\item\em 血量上限 \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classRPGEntity_ab156f298b1830da20931a6759762b46f}{speed}} = 150.f
+\begin{DoxyCompactList}\small\item\em 移动速度标量 \end{DoxyCompactList}\item 
+sf\+::\+Color \mbox{\hyperlink{classRPGEntity_a20ccc0e76f8adbfb48f56195ae5a956b}{color}} = sf\+::\+Color\+::\+Green
+\begin{DoxyCompactList}\small\item\em 渲染颜色 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+游戏实体基类 
+
+所有游戏对象（玩家、敌人）的公共基类， 包含位置、速度、半径、血量、速度、颜色等基础属性。 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classRPGEntity_af05087266521ed39d1cb06a6249985fa}\label{classRPGEntity_af05087266521ed39d1cb06a6249985fa}} 
+\index{RPGEntity@{RPGEntity}!RPGEntity@{RPGEntity}}
+\index{RPGEntity@{RPGEntity}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{RPGEntity()}{RPGEntity()}}
+{\footnotesize\ttfamily RPGEntity\+::\+RPGEntity (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{pos = {\ttfamily \{400,300\}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classRPGEntity_ad4bf4082f29c662716c5f75fdaee8930}\label{classRPGEntity_ad4bf4082f29c662716c5f75fdaee8930}} 
+\index{RPGEntity@{RPGEntity}!````~RPGEntity@{$\sim$RPGEntity}}
+\index{````~RPGEntity@{$\sim$RPGEntity}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{$\sim$RPGEntity()}{~RPGEntity()}}
+{\footnotesize\ttfamily virtual RPGEntity\+::$\sim$\+RPGEntity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classRPGEntity_aaff22114306ef740e9eec179b91006c1}\label{classRPGEntity_aaff22114306ef740e9eec179b91006c1}} 
+\index{RPGEntity@{RPGEntity}!draw@{draw}}
+\index{draw@{draw}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void RPGEntity\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+绘制为圆形 
+
+
+
+Reimplemented in \mbox{\hyperlink{classPlayer_a5e0147aee1248db63417987b9a203a9a}{Player}}, and \mbox{\hyperlink{classEnemy_ad35cb50c7b041a183f12756b939a4636}{Enemy}}.
+
+\mbox{\Hypertarget{classRPGEntity_a5029bae9376ff67f00c69c1ed4d72d76}\label{classRPGEntity_a5029bae9376ff67f00c69c1ed4d72d76}} 
+\index{RPGEntity@{RPGEntity}!getBounds@{getBounds}}
+\index{getBounds@{getBounds}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{getBounds()}{getBounds()}}
+{\footnotesize\ttfamily sf\+::\+Float\+Rect RPGEntity\+::get\+Bounds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取碰撞包围盒 
+
+\mbox{\Hypertarget{classRPGEntity_a37ed3f18662fc4a0ac370ce83714c823}\label{classRPGEntity_a37ed3f18662fc4a0ac370ce83714c823}} 
+\index{RPGEntity@{RPGEntity}!isAlive@{isAlive}}
+\index{isAlive@{isAlive}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{isAlive()}{isAlive()}}
+{\footnotesize\ttfamily bool RPGEntity\+::is\+Alive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+是否存活（血量 \texorpdfstring{$>$}{>} 0） 
+
+\mbox{\Hypertarget{classRPGEntity_ab4e1e4617259d027f26377010bdb36c1}\label{classRPGEntity_ab4e1e4617259d027f26377010bdb36c1}} 
+\index{RPGEntity@{RPGEntity}!update@{update}}
+\index{update@{update}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void RPGEntity\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+每帧更新位置：position += velocity $\ast$ dt 
+
+
+
+Reimplemented in \mbox{\hyperlink{classPlayer_abe2902b7decc38472183a08977eeb57f}{Player}}, and \mbox{\hyperlink{classEnemy_ab6a3b691be209d9fce40f760bb479a11}{Enemy}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classRPGEntity_a20ccc0e76f8adbfb48f56195ae5a956b}\label{classRPGEntity_a20ccc0e76f8adbfb48f56195ae5a956b}} 
+\index{RPGEntity@{RPGEntity}!color@{color}}
+\index{color@{color}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{color}{color}}
+{\footnotesize\ttfamily sf\+::\+Color RPGEntity\+::color = sf\+::\+Color\+::\+Green}
+
+
+
+渲染颜色 
+
+\mbox{\Hypertarget{classRPGEntity_a40d359c36f5db20fd45974f401c71d2b}\label{classRPGEntity_a40d359c36f5db20fd45974f401c71d2b}} 
+\index{RPGEntity@{RPGEntity}!health@{health}}
+\index{health@{health}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{health}{health}}
+{\footnotesize\ttfamily int RPGEntity\+::health = 100}
+
+
+
+当前血量 
+
+\mbox{\Hypertarget{classRPGEntity_a6ec987ce8c24ff19bb1807a1fe7bfbd5}\label{classRPGEntity_a6ec987ce8c24ff19bb1807a1fe7bfbd5}} 
+\index{RPGEntity@{RPGEntity}!maxHealth@{maxHealth}}
+\index{maxHealth@{maxHealth}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{maxHealth}{maxHealth}}
+{\footnotesize\ttfamily int RPGEntity\+::max\+Health = 100}
+
+
+
+血量上限 
+
+\mbox{\Hypertarget{classRPGEntity_aa2d0032e911957d2fe305f9b5670bebc}\label{classRPGEntity_aa2d0032e911957d2fe305f9b5670bebc}} 
+\index{RPGEntity@{RPGEntity}!position@{position}}
+\index{position@{position}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily sf\+::\+Vector2f RPGEntity\+::position}
+
+
+
+世界坐标位置 
+
+\mbox{\Hypertarget{classRPGEntity_ae3ed62a067d7ff2845af629d0f236767}\label{classRPGEntity_ae3ed62a067d7ff2845af629d0f236767}} 
+\index{RPGEntity@{RPGEntity}!radius@{radius}}
+\index{radius@{radius}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{radius}{radius}}
+{\footnotesize\ttfamily float RPGEntity\+::radius = 20.f}
+
+
+
+碰撞半径 
+
+\mbox{\Hypertarget{classRPGEntity_ab156f298b1830da20931a6759762b46f}\label{classRPGEntity_ab156f298b1830da20931a6759762b46f}} 
+\index{RPGEntity@{RPGEntity}!speed@{speed}}
+\index{speed@{speed}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily float RPGEntity\+::speed = 150.f}
+
+
+
+移动速度标量 
+
+\mbox{\Hypertarget{classRPGEntity_ac9093703f5ed10749c736a9321df60d8}\label{classRPGEntity_ac9093703f5ed10749c736a9321df60d8}} 
+\index{RPGEntity@{RPGEntity}!velocity@{velocity}}
+\index{velocity@{velocity}!RPGEntity@{RPGEntity}}
+\doxysubsubsection{\texorpdfstring{velocity}{velocity}}
+{\footnotesize\ttfamily sf\+::\+Vector2f RPGEntity\+::velocity}
+
+
+
+当前速度向量 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{GameLogic_8hpp}{Game\+Logic.\+hpp}}\item 
+src/\mbox{\hyperlink{GameLogic_8cpp}{Game\+Logic.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,62 @@
+\hypertarget{WeaponListBridge_8hpp_source}{}\doxysection{Weapon\+List\+Bridge.\+hpp}
+\label{WeaponListBridge_8hpp_source}\index{src/WeaponListBridge.hpp@{src/WeaponListBridge.hpp}}
+\mbox{\hyperlink{WeaponListBridge_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{WeaponList_8h}{WeaponList.h}}"{}}   \textcolor{comment}{// C语言武器链表接口}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include <optional>}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{35 \textcolor{keyword}{struct }\mbox{\hyperlink{structWeaponData}{WeaponData}} \{}
+\DoxyCodeLine{36     std::string \mbox{\hyperlink{structWeaponData_aac44f3567572c4662e4918fa7ad2185a}{name}};      }
+\DoxyCodeLine{37     \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{WeaponType}} \mbox{\hyperlink{structWeaponData_a5ec5fbce7423f749a2c133627fcd44d1}{type}};       }
+\DoxyCodeLine{38     \textcolor{keywordtype}{int} \mbox{\hyperlink{structWeaponData_a4fb44e4ecd03a55ce46bd333bae8f226}{damage}};            }
+\DoxyCodeLine{39     \textcolor{keywordtype}{float} \mbox{\hyperlink{structWeaponData_a1fc1b4300f29c96c5d5020eff67ed2fc}{range}};           }
+\DoxyCodeLine{40     \textcolor{keywordtype}{float} \mbox{\hyperlink{structWeaponData_a3d9d45b8ed17b5b60c6e686c4d492a3d}{attackSpeed}};     }
+\DoxyCodeLine{41     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structWeaponData_aed240d252aa8f19eddbf0be0c65b17c2}{isRanged}};         }
+\DoxyCodeLine{42 \};}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{51 \textcolor{keyword}{class }\mbox{\hyperlink{classWeaponListBridge}{WeaponListBridge}} \{}
+\DoxyCodeLine{52 \textcolor{keyword}{public}:}
+\DoxyCodeLine{53     \mbox{\hyperlink{classWeaponListBridge_aed8c703316d464c78347fe17930ce315}{WeaponListBridge}}();}
+\DoxyCodeLine{54     \mbox{\hyperlink{classWeaponListBridge_af1b40264f0a5048f040040680873775b}{\string~WeaponListBridge}}();}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56     \textcolor{comment}{/* 禁止拷贝（C链表指针唯一） */}}
+\DoxyCodeLine{57     \mbox{\hyperlink{classWeaponListBridge_a9958f67b6d759e1db79b635f4c51cc94}{WeaponListBridge}}(\textcolor{keyword}{const} \mbox{\hyperlink{classWeaponListBridge}{WeaponListBridge}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{58     \mbox{\hyperlink{classWeaponListBridge}{WeaponListBridge}}\& \mbox{\hyperlink{classWeaponListBridge_acb0ec931e90231f902baad30f9f081b0}{operator=}}(\textcolor{keyword}{const} \mbox{\hyperlink{classWeaponListBridge}{WeaponListBridge}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60     \textcolor{comment}{/* 允许移动（转移链表所有权） */}}
+\DoxyCodeLine{61     \mbox{\hyperlink{classWeaponListBridge_aed8c703316d464c78347fe17930ce315}{WeaponListBridge}}(\mbox{\hyperlink{classWeaponListBridge}{WeaponListBridge}}\&\& other) \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{62     \mbox{\hyperlink{classWeaponListBridge}{WeaponListBridge}}\& \mbox{\hyperlink{classWeaponListBridge_acb0ec931e90231f902baad30f9f081b0}{operator=}}(\mbox{\hyperlink{classWeaponListBridge}{WeaponListBridge}}\&\& other) \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{71     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classWeaponListBridge_aa92404cbe70d2b254202bbdb60b77815}{addWeapon}}(\textcolor{keyword}{const} \mbox{\hyperlink{structWeaponData}{WeaponData}}\& data);}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{80     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classWeaponListBridge_a48596df6270df23d18d91589b1afae6e}{removeWeapon}}(\textcolor{keyword}{const} std::string\& name);}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{87     std::optional<WeaponData> \mbox{\hyperlink{classWeaponListBridge_ac8201b26758a089b20a648fcd65b3f27}{findWeapon}}(\textcolor{keyword}{const} std::string\& name) \textcolor{keyword}{const};}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{94     std::optional<WeaponData> \mbox{\hyperlink{classWeaponListBridge_a145f6a6983a9fe80ff320c643d9b93da}{findWeaponByType}}(\mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{WeaponType}} type) \textcolor{keyword}{const};}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{103     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classWeaponListBridge_a62a3655500da9e8e546ff1819743cf0c}{equipWeapon}}(\textcolor{keyword}{const} std::string\& name);}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{109     \textcolor{keyword}{const} \mbox{\hyperlink{structWeaponData}{WeaponData}}* \mbox{\hyperlink{classWeaponListBridge_a2227db5b4e36e8eb55d868304caa20fb}{getEquipped}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{117     std::vector<WeaponData> \mbox{\hyperlink{classWeaponListBridge_a5e8ef34b86edf1cd562f2a40b43f0b20}{getAllWeapons}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{122     \textcolor{keywordtype}{int} \mbox{\hyperlink{classWeaponListBridge_a0a9068626941336f061246cbe02dc2b5}{getCount}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{130     \textcolor{keywordtype}{void} \mbox{\hyperlink{classWeaponListBridge_ae1701477fa1b920e99b82a4a9ca309ca}{initDefaultWeapons}}();}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132 \textcolor{keyword}{private}:}
+\DoxyCodeLine{133     \mbox{\hyperlink{structWeaponList}{WeaponList}}* list\_;          }
+\DoxyCodeLine{134     \mbox{\hyperlink{structWeaponData}{WeaponData}} equipped\_;       }
+\DoxyCodeLine{135     \textcolor{keywordtype}{bool} hasEquipped\_;          }
+\DoxyCodeLine{136 }
+\DoxyCodeLine{142     \textcolor{keyword}{static} \mbox{\hyperlink{structWeaponData}{WeaponData}} cToCpp(\textcolor{keyword}{const} \mbox{\hyperlink{structWeapon}{Weapon}}* weapon);}
+\DoxyCodeLine{143 \};}
+
+\end{DoxyCode}

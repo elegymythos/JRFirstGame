@@ -1,0 +1,4 @@
+<map id="GameWorld::NetPlayer" name="GameWorld::NetPlayer">
+<area shape="rect" id="node1" title="网络玩家数据（简化版，不含完整属性系统）" alt="" coords="5,95,183,121"/>
+<area shape="rect" id="node2" href="$structPlayerInput.html" title="玩家输入状态" alt="" coords="45,5,143,32"/>
+</map>

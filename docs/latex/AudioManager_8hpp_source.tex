@@ -1,0 +1,59 @@
+\hypertarget{AudioManager_8hpp_source}{}\doxysection{Audio\+Manager.\+hpp}
+\label{AudioManager_8hpp_source}\index{src/AudioManager.hpp@{src/AudioManager.hpp}}
+\mbox{\hyperlink{AudioManager_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <SFML/Audio.hpp>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <map>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{24 \textcolor{keyword}{class }\mbox{\hyperlink{classAudioManager}{AudioManager}} \{}
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \textcolor{keyword}{static} \mbox{\hyperlink{classAudioManager}{AudioManager}}\& \mbox{\hyperlink{classAudioManager_a2c96ed190548d62c1a0dbc2c9b356581}{instance}}();}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} \mbox{\hyperlink{classAudioManager_a0a86aba2d69b7249934cf41a687e3468}{loadAll}}();}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{40     \textcolor{keywordtype}{void} \mbox{\hyperlink{classAudioManager_a747ffbd2542153da9c80283fb81f33ea}{playBGM}}(\textcolor{keyword}{const} std::string\& name, \textcolor{keywordtype}{float} volume = 50.f, \textcolor{keywordtype}{bool} loop = \textcolor{keyword}{true});}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} \mbox{\hyperlink{classAudioManager_a92d1d1413a6be7c43349d5928742ac7d}{stopBGM}}();}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{51     \textcolor{keywordtype}{void} \mbox{\hyperlink{classAudioManager_a923638c5f0df3687e8667cfda7e07a35}{setBGMVolume}}(\textcolor{keywordtype}{float} volume);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{58     \textcolor{keywordtype}{void} \mbox{\hyperlink{classAudioManager_a3ec58922a08318576c2f92872cc79af6}{fadeBGM}}(\textcolor{keywordtype}{float} targetVolume, \textcolor{keywordtype}{float} duration = 1.f);}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{67     \textcolor{keywordtype}{void} \mbox{\hyperlink{classAudioManager_ac8d5988cde8a2b1b9d1a530aceda6d26}{playSFX}}(\textcolor{keyword}{const} std::string\& name, \textcolor{keywordtype}{float} volume = 80.f);}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{73     \textcolor{keywordtype}{void} \mbox{\hyperlink{classAudioManager_a0d9e4729cf964dd78769c50d8e9b2396}{setSFXVolume}}(\textcolor{keywordtype}{float} volume);}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{79     \textcolor{keywordtype}{void} \mbox{\hyperlink{classAudioManager_a4b4f3adc164ea5b4d208adc1d2c62e2f}{setMasterVolume}}(\textcolor{keywordtype}{float} volume);}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{82     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classAudioManager_a47e73f87895d85a6f77b6025ef72e70e}{isBGMLoading}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{keyword}{private}:}
+\DoxyCodeLine{85     \mbox{\hyperlink{classAudioManager}{AudioManager}}();}
+\DoxyCodeLine{86     \mbox{\hyperlink{classAudioManager}{AudioManager}}(\textcolor{keyword}{const} \mbox{\hyperlink{classAudioManager}{AudioManager}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{87     \mbox{\hyperlink{classAudioManager}{AudioManager}}\& operator=(\textcolor{keyword}{const} \mbox{\hyperlink{classAudioManager}{AudioManager}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{88 }
+\DoxyCodeLine{89     std::map<std::string, std::unique\_ptr<sf::Music>> bgm\_;          }
+\DoxyCodeLine{90     std::map<std::string, std::unique\_ptr<sf::SoundBuffer>> sfxBuffers\_; }
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92     std::string currentBGM\_;          }
+\DoxyCodeLine{93     \textcolor{keywordtype}{float} bgmVolume\_ = 50.f;          }
+\DoxyCodeLine{94     \textcolor{keywordtype}{float} sfxVolume\_ = 80.f;          }
+\DoxyCodeLine{95     \textcolor{keywordtype}{float} masterVolume\_ = 100.f;      }
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97     \textcolor{keywordtype}{bool} bgmFading\_ = \textcolor{keyword}{false};          }
+\DoxyCodeLine{98     \textcolor{keywordtype}{float} fadeTarget\_ = 0.f;          }
+\DoxyCodeLine{99     \textcolor{keywordtype}{float} fadeSpeed\_ = 0.f;           }
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} MAX\_SFX\_CHANNELS = 32; }
+\DoxyCodeLine{102     \textcolor{keywordtype}{int} sfxChannelIndex\_ = 0;                     }
+\DoxyCodeLine{103     std::unique\_ptr<sf::Sound> sfxChannels\_[MAX\_SFX\_CHANNELS]; }
+\DoxyCodeLine{104     std::unique\_ptr<sf::SoundBuffer> dummyBuffer\_; }
+\DoxyCodeLine{105 }
+\DoxyCodeLine{111     std::string resolvePath(\textcolor{keyword}{const} std::string\& filename);}
+\DoxyCodeLine{112 \};}
+
+\end{DoxyCode}

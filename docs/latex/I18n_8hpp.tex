@@ -1,0 +1,66 @@
+\hypertarget{I18n_8hpp}{}\doxysection{src/\+I18n.hpp File Reference}
+\label{I18n_8hpp}\index{src/I18n.hpp@{src/I18n.hpp}}
+
+
+国际化系统 -\/ 支持中文/英文切换  
+
+
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+Include dependency graph for I18n.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=305pt]{I18n_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{I18n_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classI18n}{I18n}}
+\begin{DoxyCompactList}\small\item\em 国际化单例 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}} \{ \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705aaa85f1840e282d8a8304dbc2c0d7c9b2}{EN}}
+, \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705a2f360b70e0ecf402694429fac3a9255d}{ZH}}
+ \}
+\begin{DoxyCompactList}\small\item\em 支持的语言 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+国际化系统 -\/ 支持中文/英文切换 
+
+轻量级单例国际化系统，使用哈希表存储翻译键值对。 每个键对应一对翻译：\{英文, 中文\}。 默认语言为中文（\+ZH），可通过 L 键或右上角按钮切换。 找不到翻译键时，直接返回键本身作为显示文本。 
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{I18n_8hpp_a315ca917ad583797f709ea477dd28705}\label{I18n_8hpp_a315ca917ad583797f709ea477dd28705}} 
+\index{I18n.hpp@{I18n.hpp}!Language@{Language}}
+\index{Language@{Language}!I18n.hpp@{I18n.hpp}}
+\doxysubsubsection{\texorpdfstring{Language}{Language}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{I18n_8hpp_a315ca917ad583797f709ea477dd28705}{Language}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+支持的语言 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EN@{EN}!I18n.hpp@{I18n.hpp}}\index{I18n.hpp@{I18n.hpp}!EN@{EN}}}\mbox{\Hypertarget{I18n_8hpp_a315ca917ad583797f709ea477dd28705aaa85f1840e282d8a8304dbc2c0d7c9b2}\label{I18n_8hpp_a315ca917ad583797f709ea477dd28705aaa85f1840e282d8a8304dbc2c0d7c9b2}} 
+EN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ZH@{ZH}!I18n.hpp@{I18n.hpp}}\index{I18n.hpp@{I18n.hpp}!ZH@{ZH}}}\mbox{\Hypertarget{I18n_8hpp_a315ca917ad583797f709ea477dd28705a2f360b70e0ecf402694429fac3a9255d}\label{I18n_8hpp_a315ca917ad583797f709ea477dd28705a2f360b70e0ecf402694429fac3a9255d}} 
+ZH&\\
+\hline
+
+\end{DoxyEnumFields}

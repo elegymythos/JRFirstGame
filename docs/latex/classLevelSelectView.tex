@@ -1,0 +1,130 @@
+\hypertarget{classLevelSelectView}{}\doxysection{Level\+Select\+View Class Reference}
+\label{classLevelSelectView}\index{LevelSelectView@{LevelSelectView}}
+
+
+模式选择视图  
+
+
+
+
+{\ttfamily \#include $<$Menu\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Level\+Select\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{classLevelSelectView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Level\+Select\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=178pt]{classLevelSelectView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLevelSelectView_af526caff65d7e2d3ddd00f25162d2035}{Level\+Select\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View, bool show\+Welcome=true, bool has\+Character=false)
+\begin{DoxyCompactList}\small\item\em 构造模式选择视图 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLevelSelectView_a414ca7fda555a1b93f933b8bf7cda873}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLevelSelectView_a0715f239c9c3340a853f4841277e0e16}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLevelSelectView_a95f18a3fa4763eb501b991ffb1077131}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+模式选择视图 
+
+登录成功后首次进入时显示2秒欢迎动画，之后显示按钮：
+\begin{DoxyItemize}
+\item 创建角色 / 选择角色（取决于是否已有角色）
+\item 闯关模式（进入角色选择或创建）
+\item 双人闯关（进入联机大厅）
+\item 排行榜
+\item 返回 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classLevelSelectView_af526caff65d7e2d3ddd00f25162d2035}\label{classLevelSelectView_af526caff65d7e2d3ddd00f25162d2035}} 
+\index{LevelSelectView@{LevelSelectView}!LevelSelectView@{LevelSelectView}}
+\index{LevelSelectView@{LevelSelectView}!LevelSelectView@{LevelSelectView}}
+\doxysubsubsection{\texorpdfstring{LevelSelectView()}{LevelSelectView()}}
+{\footnotesize\ttfamily Level\+Select\+View\+::\+Level\+Select\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View,  }\item[{bool}]{show\+Welcome = {\ttfamily true},  }\item[{bool}]{has\+Character = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+构造模式选择视图 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+{\em show\+Welcome} & 是否显示欢迎动画（首次进入时为true） \\
+\hline
+{\em has\+Character} & 当前用户是否已有角色 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLevelSelectView_a95f18a3fa4763eb501b991ffb1077131}\label{classLevelSelectView_a95f18a3fa4763eb501b991ffb1077131}} 
+\index{LevelSelectView@{LevelSelectView}!draw@{draw}}
+\index{draw@{draw}!LevelSelectView@{LevelSelectView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Level\+Select\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classLevelSelectView_a414ca7fda555a1b93f933b8bf7cda873}\label{classLevelSelectView_a414ca7fda555a1b93f933b8bf7cda873}} 
+\index{LevelSelectView@{LevelSelectView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!LevelSelectView@{LevelSelectView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Level\+Select\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classLevelSelectView_a0715f239c9c3340a853f4841277e0e16}\label{classLevelSelectView_a0715f239c9c3340a853f4841277e0e16}} 
+\index{LevelSelectView@{LevelSelectView}!update@{update}}
+\index{update@{update}!LevelSelectView@{LevelSelectView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Level\+Select\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{MenuView_8hpp}{Menu\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{MenuView_8cpp}{Menu\+View.\+cpp}}\end{DoxyCompactItemize}

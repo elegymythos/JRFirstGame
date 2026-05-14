@@ -1,0 +1,4 @@
+<map id="WeaponList" name="WeaponList">
+<area shape="rect" id="node1" title="武器链表结构体" alt="" coords="5,95,104,121"/>
+<area shape="rect" id="node2" href="$structWeapon.html" title="武器节点结构体（单链表节点）" alt="" coords="17,5,92,32"/>
+</map>

@@ -1,0 +1,283 @@
+\hypertarget{GameLogic_8hpp_source}{}\doxysection{Game\+Logic.\+hpp}
+\label{GameLogic_8hpp_source}\index{src/GameLogic.hpp@{src/GameLogic.hpp}}
+\mbox{\hyperlink{GameLogic_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <SFML/System.hpp>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <cmath>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <algorithm>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include <random>}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Network_8hpp}{Network.hpp}}"{}}           \textcolor{comment}{// 需要 PlayerInput 和 GameState}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{WeaponListBridge_8hpp}{WeaponListBridge.hpp}}"{}}   \textcolor{comment}{// 武器系统（C链表+C++桥接层）}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{33 sf::Vector2f \mbox{\hyperlink{GameLogic_8hpp_a166ac79672227d1f32f601b6d8bc1726}{normalize}}(\textcolor{keyword}{const} sf::Vector2f\& v);}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{38 \textcolor{keywordtype}{float} \mbox{\hyperlink{GameLogic_8hpp_acbc54471c8ce390c9d61a1eb28d1fbdc}{distance}}(\textcolor{keyword}{const} sf::Vector2f\& a, \textcolor{keyword}{const} sf::Vector2f\& b);}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{comment}{/* ======================== 属性系统 ======================== */}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{50 \textcolor{keyword}{struct }\mbox{\hyperlink{structAttributes}{Attributes}} \{}
+\DoxyCodeLine{51     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAttributes_ad955726d9ba06daf4ed27b3956269770}{strength}} = 1;      }
+\DoxyCodeLine{52     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAttributes_acf03abe298ee3f638cbb407c62b3aa83}{agility}} = 1;       }
+\DoxyCodeLine{53     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAttributes_a4b38ad571b32e8cb99fe55ae8071bd9c}{magic}} = 1;         }
+\DoxyCodeLine{54     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAttributes_a518cca579561dc78b2541940f7110056}{intelligence}} = 1;  }
+\DoxyCodeLine{55     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAttributes_a25a8432946e0f3429222b0d014141aec}{vitality}} = 1;      }
+\DoxyCodeLine{56     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAttributes_aaaa19208dbe53a0009410f561f7912ab}{luck}} = 1;          }
+\DoxyCodeLine{57 }
+\DoxyCodeLine{59     \textcolor{keywordtype}{int} \mbox{\hyperlink{structAttributes_ae7ee1032f87906b4a77106a34d3a82ac}{total}}()\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{60         \textcolor{keywordflow}{return} \mbox{\hyperlink{structAttributes_ad955726d9ba06daf4ed27b3956269770}{strength}} + \mbox{\hyperlink{structAttributes_acf03abe298ee3f638cbb407c62b3aa83}{agility}} + \mbox{\hyperlink{structAttributes_a4b38ad571b32e8cb99fe55ae8071bd9c}{magic}} + \mbox{\hyperlink{structAttributes_a518cca579561dc78b2541940f7110056}{intelligence}} + \mbox{\hyperlink{structAttributes_a25a8432946e0f3429222b0d014141aec}{vitality}} + \mbox{\hyperlink{structAttributes_aaaa19208dbe53a0009410f561f7912ab}{luck}};}
+\DoxyCodeLine{61     \}}
+\DoxyCodeLine{62 \};}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{65 \mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{GameLogic_8hpp_a08d5395e6323be989442fc20f12d1490}{generateRandomAttributes}}();}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{68 \mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{GameLogic_8hpp_ad4e4bc9f6c202a5c95a8fc81e09a49fa}{operator+}}(\textcolor{keyword}{const} \mbox{\hyperlink{structAttributes}{Attributes}}\& a, \textcolor{keyword}{const} \mbox{\hyperlink{structAttributes}{Attributes}}\& b);}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{comment}{/* ======================== 职业系统 ======================== */}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{80 \textcolor{keyword}{enum class} \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{CharacterClass}} \{ \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7a7ee7fa010d64b90a36803a8445f2e943}{Warrior}}, \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7a8eb9bca606e30006ccd71ab236760ce8}{Mage}}, \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7a9b2dd2ace4fae2ba85df02e3ebf3f89e}{Assassin}} \};}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{88 \textcolor{keyword}{struct }\mbox{\hyperlink{structClassConfig}{ClassConfig}} \{}
+\DoxyCodeLine{89     \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{CharacterClass}} \mbox{\hyperlink{structClassConfig_abe08efcdcc1558b4d849654a286ab83f}{type}};          }
+\DoxyCodeLine{90     \mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{structClassConfig_aaf798b8230eda43ff05402f284995694}{bonus}};             }
+\DoxyCodeLine{91     \mbox{\hyperlink{WeaponList_8h_a095ae9be41c95cab0ceb95c6dae270b8}{WeaponType}} \mbox{\hyperlink{structClassConfig_a369df35d6c86248850a648a0f1bc5a11}{allowedWeapon}};     }
+\DoxyCodeLine{92     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{structClassConfig_a95379fdb099f1e2a18cd34ec5a40317e}{name}};             }
+\DoxyCodeLine{93 \};}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{96 \mbox{\hyperlink{structClassConfig}{ClassConfig}} \mbox{\hyperlink{GameLogic_8hpp_a27eba14deacc834a7149e330808b182d}{getClassConfig}}(\mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{CharacterClass}} cls);}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{101 \mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{GameLogic_8hpp_a2b395d232a5bc82f88b37da1a802d3e9}{getTotalAttributes}}(\textcolor{keyword}{const} \mbox{\hyperlink{structAttributes}{Attributes}}\& base, \textcolor{keyword}{const} \mbox{\hyperlink{structClassConfig}{ClassConfig}}\& cls, \textcolor{keyword}{const} \mbox{\hyperlink{structAttributes}{Attributes}}\& levelBonus);}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103 \textcolor{comment}{/* ======================== 等级系统 ======================== */}}
+\DoxyCodeLine{104 }
+\DoxyCodeLine{112 \textcolor{keyword}{struct }\mbox{\hyperlink{structLevelData}{LevelData}} \{}
+\DoxyCodeLine{113     \textcolor{keywordtype}{int} \mbox{\hyperlink{structLevelData_afb447a1f3b14665461fbd97d408fb3a2}{level}} = 1;                          }
+\DoxyCodeLine{114     \textcolor{keywordtype}{int} \mbox{\hyperlink{structLevelData_acb0bbd94b37a41f8827526e39a67b2b4}{experience}} = 0;                     }
+\DoxyCodeLine{115     \textcolor{keywordtype}{int} \mbox{\hyperlink{structLevelData_a3e661044a2e9c4a86402adf8c6b8d202}{expToNextLevel}} = 100;               }
+\DoxyCodeLine{116     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} \mbox{\hyperlink{structLevelData_af12e76d489916a73f2471e1791bff8ce}{LEVEL\_BONUS\_PER\_ATTR}} = 2;  }
+\DoxyCodeLine{117 }
+\DoxyCodeLine{119     \textcolor{keywordtype}{void} \mbox{\hyperlink{structLevelData_a8a852bfbb5b294696d9729da16ade8cc}{gainExp}}(\textcolor{keywordtype}{int} amount);}
+\DoxyCodeLine{121     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structLevelData_a78061f54887ae4c57cfc8011a35b7537}{checkLevelUp}}();}
+\DoxyCodeLine{123     \mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{structLevelData_a8ab62e61761f2bbe07a7d84745886351}{getLevelBonus}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{124 \};}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 \textcolor{comment}{/* ======================== 敌人系统 ======================== */}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{137 \textcolor{keyword}{enum class} \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{EnemyType}} \{ \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268eaa537a3d7d5ede5718f2b597568233925}{Slime}}, \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268ea32d39f210a4c8b3b9f513fb6cf5b8148}{SkeletonWarrior}}, \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268eadc1f3a5f9acf6c17e247718f5caaf17e}{SkeletonArcher}}, \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268ea6ff015f9a4c7dc3387263aa1a819131f}{Giant}} \};}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{145 \textcolor{keyword}{struct }\mbox{\hyperlink{structEnemyConfig}{EnemyConfig}} \{}
+\DoxyCodeLine{146     \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{EnemyType}} \mbox{\hyperlink{structEnemyConfig_ab571b4e98fd55ff9bb063b3e27b4d08a}{type}};                }
+\DoxyCodeLine{147     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{structEnemyConfig_a92d6f686fd3c550be5cba706831c3624}{name}};              }
+\DoxyCodeLine{148     \textcolor{keywordtype}{int} \mbox{\hyperlink{structEnemyConfig_a67a3803bb241eb54ebd53548dfbbe0cc}{health}};                    }
+\DoxyCodeLine{149     \textcolor{keywordtype}{int} \mbox{\hyperlink{structEnemyConfig_a847a42f1de77c38d032d54de5da6eb79}{attackDamage}};              }
+\DoxyCodeLine{150     \textcolor{keywordtype}{float} \mbox{\hyperlink{structEnemyConfig_a6387183e68b9df6f73adaaa97f331d29}{speed}};                   }
+\DoxyCodeLine{151     \textcolor{keywordtype}{float} \mbox{\hyperlink{structEnemyConfig_af9b4c40709b0bc90f5d10a1ed206ffdc}{attackRange}};             }
+\DoxyCodeLine{152     \textcolor{keywordtype}{float} \mbox{\hyperlink{structEnemyConfig_a14cf2496c2e7ff6120581f08e3a72227}{attackCooldownMax}};       }
+\DoxyCodeLine{153     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structEnemyConfig_a1f6daa5d7f87d39496b6b4d84ed69dd5}{isRanged}};                 }
+\DoxyCodeLine{154     \textcolor{keywordtype}{int} \mbox{\hyperlink{structEnemyConfig_a12f021b25216c3e8a417060ed6e074da}{score}};                     }
+\DoxyCodeLine{155 \};}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{158 \mbox{\hyperlink{structEnemyConfig}{EnemyConfig}} \mbox{\hyperlink{GameLogic_8hpp_a5ec6f429c62c4a6f3f7f960b4b522b4f}{getEnemyConfig}}(\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{EnemyType}} type);}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160 \textcolor{comment}{/* ======================== 投射物系统 ======================== */}}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{169 \textcolor{keyword}{struct }\mbox{\hyperlink{structProjectile}{Projectile}} \{}
+\DoxyCodeLine{170     sf::Vector2f \mbox{\hyperlink{structProjectile_aa5e8d4c6f3221b7705fa273ea25529bb}{position}};         }
+\DoxyCodeLine{171     sf::Vector2f \mbox{\hyperlink{structProjectile_addbaa4638c4a0fa5d15166b74b6e2435}{direction}};        }
+\DoxyCodeLine{172     \textcolor{keywordtype}{float} \mbox{\hyperlink{structProjectile_a70ff500bdae54f3ad1e9e759b0ecd1fe}{speed}} = 300.f;           }
+\DoxyCodeLine{173     \textcolor{keywordtype}{int} \mbox{\hyperlink{structProjectile_a90f5793efb184c30d6c74544a6b91bb4}{damage}} = 10;               }
+\DoxyCodeLine{174     \textcolor{keywordtype}{float} \mbox{\hyperlink{structProjectile_a708c87279219f350ff2ede835261c6c2}{maxDistance}} = 400.f;     }
+\DoxyCodeLine{175     \textcolor{keywordtype}{float} \mbox{\hyperlink{structProjectile_a781d126a1606a1d310dab18030af0464}{traveled}} = 0.f;          }
+\DoxyCodeLine{176     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structProjectile_a42d28ed880a9cd205bac3af73644481e}{fromPlayer}} = \textcolor{keyword}{true};        }
+\DoxyCodeLine{177     sf::Color \mbox{\hyperlink{structProjectile_a330b819a53a030e7cf245cec080b5875}{color}} = sf::Color::Yellow;  }
+\DoxyCodeLine{178     \textcolor{keywordtype}{float} \mbox{\hyperlink{structProjectile_a27010abeceb6ddb3fe01f716aa3e5a79}{explosionRadius}} = 0.f;   }
+\DoxyCodeLine{179     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structProjectile_ae3feaab9ebd0308f1d1015b3452767df}{isCrit}} = \textcolor{keyword}{false};           }
+\DoxyCodeLine{180 }
+\DoxyCodeLine{182     \textcolor{keywordtype}{void} \mbox{\hyperlink{structProjectile_ac679bd6ba4f2087f16484c5117b89398}{update}}(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{184     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structProjectile_a3850bded71594e01a6c3339ca1ca40af}{isExpired}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{186     \textcolor{keywordtype}{void} \mbox{\hyperlink{structProjectile_a046fb79be3caa95fe6cde694e9f078c0}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{const};}
+\DoxyCodeLine{187 \};}
+\DoxyCodeLine{188 }
+\DoxyCodeLine{189 \textcolor{comment}{/* ======================== 掉落物系统 ======================== */}}
+\DoxyCodeLine{190 }
+\DoxyCodeLine{199 \textcolor{keyword}{enum class} \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886b}{DropType}} \{ \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886baf9e267fc4fae8edb45e54718b23c6fd1}{HealthPotion}}, \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886ba716b22c6159eab858af3b6f705b1b9b2}{StrBoost}}, \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886bab7e2abc2ce65736154a4ca4956b362d7}{AgiBoost}}, \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886bad9a62501342c34205f0b6670938129bc}{MagBoost}}, \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886baeace51cd19b3592d690fc2183a64cb7e}{VitBoost}}, \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886ba994d268083969554a970c8bb9f72d5b4}{RangeBoost}} \};}
+\DoxyCodeLine{200 }
+\DoxyCodeLine{208 \textcolor{keyword}{struct }\mbox{\hyperlink{structDropItem}{DropItem}} \{}
+\DoxyCodeLine{209     \mbox{\hyperlink{GameLogic_8hpp_abecf6b8067adf6fffefd25e8fa4b886b}{DropType}} \mbox{\hyperlink{structDropItem_a2f901bb1b6444760ae55ca04dac3fdc8}{type}};                 }
+\DoxyCodeLine{210     sf::Vector2f \mbox{\hyperlink{structDropItem_a397bde8d9eeb48f4a9b8cd0139cd256a}{position}};         }
+\DoxyCodeLine{211     \textcolor{keywordtype}{float} \mbox{\hyperlink{structDropItem_a9002ef60b7b3a443c31f60c87a8400b3}{lifetime}} = 10.f;         }
+\DoxyCodeLine{212     \textcolor{keywordtype}{float} \mbox{\hyperlink{structDropItem_a0c425be3ca3c42b623db7db35972d968}{bobTimer}} = 0.f;          }
+\DoxyCodeLine{213 }
+\DoxyCodeLine{215     \textcolor{keywordtype}{void} \mbox{\hyperlink{structDropItem_aa26336129774986ed2c1654e5ecc3ac1}{update}}(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{217     \textcolor{keywordtype}{void} \mbox{\hyperlink{structDropItem_a3109e6315f9a0afe9102d02cf5f4faee}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{const};}
+\DoxyCodeLine{219     sf::Color \mbox{\hyperlink{structDropItem_af68bd4eb4450859294b023011b93185b}{getColor}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{221     \textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{structDropItem_ac4c1fda182b2a1e0d0d07f134d3d9025}{getLabel}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{222 \};}
+\DoxyCodeLine{223 }
+\DoxyCodeLine{224 \textcolor{comment}{/* ======================== 游戏实体 ======================== */}}
+\DoxyCodeLine{225 }
+\DoxyCodeLine{233 \textcolor{keyword}{class }\mbox{\hyperlink{classRPGEntity}{RPGEntity}} \{}
+\DoxyCodeLine{234 \textcolor{keyword}{public}:}
+\DoxyCodeLine{235     sf::Vector2f \mbox{\hyperlink{classRPGEntity_aa2d0032e911957d2fe305f9b5670bebc}{position}};         }
+\DoxyCodeLine{236     sf::Vector2f \mbox{\hyperlink{classRPGEntity_ac9093703f5ed10749c736a9321df60d8}{velocity}};         }
+\DoxyCodeLine{237     \textcolor{keywordtype}{float} \mbox{\hyperlink{classRPGEntity_ae3ed62a067d7ff2845af629d0f236767}{radius}} = 20.f;          }
+\DoxyCodeLine{238     \textcolor{keywordtype}{int} \mbox{\hyperlink{classRPGEntity_a40d359c36f5db20fd45974f401c71d2b}{health}} = 100;             }
+\DoxyCodeLine{239     \textcolor{keywordtype}{int} \mbox{\hyperlink{classRPGEntity_a6ec987ce8c24ff19bb1807a1fe7bfbd5}{maxHealth}} = 100;          }
+\DoxyCodeLine{240     \textcolor{keywordtype}{float} \mbox{\hyperlink{classRPGEntity_ab156f298b1830da20931a6759762b46f}{speed}} = 150.f;          }
+\DoxyCodeLine{241     sf::Color \mbox{\hyperlink{classRPGEntity_a20ccc0e76f8adbfb48f56195ae5a956b}{color}} = sf::Color::Green;  }
+\DoxyCodeLine{242 }
+\DoxyCodeLine{243     \mbox{\hyperlink{classRPGEntity_af05087266521ed39d1cb06a6249985fa}{RPGEntity}}(sf::Vector2f pos = \{400,300\});}
+\DoxyCodeLine{244     \textcolor{keyword}{virtual} \mbox{\hyperlink{classRPGEntity_ad4bf4082f29c662716c5f75fdaee8930}{\string~RPGEntity}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{246     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classRPGEntity_ab4e1e4617259d027f26377010bdb36c1}{update}}(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{248     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classRPGEntity_aaff22114306ef740e9eec179b91006c1}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{const};}
+\DoxyCodeLine{250     sf::FloatRect \mbox{\hyperlink{classRPGEntity_a5029bae9376ff67f00c69c1ed4d72d76}{getBounds}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{252     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classRPGEntity_a37ed3f18662fc4a0ac370ce83714c823}{isAlive}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{253 \};}
+\DoxyCodeLine{254 }
+\DoxyCodeLine{268 \textcolor{keyword}{class }\mbox{\hyperlink{classPlayer}{Player}} : \textcolor{keyword}{public} \mbox{\hyperlink{classRPGEntity}{RPGEntity}} \{}
+\DoxyCodeLine{269 \textcolor{keyword}{public}:}
+\DoxyCodeLine{270     \textcolor{comment}{/* -\/-\/-\/-\/ 属性与职业 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{271     \mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{classPlayer_a09316fdad9b696ed43c81d14bff98457}{baseAttributes}};                  }
+\DoxyCodeLine{272     \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7}{CharacterClass}} \mbox{\hyperlink{classPlayer_aaa72a6755acd2ba0c9dfd9745d28fcae}{charClass}} = \mbox{\hyperlink{GameLogic_8hpp_a85302146612e6b98c2845c25d5b0daf7a7ee7fa010d64b90a36803a8445f2e943}{CharacterClass::Warrior}}; }
+\DoxyCodeLine{273     \mbox{\hyperlink{structClassConfig}{ClassConfig}} \mbox{\hyperlink{classPlayer_a78679d808e0d699e415d62a48d361457}{classConfig}};                    }
+\DoxyCodeLine{274     \mbox{\hyperlink{structLevelData}{LevelData}} \mbox{\hyperlink{classPlayer_a024e5894b8f8855444e80b24ede1f4bd}{levelData}};                        }
+\DoxyCodeLine{275     std::string \mbox{\hyperlink{classPlayer_af6823e27c17ba6ed5d2b4713abbe4d5a}{username}};                       }
+\DoxyCodeLine{276 }
+\DoxyCodeLine{277     \textcolor{comment}{/* -\/-\/-\/-\/ 武器系统 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{278     \mbox{\hyperlink{classWeaponListBridge}{WeaponListBridge}} \mbox{\hyperlink{classPlayer_a304ad9c17253b4ce68e71cfdfb3a81e1}{weaponList}};                }
+\DoxyCodeLine{279     \textcolor{keyword}{const} \mbox{\hyperlink{structWeaponData}{WeaponData}}* \mbox{\hyperlink{classPlayer_ab4d310d21bca9b5e4929f70dcc01e953}{equippedWeapon}} = \textcolor{keyword}{nullptr}; }
+\DoxyCodeLine{280 }
+\DoxyCodeLine{281     \textcolor{comment}{/* -\/-\/-\/-\/ 战斗属性 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{282     \textcolor{keywordtype}{int} \mbox{\hyperlink{classPlayer_a42486764b264f3fcc5ea2cbb112c7c76}{killCount}} = 0;                          }
+\DoxyCodeLine{283     \textcolor{keywordtype}{int} \mbox{\hyperlink{classPlayer_a53898a8fdb84e2c6d95684cdfe49323e}{totalScore}} = 0;                         }
+\DoxyCodeLine{284     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_a51ac7c0ae49aeb8b7f70979fe2be98f5}{attackCooldown}} = 0.f;                 }
+\DoxyCodeLine{285     \textcolor{keywordtype}{int} \mbox{\hyperlink{classPlayer_a47043ff5069c9c786eeeec590b436474}{attackDamage}} = 20;                      }
+\DoxyCodeLine{286     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_aa530dd0f5b5052c5a7cf0a8f87335e68}{attackRange}} = 80.f;                   }
+\DoxyCodeLine{287     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_ae981264164b0e81007338b5ada9ec38f}{attackCooldownMax}} = 0.5f;             }
+\DoxyCodeLine{288     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_a4e7da237a21ecc2d861ce4fd2ced5f1f}{attackRangeBonus}} = 0.f;               }
+\DoxyCodeLine{289 }
+\DoxyCodeLine{290     \textcolor{comment}{/* -\/-\/-\/-\/ 阶段胜利强化 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{291     \textcolor{keywordtype}{int} \mbox{\hyperlink{classPlayer_a067f335e98a66952412bef37253046e1}{victoryStageLevel}} = 0;                  }
+\DoxyCodeLine{292     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_acd356d493e09ec2d9cd0bdb95cbfe959}{damageBonus}} = 0.f;                    }
+\DoxyCodeLine{293     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_aa8a0fc0ef85c18de95f31bef8fb48e7a}{attackSpeedBonus}} = 0.f;               }
+\DoxyCodeLine{294     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_a48c47d8230c596ac312a4fc076cb0c6b}{projectileExplosionRadius}} = 0.f;      }
+\DoxyCodeLine{295     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_a4278b1f2166e978266049775d820bdde}{critChance}} = 0.f;                     }
+\DoxyCodeLine{296     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_aa16b5040c952f4c4ae48398ffad9f8fd}{critMultiplier}} = 1.5f;                }
+\DoxyCodeLine{297 }
+\DoxyCodeLine{298     \textcolor{comment}{/* -\/-\/-\/-\/ 翻滚系统 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{299     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classPlayer_a6a94fd8acee90104f6370839fd5ff110}{isRolling}} = \textcolor{keyword}{false};                     }
+\DoxyCodeLine{300     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_a01c26fcd82a499e1b6dc9547d178a6bb}{rollTimer}} = 0.f;                      }
+\DoxyCodeLine{301     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_aed096fb9d1cf484f935b4678850f2414}{rollDuration}} = 0.3f;                  }
+\DoxyCodeLine{302     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_aed4cc77c29df012bde35db8a9b46a031}{rollCooldown}} = 0.f;                   }
+\DoxyCodeLine{303     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_afdcada1f3c533de9720be30cffd0b725}{rollCooldownMax}} = 0.8f;               }
+\DoxyCodeLine{304     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_a06ec5a966daf807fdf69975fbac9efb0}{rollSpeed}} = 400.f;                    }
+\DoxyCodeLine{305     sf::Vector2f \mbox{\hyperlink{classPlayer_a23d657e7ce8cad378f95ab55d60e1b83}{rollDirection}} = \{0, 0\};        }
+\DoxyCodeLine{306     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classPlayer_a88222d1c9a1fd902dad23f275a174255}{isInvincible}} = \textcolor{keyword}{false};                  }
+\DoxyCodeLine{307 }
+\DoxyCodeLine{308     \textcolor{comment}{/* -\/-\/-\/-\/ 刀光动画 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{309     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_aa598193ae63b4d1526afc21cb1f8bf9a}{slashTimer}} = 0.f;                     }
+\DoxyCodeLine{310     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_ac2940438876c8b74943d0e1cb7149c56}{slashDuration}} = 0.25f;                }
+\DoxyCodeLine{311     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_ae02670d43638a2996d32af8b491f5b5f}{slashAngle}} = 0.f;                     }
+\DoxyCodeLine{312     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classPlayer_aedf6c069bbdc00c0eb92f85a75370d39}{slashActive}} = \textcolor{keyword}{false};                   }
+\DoxyCodeLine{313     sf::Color \mbox{\hyperlink{classPlayer_a8af3c24d2a9dee759c633febfdd61669}{slashColor}} = sf::Color(255, 140, 0);  }
+\DoxyCodeLine{314     \textcolor{keyword}{mutable} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classPlayer_a05f5822ee04f27825d43d13d517b9f11}{lastAttackWasCrit}} = \textcolor{keyword}{false};     }
+\DoxyCodeLine{315 }
+\DoxyCodeLine{316     \mbox{\hyperlink{classPlayer_aa8f43c594c06c62d6a986d271402664b}{Player}}(sf::Vector2f pos = \{400,300\});}
+\DoxyCodeLine{317     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_abe2902b7decc38472183a08977eeb57f}{update}}(\textcolor{keywordtype}{float} dt) \textcolor{keyword}{override};}
+\DoxyCodeLine{318 }
+\DoxyCodeLine{320     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classPlayer_a12ef01e1a26542218229c2b6a4a1d17e}{canAttack}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{322     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_a285dc38bfd945d1ba55e9a71cb6a7d4f}{resetAttackCooldown}}();}
+\DoxyCodeLine{323 }
+\DoxyCodeLine{324     \textcolor{comment}{/* -\/-\/-\/-\/ 翻滚 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{326     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classPlayer_a1641f643413ec475931307f367cffa86}{canRoll}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{328     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_ab1403ad89bb8be099383ba70db00affc}{startRoll}}(\textcolor{keyword}{const} sf::Vector2f\& dir);}
+\DoxyCodeLine{330     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_a503cb856d98af9b99e8ec9794f221238}{updateRoll}}(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{331 }
+\DoxyCodeLine{332     \textcolor{comment}{/* -\/-\/-\/-\/ 刀光 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{334     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_a0799675d964a59d405a4782ee6b0c679}{startSlash}}(\textcolor{keywordtype}{float} angle);}
+\DoxyCodeLine{336     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_a9233861741b41a2edd4000ff29592abb}{updateSlash}}(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{337 }
+\DoxyCodeLine{345     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classPlayer_a4e8ce118eea8733770c814723cdd074c}{equipWeapon}}(\textcolor{keyword}{const} std::string\& name);}
+\DoxyCodeLine{346 }
+\DoxyCodeLine{352     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_a84783b48d19914b175c2d73183c5db61}{recalcCombatStats}}();}
+\DoxyCodeLine{353 }
+\DoxyCodeLine{364     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_a9b8f99ae26245d777f5a6c77a4c677c8}{applyStageBoost}}(\textcolor{keywordtype}{int} stageLevel);}
+\DoxyCodeLine{365 }
+\DoxyCodeLine{373     \textcolor{keywordtype}{int} \mbox{\hyperlink{classPlayer_ae27731bcd1d77c1a080464221deb5f42}{calculateDamage}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{374 }
+\DoxyCodeLine{378     \mbox{\hyperlink{structAttributes}{Attributes}} \mbox{\hyperlink{classPlayer_ab9643a8e00becb3f5d6bd7e952c4a23b}{getFinalAttributes}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{379 }
+\DoxyCodeLine{386     \textcolor{keywordtype}{float} \mbox{\hyperlink{classPlayer_a133246fbfa5d187745296552302a35c0}{getScoreMultiplier}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{387 }
+\DoxyCodeLine{389     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_a5e0147aee1248db63417987b9a203a9a}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{const override};}
+\DoxyCodeLine{391     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_adeb6eee9fad67170444cc9076f948ef7}{drawWithName}}(sf::RenderWindow\& window, \textcolor{keyword}{const} sf::Font* font = \textcolor{keyword}{nullptr}) \textcolor{keyword}{const};}
+\DoxyCodeLine{393     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPlayer_abe808569a12498459690ca19518fb134}{drawSlash}}(sf::RenderWindow\& window) \textcolor{keyword}{const};}
+\DoxyCodeLine{394 \};}
+\DoxyCodeLine{395 }
+\DoxyCodeLine{403 \textcolor{keyword}{struct }\mbox{\hyperlink{structDamageNumber}{DamageNumber}} \{}
+\DoxyCodeLine{404     sf::Vector2f \mbox{\hyperlink{structDamageNumber_a4df2543720c77b00304a1160c523832b}{position}};      }
+\DoxyCodeLine{405     \textcolor{keywordtype}{int} \mbox{\hyperlink{structDamageNumber_a83ce31c32e6b784747c2f57eb65766b0}{damage}} = 0;             }
+\DoxyCodeLine{406     \textcolor{keywordtype}{bool} \mbox{\hyperlink{structDamageNumber_a024da7fe32ae9519e21a6c4b4f0597a9}{isCrit}} = \textcolor{keyword}{false};        }
+\DoxyCodeLine{407     \textcolor{keywordtype}{float} \mbox{\hyperlink{structDamageNumber_a25e9bc16c5e8b683a84f310d750f9e91}{timer}} = 2.0f;         }
+\DoxyCodeLine{408     \textcolor{keywordtype}{float} \mbox{\hyperlink{structDamageNumber_a479395b4c157db31e0d705662985458f}{angle}} = 0.f;          }
+\DoxyCodeLine{409     \textcolor{keywordtype}{float} \mbox{\hyperlink{structDamageNumber_af5b0690c3138e1db290057e37e282529}{radius}} = 20.f;        }
+\DoxyCodeLine{410 \};}
+\DoxyCodeLine{411 }
+\DoxyCodeLine{423 \textcolor{keyword}{class }\mbox{\hyperlink{classEnemy}{Enemy}} : \textcolor{keyword}{public} \mbox{\hyperlink{classRPGEntity}{RPGEntity}} \{}
+\DoxyCodeLine{424 \textcolor{keyword}{public}:}
+\DoxyCodeLine{425     \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{EnemyType}} \mbox{\hyperlink{classEnemy_a36bcaf317708c0ed35835bc0f79c7719}{enemyType}} = \mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268eaa537a3d7d5ede5718f2b597568233925}{EnemyType::Slime}};  }
+\DoxyCodeLine{426     std::string \mbox{\hyperlink{classEnemy_a62b43d24fa5a537d45bdba46a4e2559b}{name}};                        }
+\DoxyCodeLine{427     \textcolor{keywordtype}{int} \mbox{\hyperlink{classEnemy_a71a73c9ecbb6ae3cfc93fe5dd2d6423c}{score}} = 10;                          }
+\DoxyCodeLine{428     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classEnemy_a246979d262e6cee1ea2a076e972d4cb8}{isRanged}} = \textcolor{keyword}{false};                   }
+\DoxyCodeLine{429     \textcolor{keywordtype}{float} \mbox{\hyperlink{classEnemy_a573af3a6b672a882ae23263bfbcdf440}{attackCooldown}} = 0.f;              }
+\DoxyCodeLine{430     \textcolor{keywordtype}{float} \mbox{\hyperlink{classEnemy_a8f880bc20d672dfa5bf3db2cfd3c7732}{attackCooldownMax}} = 1.0f;          }
+\DoxyCodeLine{431     \textcolor{keywordtype}{int} \mbox{\hyperlink{classEnemy_a300791ce62f3acae74cc0fe190c7487a}{attackDamage}} = 5;                    }
+\DoxyCodeLine{432     \textcolor{keywordtype}{float} \mbox{\hyperlink{classEnemy_a2f871e8d3c88955b9388f9b9aac929d0}{attackRange}} = 30.f;                }
+\DoxyCodeLine{433 }
+\DoxyCodeLine{434     \mbox{\hyperlink{classEnemy_aaf2ba8f615a693dd18a0d9daa798ff3e}{Enemy}}(\mbox{\hyperlink{GameLogic_8hpp_ac3e413a86119db4b031458c7259e268e}{EnemyType}} type, sf::Vector2f pos);}
+\DoxyCodeLine{436     \textcolor{keywordtype}{void} \mbox{\hyperlink{classEnemy_ae842db91fa891276061579fa234b02c2}{setTarget}}(\textcolor{keyword}{const} sf::Vector2f\& target);}
+\DoxyCodeLine{437     \textcolor{keywordtype}{void} \mbox{\hyperlink{classEnemy_ab6a3b691be209d9fce40f760bb479a11}{update}}(\textcolor{keywordtype}{float} dt) \textcolor{keyword}{override};}
+\DoxyCodeLine{438     \textcolor{keywordtype}{void} \mbox{\hyperlink{classEnemy_ad35cb50c7b041a183f12756b939a4636}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{const override};}
+\DoxyCodeLine{440     \textcolor{keywordtype}{void} \mbox{\hyperlink{classEnemy_a368d0ace6156d06fcc7879f9804eac22}{drawWithName}}(sf::RenderWindow\& window, \textcolor{keyword}{const} sf::Font* font = \textcolor{keyword}{nullptr}) \textcolor{keyword}{const};}
+\DoxyCodeLine{441 }
+\DoxyCodeLine{443     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classEnemy_a86b57382d5c2ec04100e7d2dcdcab4cb}{canAttack}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{445     \textcolor{keywordtype}{void} \mbox{\hyperlink{classEnemy_a2dde9508d973d2cf9b5e87805ada0dd6}{resetAttackCooldown}}();}
+\DoxyCodeLine{446 }
+\DoxyCodeLine{453     \textcolor{keywordtype}{void} \mbox{\hyperlink{classEnemy_a1db2b466106779e907783d279102b042}{scaleStats}}(\textcolor{keywordtype}{float} scale);}
+\DoxyCodeLine{454 }
+\DoxyCodeLine{455     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classEnemy_aa500a299c7cf858a04be9c29500698c0}{scoreProcessed}} = \textcolor{keyword}{false};  }
+\DoxyCodeLine{456 }
+\DoxyCodeLine{457 \textcolor{keyword}{private}:}
+\DoxyCodeLine{458     sf::Vector2f targetPos;       }
+\DoxyCodeLine{459 \};}
+\DoxyCodeLine{460 }
+\DoxyCodeLine{468 \textcolor{keyword}{class }\mbox{\hyperlink{classGameWorld}{GameWorld}} \{}
+\DoxyCodeLine{469 \textcolor{keyword}{public}:}
+\DoxyCodeLine{471     \textcolor{keyword}{struct }\mbox{\hyperlink{structGameWorld_1_1NetPlayer}{NetPlayer}} \{}
+\DoxyCodeLine{472         sf::Vector2f \mbox{\hyperlink{structGameWorld_1_1NetPlayer_a4260bbc4957fef7141229117df54e6f5}{position}};                      }
+\DoxyCodeLine{473         \mbox{\hyperlink{structPlayerInput}{PlayerInput}} \mbox{\hyperlink{structGameWorld_1_1NetPlayer_aed3b63cabb9d2f4fe04a4a5e8fbd4fee}{input}};                          }
+\DoxyCodeLine{474         \textcolor{keywordtype}{int} \mbox{\hyperlink{structGameWorld_1_1NetPlayer_a31b0a9078c67a5a21cb1409f12ed1c7c}{health}} = 100;                           }
+\DoxyCodeLine{475         \textcolor{keywordtype}{int} \mbox{\hyperlink{structGameWorld_1_1NetPlayer_aef0ca0be8b0b0704a682b6a068d7dd1a}{maxHealth}} = 100;                        }
+\DoxyCodeLine{476         \textcolor{keywordtype}{float} \mbox{\hyperlink{structGameWorld_1_1NetPlayer_ae65f41dccbe81b954b199fe7eedb70e3}{attackCooldown}} = 0.f;                 }
+\DoxyCodeLine{477         \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{float} \mbox{\hyperlink{structGameWorld_1_1NetPlayer_a1942cddf8f0a1192b50e0cb52ce4389e}{attackCooldownMax}} = 0.5f; }
+\DoxyCodeLine{478         \textcolor{keywordtype}{int} \mbox{\hyperlink{structGameWorld_1_1NetPlayer_a55d8b1ce2df2703a5dd84231fce8fd00}{attackDamage}} = 20;                      }
+\DoxyCodeLine{479         \textcolor{keywordtype}{float} \mbox{\hyperlink{structGameWorld_1_1NetPlayer_ad5a0b8b4c2c3128f7cbf9c1f8176931e}{attackRange}} = 40.f;                   }
+\DoxyCodeLine{480     \};}
+\DoxyCodeLine{481 }
+\DoxyCodeLine{487     \textcolor{keywordtype}{void} \mbox{\hyperlink{classGameWorld_a7d6ad9248222182616e70e0b3fa86ed8}{addPlayer}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} sf::Vector2f\& startPos);}
+\DoxyCodeLine{489     \textcolor{keywordtype}{void} \mbox{\hyperlink{classGameWorld_ab9bdf76c054d7fd1d08241a954315b46}{removePlayer}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id});}
+\DoxyCodeLine{495     \textcolor{keywordtype}{void} \mbox{\hyperlink{classGameWorld_a34d4782ef357603080a903b94e442ca2}{setPlayerInput}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}, \textcolor{keyword}{const} \mbox{\hyperlink{structPlayerInput}{PlayerInput}}\& input);}
+\DoxyCodeLine{501     \textcolor{keywordtype}{void} \mbox{\hyperlink{classGameWorld_a44ab2c8b7e2ef97921965569b837a4d2}{attack}}(\textcolor{keywordtype}{int} attackerId, \textcolor{keywordtype}{int} targetId);}
+\DoxyCodeLine{503     \textcolor{keywordtype}{void} \mbox{\hyperlink{classGameWorld_a8f3de158eb6830ddc8e7315d3da6cd48}{update}}(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{505     \mbox{\hyperlink{structGameState}{GameState}} \mbox{\hyperlink{classGameWorld_a240b3b2f11a7cc4767658aad413a63e0}{getState}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{506 }
+\DoxyCodeLine{507 \textcolor{keyword}{private}:}
+\DoxyCodeLine{508     std::unordered\_map<int, NetPlayer> players;  }
+\DoxyCodeLine{509 \};}
+
+\end{DoxyCode}

@@ -1,0 +1,119 @@
+\hypertarget{classMainMenuView}{}\doxysection{Main\+Menu\+View Class Reference}
+\label{classMainMenuView}\index{MainMenuView@{MainMenuView}}
+
+
+主菜单视图  
+
+
+
+
+{\ttfamily \#include $<$Menu\+View.\+hpp$>$}
+
+
+
+Inheritance diagram for Main\+Menu\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{classMainMenuView__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Main\+Menu\+View\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{classMainMenuView__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMainMenuView_a4d29e56e0b77f18218922e5a1ebe2a5d}{Main\+Menu\+View}} (const sf\+::\+Font \&font, std\+::function$<$ void(std\+::string)$>$ change\+View)
+\begin{DoxyCompactList}\small\item\em 构造主菜单 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainMenuView_a379c6a4ef6cf4b3179e1cc3214e484dc}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（键盘、鼠标等） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainMenuView_a26f2061cde7a040bc43d07f8c53c3f1a}{update}} (sf\+::\+Vector2f mouse\+Pos, sf\+::\+Vector2u window\+Size) override
+\begin{DoxyCompactList}\small\item\em 每帧更新逻辑 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMainMenuView_a42d6e2d2f7dcf654161ff44a40862e40}{draw}} (sf\+::\+Render\+Window \&window) override
+\begin{DoxyCompactList}\small\item\em 绘制画面 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+主菜单视图 
+
+三个按钮：登录、注册、退出。 界面简洁，是程序启动后的第一个视图。 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMainMenuView_a4d29e56e0b77f18218922e5a1ebe2a5d}\label{classMainMenuView_a4d29e56e0b77f18218922e5a1ebe2a5d}} 
+\index{MainMenuView@{MainMenuView}!MainMenuView@{MainMenuView}}
+\index{MainMenuView@{MainMenuView}!MainMenuView@{MainMenuView}}
+\doxysubsubsection{\texorpdfstring{MainMenuView()}{MainMenuView()}}
+{\footnotesize\ttfamily Main\+Menu\+View\+::\+Main\+Menu\+View (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{std\+::function$<$ void(std\+::string)$>$}]{change\+View }\end{DoxyParamCaption})}
+
+
+
+构造主菜单 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em change\+View} & 视图切换回调 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMainMenuView_a42d6e2d2f7dcf654161ff44a40862e40}\label{classMainMenuView_a42d6e2d2f7dcf654161ff44a40862e40}} 
+\index{MainMenuView@{MainMenuView}!draw@{draw}}
+\index{draw@{draw}!MainMenuView@{MainMenuView}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Main\+Menu\+View\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+绘制画面 
+
+
+
+Implements \mbox{\hyperlink{classView_a7ae9517dcaafe968b3a82db068c6f02a}{View}}.
+
+\mbox{\Hypertarget{classMainMenuView_a379c6a4ef6cf4b3179e1cc3214e484dc}\label{classMainMenuView_a379c6a4ef6cf4b3179e1cc3214e484dc}} 
+\index{MainMenuView@{MainMenuView}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!MainMenuView@{MainMenuView}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Main\+Menu\+View\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+处理 SFML 事件（键盘、鼠标等） 
+
+
+
+Implements \mbox{\hyperlink{classView_a2af7c11ce2e56f287af8d60670facdcb}{View}}.
+
+\mbox{\Hypertarget{classMainMenuView_a26f2061cde7a040bc43d07f8c53c3f1a}\label{classMainMenuView_a26f2061cde7a040bc43d07f8c53c3f1a}} 
+\index{MainMenuView@{MainMenuView}!update@{update}}
+\index{update@{update}!MainMenuView@{MainMenuView}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Main\+Menu\+View\+::update (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{mouse\+Pos,  }\item[{sf\+::\+Vector2u}]{window\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+每帧更新逻辑 
+
+
+
+Implements \mbox{\hyperlink{classView_a0b211d1af3a25e4a97cc391d39607ec8}{View}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{MenuView_8hpp}{Menu\+View.\+hpp}}\item 
+src/\mbox{\hyperlink{MenuView_8cpp}{Menu\+View.\+cpp}}\end{DoxyCompactItemize}

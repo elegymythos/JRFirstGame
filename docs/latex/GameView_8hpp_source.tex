@@ -1,0 +1,112 @@
+\hypertarget{GameView_8hpp_source}{}\doxysection{Game\+View.\+hpp}
+\label{GameView_8hpp_source}\index{src/GameView.hpp@{src/GameView.hpp}}
+\mbox{\hyperlink{GameView_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <SFML/Graphics.hpp>}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{ViewBase_8hpp}{ViewBase.hpp}}"{}}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{UIWidgets_8hpp}{UIWidgets.hpp}}"{}}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{GameLogic_8hpp}{GameLogic.hpp}}"{}}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{MapSystem_8hpp}{MapSystem.hpp}}"{}}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Database_8hpp}{Database.hpp}}"{}}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AudioManager_8hpp}{AudioManager.hpp}}"{}}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#ifdef ENABLE\_AI\_INFER}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{AIInference_8hpp}{AIInference.hpp}}"{}}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{41 \textcolor{keyword}{class }\mbox{\hyperlink{classActualGameView}{ActualGameView}} : \textcolor{keyword}{public} \mbox{\hyperlink{classView}{View}} \{}
+\DoxyCodeLine{42 \textcolor{keyword}{public}:}
+\DoxyCodeLine{52     \mbox{\hyperlink{classActualGameView_ad4aa4b2b9bbaa6dbc5ae7a2fdf9cc505}{ActualGameView}}(\textcolor{keyword}{const} sf::Font\& font, std::function<\textcolor{keywordtype}{void}(std::string)> changeView,}
+\DoxyCodeLine{53                    \textcolor{keyword}{const} std::string\& username, \mbox{\hyperlink{classDatabase}{Database}}\& database,}
+\DoxyCodeLine{54                    \textcolor{keywordtype}{bool} aiMode = \textcolor{keyword}{false}, \textcolor{keyword}{const} std::string\& aiModelPath = \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56     \textcolor{keywordtype}{void} \mbox{\hyperlink{classActualGameView_ada7f69d1e68e3b7beceb3b0c0d37d624}{handleEvent}}(\textcolor{keyword}{const} sf::Event\& event, sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{57     \textcolor{keywordtype}{void} \mbox{\hyperlink{classActualGameView_a075a7866946f3f2b7df513f7cb1d8b69}{update}}(sf::Vector2f mousePos, sf::Vector2u windowSize) \textcolor{keyword}{override};}
+\DoxyCodeLine{58     \textcolor{keywordtype}{void} \mbox{\hyperlink{classActualGameView_a019af5a59a6b7a129f032b68bfb70579}{draw}}(sf::RenderWindow\& window) \textcolor{keyword}{override};}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{keyword}{private}:}
+\DoxyCodeLine{61     \textcolor{comment}{/* -\/-\/-\/-\/ 战斗逻辑 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{63     \textcolor{keywordtype}{void} attack();}
+\DoxyCodeLine{65     \textcolor{keywordtype}{void} updateInfoText();}
+\DoxyCodeLine{67     \textcolor{keywordtype}{void} restartGame();}
+\DoxyCodeLine{69     \textcolor{keywordtype}{void} handleEnemyAttacks(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{71     \textcolor{keywordtype}{void} updateProjectiles(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{73     \textcolor{keywordtype}{void} continueFromVictory();}
+\DoxyCodeLine{75     \mbox{\hyperlink{structCharacterData}{CharacterData}} buildCharacterData() \textcolor{keyword}{const};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77     \textcolor{comment}{/* -\/-\/-\/-\/ 掉落物 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{79     \textcolor{keywordtype}{void} spawnDrops(\textcolor{keyword}{const} \mbox{\hyperlink{classEnemy}{Enemy}}\& enemy);}
+\DoxyCodeLine{81     \textcolor{keywordtype}{void} updateDrops(\textcolor{keywordtype}{float} dt);}
+\DoxyCodeLine{83     \textcolor{keywordtype}{void} checkPickups();}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85     \textcolor{comment}{/* -\/-\/-\/-\/ 基本状态 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{86     \mbox{\hyperlink{classDatabase}{Database}}\& db;                              }
+\DoxyCodeLine{87     std::string username;                      }
+\DoxyCodeLine{88     \mbox{\hyperlink{classPlayer}{Player}} player;                             }
+\DoxyCodeLine{89     std::vector<Enemy> enemies;                }
+\DoxyCodeLine{90     std::vector<Projectile> projectiles;       }
+\DoxyCodeLine{91     std::vector<DropItem> drops;               }
+\DoxyCodeLine{92 }
+\DoxyCodeLine{94     \textcolor{keyword}{struct }PickupEffect \{}
+\DoxyCodeLine{95         sf::Vector2f position;                 }
+\DoxyCodeLine{96         sf::Color color;                       }
+\DoxyCodeLine{97         std::string text;                      }
+\DoxyCodeLine{98         \textcolor{keywordtype}{float} timer = 3.0f;                    }
+\DoxyCodeLine{99     \};}
+\DoxyCodeLine{100     std::vector<PickupEffect> pickupEffects;   }
+\DoxyCodeLine{101     std::vector<DamageNumber> damageNumbers;   }
+\DoxyCodeLine{102     \mbox{\hyperlink{classMapSystem}{MapSystem}} mapSystem;                       }
+\DoxyCodeLine{103     sf::View gameView;                         }
+\DoxyCodeLine{104     \mbox{\hyperlink{classAttributePanel}{AttributePanel}} attrPanel;                  }
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106     \textcolor{comment}{/* -\/-\/-\/-\/ UI 元素 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{107     sf::Text infoText;                         }
+\DoxyCodeLine{108     sf::Text gameOverText;                     }
+\DoxyCodeLine{109     sf::Text pauseText;                        }
+\DoxyCodeLine{110     sf::Text victoryText;                      }
+\DoxyCodeLine{111     \mbox{\hyperlink{classButton}{Button}} backBtn;                            }
+\DoxyCodeLine{112     \mbox{\hyperlink{classButton}{Button}} restartBtn;                         }
+\DoxyCodeLine{113     \mbox{\hyperlink{classButton}{Button}} resumeBtn;                          }
+\DoxyCodeLine{114     \mbox{\hyperlink{classButton}{Button}} pauseBackBtn;                       }
+\DoxyCodeLine{115     \mbox{\hyperlink{classButton}{Button}} victoryContinueBtn;                 }
+\DoxyCodeLine{116     \mbox{\hyperlink{classButton}{Button}} victoryBackBtn;                     }
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118     \textcolor{comment}{/* -\/-\/-\/-\/ 计时 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{119     sf::Clock deltaClock;                      }
+\DoxyCodeLine{120     sf::Clock gameClock;                       }
+\DoxyCodeLine{121     \textcolor{keywordtype}{float} pausedTime = 0.f;                    }
+\DoxyCodeLine{122     \textcolor{keywordtype}{float} lastPauseTime = 0.f;                 }
+\DoxyCodeLine{123     std::function<void(std::string)> changeView; }
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125     \textcolor{comment}{/* -\/-\/-\/-\/ 游戏状态 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{126     \textcolor{keywordtype}{bool} gameOver = \textcolor{keyword}{false};                     }
+\DoxyCodeLine{127     \textcolor{keywordtype}{bool} paused = \textcolor{keyword}{false};                       }
+\DoxyCodeLine{128     \textcolor{keywordtype}{bool} stageVictory = \textcolor{keyword}{false};                 }
+\DoxyCodeLine{129     \textcolor{keywordtype}{int} currentVictoryStage = 0;               }
+\DoxyCodeLine{130     \textcolor{keywordtype}{int} killCount = 0;                         }
+\DoxyCodeLine{131 }
+\DoxyCodeLine{133     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} STAGE\_THRESHOLDS[] = \{100, 1000, 2000, 5000, 10000\};}
+\DoxyCodeLine{134     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{int} STAGE\_COUNT = 5;      }
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136     \textcolor{comment}{/* -\/-\/-\/-\/ AI 模式 -\/-\/-\/-\/ */}}
+\DoxyCodeLine{137     \textcolor{keywordtype}{bool} aiMode\_ = \textcolor{keyword}{false};                     }
+\DoxyCodeLine{138 \textcolor{preprocessor}{\#ifdef ENABLE\_AI\_INFER}}
+\DoxyCodeLine{139     \mbox{\hyperlink{classAIInference}{AIInference}} aiInference\_;                 }
+\DoxyCodeLine{140     \mbox{\hyperlink{structAIGameState}{AIGameState}} aiGameState\_;                 }
+\DoxyCodeLine{141     \mbox{\hyperlink{structAIAction}{AIAction}} aiCurrentAction\_;                }
+\DoxyCodeLine{142     \textcolor{keywordtype}{float} aiActionTimer\_ = 0.f;              }
+\DoxyCodeLine{143     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keywordtype}{float} AI\_ACTION\_INTERVAL = 1.f / 60.f; }
+\DoxyCodeLine{144     \textcolor{keywordtype}{void} buildAIGameState();                  }
+\DoxyCodeLine{145     \textcolor{keywordtype}{void} executeAIAction();                   }
+\DoxyCodeLine{146     \textcolor{keyword}{const} \mbox{\hyperlink{classEnemy}{Enemy}}* selectAIAttackTarget(\textcolor{keywordtype}{int} strategy); }
+\DoxyCodeLine{147 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{148 \};}
+
+\end{DoxyCode}

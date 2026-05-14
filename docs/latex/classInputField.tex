@@ -1,0 +1,138 @@
+\hypertarget{classInputField}{}\doxysection{Input\+Field Class Reference}
+\label{classInputField}\index{InputField@{InputField}}
+
+
+文本输入框控件  
+
+
+
+
+{\ttfamily \#include $<$UIWidgets.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classInputField_a97423f3b7c45eaeeb28dccf2cb60dc99}{Input\+Field}} (const sf\+::\+Font \&font, sf\+::\+Vector2f pos, sf\+::\+Vector2f size, bool password\+Mode=false, size\+\_\+t max\+Len=16, bool allow\+Space=true)
+\begin{DoxyCompactList}\small\item\em 构造输入框 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInputField_a03be4ca0915622e5d05c072d2d470795}{set\+String}} (const std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em 设置输入内容（截断到 max\+Length） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInputField_a9cb8c2292b0747e35dab171ba73e2504}{update\+Cursor}} ()
+\begin{DoxyCompactList}\small\item\em 更新光标闪烁状态 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInputField_a11ca7af5418129cac5e4b10c7e995514}{handle\+Event}} (const sf\+::\+Event \&event, sf\+::\+Vector2f mouse\+Pos)
+\begin{DoxyCompactList}\small\item\em 处理 SFML 事件（鼠标点击获取焦点、键盘输入字符） \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInputField_afd7851610c5233e2d0d7d7836336a6e2}{clear}} ()
+\begin{DoxyCompactList}\small\item\em 清空输入内容 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classInputField_a034446143abdc6551d67ed3cf537b1a2}{draw}} (sf\+::\+Render\+Window \&window) const
+\begin{DoxyCompactList}\small\item\em 绘制输入框（矩形+文字+光标） \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classInputField_a2b03996d04af52b18c4fbd90b407d635}{get\+String}} () const
+\begin{DoxyCompactList}\small\item\em 获取输入内容 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+文本输入框控件 
+
+功能：
+\begin{DoxyItemize}
+\item 点击获取焦点（蓝色边框），点击其他区域失去焦点
+\item 支持键盘输入（含中文\+UTF-\/8编码）
+\item 密码模式：显示星号代替实际字符
+\item 最大字符长度限制（按\+UTF-\/8字符数计算，非字节数）
+\item 闪烁光标（焦点时每0.5秒切换）
+\item 退格键删除（正确处理\+UTF-\/8多字节字符） 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classInputField_a97423f3b7c45eaeeb28dccf2cb60dc99}\label{classInputField_a97423f3b7c45eaeeb28dccf2cb60dc99}} 
+\index{InputField@{InputField}!InputField@{InputField}}
+\index{InputField@{InputField}!InputField@{InputField}}
+\doxysubsubsection{\texorpdfstring{InputField()}{InputField()}}
+{\footnotesize\ttfamily Input\+Field\+::\+Input\+Field (\begin{DoxyParamCaption}\item[{const sf\+::\+Font \&}]{font,  }\item[{sf\+::\+Vector2f}]{pos,  }\item[{sf\+::\+Vector2f}]{size,  }\item[{bool}]{password\+Mode = {\ttfamily false},  }\item[{size\+\_\+t}]{max\+Len = {\ttfamily 16},  }\item[{bool}]{allow\+Space = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+构造输入框 
+
+
+\begin{DoxyParams}{Parameters}
+{\em font} & 全局字体 \\
+\hline
+{\em pos} & 左上角位置 \\
+\hline
+{\em size} & 输入框尺寸 \\
+\hline
+{\em password\+Mode} & 是否为密码模式（显示星号） \\
+\hline
+{\em max\+Len} & 最大字符数（\+UTF-\/8字符数） \\
+\hline
+{\em allow\+Space} & 是否允许输入空格 \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classInputField_afd7851610c5233e2d0d7d7836336a6e2}\label{classInputField_afd7851610c5233e2d0d7d7836336a6e2}} 
+\index{InputField@{InputField}!clear@{clear}}
+\index{clear@{clear}!InputField@{InputField}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void Input\+Field\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+清空输入内容 
+
+\mbox{\Hypertarget{classInputField_a034446143abdc6551d67ed3cf537b1a2}\label{classInputField_a034446143abdc6551d67ed3cf537b1a2}} 
+\index{InputField@{InputField}!draw@{draw}}
+\index{draw@{draw}!InputField@{InputField}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Input\+Field\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Window \&}]{window }\end{DoxyParamCaption}) const}
+
+
+
+绘制输入框（矩形+文字+光标） 
+
+\mbox{\Hypertarget{classInputField_a2b03996d04af52b18c4fbd90b407d635}\label{classInputField_a2b03996d04af52b18c4fbd90b407d635}} 
+\index{InputField@{InputField}!getString@{getString}}
+\index{getString@{getString}!InputField@{InputField}}
+\doxysubsubsection{\texorpdfstring{getString()}{getString()}}
+{\footnotesize\ttfamily std\+::string Input\+Field\+::get\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+获取输入内容 
+
+\mbox{\Hypertarget{classInputField_a11ca7af5418129cac5e4b10c7e995514}\label{classInputField_a11ca7af5418129cac5e4b10c7e995514}} 
+\index{InputField@{InputField}!handleEvent@{handleEvent}}
+\index{handleEvent@{handleEvent}!InputField@{InputField}}
+\doxysubsubsection{\texorpdfstring{handleEvent()}{handleEvent()}}
+{\footnotesize\ttfamily void Input\+Field\+::handle\+Event (\begin{DoxyParamCaption}\item[{const sf\+::\+Event \&}]{event,  }\item[{sf\+::\+Vector2f}]{mouse\+Pos }\end{DoxyParamCaption})}
+
+
+
+处理 SFML 事件（鼠标点击获取焦点、键盘输入字符） 
+
+\mbox{\Hypertarget{classInputField_a03be4ca0915622e5d05c072d2d470795}\label{classInputField_a03be4ca0915622e5d05c072d2d470795}} 
+\index{InputField@{InputField}!setString@{setString}}
+\index{setString@{setString}!InputField@{InputField}}
+\doxysubsubsection{\texorpdfstring{setString()}{setString()}}
+{\footnotesize\ttfamily void Input\+Field\+::set\+String (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+
+
+设置输入内容（截断到 max\+Length） 
+
+\mbox{\Hypertarget{classInputField_a9cb8c2292b0747e35dab171ba73e2504}\label{classInputField_a9cb8c2292b0747e35dab171ba73e2504}} 
+\index{InputField@{InputField}!updateCursor@{updateCursor}}
+\index{updateCursor@{updateCursor}!InputField@{InputField}}
+\doxysubsubsection{\texorpdfstring{updateCursor()}{updateCursor()}}
+{\footnotesize\ttfamily void Input\+Field\+::update\+Cursor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+更新光标闪烁状态 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{UIWidgets_8hpp}{UIWidgets.\+hpp}}\item 
+src/\mbox{\hyperlink{UIWidgets_8cpp}{UIWidgets.\+cpp}}\end{DoxyCompactItemize}
